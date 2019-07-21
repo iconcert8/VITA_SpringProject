@@ -1,10 +1,8 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
-<%@ include file="./include/header.jsp" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="./include/header.jsp"%>
 
 <!-- 중간 (카테고리 선택 부분, 피드 부분)-->
 <div class="container-fluid">
@@ -25,11 +23,9 @@
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
 				<div class="card">
-					<!-- 카테고리 1개의 대분류 -->
 					<button class="btn card-header" id="big1" data-toggle="collapse"
 						data-target="#small1" aria-expanded="false" aria-controls="small1">게임</button>
 
-					<!-- 카테고리 대분류 1개에 대한 소분류 -->
 					<div id="small1" class="collapse row" aria-labelledby="big1"
 						data-parent="#accordion">
 
@@ -49,11 +45,9 @@
 					</div>
 				</div>
 				<div class="card">
-					<!-- 카테고리 1개의 대분류 -->
 					<button class="btn card-header" id="big2" data-toggle="collapse"
 						data-target="#small2" aria-expanded="false" aria-controls="small1">영화</button>
 
-					<!-- 카테고리 대분류 1개에 대한 소분류 -->
 					<div id="small2" class="collapse row" aria-labelledby="big2"
 						data-parent="#accordion">
 
@@ -86,7 +80,7 @@
 			<div class="card bg-light mb-3">
 				<div class="card-header">
 					<button class="btn btn-outline-secondary float-right">초기화</button>
-					<!-- 필터 1개 -->
+
 					<div class="d-inline-block text-center mx-1">
 						<span>오버워치</span>
 						<button type="button" class="close" aria-label="Close">
@@ -94,7 +88,6 @@
 						</button>
 						<br>(게임)
 					</div>
-					<!-- 필터 1개 -->
 					<div class="d-inline-block text-center mx-1">
 						<span>롤</span>
 						<button type="button" class="close" aria-label="Close">
@@ -102,7 +95,6 @@
 						</button>
 						<br>(게임)
 					</div>
-					<!-- 필터 1개 -->
 					<div class="d-inline-block text-center mx-1">
 						<span>배틀그라운드</span>
 						<button type="button" class="close" aria-label="Close">
@@ -118,7 +110,9 @@
 			<div class="card bg-light mb-3">
 				<div class="card-header text-center">
 					<div class="d-inline-block rounded bg-secondary text-white">
-						<h3>프로필</h3>
+						<h3>
+							프로필
+							<h3>
 					</div>
 					<div class="d-inline-block ml-3">
 						<h3>닉네임(ID)</h3>
@@ -134,7 +128,9 @@
 			<div class="card bg-light mb-3 d-none">
 				<div class="card-header text-center">
 					<div class="d-inline-block rounded bg-secondary text-white">
-						<h3>프로필</h3>
+						<h3>
+							프로필
+							<h3>
 					</div>
 					<div class="d-inline-block ml-3">
 						<h3>닉네임(ID)</h3>
@@ -142,159 +138,236 @@
 				</div>
 			</div>
 
-			<!-- 피드 1개 -->
-			<div class="card bg-light mb-5">
-				<!-- 피드 헤더, 프로필/닉네임/신고버튼 -->
-				<div class="card-header">
-					<div class="d-inline-block rounded bg-secondary">프로필</div>
-					<div class="d-inline-block">
-						<label>닉네임(ID)</label>
-					</div>
-					<div class="d-inline-block float-right">
-						<button class="btn btn-outline-danger">신고</button>
-					</div>
-				</div>
-				<!-- 피드 바디 -->
-				<!-- 피드 바디, 대/소분류 출력 부분 -->
-				<div class="card-body pt-2 pb-0">
-					<label class="text-white bg-secondary mr-1 rounded">대분류</label> <label
-						class="text-white bg-secondary rounded">소분류</label>
-				</div>
-				<!-- 피드 바디, 이미지 캐러셀 출력 부분 -->
-				<div class="card-body pt-0">
-					<div id="carouselControl1" class="carousel slide"
-						data-interval="false" data-ride="carousel">
-						<!-- 이미지 출력 부분 -->
-						<div class="carousel-inner bg-dark text-white" data-toggle="modal"
-							data-target="#feedDetailModal">
-							<div class="carousel-item active">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
-							</div>
-						</div>
-						<!-- 이미지 이전/다음 버튼 -->
-						<a class="carousel-control-prev" href="#carouselControl1"
-							role="button" data-slide="prev"> <span
-							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-							class="sr-only">Previous</span>
-						</a> <a class="carousel-control-next" href="#carouselControl1"
-							role="button" data-slide="next"> <span
-							class="carousel-control-next-icon" aria-hidden="true"></span> <span
-							class="sr-only">Next</span>
-						</a>
-					</div>
-				</div>
-				<!-- 피드 바디, 간략 내용 출력부분 -->
-				<div class="card-body pt-2" data-toggle="modal"
-					data-target="#feedDetailModal">
-					<label> #태그#태그#태그<br> page load. If you don’t use
-						data-ride="carousel" to initialize your carousel, you have to
-						initialize it yourself. It cannot be used in combination with
-						(redundant and unnecessary) explicit JavaScript initialization of
-						the same carousel. ..더보기
-					</label>
-				</div>
-				<!-- 피드 바디, 좋아요/댓글/즐겨찾기 버튼 출력부분 -->
-				<div class="card-body row pt-2">
-					<div class="col">
-						<button class="btn btn-outline-primary w-100">
-							좋아요:<label class="m-0">0</label>
-						</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-outline-primary w-100" data-toggle="modal"
-							data-target="#feedDetailModal">
-							댓글:<label class="m-0">0</label>
-						</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-outline-primary w-100">즐겨찾기</button>
-					</div>
-				</div>
-			</div>
-			<!-- end 피드 1개-->
+			<div class="row">
 
-			<!-- 피드 1개 -->
-			<div class="card bg-light mb-5">
-				<!-- 피드 헤더 -->
-				<div class="card-header">
-					<div class="d-inline-block rounded bg-secondary">프로필</div>
-					<div class="d-inline-block">
-						<label>닉네임(ID)</label>
-					</div>
-					<div class="d-inline-block float-right">
-						<button class="btn btn-outline-danger">신고</button>
-					</div>
-				</div>
-				<!-- 피드 바디 -->
-				<div class="card-body pt-2 pb-0">
-					<label class="text-white bg-secondary mr-1 rounded">게임</label> <label
-						class="text-white bg-secondary rounded">기타(등록안된게임)</label>
-				</div>
-				<div class="card-body pt-0">
-					<div id="carouselControl2" class="carousel slide"
-						data-interval="false" data-ride="carousel">
-						<div class="carousel-inner bg-dark text-white" data-toggle="modal"
-							data-target="#feedDetailModal">
-							<div class="carousel-item active">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
+				<!-- 피드 1개 -->
+				<div class="col-xl-6">
+					<div class="card bg-light mb-4">
+						<!-- 피드 헤더 -->
+						<div class="card-header">
+							<div class="d-inline-block rounded bg-secondary">프로필</div>
+							<div class="d-inline-block">
+								<label>닉네임(ID)</label>
 							</div>
-							<div class="carousel-item">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img src="..." class="d-block w-100" alt="no image"
-									style="height: 300px;">
+							<div class="d-inline-block float-right">
+								<button class="btn btn-outline-danger">신고</button>
 							</div>
 						</div>
-						<a class="carousel-control-prev" href="#carouselControl2"
-							role="button" data-slide="prev"> <span
-							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-							class="sr-only">Previous</span>
-						</a> <a class="carousel-control-next" href="#carouselControl2"
-							role="button" data-slide="next"> <span
-							class="carousel-control-next-icon" aria-hidden="true"></span> <span
-							class="sr-only">Next</span>
-						</a>
-					</div>
-				</div>
-				<div class="card-body pt-2" data-toggle="modal"
-					data-target="#feedDetailModal">
-					<label> #태그#태그#태그<br> page load. If you don’t use
-						data-ride="carousel" to initialize your carousel, you have to
-						initialize it yourself. It cannot be used in combination with
-						(redundant and unnecessary) explicit JavaScript initialization of
-						the same carousel. ..더보기
-					</label>
-				</div>
-				<div class="card-body row pt-2">
-					<div class="col">
-						<button class="btn btn-outline-primary w-100">
-							좋아요:<label class="m-0">0</label>
-						</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-outline-primary w-100" data-toggle="modal"
+						<!-- 피드 바디 -->
+						<div class="card-body pt-2 pb-0">
+							<label class="text-white bg-secondary mr-1 rounded">대분류</label> <label
+								class="text-white bg-secondary rounded">소분류</label>
+						</div>
+						<div class="card-body pt-0">
+							<div id="carouselControl1" class="carousel slide"
+								data-interval="false" data-ride="carousel">
+								<div class="carousel-inner bg-dark text-white"
+									data-toggle="modal" data-target="#feedDetailModal">
+									<div class="carousel-item active">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+								</div>
+								<a class="carousel-control-prev" href="#carouselControl1"
+									role="button" data-slide="prev"> <span
+									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+									class="sr-only">Previous</span>
+								</a> <a class="carousel-control-next" href="#carouselControl1"
+									role="button" data-slide="next"> <span
+									class="carousel-control-next-icon" aria-hidden="true"></span> <span
+									class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+						<div class="card-body pt-2" data-toggle="modal"
 							data-target="#feedDetailModal">
-							댓글:<label class="m-0">0</label>
-						</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+							<label> #태그#태그#태그<br> page load. If you don’t use
+								data-ride="carousel" to initialize your carousel, you have to
+								initialize it yourself. It cannot be used in combination with
+								(redundant and unnecessary) explicit JavaScript initialization
+								of the same carousel. ..더보기
+							</label>
+						</div>
+						<div class="card-body row pt-2">
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">
+									좋아요:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100"
+									data-toggle="modal" data-target="#feedDetailModal">
+									댓글:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+							</div>
+						</div>
 					</div>
 				</div>
+				<!-- end 피드 1개-->
+
+				<!-- 피드 1개 -->
+				<div class="col-xl-6">
+					<div class="card bg-light mb-4">
+						<!-- 피드 헤더 -->
+						<div class="card-header">
+							<div class="d-inline-block rounded bg-secondary">프로필</div>
+							<div class="d-inline-block">
+								<label>닉네임(ID)</label>
+							</div>
+							<div class="d-inline-block float-right">
+								<button class="btn btn-outline-danger">신고</button>
+							</div>
+						</div>
+						<!-- 피드 바디 -->
+						<div class="card-body pt-2 pb-0">
+							<label class="text-white bg-secondary mr-1 rounded">게임</label> <label
+								class="text-white bg-secondary rounded">기타(등록안된게임)</label>
+						</div>
+						<div class="card-body pt-0">
+							<div id="carouselControl2" class="carousel slide"
+								data-interval="false" data-ride="carousel">
+								<div class="carousel-inner bg-dark text-white"
+									data-toggle="modal" data-target="#feedDetailModal">
+									<div class="carousel-item active">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+								</div>
+								<a class="carousel-control-prev" href="#carouselControl2"
+									role="button" data-slide="prev"> <span
+									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+									class="sr-only">Previous</span>
+								</a> <a class="carousel-control-next" href="#carouselControl2"
+									role="button" data-slide="next"> <span
+									class="carousel-control-next-icon" aria-hidden="true"></span> <span
+									class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+						<div class="card-body pt-2" data-toggle="modal"
+							data-target="#feedDetailModal">
+							<label> #태그#태그#태그<br> page load. If you don’t use
+								data-ride="carousel" to initialize your carousel, you have to
+								initialize it yourself. It cannot be used in combination with
+								(redundant and unnecessary) explicit JavaScript initialization
+								of the same carousel. ..더보기
+							</label>
+						</div>
+						<div class="card-body row pt-2">
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">
+									좋아요:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100"
+									data-toggle="modal" data-target="#feedDetailModal">
+									댓글:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end 피드1개-->
+
+				<!-- 피드 1개 -->
+				<div class="col-xl-6">
+					<div class="card bg-light mb-4">
+						<!-- 피드 헤더 -->
+						<div class="card-header">
+							<div class="d-inline-block rounded bg-secondary">프로필</div>
+							<div class="d-inline-block">
+								<label>닉네임(ID)</label>
+							</div>
+							<div class="d-inline-block float-right">
+								<button class="btn btn-outline-danger">신고</button>
+							</div>
+						</div>
+						<!-- 피드 바디 -->
+						<div class="card-body pt-2 pb-0">
+							<label class="text-white bg-secondary mr-1 rounded">게임</label> <label
+								class="text-white bg-secondary rounded">기타(등록안된게임)</label>
+						</div>
+						<div class="card-body pt-0">
+							<div id="carouselControl3" class="carousel slide"
+								data-interval="false" data-ride="carousel">
+								<div class="carousel-inner bg-dark text-white"
+									data-toggle="modal" data-target="#feedDetailModal">
+									<div class="carousel-item active">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+									<div class="carousel-item">
+										<img src="..." class="d-block w-100" alt="no image"
+											style="height: 300px;">
+									</div>
+								</div>
+								<a class="carousel-control-prev" href="#carouselControl3"
+									role="button" data-slide="prev"> <span
+									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+									class="sr-only">Previous</span>
+								</a> <a class="carousel-control-next" href="#carouselControl3"
+									role="button" data-slide="next"> <span
+									class="carousel-control-next-icon" aria-hidden="true"></span> <span
+									class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+						<div class="card-body pt-2" data-toggle="modal"
+							data-target="#feedDetailModal">
+							<label> #태그#태그#태그<br> page load. If you don’t use
+								data-ride="carousel" to initialize your carousel, you have to
+								initialize it yourself. It cannot be used in combination with
+								(redundant and unnecessary) explicit JavaScript initialization
+								of the same carousel. ..더보기
+							</label>
+						</div>
+						<div class="card-body row pt-2">
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">
+									좋아요:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100"
+									data-toggle="modal" data-target="#feedDetailModal">
+									댓글:<label class="m-0">0</label>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end 피드1개-->
 			</div>
-			<!-- end 피드1개-->
 		</div>
 	</div>
 </div>
@@ -344,7 +417,6 @@
 				<!-- 피드 상세보기 글 정보, 댓글 부분 -->
 				<div class="col-xl-4">
 					<div class="card">
-						<!-- 피드 상세보기 대소분류 출력 부분-->
 						<div class="card-body d-inline-block pt-2 pb-0">
 							<label class="text-white bg-secondary mr-1 rounded">대분류</label> <label
 								class="text-white bg-secondary rounded">소분류</label>
@@ -352,19 +424,16 @@
 								<button class="btn btn-outline-danger">신고</button>
 							</div>
 						</div>
-						<!-- 피드 상세보기 프로필 출력 부분-->
 						<div class="card-body">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
 							<div class="d-inline-block">
 								<label>닉네임(ID)</label>
 							</div>
 						</div>
-						<!-- 피드 상세보기 태그 출력 부분-->
 						<div class="card-body">
 							<div class="d-inline-block bg-secondary text-white p-0">
 								#태그#태그#태그#태그</div>
 						</div>
-						<!-- 피드 상세보기 내용 출력 부분-->
 						<div class="card-body pt-0">
 							<div>page load. If you don’t usedata-ride="carousel" to
 								initialize your carousel, you have to initialize it yourself. It
@@ -376,7 +445,6 @@
 								JavaScript initialization of the same carousel.</div>
 						</div>
 
-						<!-- 피드 상세보기 좋아요, 즐겨찾기 버튼 출력 부분-->
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
@@ -387,7 +455,7 @@
 								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
 							</div>
 						</div>
-						<!-- 피드 상세보기 댓글 입력창 출력 부분-->
+
 						<div class="card-header">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="reply..."
@@ -397,13 +465,11 @@
 								</div>
 							</div>
 						</div>
-						<!-- 피드 상세보기 댓글 출력 부분-->
 						<div class="card-body pt-0">
 							<div>
 								댓글 <label>0</label>개
 							</div>
 							<ul class="list-group overflow-auto" style="height: 230px;">
-								<!-- 댓글 1개 -->
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
 									<div class="d-inline-block">
@@ -412,7 +478,6 @@
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
 								</li>
-								<!-- end 댓글 1개 -->
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
 									<div class="d-inline-block">
@@ -422,7 +487,6 @@
 										yourself. It cannot be used in combinatio </label> <label
 									class="text-secondary"> (2019-07-21 18:32) </label>
 								</li>
-								<!-- 댓글 1개 -->
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
 									<div class="d-inline-block">
@@ -431,7 +495,6 @@
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
 								</li>
-								<!-- end 댓글 1개 -->
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
 									<div class="d-inline-block">
@@ -444,12 +507,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- end 피드 상세보기 글 정보, 댓글 부분 -->
-
 			</div>
 		</div>
 	</div>
 </div>
+<!-- end 피드 상세보기 모달 -->
 
-<%@ include file="./include/footer.jsp" %>
 
+<%@ include file="./include/footer.jsp"%>
