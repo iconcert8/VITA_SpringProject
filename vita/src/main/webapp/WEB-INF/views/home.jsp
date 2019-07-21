@@ -4,6 +4,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="./include/header.jsp"%>
 
+<link rel="stylesheet" href="/resources/css/scrolltop.css">
+<script src="/resources/js/scrolltop.js"></script>
+<style>
+@media ( min-width : 1600px) {
+	.modal-xl {
+		max-width: 1500px;
+	}
+}
+.toolbar-icon a{margin-right:5px;}
+</style>
+
+
+<!-- 스크롤 탑 버튼-->
+<i onclick="topFunction()" id="scrollTopBtn" class="fas fa-arrow-up"></i>
+
 <!-- 중간 (카테고리 선택 부분, 피드 부분)-->
 <div class="container-fluid">
 	<div class="row">
