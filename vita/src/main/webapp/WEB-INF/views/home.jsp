@@ -90,6 +90,13 @@
 
 		<!-- 필터 현황 부분, 피드 출력부분 -->
 		<div class="col-md-8 col-lg-9">
+		
+			<!-- 인기, 최신 버튼 -->
+			<div class="text-right mt-2">
+				<button class="btn btn-outline-secondary">인기순</button>
+				<button class="btn btn-outline-secondary">최신순</button>
+			</div>
+			<div class="clearfix mb-2"></div>
 
 			<!-- 필터 현황 -->
 			<div class="card bg-light mb-3">
@@ -127,7 +134,7 @@
 					<div class="d-inline-block rounded bg-secondary text-white">
 						<h3>
 							프로필
-							<h3>
+							</h3>
 					</div>
 					<div class="d-inline-block ml-3">
 						<h3>닉네임(ID)</h3>
@@ -145,7 +152,7 @@
 					<div class="d-inline-block rounded bg-secondary text-white">
 						<h3>
 							프로필
-							<h3>
+							</h3>
 					</div>
 					<div class="d-inline-block ml-3">
 						<h3>닉네임(ID)</h3>

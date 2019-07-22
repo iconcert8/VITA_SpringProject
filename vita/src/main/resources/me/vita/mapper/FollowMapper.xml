@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.FollowMapper">
+	
+	
+	<select id="selectList" resultType="me.vita.dto.FollowDTO">
+		<![CDATA[
+		select resId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
+		from(
+    		select rownum rn, userId as resId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, resId as isFollow
+    		from userInfo u, (select resId
+                  		   	from follow
+                      		where reqId = #{reqId}) f
+   			where u.userId = f.resId(+)
+   		]]>
+   				<if test="search != null">
+         	 	and (u.userId like '%'||#{search}||'%' or u.userNick like '%'||#{search}||'%')
+         	 	</if>
+        <![CDATA[
+    	)
+		where rn > (#{page}*20) and rn <= (#{page}*20)+20 and resId != #{reqId}
+		]]>
+	</select>
+	
+	<select id="selectListFollower" resultType="me.vita.dto.FollowDTO">
+		<![CDATA[
+		select reqId, resId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
+		from(
+			select rownum rn, flr.reqId, flr.resId, flr.followDate, flr.userNick, flr.userLock, flr.userImgUuid, flr.userImgUploadPath, flr.userImgFileName, fln.userId as isFollow
+			from (select uq.*, f.*
+      			from userinfo uq, follow f
+      			where f.resId = #{resId} and f.reqId = uq.userId) flr
+      			,
+      			(select us.userId
+      			from userInfo us, follow f
+      			where f.reqId = #{resId} and f.resId = us.userId) fln
+			where flr.userId = fln.userId(+)
+		]]>
+				<if test="search != null">
+				and (flr.reqId like '%'||#{search}||'%' OR flr.userNick like '%'||#{search}||'%')
+				</if>
+		<![CDATA[
+			)
+		 where rn > (#{page}*20) and rn <= (#{page}*20)+20
+		]]>
+	</select>
+
+	<select id="selectListFollowing" resultType="me.vita.dto.FollowDTO">
+		<![CDATA[
+		select reqId, resId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName
+		from(
+			 select rownum rn, fln.reqId, fln.resId, fln.followDate, fln.userNick, fln.userLock, fln.userImgUuid, fln.userImgUploadPath, fln.userImgFileName
+			 from(	select us.*, f.*
+					from userInfo us, follow f
+					where f.reqId = #{reqId} and f.resId = us.userId
+		]]>			
+						<if test="search != null">
+						and (us.userId like '%'||#{search}||'%' OR us.userNick like '%'||#{search}||'%')
+						</if>
+		<![CDATA[
+					) fln
+			 )		
+		where rn > (#{page}*20) and rn <= (#{page}*20)+20
+		]]>
+	</select>
+	
+	<insert id="insert">
+		insert into follow values(#{reqId}, #{resId}, sysdate)
+	</insert>
+
+	<delete id="delete">
+		delete from follow where reqId = #{reqId} and resId = #{resId}
+	</delete>
+</mapper>

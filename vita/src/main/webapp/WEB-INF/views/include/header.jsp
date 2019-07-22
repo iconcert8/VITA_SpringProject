@@ -39,7 +39,7 @@
 			<!-- 로그인 -->
 			<div class="col-md-4 toolbar-icon mt-3">
 				<a href="" data-toggle="modal" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
+				<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-bell" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>

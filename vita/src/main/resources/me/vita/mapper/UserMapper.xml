@@ -5,7 +5,7 @@
 	
 
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from user where userId = #{userId}
+		select * from userInfo where userId = #{userId}
 	</select>
 	
 
