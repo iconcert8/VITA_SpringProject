@@ -6,12 +6,12 @@
 	
 	<select id="selectList" resultType="me.vita.dto.FollowDTO">
 		<![CDATA[
-		select resId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
+		select userId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
 		from(
-    		select rownum rn, userId as resId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, resId as isFollow
+    		select rownum rn, userId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, resId as isFollow
     		from userInfo u, (select resId
                   		   	from follow
-                      		where reqId = #{reqId}) f
+                      		where reqId = #{userId}) f
    			where u.userId = f.resId(+)
    		]]>
    				<if test="search != null">
@@ -19,22 +19,22 @@
          	 	</if>
         <![CDATA[
     	)
-		where rn > (#{page}*20) and rn <= (#{page}*20)+20 and resId != #{reqId}
+		where rn > (#{page}*20) and rn <= (#{page}*20)+20 and userId != #{userId}
 		]]>
 	</select>
 	
 	<select id="selectListFollower" resultType="me.vita.dto.FollowDTO">
 		<![CDATA[
-		select reqId, resId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
+		select reqId as userId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName, isFollow
 		from(
 			select rownum rn, flr.reqId, flr.resId, flr.followDate, flr.userNick, flr.userLock, flr.userImgUuid, flr.userImgUploadPath, flr.userImgFileName, fln.userId as isFollow
 			from (select uq.*, f.*
       			from userinfo uq, follow f
-      			where f.resId = #{resId} and f.reqId = uq.userId) flr
+      			where f.resId = #{userId} and f.reqId = uq.userId) flr
       			,
       			(select us.userId
       			from userInfo us, follow f
-      			where f.reqId = #{resId} and f.resId = us.userId) fln
+      			where f.reqId = #{userId} and f.resId = us.userId) fln
 			where flr.userId = fln.userId(+)
 		]]>
 				<if test="search != null">
@@ -48,12 +48,12 @@
 
 	<select id="selectListFollowing" resultType="me.vita.dto.FollowDTO">
 		<![CDATA[
-		select reqId, resId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName
+		select resId as userId, followDate, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName
 		from(
 			 select rownum rn, fln.reqId, fln.resId, fln.followDate, fln.userNick, fln.userLock, fln.userImgUuid, fln.userImgUploadPath, fln.userImgFileName
 			 from(	select us.*, f.*
 					from userInfo us, follow f
-					where f.reqId = #{reqId} and f.resId = us.userId
+					where f.reqId = #{userId} and f.resId = us.userId
 		]]>			
 						<if test="search != null">
 						and (us.userId like '%'||#{search}||'%' OR us.userNick like '%'||#{search}||'%')

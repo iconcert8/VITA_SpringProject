@@ -25,10 +25,10 @@
 			</ul>
 			<div class="card-body">
 				<div class="input-group col-lg-8 offset-lg-2">
-					<input type="text" class="form-control" placeholder="Search ID..."
-						aria-describedby="followSearchBtn">
+					<input type="text" class="form-control" id="flw-search-input" placeholder="Search ID..."
+						aria-describedby="flw-search-btn">
 					<div class="input-group-append">
-						<button class="btn btn-outline-primary" id="followSearchBtn">
+						<button class="btn btn-outline-primary" id="flw-search-btn">
 							<i class="fas fa-search" style="font-size: 20px;"></i>
 						</button>
 					</div>
@@ -91,10 +91,24 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	$(".flw-list").empty();
 	
+	var type = "follower";
 	followService.getListFollower("null", 0, getListFollowerCallback);
 	followService.registerBtnEvent();
+	
+	$(document).keydown(function(event){
+		if (event.keyCode == 13) {
+			var searchWord = $("#flw-search-input").val();
+			searchAction(searchWord);
+        }
+	});
+	
+	$("#flw-search-btn").on("click", function(){
+		var searchWord = $("#flw-search-input").val();
+		searchAction(searchWord);
+	});
 	
 	$(".flw-nav-btn").on("click", function(event){
 
@@ -104,16 +118,25 @@ $(document).ready(function(){
 		$(this).addClass("active");
 		
 		$(".flw-list").empty();
+		$("#flw-search-input").val("");
 		
-		var type = $(this).data("type");
-		if(type == "follower"){
-			followService.getListFollower("null", 0, getListFollowerCallback);
-		}else if(type == "following"){
-			followService.getListFollowing("null", 0, getListFollowingCallback);
-		}else if(type == "follow"){
-			followService.getList("null", 0,  getListCallback);
-		}
+		type = $(this).data("type");
+		
+		searchAction("null");
 	});
+	
+	
+	function searchAction(word){
+		$(".flw-list").empty();
+		if(type == "follower"){
+			followService.getListFollower(word, 0, getListFollowerCallback);
+		}else if(type == "following"){
+			followService.getListFollowing(word, 0, getListFollowingCallback);
+		}else if(type == "follow"){
+			followService.getList(word, 0,  getListCallback);
+		}
+	}
+	
 });
 	
 </script>
@@ -136,15 +159,15 @@ function getListFollowerCallback(result){
 		html +=			'<div class="col-7" style="font-size: 20px;">';
 		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="userImg" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
-		html +=					'<label class="mb-0">'+item.userNick+'('+item.reqId+')'+'</label>';
+		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';
 		html +=			'</div>';
 		html +=			'<div class="col-5">';
 		if(item.isFollow != null) {
-			html += 		'<button class="btn btn-primary fln mt-3" data-userid="'+item.reqId+'">팔로잉</button>';
+			html += 		'<button class="btn btn-primary fln mt-3" data-userid="'+item.userId+'">팔로잉</button>';
 		}
 		else {
-			html +=			'<button class="btn btn-outline-primary nofln mt-3" data-userid="'+item.reqId+'">팔로우</button>';
+			html +=			'<button class="btn btn-outline-primary nofln mt-3" data-userid="'+item.userId+'">팔로우</button>';
 		}
 		html +=			'</div>';
 		html +=		'</div>';
@@ -170,11 +193,11 @@ function getListFollowingCallback(result){
 		html +=			'<div class="col-7" style="font-size: 20px;">';
 		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="userImg" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
-		html +=					'<label class="mb-0">'+item.userNick+'('+item.resId+')'+'</label>';
+		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';
 		html +=			'</div>';
 		html +=			'<div class="col-5">';
-		html += 		'<button class="btn btn-primary fln mt-3" data-userid="'+item.resId+'">팔로잉</button>';
+		html += 		'<button class="btn btn-primary fln mt-3" data-userid="'+item.userId+'">팔로잉</button>';
 		html +=			'</div>';
 		html +=		'</div>';
 		html += '</li>';
@@ -184,36 +207,7 @@ function getListFollowingCallback(result){
 }
 
 function getListCallback(result){
-$.each(result, function(index, item){
-		
-		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
-		
-		//임시 이미지
-		fileCallPath = 'test.gif';
-		
-		var html = "";
-		html += '<li class="list-group-item text-center" data-userId="'+item.resId+'">';
-		html +=		'<div class="row">';
-		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="userImg" src="/display?fileName='+fileCallPath+'"></div>';
-		html +=				'<div class="d-inline-block">';
-		html +=					'<label class="mb-0">'+item.userNick+'('+item.resId+')'+'</label>';
-		html +=				'</div>';
-		html +=			'</div>';
-		html +=			'<div class="col-5">';
-		if(item.isFollow != null) {
-			html += 		'<button class="btn btn-primary fln mt-3" data-userid="'+item.resId+'">팔로잉</button>';
-		}
-		else {
-			html +=			'<button class="btn btn-outline-primary nofln mt-3" data-userid="'+item.resId+'">팔로우</button>';
-		}
-		html +=			'</div>';
-		html +=		'</div>';
-		html += '</li>';
-		
-		$(".flw-list").append(html);
-	});
-	
+	getListFollowerCallback(result);
 }
 	
 </script>

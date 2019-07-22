@@ -460,11 +460,11 @@
 							<div>page load. If you don’t usedata-ride="carousel" to
 								initialize your carousel, you have to initialize it yourself. It
 								cannot be used in combination with (redundant and unnecessary)
-								explicit JavaScript initialization of the same carousel. page
+								explicit JavaScript initialization <!-- of the same carousel. page
 								load. If you don’t use data-ride="carousel" to initialize your
 								carousel, you have to initialize it yourself. It cannot be used
 								in combination with (redundant and unnecessary) explicit
-								JavaScript initialization of the same carousel.</div>
+								JavaScript initialization of the same carousel -->.</div>
 						</div>
 
 						<div class="card-body row pt-2">

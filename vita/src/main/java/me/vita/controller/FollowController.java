@@ -41,8 +41,8 @@ public class FollowController {
 	@ResponseBody
 	public List<FollowDTO> getListFollower(@SessionAttribute("authUser") UserVO user, @PathVariable("search") String search, @PathVariable("page") Integer page){
 		search = checkNull(search);
-		String resId = user.getUserId();
-		return service.getListFollower(resId, search, page);
+		String userId = user.getUserId();
+		return service.getListFollower(userId, search, page);
 	}
 	
 	@GetMapping("/list/following/{search}/{page}")
@@ -50,8 +50,8 @@ public class FollowController {
 	@ResponseBody
 	public List<FollowDTO> getListFollowing(@SessionAttribute("authUser") UserVO user, @PathVariable("search") String search, @PathVariable("page") Integer page){
 		search = checkNull(search);
-		String reqId = user.getUserId();
-		return service.getListFollowing(reqId, search, page);
+		String userId = user.getUserId();
+		return service.getListFollowing(userId, search, page);
 	}
 	
 	@GetMapping("/list/{search}/{page}")
@@ -59,8 +59,8 @@ public class FollowController {
 	@ResponseBody
 	public List<FollowDTO> getList(@SessionAttribute("authUser") UserVO user, @PathVariable("search") String search, @PathVariable("page") Integer page){
 		search = checkNull(search);
-		String reqId = user.getUserId();
-		return service.getList(reqId, search, page);
+		String userId = user.getUserId();
+		return service.getList(userId, search, page);
 	}
 	
 	@PostMapping("/new")

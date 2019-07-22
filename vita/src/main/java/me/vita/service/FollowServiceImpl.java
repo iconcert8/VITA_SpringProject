@@ -16,16 +16,16 @@ public class FollowServiceImpl implements FollowService{
 	private FollowMapper mapper;
 	
 	@Override
-	public List<FollowDTO> getList(String reqId, String search, Integer page) {
-		return mapper.selectList(reqId, search, page);
+	public List<FollowDTO> getList(String userId, String search, Integer page) {
+		return mapper.selectList(userId, search, page);
 	}
 	@Override
-	public List<FollowDTO> getListFollower(String resId, String search, Integer page) {
-		return mapper.selectListFollower(resId, search, page);
+	public List<FollowDTO> getListFollower(String userId, String search, Integer page) {
+		return mapper.selectListFollower(userId, search, page);
 	}
 	@Override
-	public List<FollowDTO> getListFollowing(String reqId, String search, Integer page) {
-		return mapper.selectListFollowing(reqId, search, page);
+	public List<FollowDTO> getListFollowing(String userId, String search, Integer page) {
+		return mapper.selectListFollowing(userId, search, page);
 	}
 	
 	@Override

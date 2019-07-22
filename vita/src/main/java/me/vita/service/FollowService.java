@@ -7,11 +7,11 @@ import me.vita.dto.FollowDTO;
 
 public interface FollowService {
 
-	List<FollowDTO> getListFollower(String resId, String search, Integer page);
+	List<FollowDTO> getListFollower(String userId, String search, Integer page);
 
-	List<FollowDTO> getListFollowing(String reqId, String search, Integer page);
+	List<FollowDTO> getListFollowing(String userId, String search, Integer page);
 
-	List<FollowDTO> getList(String reqId, String search, Integer page);
+	List<FollowDTO> getList(String userId, String search, Integer page);
 
 	boolean register(FollowVO followVO);
 
