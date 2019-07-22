@@ -1,5 +1,7 @@
 package me.vita.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 
@@ -11,4 +13,5 @@ public interface UserMapper {
 
 	UserDTO select(String myId, String userId);
 
+	UserVO testGet(@Param("userId") String userId);
 }
