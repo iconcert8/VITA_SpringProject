@@ -14,6 +14,6 @@ public class UserDTO {
 	private String userImgFileName;
 	
 	//is follow that user?
-	private String reqId;
-	private String isFollow;
+	private String reqId;	// authUser를 follow하고 있는지
+	private String isFollow;	// authUser가 이user를 follow하고 있는지
 }

@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+
 <title>VITA</title>
 </head>
 <body>
@@ -39,7 +40,7 @@
 			<!-- 로그인 -->
 			<div class="col-md-4 toolbar-icon mt-3">
 				<a href="" data-toggle="modal" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
+				<a href="/testlogin"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-bell" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>

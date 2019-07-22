@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.vita.mapper.FeedMapper">
+
+	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
+		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite
+		from feed f, category c, userInfo u, good g, favorite fv
+		where f.categoryNo = c.categoryNo and
+			  f.userId = u.userId and
+			  g.userId(+) = f.userId AND
+			  fv.userId(+) = f.userId
+			  and f.userId = #{filter.goToUserId}
+<!-- 			  <if test="filter.goToUserId == user.userId"> -->
+<!-- 			  	and f.userId = #{user.userId} -->
+<!-- 			  </if> -->
+<!-- 			  <if test="filter.goToUserId != null"> -->
+<!-- 			  	and f.userId = #{filter.goToUserId} -->
+<!-- 			  </if> -->
+	</select>
+
+</mapper>

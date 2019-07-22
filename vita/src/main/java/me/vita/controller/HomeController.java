@@ -1,5 +1,7 @@
 package me.vita.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +28,13 @@ public class HomeController {
 	}
 	
 	@PostMapping("/testlogin")
-	public String home(@RequestParam("userId") String userId){
+	public String home(@RequestParam("userId") String userId, HttpServletRequest request){
 		String go = "home";
 		UserVO authUser = mapper.testGet(userId);
 		if(authUser == null){
 			go = "testlogin";
+		} else {
+			request.getSession().setAttribute("authUser", authUser);
 		}
 		return go;
 	}

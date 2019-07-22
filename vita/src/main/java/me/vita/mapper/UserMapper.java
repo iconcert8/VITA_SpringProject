@@ -11,7 +11,7 @@ public interface UserMapper {
 
 	int login(UserVO userVO);
 
-	UserDTO select(String myId, String userId);
+	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
 
 	UserVO testGet(@Param("userId") String userId);
 }

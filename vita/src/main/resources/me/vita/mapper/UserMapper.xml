@@ -5,8 +5,24 @@
 	
 
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from user where userId = #{userId}
+		select * from userInfo where userId = #{userId}
 	</select>
 	
+	<select id="select" resultType="me.vita.dto.UserDTO">
+		<if test="myId != userId">
+			SELECT usr.userId, usr.userNick, usr.userLock, usr.userImgUuid, usr.userImgUploadPath, usr.userImgFileName
+				,usr.reqId, fl.reqId isFollow
+			FROM (SELECT u.*, f.reqId FROM userInfo u, follow f
+					where u.userId = f.reqId(+) AND u.userId = #{userId} AND f.resId = #{myId}) USR
+				,(SELECT f.reqId FROM userInfo u, follow f
+					where u.userId = f.reqId(+) AND u.userId = #{myId} AND f.resId = #{userId}) fl
+		</if>
+		<if test="myId == userId">
+			select userId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName
+				from userInfo
+				where userId = #{myId}
+		</if>
+	</select>
+
 
 </mapper>
