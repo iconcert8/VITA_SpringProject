@@ -220,18 +220,18 @@
 						</div>
 						<div class="card-body row pt-2">
 							<div class="col">
-								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+								<button class="btn btn-outline-primary nogood w-100" data-feedno="1">
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
-								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+								<button class="btn btn-outline-primary nofavor w-100" data-feedno="1">즐겨찾기</button>
 							</div>
 						</div>
 					</div>
@@ -297,13 +297,13 @@
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -373,13 +373,13 @@
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -460,17 +460,17 @@
 							<div>page load. If you don’t usedata-ride="carousel" to
 								initialize your carousel, you have to initialize it yourself. It
 								cannot be used in combination with (redundant and unnecessary)
-								explicit JavaScript initialization <!-- of the same carousel. page
+								explicit JavaScript initialization of the same carousel. page
 								load. If you don’t use data-ride="carousel" to initialize your
 								carousel, you have to initialize it yourself. It cannot be used
 								in combination with (redundant and unnecessary) explicit
-								JavaScript initialization of the same carousel -->.</div>
+								JavaScript initialization of the same carousel.</div>
 						</div>
 
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -534,6 +534,16 @@
 	</div>
 </div>
 <!-- end 피드 상세보기 모달 -->
+
+<script type="text/javascript" src="/resources/js/good.js"></script>
+<script type="text/javascript" src="/resources/js/favorite.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	goodService.registerBtnEvent();
+	favoriteService.registerBtnEvent();
+	
+});
+</script>
 
 
 <%@ include file="./include/footer.jsp"%>

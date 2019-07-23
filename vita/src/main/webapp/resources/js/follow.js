@@ -48,8 +48,8 @@ var followService = (function(){
 	}
 	
 	//다음과 같은 폼으로 버튼을 출력해 놓으면 됨
-	//<button class="btn-primary fln" data-userId="userId"></button>
-	//<button class="btn-outline-primary nofln" data-userId="userId"></button>
+	//<button class="btn-primary fln" data-userid="해당userId"></button>
+	//<button class="btn-outline-primary nofln" data-userid="해당userId"></button>
 	function registerBtnEvent(){
 		$(document).on('click', '.fln', function(){
 			var resId = $(this).data("userid");

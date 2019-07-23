@@ -25,16 +25,15 @@ public interface FeedMapper {
 
 	List<FeedDTO> selectListUserFeed(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 
-	int updateGoodCnt(Integer num);
-
-	int updateReplyCnt(Integer num);
+	int updateGoodCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
+	
+	int updateReplyCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
 	
 	int updateFeedDel(Integer feedNo);
 	
 	int updateCategory(String feedNo, Integer categoryNo);
 
 	int insert(FeedDTO feedDTO);
-
 
 
 }

@@ -87,8 +87,8 @@
 
 
 <script type="text/javascript" src="/resources/js/follow.js"></script>
-
-
+<!-- <script type="text/javascript" src="/resources/js/notification.js"></script>
+ -->
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -183,7 +183,7 @@ function getListFollowingCallback(result){
 	$.each(result, function(index, item){
 		
 		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
-			
+		
 		//임시 이미지
 		fileCallPath = 'test.gif';
 		

@@ -23,7 +23,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	@Transactional
 	public boolean register(ReplyVO replyVO) {
-		feedMapper.updateReplyCnt(1);
+		feedMapper.updateReplyCnt(replyVO.getFeedNo(), 1);
 		return mapper.insert(replyVO) > 0;
 	}
 
@@ -33,8 +33,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public boolean remove(Integer replyNo) {
-		feedMapper.updateReplyCnt(-1);
+	public boolean remove(Integer feedNo ,Integer replyNo) {
+		feedMapper.updateReplyCnt(feedNo, -1);
 		return mapper.delete(replyNo) > 0;
 	}
 

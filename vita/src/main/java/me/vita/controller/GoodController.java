@@ -30,7 +30,9 @@ public class GoodController {
 	
 	@PostMapping("/new")
 	@Auth
-	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user,@RequestBody GoodVO goodVO){
+	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user,@RequestBody Integer feedNo){
+		GoodVO goodVO = new GoodVO();
+		goodVO.setFeedNo(feedNo);
 		goodVO.setUserId(user.getUserId());
 		if(service.register(goodVO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
@@ -42,6 +44,7 @@ public class GoodController {
 	@DeleteMapping("/{feedNo}")
 	@Auth
 	public ResponseEntity<String> remove(@SessionAttribute("authUser") UserVO user, @PathVariable("feedNo") Integer feedNo){
+		System.out.println("good feedNo : " +feedNo);
 		GoodVO goodVO = new GoodVO();
 		goodVO.setUserId(user.getUserId());
 		goodVO.setFeedNo(feedNo);
