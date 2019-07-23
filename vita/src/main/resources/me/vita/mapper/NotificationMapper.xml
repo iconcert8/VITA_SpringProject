@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.NotificationMapper">
+	
+	<insert id="insert">
+		insert into notification
+		values (seq_notifyno.nextval, #{reqId}, #{resId, jdbcType=VARCHAR}, #{feedNo, jdbcType=INTEGER}, #{notifyType}, #{notifyMsg}, sysdate, 'F')
+	</insert>
+
+	<delete id="delete">
+		delete from notification
+		where notifyNo = #{notifyNo}
+	</delete>
+	
+	<update id="update">
+		update notification set notifyChk = 'T'
+		where notifyNo = #{notifyNo}
+	</update>
+	
+	<select id="selectList" resultType="me.vita.domain.NotificationVO">
+		<![CDATA[
+		select notifyNo, reqId, resId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk
+		from(
+		    select /*+INDEX_DESC(notification pk_notify_notifyno)*/
+		        rownum rn, notifyNo, reqId, resId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk
+		    from notification
+		    where resId = #{userId}
+		    )
+		where rn < (#{page}*10)+10
+		]]>
+	</select>
+	
+	<select id="selectNotifyChkCount" resultType="int">
+		select count(*) from notification
+		where resId = #{userId}
+	</select>
+	
+</mapper>

@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,7 +25,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 	
-	@PostMapping("/list/big")
+	@GetMapping("/list/big")
 	@ResponseBody// 대분류 리스트 가져오기
 	public List<String> getListBig() {
 		log.info("controller" + "get list big");
@@ -34,7 +34,7 @@ public class CategoryController {
 		return list;
 	}
 	
-	@PostMapping("/list/{big}")
+	@GetMapping("/list/{big}")
 	@ResponseBody
 	public List<String> getListSmall(@PathVariable("big") String big) {
 		log.info("controller" + "get list " + big );

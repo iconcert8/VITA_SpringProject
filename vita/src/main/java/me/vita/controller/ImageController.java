@@ -2,6 +2,7 @@ package me.vita.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,11 +23,12 @@ import lombok.extern.log4j.Log4j;
 public class ImageController {
 	
 	
-	@GetMapping("/display/{fileName}")
-	public ResponseEntity<byte[]> getFile(@PathVariable("fileName")String fileName) {
+	@GetMapping("/display")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(@RequestParam("fileName")String fileName){
 		log.info("fileName : " + fileName);
 		
-		File file = new File("C:/upload", fileName);
+		File file = new File("c:\\upload\\", fileName);
 		
 		log.info("file : " + file);
 		
@@ -35,7 +39,6 @@ public class ImageController {
 			header.add("content-Type", Files.probeContentType(file.toPath()));
 			result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

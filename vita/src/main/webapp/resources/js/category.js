@@ -3,7 +3,7 @@ $(function() {console.log("start category.js");})
 var categoryService = (function() {
 	function bigCall(callback) {
 		$.ajax({
-			type : 'post',
+			type : 'get',
 			url : '/category/list/big.json',
 			// 타입으로 보낸다
 			contentType : 'application/json; charset=UTF-8',
@@ -14,7 +14,7 @@ var categoryService = (function() {
 	
 	function smallCall(value, callback) {
 		$.ajax({
-			type : 'post',
+			type : 'get',
 			url : '/category/list/'+ value,
 			dataType : 'JSON',
 			// 타입으로 보낸다

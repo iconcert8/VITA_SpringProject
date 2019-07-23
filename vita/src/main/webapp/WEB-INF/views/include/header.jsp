@@ -39,11 +39,18 @@
 			
 			<!-- 로그인 -->
 			<div class="col-md-4 toolbar-icon mt-3">
-				<a href="" data-toggle="modal" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
-				<a href="/testlogin"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
+				<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
+				<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-bell" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
+				<div class="dropdown d-inline-block">
+					<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
+  					<div  class="dropdown-menu dropdown-menu-right" aria-labelledby="notification-view-btn">
+    						<a class="dropdown-item" href="#">Action</a>
+    						<a class="dropdown-item" href="#">Another action</a>
+    						<a class="dropdown-item" href="#">Something else here</a>
+  					</div>
+				</div>
+				<a href="/testlogin"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
 			</div>
 
 			<!-- 비 로그인 -->
@@ -105,7 +112,7 @@
 								</select>
 							</div>
 							<!-- 글쓰기 모달창 소분류 직접입력 부분, 소분류 기타일 경우에 나타남-->
-							<div class="form-group col-sm-4">
+							<div class="form-group col-sm-4 d-none" id="selfInsert">
 								<label for="category-request">직접입력</label> <input type="text"
 									class="form-control" placeholder="원하는 소분류"
 									id="category-request" />

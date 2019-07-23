@@ -9,6 +9,14 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import me.vita.domain.NotificationVO;
+import me.vita.domain.UserVO;
 import me.vita.service.NotificationService;
 
 public class NotificationHandler extends TextWebSocketHandler{
@@ -23,7 +31,7 @@ public class NotificationHandler extends TextWebSocketHandler{
 	//연결완료시
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		String userId = getUserId(session);
+		String userId = getUser(session).getUserId();
 		
 		//Map에 유저아이디, 유저세션을 put
 		userSessions.put(userId, session);
@@ -32,9 +40,83 @@ public class NotificationHandler extends TextWebSocketHandler{
 	//메세지 받고 보낼때
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		//기본적으로 내정보를 갖고 온다
+		UserVO myInfo = getUser(session);
+
+		//json으로 보낸 메세지 받기
+		String requestText = message.getPayload();
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jsonObject = (JsonObject) jsonParser.parse(requestText);
+		
+		//json객체에서 인스턴스 추출
+		String type = jsonObject.get("type").getAsString();
+		String resId = jsonObject.get("resId").getAsString();
+		Integer feedNo = jsonObject.get("feedNo") == null? -1: jsonObject.get("feedNo").getAsInt();
+		Integer notifyNo = jsonObject.get("notifyNo") == null? -1: jsonObject.get("notifyNo").getAsInt();
+		
+		String myId = myInfo.getUserId();
+		
+		JsonObject responseObject = new JsonObject();
 		
 		
+		if(type.equals("follow")){
+			NotificationVO notificationVO = new NotificationVO();
+			notificationVO.setReqId(myId);
+			notificationVO.setResId(resId);
+			notificationVO.setNotifyType("follow");
+			notificationVO.setNotifyMsg(myId+"님이 팔로우 하였습니다");
+			
+			responseObject.addProperty("notifyMsg", myId+"님이 팔로우 하였습니다");
+			
+			service.register(notificationVO);
+			
+		}else if(type.equals("nofollow")){
+			
+			service.remove(notifyNo);
+			return;
+		}else if(type.equals("good")){
+			NotificationVO notificationVO = new NotificationVO();
+			notificationVO.setReqId(myId);
+			notificationVO.setResId(resId);
+			notificationVO.setFeedNo(feedNo);
+			notificationVO.setNotifyType("good");
+			notificationVO.setNotifyMsg(myId+"님이 게시글에 좋아요를 눌렀습니다");
+			
+			responseObject.addProperty("notifyMsg", myId+"님이 게시글에 좋아요를 눌렀습니다");
+			
+			service.register(notificationVO);
+		}else if(type.equals("nogood")){
+			service.remove(notifyNo);
+			return;
+		}else if(type.equals("favorite")){
+			NotificationVO notificationVO = new NotificationVO();
+			notificationVO.setReqId(myId);
+			notificationVO.setResId(resId);
+			notificationVO.setFeedNo(feedNo);
+			notificationVO.setNotifyType("favorite");
+			notificationVO.setNotifyMsg(myId+"님이 게시글을 즐겨찾기 하였습니다");
+			
+			responseObject.addProperty("notifyMsg", myId+"님이 게시글을 즐겨찾기 하였습니다");
+			
+			service.register(notificationVO);
+		}else if(type.equals("nofavorite")){
+			service.remove(notifyNo);
+			return;
+		}
 		
+		//상대방 웹소켄 세션
+		WebSocketSession responseSession = (WebSocketSession)userSessions.get(resId);
+		if(responseSession == null) return;
+		
+		responseObject.addProperty("userId", myInfo.getUserId());
+		responseObject.addProperty("userNick", myInfo.getUserNick());
+		responseObject.addProperty("userImgUuid", myInfo.getUserImgUuid());
+		responseObject.addProperty("userImgUploadPath", myInfo.getUserImgUploadPath());
+		responseObject.addProperty("userImgFileName", myInfo.getUserImgFileName());
+		
+		String data = new Gson().toJson(responseObject);
+		
+		responseSession.sendMessage(new TextMessage(data));
 		
 	}
 	
@@ -43,7 +125,7 @@ public class NotificationHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
-		String userId = getUserId(session);
+		String userId = getUser(session).getUserId();
 		
 		//Map에 유저아이디, 유저세션을 remove
 		userSessions.remove(userId);
@@ -51,13 +133,13 @@ public class NotificationHandler extends TextWebSocketHandler{
 	}
 	
 	
-	 public String getUserId(WebSocketSession session) {
+	 public UserVO getUser(WebSocketSession session) {
 		//웹소켓 세션으로 http세션을 구한다.
 		Map<String, Object> httpSession = session.getAttributes();
 		//http세션에서 유저아이디를 구해온다.
-		String userId = (String)httpSession.get("authUser");
+		UserVO user = (UserVO)httpSession.get("authUser");
 		
-		return userId;
+		return user;
 	 }
 
 }

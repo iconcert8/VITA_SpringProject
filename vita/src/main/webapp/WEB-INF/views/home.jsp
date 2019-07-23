@@ -93,7 +93,6 @@
 				<button class="btn btn-outline-secondary">최신순</button>
 				<div class="clearfix mb-2"></div>
 			</div>
-			
 
 			<!-- 필터 현황 -->
 			<div class="card bg-light mb-3" id="filterBar">
@@ -131,7 +130,7 @@
 					<div class="d-inline-block rounded bg-secondary text-white">
 						<h3>
 							프로필
-							<h3>
+							</h3>
 					</div>
 					<div class="d-inline-block ml-3">
 						<h3>닉네임(ID)</h3>
@@ -203,18 +202,18 @@
 						</div>
 						<div class="card-body row pt-2">
 							<div class="col">
-								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+								<button class="btn btn-outline-primary nogood w-100" data-feedno="1">
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
-								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+								<button class="btn btn-outline-primary nofavor w-100" data-feedno="1">즐겨찾기</button>
 							</div>
 						</div>
 					</div>
@@ -280,13 +279,13 @@
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -356,13 +355,13 @@
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
 								<button class="btn btn-outline-primary w-100"
 									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<label class="m-0">0</label>
+									댓글:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -453,7 +452,7 @@
 						<div class="card-body row pt-2">
 							<div class="col">
 								<button class="btn btn-outline-primary w-100">
-									좋아요:<label class="m-0">0</label>
+									좋아요:<span class="m-0 cnt">0</span>
 								</button>
 							</div>
 							<div class="col">
@@ -517,9 +516,11 @@
 	</div>
 </div>
 <!-- end 피드 상세보기 모달 -->
+
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/feed.js"></script>
+
 
 <%@ include file="./include/footer.jsp"%>

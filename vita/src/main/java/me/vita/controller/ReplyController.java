@@ -58,10 +58,10 @@ public class ReplyController {
 		return service.getList(userId, feedNo, page);
 	}
 	
-	@DeleteMapping("/{replyNo}")
+	@DeleteMapping("/{feedNo}/{replyNo}")
 	@Auth
-	public ResponseEntity<String> remove(@PathVariable("replyNo") Integer replyNo){
-		if(service.remove(replyNo)) {
+	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo, @PathVariable("replyNo") Integer replyNo){
+		if(service.remove(feedNo, replyNo)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
