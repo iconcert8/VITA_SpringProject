@@ -10,7 +10,7 @@
 @media ( min-width : 1600px) {
 	.modal-xl {
 		max-width: 1500px;
-	}
+	} 
 }
 .toolbar-icon a{margin-right:5px;}
 </style>
