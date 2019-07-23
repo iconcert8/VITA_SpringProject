@@ -3,22 +3,76 @@
 <mapper namespace="me.vita.mapper.FeedMapper">
 
 	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
 		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+		from feed f, category c, userInfo u, good g, favorite fv, reply r
+		where f.categoryNo = c.categoryNo and
+			  f.userId = u.userId and
+			  (g.userId(+) = f.userId AND g.feedNo(+) = f.FEEDNO) and
+			  (fv.userId(+) = f.userId  AND fv.feedNo(+) = f.FEEDNO) AND
+			  (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO) and
+			  f.userId = #{filter.goToUserId} and
+			  rownum <= 10
+		]]>
+		<if test="filter.page != 0">
+			and f.feedNo > #{filter.page}
+		</if>
+	</select>
+	
+	<select id="selectListFavorite" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+		from feed f, category c, userInfo u, good g, favorite fv, reply r
+		where f.categoryNo = c.categoryNo and
+			  f.userId = u.userId and
+			  (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO) and
+			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
+			  (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO) and
+			  fv.userId = #{user.userId} AND fv.FEEDNO = f.FEEDNO and
+			  rownum <= 10
+		]]>
+		<if test="filter.page != 0">
+			and f.feedNo > #{filter.page}
+		</if>
+	</select>
+	
+	<select id="selectListNewsFeed" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+		from feed f, category c, userInfo u, good g, favorite fv, reply r, follow fl
+		where f.categoryNo = c.categoryNo
+				AND f.userId = u.userId
+				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+				AND fl.REQID =#{user.userId} AND fl.resid = f.userid
+				AND rownum <= 10
+		]]>
+		<if test="filter.page != 0">
+			and f.feedNo > #{filter.page}
+		</if>
+	</select>
+	
+	<select id="selectDetail" resultType="me.vita.dto.FeedDTO">
+		select f.feedNo, f.feedContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite
 		from feed f, category c, userInfo u, good g, favorite fv
 		where f.categoryNo = c.categoryNo and
 			  f.userId = u.userId and
-			  g.userId(+) = f.userId AND
-			  fv.userId(+) = f.userId
-			  and f.userId = #{filter.goToUserId}
-<!-- 			  <if test="filter.goToUserId == user.userId"> -->
-<!-- 			  	and f.userId = #{user.userId} -->
-<!-- 			  </if> -->
-<!-- 			  <if test="filter.goToUserId != null"> -->
-<!-- 			  	and f.userId = #{filter.goToUserId} -->
-<!-- 			  </if> -->
+			  (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO) and
+			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
+			  f.feedno = #{feedNo}
 	</select>
 
 </mapper>

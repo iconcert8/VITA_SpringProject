@@ -9,19 +9,14 @@
 	</select>
 	
 	<select id="select" resultType="me.vita.dto.UserDTO">
-		<if test="myId != userId">
-			SELECT usr.userId, usr.userNick, usr.userLock, usr.userImgUuid, usr.userImgUploadPath, usr.userImgFileName
-				,usr.reqId, fl.reqId isFollow
-			FROM (SELECT u.*, f.reqId FROM userInfo u, follow f
-					where u.userId = f.reqId(+) AND u.userId = #{userId} AND f.resId = #{myId}) USR
-				,(SELECT f.reqId FROM userInfo u, follow f
-					where u.userId = f.reqId(+) AND u.userId = #{myId} AND f.resId = #{userId}) fl
-		</if>
-		<if test="myId == userId">
-			select userId, userNick, userLock, userImgUuid, userImgUploadPath, userImgFileName
-				from userInfo
-				where userId = #{myId}
-		</if>
+		select u.userId, u.userNick, u.userLock, u.userImgUuid, u.userImgUploadPath, u.userImgFileName, flw.reqId, fli.resId isFollow
+			from userInfo u, (select reqId
+                  from follow
+                  where  reqId = #{userId} AND resId = #{myId}) flw,
+                  (select resId 
+                  from follow
+                  where reqId = #{myId} AND resId = #{userId}) fli   
+			where userId = #{userId} AND u.userid = flw.reqId(+) and u.userId = fli.resId(+)
 	</select>
 
 

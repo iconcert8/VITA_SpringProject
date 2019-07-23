@@ -13,7 +13,7 @@ public interface FeedMapper {
 
 	FeedVO select(Integer feedNo);
 	
-	FeedDTO selectDetail(Integer feedNo);
+	FeedDTO selectDetail(@Param("user") UserVO user, @Param("feedNo") Integer feedNo);
 
 	List<FeedDTO> selectListHot(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 

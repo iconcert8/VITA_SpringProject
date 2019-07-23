@@ -38,6 +38,7 @@ public class FeedDTO {
 	
 	private String isGood;
 	private String isFavorite;
+	private String isReply;
 	
 	private List<FeedImageVO> feedImages;
 	private List<String> tags;

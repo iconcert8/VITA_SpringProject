@@ -21,7 +21,7 @@
 
 			<!-- 로고 -->
 			<div class="col-md-3 mt-3">
-				<a href="#"><i class="fas fa-chevron-down" style="font-size:60px; color:black">ITA</i></a>
+				<a href="/"><i class="fas fa-chevron-down" style="font-size:60px; color:black">ITA</i></a>
 			</div>
 
 			<!-- 검색 -->
