@@ -28,12 +28,13 @@ public class HomeController {
 	}
 	
 	@PostMapping("/testlogin")
-	public String home(HttpServletRequest request,@RequestParam("userId") String userId){
+	public String home(@RequestParam("userId") String userId, HttpServletRequest request){
+
 		String go = "home";
 		UserVO authUser = mapper.testGet(userId);
 		if(authUser == null){
 			go = "testlogin";
-		}else{
+		} else {
 			request.getSession().setAttribute("authUser", authUser);
 		}
 		return go;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.vita.mapper.FeedImageMapper">
+	<select id="selectList" resultType="me.vita.domain.FeedImageVO">
+		select *
+			from feedImage
+			where feedNo = #{feedNo}
+	</select>
+</mapper>

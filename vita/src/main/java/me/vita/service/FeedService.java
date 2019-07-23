@@ -12,7 +12,7 @@ import me.vita.dto.FeedDTO;
 
 public interface FeedService {
 
-	FeedDTO get(Integer feedNo);
+	FeedDTO get(UserVO user, Integer feedNo);
 	
 	List<FeedDTO> getListHot(UserVO user, CategoryFilterDTO filter);
 

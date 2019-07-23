@@ -15,7 +15,6 @@
 .toolbar-icon a{margin-right:5px;}
 </style>
 
-
 <!-- 스크롤 탑 버튼-->
 <i onclick="topFunction()" id="scrollTopBtn" class="fas fa-arrow-up"></i>
 
@@ -28,10 +27,10 @@
 
 			<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
 			<div class="card">
-				<div class="card-header">
-					<button class="btn btn-outline-secondary rounded">팔로워 글</button>
-					<button class="btn btn-outline-secondary rounded">즐겨찾기</button>
-					<button class="btn btn-outline-secondary rounded">내글</button>
+				<div class="card-header" id="userLeftBtn">
+					<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
+					<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
+					<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
 				</div>
 			</div>
 
@@ -85,14 +84,19 @@
 
 		</div>
 
-
-
-
 		<!-- 필터 현황 부분, 피드 출력부분 -->
 		<div class="col-md-8 col-lg-9">
+		
+			<!-- 인기, 최신 버튼 -->
+			<div class="text-right mt-2" id="categoryType">
+				<button class="btn btn-outline-secondary">인기순</button>
+				<button class="btn btn-outline-secondary">최신순</button>
+				<div class="clearfix mb-2"></div>
+			</div>
+			
 
 			<!-- 필터 현황 -->
-			<div class="card bg-light mb-3">
+			<div class="card bg-light mb-3" id="filterBar">
 				<div class="card-header">
 					<button class="btn btn-outline-secondary float-right">초기화</button>
 
@@ -122,7 +126,7 @@
 			</div>
 
 			<!-- 회원정보, 다른유저 글보기 경우에만 출력-->
-			<div class="card bg-light mb-3">
+			<div class="card bg-light mb-3" id="userInfo">
 				<div class="card-header text-center">
 					<div class="d-inline-block rounded bg-secondary text-white">
 						<h3>
@@ -139,21 +143,7 @@
 				</div>
 			</div>
 
-			<!-- 회원정보, 내글 보기 경우에만 출력-->
-			<div class="card bg-light mb-3 d-none">
-				<div class="card-header text-center">
-					<div class="d-inline-block rounded bg-secondary text-white">
-						<h3>
-							프로필
-							<h3>
-					</div>
-					<div class="d-inline-block ml-3">
-						<h3>닉네임(ID)</h3>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
+			<div class="row" id="viewFeedList">
 
 				<!-- 피드 1개 -->
 				<div class="col-xl-6">
@@ -527,6 +517,9 @@
 	</div>
 </div>
 <!-- end 피드 상세보기 모달 -->
-
+<input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
+<script src="/resources/js/template.js"></script>
+<script src="/resources/js/feedModule.js"></script>
+<script src="/resources/js/feed.js"></script>
 
 <%@ include file="./include/footer.jsp"%>

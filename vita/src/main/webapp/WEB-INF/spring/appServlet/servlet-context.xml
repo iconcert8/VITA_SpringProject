@@ -47,6 +47,7 @@
 			<beans:bean class="me.vita.security.AuthLoginInterceptor" />
 		</interceptor>
 	</interceptors>
+	
 
 
 </beans:beans>

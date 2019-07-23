@@ -28,8 +28,8 @@ public class FeedServiceImpl implements FeedService{
 	
 	@Override
 	@Transactional
-	public FeedDTO get(Integer feedNo) {
-		FeedDTO feedDTO = mapper.selectDetail(feedNo);
+	public FeedDTO get(UserVO user, Integer feedNo) {
+		FeedDTO feedDTO = mapper.selectDetail(user, feedNo);
 		feedDTO.setFeedImages(feedImageMapper.selectList(feedNo));
 		feedDTO.setTags(tagMapper.selectList(feedNo));
 		return feedDTO;
@@ -41,7 +41,7 @@ public class FeedServiceImpl implements FeedService{
 		//썸네일 이미지 리스트 각각 가져오기
 		for(FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -52,7 +52,7 @@ public class FeedServiceImpl implements FeedService{
 		//썸네일 이미지 리스트 각각 가져오기
 		for(FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -63,7 +63,7 @@ public class FeedServiceImpl implements FeedService{
 		//썸네일 이미지 리스트 각각 가져오기
 		for(FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}

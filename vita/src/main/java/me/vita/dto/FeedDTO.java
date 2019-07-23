@@ -35,8 +35,10 @@ public class FeedDTO {
 	private String userImgUuid;
 	private String userImgUploadPath;
 	private String userImgFileName;
+	
 	private String isGood;
 	private String isFavorite;
+	private String isReply;
 	
 	private List<FeedImageVO> feedImages;
 	private List<String> tags;
