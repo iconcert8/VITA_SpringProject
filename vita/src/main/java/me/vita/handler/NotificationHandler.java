@@ -1,6 +1,7 @@
 package me.vita.handler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.google.gson.JsonParser;
 
 import me.vita.domain.NotificationVO;
 import me.vita.domain.UserVO;
+import me.vita.dto.NotificationDTO;
 import me.vita.service.NotificationService;
 
 public class NotificationHandler extends TextWebSocketHandler{
@@ -50,58 +52,58 @@ public class NotificationHandler extends TextWebSocketHandler{
 		
 		//json객체에서 인스턴스 추출
 		String type = jsonObject.get("type").getAsString();
-		String resId = jsonObject.get("resId").getAsString();
-		Integer feedNo = jsonObject.get("feedNo") == null? -1: jsonObject.get("feedNo").getAsInt();
-		Integer notifyNo = jsonObject.get("notifyNo") == null? -1: jsonObject.get("notifyNo").getAsInt();
-		
+		String resId = jsonObject.get("resId") == null? null: jsonObject.get("resId").getAsString();
+		Integer feedNo = jsonObject.get("feedNo") == null? null: jsonObject.get("feedNo").getAsInt();
+		Integer page = jsonObject.get("page") == null? 0: jsonObject.get("page").getAsInt();
+
 		String myId = myInfo.getUserId();
 		
+		//상대방에게 보낼 데이터 담는 곳
 		JsonObject responseObject = new JsonObject();
 		
+		//DB에 보낼 데이터 담는 곳
+		NotificationVO notificationVO = new NotificationVO();
+		notificationVO.setReqId(myId);
+		notificationVO.setResId(resId);
+		notificationVO.setFeedNo(feedNo);
 		
-		if(type.equals("follow")){
-			NotificationVO notificationVO = new NotificationVO();
-			notificationVO.setReqId(myId);
-			notificationVO.setResId(resId);
-			notificationVO.setNotifyType("follow");
-			notificationVO.setNotifyMsg(myId+"님이 팔로우 하였습니다");
-			
-			responseObject.addProperty("notifyMsg", myId+"님이 팔로우 하였습니다");
-			
-			service.register(notificationVO);
-			
-		}else if(type.equals("nofollow")){
-			
-			service.remove(notifyNo);
-			return;
-		}else if(type.equals("good")){
-			NotificationVO notificationVO = new NotificationVO();
-			notificationVO.setReqId(myId);
-			notificationVO.setResId(resId);
-			notificationVO.setFeedNo(feedNo);
-			notificationVO.setNotifyType("good");
-			notificationVO.setNotifyMsg(myId+"님이 게시글에 좋아요를 눌렀습니다");
-			
-			responseObject.addProperty("notifyMsg", myId+"님이 게시글에 좋아요를 눌렀습니다");
-			
-			service.register(notificationVO);
-		}else if(type.equals("nogood")){
-			service.remove(notifyNo);
-			return;
-		}else if(type.equals("favorite")){
-			NotificationVO notificationVO = new NotificationVO();
-			notificationVO.setReqId(myId);
-			notificationVO.setResId(resId);
-			notificationVO.setFeedNo(feedNo);
-			notificationVO.setNotifyType("favorite");
-			notificationVO.setNotifyMsg(myId+"님이 게시글을 즐겨찾기 하였습니다");
-			
-			responseObject.addProperty("notifyMsg", myId+"님이 게시글을 즐겨찾기 하였습니다");
-			
-			service.register(notificationVO);
-		}else if(type.equals("nofavorite")){
-			service.remove(notifyNo);
-			return;
+		switch (type) {
+			case "list":
+				List<NotificationDTO> list = service.getList(myId, page);
+				String data = new Gson().toJson(list);
+				session.sendMessage(new TextMessage(data));
+				return;
+			case "follow":
+				notificationVO.setNotifyType("follow");
+				notificationVO.setNotifyMsg(myId+"님이 팔로우 하였습니다");
+				responseObject.addProperty("notifyMsg", myId+"님이 팔로우 하였습니다");
+				service.register(notificationVO);
+				break;
+			case "nofollow":
+				notificationVO.setNotifyType("follow");
+				service.remove(notificationVO);
+				return;
+			case "good":
+				notificationVO.setNotifyType("good");
+				notificationVO.setNotifyMsg(myId+"님이 게시글에 좋아요를 눌렀습니다");
+				responseObject.addProperty("notifyMsg", myId+"님이 게시글에 좋아요를 눌렀습니다");
+				break;
+			case "nogood":
+				notificationVO.setNotifyType("good");
+				service.remove(notificationVO);
+				return;
+			case "favorite":
+				notificationVO.setNotifyType("favorite");
+				notificationVO.setNotifyMsg(myId+"님이 게시글을 즐겨찾기 하였습니다");
+				responseObject.addProperty("notifyMsg", myId+"님이 게시글을 즐겨찾기 하였습니다");
+				service.register(notificationVO);
+				break;
+			case "nofavorite":
+				notificationVO.setNotifyType("favorite");
+				service.remove(notificationVO);
+				return;
+			default:
+				break;
 		}
 		
 		//상대방 웹소켄 세션
@@ -114,8 +116,11 @@ public class NotificationHandler extends TextWebSocketHandler{
 		responseObject.addProperty("userImgUploadPath", myInfo.getUserImgUploadPath());
 		responseObject.addProperty("userImgFileName", myInfo.getUserImgFileName());
 		
-		String data = new Gson().toJson(responseObject);
+		JsonArray responseArray = new JsonArray();
+		responseArray.add(responseObject);
 		
+		String data = new Gson().toJson(responseArray);
+		System.out.println(data);
 		responseSession.sendMessage(new TextMessage(data));
 		
 	}

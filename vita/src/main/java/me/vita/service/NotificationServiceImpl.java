@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import me.vita.domain.NotificationVO;
+import me.vita.dto.NotificationDTO;
 import me.vita.mapper.NotificationMapper;
 
 @Service
@@ -21,8 +22,8 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
-	public boolean remove(Integer notifyNo) {
-		return mapper.delete(notifyNo) == 1;
+	public boolean remove(NotificationVO notificationVO) {
+		return mapper.delete(notificationVO) > 0;
 	}
 
 	@Override
@@ -31,7 +32,7 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
-	public List<NotificationVO> getList(String userId, Integer page) {
+	public List<NotificationDTO> getList(String userId, Integer page) {
 		return mapper.selectList(userId, page);
 	}
 

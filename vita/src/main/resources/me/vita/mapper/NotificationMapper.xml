@@ -10,7 +10,10 @@
 
 	<delete id="delete">
 		delete from notification
-		where notifyNo = #{notifyNo}
+		where reqId = #{reqId} and resId = #{resId} and notifyType = #{notifyType}
+			<if test="feedNo != null">
+				and feedNo = #{feedNo}
+			</if>
 	</delete>
 	
 	<update id="update">
@@ -18,14 +21,14 @@
 		where notifyNo = #{notifyNo}
 	</update>
 	
-	<select id="selectList" resultType="me.vita.domain.NotificationVO">
+	<select id="selectList" resultType="me.vita.dto.NotificationDTO">
 		<![CDATA[
-		select notifyNo, reqId, resId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk
+		select notifyNo, userId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk, userNick, userImgUuid, userImgUploadPath, userImgFileName
 		from(
 		    select /*+INDEX_DESC(notification pk_notify_notifyno)*/
-		        rownum rn, notifyNo, reqId, resId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk
-		    from notification
-		    where resId = #{userId}
+		        rownum rn, notifyNo, reqId as userId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk, userNick, userImgUuid, userImgUploadPath, userImgFileName
+		    from notification, userinfo
+		    where notification.reqId = userinfo.userId and resId = #{userId}
 		    )
 		where rn < (#{page}*10)+10
 		]]>

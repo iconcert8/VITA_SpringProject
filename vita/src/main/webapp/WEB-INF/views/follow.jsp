@@ -87,10 +87,11 @@
 
 
 <script type="text/javascript" src="/resources/js/follow.js"></script>
-<!-- <script type="text/javascript" src="/resources/js/notification.js"></script>
- -->
+<script type="text/javascript" src="/resources/js/notification.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
+	notificationService.webSocketLoad();
 	
 	$(".flw-list").empty();
 	
