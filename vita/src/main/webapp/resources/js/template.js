@@ -226,39 +226,7 @@ var template = {
                                         댓글 <label>${feed.feedReplyCnt}</label>개
                                     </div>
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio,asdon she a initialize it
-                                                yourself. It cannot be used in combinatio </label> <label
-                                            class="text-secondary"> (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
+          
                                     </ul>
                                 </div>
                             </div>

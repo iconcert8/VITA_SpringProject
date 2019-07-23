@@ -36,8 +36,8 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public List<FeedDTO> getListHot(UserVO user, CategoryFilterDTO filter) {
-		List<FeedDTO> feedDTOs = mapper.selectListHot(user, filter);
+	public List<FeedDTO> getListPopular(UserVO user, CategoryFilterDTO filter) {
+		List<FeedDTO> feedDTOs = mapper.selectListPopular(user, filter);
 		//썸네일 이미지 리스트 각각 가져오기
 		for(FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));

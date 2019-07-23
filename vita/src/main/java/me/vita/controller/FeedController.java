@@ -52,8 +52,8 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, CategoryFilterDTO filter) {
-		if(filter.getType().equals("hot")) {
-			return service.getListHot(user, filter);
+		if(filter.getType().equals("popular")) {
+			return service.getListPopular(user, filter);
 		} else if(filter.getType().equals("recent")) {
 			return service.getListRecent(user, filter);
 		}

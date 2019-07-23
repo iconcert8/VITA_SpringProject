@@ -1,7 +1,8 @@
-
-$(function () {
+$(document).ready(function () {
     var pageNo = 0;
+    var module = '';
     var myBtn = '';
+    var mainType = 'popular';
 
     var viewFeedListDiv = $('#viewFeedList');
     var userInfoDiv = $('#userInfo');
@@ -10,6 +11,31 @@ $(function () {
     var userBtn = $('#userLeftBtn > button');
     var feedDetailModal = $('#feedDetailModal');
 
+    var refDataReset = function () {
+        pageNo = 0;
+        module = '';
+        myBtn = '';
+        mainType = 'popular';
+    }
+
+    var firstMainPage = function() {
+        viewService.mainPageInit();
+        refDataReset();
+        var sendData = {
+            type : mainType,
+            page : pageNo
+        }
+        var userId = $('#authUserId').val();
+        feedService.getList('', sendData, function(result) {
+            $.each(result, function (i, item) {
+                viewFeedListDiv.append(template.feedSimple(item, userId));
+            });
+        });
+    }
+
+    // 첫 메인 페이지 동작
+    firstMainPage();
+    
     // left Feed list button event
     $('#myFeed').on('click', function () {
         console.log('myFeedBtn........');
@@ -38,14 +64,18 @@ $(function () {
                 "page": pageNo,
                 "goToUserId": userId
             }
-            feedService.getList('userfeed', sendData, function (result) {
+            module = 'userfeed';
+            feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item, userId));
                 });
             });
             myBtn = 'myFeed';
         } else {
+            // 버튼 비활성화
+            viewService.myBtnUnActive(this);
 
+            refDataReset();
         }
     });
 
@@ -72,7 +102,9 @@ $(function () {
                 "page": pageNo,
                 "goToUserId": userId
             }
-            feedService.getList('favorite', sendData, function (result) {
+
+            module = 'favorite';
+            feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item, userId));
                 });
@@ -80,7 +112,10 @@ $(function () {
 
             myBtn = 'myFavorite';
         } else {
+            // 버튼 비활성화
+            viewService.myBtnUnActive(this);
 
+            refDataReset();
         }
     });
 
@@ -107,7 +142,9 @@ $(function () {
                 "page": pageNo,
                 "goToUserId": userId
             }
-            feedService.getList('newsfeed', sendData, function (result) {
+
+            module = 'newsfeed';
+            feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item));
                 });
@@ -117,7 +154,10 @@ $(function () {
 
             myBtn = 'newsFeed';
         } else {
+            // 버튼 비활성화
+            viewService.myBtnUnActive(this);
 
+            refDataReset();
         }
     });
 
