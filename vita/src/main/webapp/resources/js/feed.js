@@ -40,7 +40,7 @@ $(function () {
             }
             feedService.getList('userfeed', sendData, function (result) {
                 $.each(result, function (i, item) {
-                    viewFeedListDiv.append(template.feedSimple(item));
+                    viewFeedListDiv.append(template.feedSimple(item, userId));
                 });
             });
             myBtn = 'myFeed';
@@ -74,7 +74,7 @@ $(function () {
             }
             feedService.getList('favorite', sendData, function (result) {
                 $.each(result, function (i, item) {
-                    viewFeedListDiv.append(template.feedSimple(item));
+                    viewFeedListDiv.append(template.feedSimple(item, userId));
                 });
             });
 

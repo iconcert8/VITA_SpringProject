@@ -1,7 +1,7 @@
 console.log('template.........');
 
 var template = {
-    feedSimple: function (feed) {
+    feedSimple: function (feed, authUser) {
 
         var date = new Date(feed.feedUpdate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
@@ -19,6 +19,8 @@ var template = {
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+        var warnBtn = authUser !== feed.userId ? '신고' : '삭제';
+
 
         return `
             <div class="col-xl-6">
@@ -30,7 +32,7 @@ var template = {
                             <label>${feed.userNick}(${feed.userId})</label>
                         </div>
                         <div class="d-inline-block float-right">
-                            <button class="btn btn-outline-danger">신고</button>
+                            <button class="btn btn-outline-danger">${warnBtn}</button>
                         </div>
                     </div>
                     <!-- 피드 바디 -->
@@ -272,6 +274,12 @@ var template = {
         var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+        var deleteBtn = '';
+        if(reply.isMyReply) {
+            deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${reply.replyNo}>
+                             <span aria-hidden="true">&times;</span>
+                         </button>`;
+        }
         return `
         <li class="list-group-item">
                 <div class="d-inline-block rounded bg-secondary"><img src=${reply.userImgUploadPath}/s_${reply.userImgUuid}_${reply.userImgFileName}/></div>
@@ -279,6 +287,7 @@ var template = {
                     <label class="mb-0">${reply.userNick}(${reply.userId})</label>
                 </div> <label class="d-inline ml-3">${reply.replyContent}</label>
                 <label class="text-secondary">(${replyDate}) </label>
+                ${deleteBtn}
         </li>
         `;
     }

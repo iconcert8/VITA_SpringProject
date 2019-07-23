@@ -493,6 +493,9 @@
 										It cannot be used in combinatio,asdon she a initialize it
 										yourself. It cannot be used in combinatio </label> <label
 									class="text-secondary"> (2019-07-21 18:32) </label>
+									<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -501,6 +504,9 @@
 									</div> <label class="d-inline ml-3"> initialize it yourself.
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -509,6 +515,9 @@
 									</div> <label class="d-inline ml-3"> initialize it yourself.
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 							</ul>
 						</div>
