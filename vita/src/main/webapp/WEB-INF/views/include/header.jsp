@@ -136,3 +136,55 @@
 			</div>
 		</div>
 	</div>
+	
+<script type="text/javascript" src="/resources/js/header.js"></script>
+<script type="text/javascript" src="/resources/js/category.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#callBig").on("click", function(){
+		categoryService.bigCall(bigCallback);
+	});
+		
+	$("#category-choose-big").on("change", function(e){
+		categoryService.smallCall(this.value, smallCallback);
+		
+		if (this.value === "기타") {
+			$("#selfInsert").removeClass("d-none");
+		}else{
+			$("#selfInsert").addClass("d-none");
+		}
+	});
+	
+	$("#category-choose-small").on("change", function(e){
+		if (this.value === "기타") {
+			$("#selfInsert").removeClass("d-none");
+		}else{
+			$("#selfInsert").addClass("d-none");
+		}
+	});
+});
+
+function bigCallback(result){
+	var html = '';
+	
+	$.each(result, function(index, item){
+		html += '<option value="' + item + '">';
+ 		html += item+'</option>';
+ 	});
+	
+	$("#category-choose-big").append(html);
+	
+}
+
+function smallCallback(result){
+	var html = '';
+	
+	$.each(result, function(index, item){
+		html += '<option value="' + item + '">';
+ 		html += item+'</option>';
+ 	});
+	
+	$("#category-choose-small").empty();
+	$("#category-choose-small").append(html);
+}
+</script>

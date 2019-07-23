@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.CategoryMapper">
+
+	<select id="selectListBig" resultType="String">
+		select distinct bigGroup
+		from category 
+	</select>
+	
+	<select id="selectListSmall" parameterType="String" resultType="String">
+		select smallGroup
+		from category
+		where bigGroup = #{big}
+	</select>
+	
+
+
+</mapper>
