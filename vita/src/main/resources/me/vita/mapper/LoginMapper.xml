@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.vita.mapper.LoginMapper">
+
+	
+	<select id="selectPw" resultType="String">
+		select userpass from userinfo where userId=#{userId}
+	</select>
+	
+	<insert id="insertUser">
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, #{userImg}, 'open',#{authkey},#{authstatus})
+	</insert>
+	
+	<select id="selectIdcnt" resultType="int">
+		select count(*) from userinfo where userid = #{userId}
+	</select>
+	
+	<select id="selectAuthstatus" resultType="String">
+		select authstatus from userinfo where userid= #{userId}
+	</select>
+	
+	<select id="selectAuthkey" resultType="String">
+		select authkey from userinfo where userid= #{userId}
+	</select>
+	
+	<update id="updateAuthstatus">
+		update userinfo set authstatus='T' where userid=#{userId}
+	</update>
+	
+	
+</mapper>

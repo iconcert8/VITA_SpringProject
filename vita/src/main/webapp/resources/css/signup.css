@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.warn{
+	color: red;
+	font-weight: bold;
+}
+.ok{
+	color: green;
+	font-weight: bold;
+}
+li{
+	list-style: none;
+}
