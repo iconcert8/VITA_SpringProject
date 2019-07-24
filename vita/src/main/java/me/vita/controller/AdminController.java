@@ -18,8 +18,6 @@ import lombok.extern.log4j.Log4j;
 public class AdminController {
 	
 	@GetMapping("")
-	public void view() {
-		
-	}
+	public void view() {}
 	
 }
