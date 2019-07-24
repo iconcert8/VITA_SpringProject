@@ -9,7 +9,7 @@
 <style>
 .userImg{width:70px; height: auto;}
 </style>
-
+ 
 <div class="row">
 	<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
 		<div class="card row">
