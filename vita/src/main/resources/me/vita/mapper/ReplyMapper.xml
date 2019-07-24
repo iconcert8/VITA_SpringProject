@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.ReplyMapper">
+	
+	<insert id="insert" parameterType="me.vita.domain.ReplyVO">	
+		<!-- 테스트  
+		insert into REPLY	 (REPLYNO, FEEDNO, REPLYCONTENT, REPLYDATE, USERID)
+		values (seq_replyno.nextval, 1, '댓글내용', SYSDATE, '이승현')
+		-->
+		insert into reply (replyno, feedno, replycontent, replydate, userid)
+		values (seq_replyno.nextval, #{feedno}, #{replycontent}, SYSDATE, #{userid})
+	</insert> 
+	
+	<delete id="delete">	
+		delete from reply where replyno = #{replyno}
+	</delete>
+	
+	<select id="selectList" resultType="me.vita.dto.ReplyDTO">
+		<![CDATA[
+		SELECT re.*, usr.userId isMyReply
+		FROM (select r.replyno, r.feedNo, r.replycontent, r.replydate
+				,u.userid, u.userNick, u.userLock, u.USERIMGUUID, u.USERIMGUPLOADPATH, u.USERIMGFILENAME
+		   	  	from reply r, userInfo u
+		     	where r.USERID = u.USERID AND r.FEEDNO = #{feedNo}) re,
+	     	 (SELECT userId FROM reply WHERE feedno = 1 AND userid = #{userId}) usr
+		WHERE re.userId = usr.USERID(+)
+		AND rownum <= 10
+		]]>
+		<if test="page != 0">
+			<![CDATA[and r.replyNo < #{page}]]>
+		</if>
+		order by re.reply desc
+	</select> 
+ 
+	<select id="selectCount" resultType="Integer">
+		select count(*) 
+	      from feed f
+	      left outer join reply r
+	                   on f.feedno = r.feedno
+	      left outer join userinfo u
+	                   on f.userid = u.userid
+	     where f.feedno = #{feedNo}        
+	</select>
+
+</mapper> 

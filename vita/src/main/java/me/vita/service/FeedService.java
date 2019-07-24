@@ -14,7 +14,7 @@ public interface FeedService {
 
 	FeedDTO get(UserVO user, Integer feedNo);
 	
-	List<FeedDTO> getListHot(UserVO user, CategoryFilterDTO filter);
+	List<FeedDTO> getListPopular(UserVO user, CategoryFilterDTO filter);
 
 	List<FeedDTO> getListRecent(UserVO user, CategoryFilterDTO filter);
 

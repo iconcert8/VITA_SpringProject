@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="me.vita.mapper.FeedMapper">
 
 	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
@@ -19,8 +18,9 @@
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
+		order by f.feedno desc
 	</select>
 	
 	<select id="selectListFavorite" resultType="me.vita.dto.FeedDTO">
@@ -39,8 +39,9 @@
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
+		order by f.feedno desc
 	</select>
 	
 	<select id="selectListNewsFeed" resultType="me.vita.dto.FeedDTO">
@@ -59,8 +60,9 @@
 				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
+		order by f.feedno desc
 	</select>
 	
 	<select id="selectDetail" resultType="me.vita.dto.FeedDTO">
@@ -75,5 +77,65 @@
 			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
 			  f.feedno = #{feedNo}
 	</select>
+	
+	<select id="selectListPopular" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+		from feed f, category c, userInfo u, good g, favorite fv, reply r
+		where f.FEEDDATE > sysdate - 7 
+				AND f.categoryNo = c.categoryNo
+				AND f.userId = u.userId
+				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+				AND rownum <= 10
+		]]>
+		<if test="filter.filter != null">
+			AND c.CATEGORYNO IN
+			<foreach collection="filter.filter" item="category" open="(" separator="," close=")">
+				#{category}
+			</foreach>
+		</if>
+		<if test="filter.page != 0">
+			<![CDATA[
+				AND f.feedNo < #{filter.page}
+			]]>
+		</if>
+		ORDER BY feedgoodcnt DESC, feedreplycnt DESC
+	</select>
+	
+	<select id="selectListRecent" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+		from feed f, category c, userInfo u, good g, favorite fv, reply r
+		where f.FEEDDATE > sysdate - 7 
+				AND f.categoryNo = c.categoryNo
+				AND f.userId = u.userId
+				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+				AND rownum <= 10
+		]]>
+		
+		<if test="filter.filter != null">
+			AND c.CATEGORYNO IN
+			<foreach collection="filter.filter" item="category" open="(" separator="," close=")">
+				#{category}
+			</foreach>
+		</if>
+		<if test="filter.page != 0">
+			<![CDATA[
+				AND f.feedNo < #{filter.page}
+			]]>
+		</if>
+		ORDER BY feeddate DESC
+	</select>
+	
 
 </mapper>

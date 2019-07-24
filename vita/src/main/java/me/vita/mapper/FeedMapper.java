@@ -15,7 +15,7 @@ public interface FeedMapper {
 	
 	FeedDTO selectDetail(@Param("user") UserVO user, @Param("feedNo") Integer feedNo);
 
-	List<FeedDTO> selectListHot(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
+	List<FeedDTO> selectListPopular(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 
 	List<FeedDTO> selectListRecent(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 
@@ -27,7 +27,7 @@ public interface FeedMapper {
 
 	int updateGoodCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
 	
-	int updateReplyCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
+	int updateReplyCnt(@Param("feedNo")Integer feedNo, @Param("num")Integer num);
 	
 	int updateFeedDel(Integer feedNo);
 	

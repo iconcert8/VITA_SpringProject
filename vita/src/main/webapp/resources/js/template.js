@@ -1,18 +1,26 @@
 console.log('template.........');
 
 var template = {
-    feedSimple: function (feed) {
+    feedSimple: function (feed, authUser) {
 
-        var date = new Date(feed.feedUpdate);
+        var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
 
+        var feedImages = `<div class="carousel-item active">`;
+        for(var i in feed.feedImages) {
+            feedImages += `<img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        }
+        feedImages += `</div>`;
+
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+        var warnBtn = authUser !== feed.userId ? '신고' : '삭제';
+
 
         return `
             <div class="col-xl-6">
@@ -24,7 +32,7 @@ var template = {
                             <label>${feed.userNick}(${feed.userId})</label>
                         </div>
                         <div class="d-inline-block float-right">
-                            <button class="btn btn-outline-danger">신고</button>
+                            <button class="btn btn-outline-danger">${warnBtn}</button>
                         </div>
                     </div>
                     <!-- 피드 바디 -->
@@ -40,18 +48,7 @@ var template = {
                             data-interval="false" data-ride="carousel">
                             <div class="carousel-inner bg-dark text-white"
                                 data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
-                                <div class="carousel-item active">
-                                    <img src="..." class="d-block w-100" alt="no image"
-                                        style="height: 300px;">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="..." class="d-block w-100" alt="no image"
-                                        style="height: 300px;">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="..." class="d-block w-100" alt="no image"
-                                        style="height: 300px;">
-                                </div>
+                                ${feedImages}
                             </div>
                             <a class="carousel-control-prev" href="#carouselControl1"
                                 role="button" data-slide="prev"> <span
@@ -78,7 +75,7 @@ var template = {
                         </div>
                         <div class="col">
                             <button class="btn ${replyBtn} w-100 reply"
-                                data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
+                                data-toggle="modal" data-target="#feedDetailModal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
                                 댓글:<label class="m-0">${feed.feedReplyCnt}</label>
                             </button>
                         </div>
@@ -90,22 +87,23 @@ var template = {
             </div>
         `;
     },
-    filterAdd: function (filterName, big) {
+    filterAdd: function (filterName, big, categoryNo) {
         var bigCategory = '';
         if (big) bigCategory = '<br>(' + big + ')';
-        return `<div class="d-inline-block text-center mx-1" data-filter="${filterName}">
+        return `<div class="d-inline-block text-center mx-1" data-filter="${categoryNo}" >
         <span>${filterName}</span>
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-        </button>${bigCategory}
+        </button>
+            ${bigCategory}
         </div>`;
     },
     userInfo: function (user, authUser) {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded bg-secondary text-white">
                                     <h3>
-                                        <img src="${user.userImgUploadPath}/s_${user.userImgUuid}_${user.userImgFileName}
-                                        <h3>
+                                        <img src=${user.userImgUploadPath}/s_${user.userImgUuid}_${user.userImgFileName}/>
+                                    <h3>
                                 </div>
                                 <div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>
@@ -132,7 +130,7 @@ var template = {
         return template;
     },
     feedDetail: function (feed) {
-        var date = new Date(feed.feedUpdate);
+        var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
@@ -140,6 +138,13 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
+
+        var feedImages = `<div class="carousel-item active">`;
+        for(var i in feed.feedImages) {
+            feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        }
+        feedImages += `</div>`;
+        
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -159,18 +164,7 @@ var template = {
                             <div id="carouselControlDetail1" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
-                                    <div class="carousel-item active">
-                                        <img src="..." class="d-block w-100" alt="no image"
-                                            style="height: 800px;">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="..." class="d-block w-100" alt="no image"
-                                            style="height: 800px;">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="..." class="d-block w-100" alt="no image"
-                                            style="height: 800px;">
-                                    </div>
+                                    ${feedImages}
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselControlDetail1"
                                     role="button" data-slide="prev"> <span
@@ -227,44 +221,14 @@ var template = {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body pt-0 modalReply">
+                                <div class="card-body pt-0">
                                     <div>
-                                        댓글 <label>0</label>개
+                                        댓글 <label>${feed.feedReplyCnt}</label>개
+                                        <i class="fas fa-sync-alt float-right pt-2"></i>
                                     </div>
-                                    <ul class="list-group overflow-auto"  style="height: 300px;">
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio,asdon she a initialize it
-                                                yourself. It cannot be used in combinatio </label> <label
-                                            class="text-secondary"> (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-inline-block rounded bg-secondary">프로필</div>
-                                            <div class="d-inline-block">
-                                                <label class="mb-0">닉네임(ID)</label>
-                                            </div> <label class="d-inline ml-3"> initialize it yourself.
-                                                It cannot be used in combinatio </label> <label class="text-secondary">
-                                                (2019-07-21 18:32) </label>
-                                        </li>
+                                    
+                                    <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
+          
                                     </ul>
                                 </div>
                             </div>
@@ -275,48 +239,28 @@ var template = {
         `;
         return template;
     },
-    reply: function () {
-        return `
-        <div class="card-body pt-0 modalReply">
-            <div>
-                댓글 <label>0</label>개
-            </div>
-            <ul class="list-group overflow-auto" style="height: 230px;">
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio,asdon she a initialize it
-                        yourself. It cannot be used in combinatio </label> <label
-                    class="text-secondary"> (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-            </ul>
-        </div>
-        `
+    reply: function (reply) {
+    	var templateLi = '';
+    	$.each(reply, function(index, item){
+    		 var date = new Date(item.replyDate);
+             var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
+                 + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+        var deleteBtn = '';
+        if(item.isMyReply) {
+            deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>`;
+        }
+        templateLi += `<li class="list-group-item">
+            <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
+            <div class="d-inline-block">
+                <label class="mb-0">${item.userNick}(${item.userId})</label>
+            </div> <label class="d-inline ml-3">${item.replyContent}</label>
+            <label class="text-secondary">(${replyDate}) </label>
+            ${deleteBtn}
+            </li>`;
+        });
+        return templateLi;
     }
 }

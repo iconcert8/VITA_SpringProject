@@ -89,8 +89,8 @@
 		
 			<!-- 인기, 최신 버튼 -->
 			<div class="text-right mt-2" id="categoryType">
-				<button class="btn btn-outline-secondary">인기순</button>
-				<button class="btn btn-outline-secondary">최신순</button>
+				<button class="btn btn-outline-secondary" id="popularBtn">인기순</button>
+				<button class="btn btn-outline-secondary" id="recentBtn">최신순</button>
 				<div class="clearfix mb-2"></div>
 			</div>
 
@@ -143,158 +143,6 @@
 			</div>
 
 			<div class="row" id="viewFeedList">
-
-				<!-- 피드 1개 -->
-				<div class="col-xl-6">
-					<div class="card bg-light mb-4">
-						<!-- 피드 헤더 -->
-						<div class="card-header">
-							<div class="d-inline-block rounded bg-secondary">프로필</div>
-							<div class="d-inline-block">
-								<label>닉네임(ID)</label>
-							</div>
-							<div class="d-inline-block float-right">
-								<button class="btn btn-outline-danger">신고</button>
-							</div>
-						</div>
-						<!-- 피드 바디 -->
-						<div class="card-body pt-2 pb-0">
-							<label class="text-white bg-secondary mr-1 rounded">대분류</label> <label
-								class="text-white bg-secondary rounded">소분류</label>
-						</div>
-						<div class="card-body pt-0">
-							<div id="carouselControl1" class="carousel slide"
-								data-interval="false" data-ride="carousel">
-								<div class="carousel-inner bg-dark text-white"
-									data-toggle="modal" data-target="#feedDetailModal">
-									<div class="carousel-item active">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-									<div class="carousel-item">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-									<div class="carousel-item">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-								</div>
-								<a class="carousel-control-prev" href="#carouselControl1"
-									role="button" data-slide="prev"> <span
-									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-									class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next" href="#carouselControl1"
-									role="button" data-slide="next"> <span
-									class="carousel-control-next-icon" aria-hidden="true"></span> <span
-									class="sr-only">Next</span>
-								</a>
-							</div>
-						</div>
-						<div class="card-body pt-2" data-toggle="modal"
-							data-target="#feedDetailModal">
-							<label> #태그#태그#태그<br> page load. If you don’t use
-								data-ride="carousel" to initialize your carousel, you have to
-								initialize it yourself. It cannot be used in combination with
-								(redundant and unnecessary) explicit JavaScript initialization
-								of the same carousel. ..더보기
-							</label>
-						</div>
-						<div class="card-body row pt-2">
-							<div class="col">
-								<button class="btn btn-outline-primary nogood w-100" data-feedno="1">
-									좋아요:<span class="m-0 cnt">0</span>
-								</button>
-							</div>
-							<div class="col">
-								<button class="btn btn-outline-primary w-100"
-									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<span class="m-0 cnt">0</span>
-								</button>
-							</div>
-							<div class="col">
-								<button class="btn btn-outline-primary nofavor w-100" data-feedno="1">즐겨찾기</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- end 피드 1개-->
-
-				<!-- 피드 1개 -->
-				<div class="col-xl-6">
-					<div class="card bg-light mb-4">
-						<!-- 피드 헤더 -->
-						<div class="card-header">
-							<div class="d-inline-block rounded bg-secondary">프로필</div>
-							<div class="d-inline-block">
-								<label>닉네임(ID)</label>
-							</div>
-							<div class="d-inline-block float-right">
-								<button class="btn btn-outline-danger">신고</button>
-							</div>
-						</div>
-						<!-- 피드 바디 -->
-						<div class="card-body pt-2 pb-0">
-							<label class="text-white bg-secondary mr-1 rounded">게임</label> <label
-								class="text-white bg-secondary rounded">기타(등록안된게임)</label>
-						</div>
-						<div class="card-body pt-0">
-							<div id="carouselControl2" class="carousel slide"
-								data-interval="false" data-ride="carousel">
-								<div class="carousel-inner bg-dark text-white"
-									data-toggle="modal" data-target="#feedDetailModal">
-									<div class="carousel-item active">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-									<div class="carousel-item">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-									<div class="carousel-item">
-										<img src="..." class="d-block w-100" alt="no image"
-											style="height: 300px;">
-									</div>
-								</div>
-								<a class="carousel-control-prev" href="#carouselControl2"
-									role="button" data-slide="prev"> <span
-									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-									class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next" href="#carouselControl2"
-									role="button" data-slide="next"> <span
-									class="carousel-control-next-icon" aria-hidden="true"></span> <span
-									class="sr-only">Next</span>
-								</a>
-							</div>
-						</div>
-						<div class="card-body pt-2" data-toggle="modal"
-							data-target="#feedDetailModal">
-							<label> #태그#태그#태그<br> page load. If you don’t use
-								data-ride="carousel" to initialize your carousel, you have to
-								initialize it yourself. It cannot be used in combination with
-								(redundant and unnecessary) explicit JavaScript initialization
-								of the same carousel. ..더보기
-							</label>
-						</div>
-						<div class="card-body row pt-2">
-							<div class="col">
-								<button class="btn btn-outline-primary w-100">
-									좋아요:<span class="m-0 cnt">0</span>
-								</button>
-							</div>
-							<div class="col">
-								<button class="btn btn-outline-primary w-100"
-									data-toggle="modal" data-target="#feedDetailModal">
-									댓글:<span class="m-0 cnt">0</span>
-								</button>
-							</div>
-							<div class="col">
-								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- end 피드1개-->
 
 				<!-- 피드 1개 -->
 				<div class="col-xl-6">
@@ -462,7 +310,7 @@
 
 						<div class="card-header">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="reply..."
+								<input id="gogi" type="text" class="form-control" placeholder="reply..."
 									aria-describedby="sendReplyBtn">
 								<div class="input-group-append">
 									<button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
@@ -481,6 +329,9 @@
 									</div> <label class="d-inline ml-3"> initialize it yourself.
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
+									<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -490,6 +341,9 @@
 										It cannot be used in combinatio,asdon she a initialize it
 										yourself. It cannot be used in combinatio </label> <label
 									class="text-secondary"> (2019-07-21 18:32) </label>
+									<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -498,6 +352,9 @@
 									</div> <label class="d-inline ml-3"> initialize it yourself.
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 								<li class="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -506,6 +363,9 @@
 									</div> <label class="d-inline ml-3"> initialize it yourself.
 										It cannot be used in combinatio </label> <label class="text-secondary">
 										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
 								</li>
 							</ul>
 						</div>
@@ -520,7 +380,11 @@
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
+<script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
+
+ 
+
 
 
 <%@ include file="./include/footer.jsp"%>

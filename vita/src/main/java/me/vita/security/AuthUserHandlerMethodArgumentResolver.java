@@ -38,9 +38,10 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		HttpSession session = request.getSession();
-		if (session == null) {
+		if (session.getAttribute("authUser") == null) {
 			UserVO guest = new UserVO();
 			guest.setUserId("guest");
+			request.getSession().setAttribute("guest", "guest");
 			session.setAttribute("authUser", guest);
 		}
 
