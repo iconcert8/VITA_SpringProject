@@ -1,6 +1,7 @@
 $(function() {console.log("start category.js");})
 
 var categoryService = (function() {
+//	url get타입으로 요청을 보내서 받은 값을 callback 함수가 존재하면 result를 안에 넣어서 보낸다
 	function bigCall(callback) {
 		$.ajax({
 			type : 'get',
@@ -12,6 +13,7 @@ var categoryService = (function() {
 					callback(result);
 				}}});}
 	
+//	url+대분류를 get타입으로 요청을 보내서 받은 값을 callback 함수가 존재하면 result를 안에 넣어서 보낸다
 	function smallCall(value, callback) {
 		$.ajax({
 			type : 'get',
@@ -24,6 +26,7 @@ var categoryService = (function() {
 					callback(result);
 				}}});}
 	
+//	bigCall 이라는 이름으로 bigCall함수 사용가능, smallCall 동일 
 	return {
 		bigCall : bigCall,
 		smallCall : smallCall

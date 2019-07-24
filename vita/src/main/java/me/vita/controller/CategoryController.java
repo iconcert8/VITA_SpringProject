@@ -21,33 +21,28 @@ import me.vita.service.CategoryService;
  * 대분류 리스트, 소분류 리스트
  */
 public class CategoryController {
-	
+
 	@Autowired
 	private CategoryService service;
-	
+
 	@GetMapping("/list/big")
-	@ResponseBody// 대분류 리스트 가져오기
+	@ResponseBody // 대분류 리스트 가져오기
 	public List<String> getListBig() {
-		log.info("controller" + "get list big");
 		List<String> list = service.getListBig();
 
 		return list;
 	}
-	
+
 	@GetMapping("/list/{big}")
 	@ResponseBody
 	public List<String> getListSmall(@PathVariable("big") String big) {
-		log.info("controller" + "get list " + big );
-		String decodeBig="";
+		String decodeBig = "";
 		try {
 			decodeBig = URLDecoder.decode(big, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		log.info(decodeBig);
 		
 		return service.getListSmall(decodeBig);
 	}
-	
 }
