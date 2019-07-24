@@ -18,7 +18,7 @@
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
 	</select>
 	
@@ -38,7 +38,7 @@
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
 	</select>
 	
@@ -58,7 +58,7 @@
 				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
-			and f.feedNo > #{filter.page}
+			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
 	</select>
 	

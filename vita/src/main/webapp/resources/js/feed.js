@@ -10,6 +10,9 @@ $(document).ready(function () {
     var categoryTypeDiv = $('#categoryType');
     var userBtn = $('#userLeftBtn > button');
     var feedDetailModal = $('#feedDetailModal');
+    
+//  reply variables
+    var replyPageNo = 0;
 
     var refDataReset = function () {
         pageNo = 0;
@@ -34,7 +37,7 @@ $(document).ready(function () {
     }
 
     // 첫 메인 페이지 동작
-    firstMainPage();
+    // firstMainPage();
     
     // left Feed list button event
     $('#myFeed').on('click', function () {
@@ -168,14 +171,26 @@ $(document).ready(function () {
         
         feedService.get(feedNo, function(result) {
             feedDetailModal.empty().append(template.feedDetail(result));
+            
+//          댓글 출력
+            replyPageNo = 0;
+            replyService.getList(feedNo, replyPageNo,  function(result) {
+            	feedDetailModal.find('#replyModal').append(template.reply(result));
+            });
         });
-        
-        // 승현 추가
+    });
+
+
+    // 댓글 이벤트
+    $('#sendReplyBtn').on('click', function() {
         replyPageNo = 0;
-        
-        replyService.getList(feedNo, pageNo,  function(result) {
-        	// console.log(template.reply(result))
-        	feedDetailModal.find('#replyModal').empty().append(template.reply(result));
+        var sendData = {
+        		"파라미터이름" : 값,
+        		"" : 값
+        }
+        replyService.regist(sendData, function(result) {
+        	//reuslt
+        	// li 추가 append
         });
         
     });

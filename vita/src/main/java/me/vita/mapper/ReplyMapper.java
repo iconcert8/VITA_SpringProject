@@ -13,7 +13,7 @@ public interface ReplyMapper {
 
 	int delete(Integer replyNo);
 
-	List<ReplyDTO> selectList(@Param("feedNo") Integer feedNo);
+	List<ReplyDTO> selectList(@Param("userId") String userId, @Param("feedNo") Integer feedNo,@Param("page") Integer page);
 
 	Integer selectCount(Integer feedNo);
 

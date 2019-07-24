@@ -380,7 +380,7 @@
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
-<script src="/resources/js/reply.js"></script>
+<script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
 
  

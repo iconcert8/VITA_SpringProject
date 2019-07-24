@@ -6,9 +6,10 @@ console.log('Feed Module.........');
 var feedService = {
     getList: function (module, sendData, success, error, complete) {
         console.log('getList feed.......');
-
+        
         if(!module) module = '/' + module;
-        var url = `feed/list${module}`;
+        var url = 'feed/list' + (module ? '/' : '') + module;
+        console.log(url);
         $.ajax({
             type: "post",
             url: url,

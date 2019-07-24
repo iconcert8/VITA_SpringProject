@@ -224,7 +224,9 @@ var template = {
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
+                                        <i class="fas fa-sync-alt float-right"></i>
                                     </div>
+                                    
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
           
                                     </ul>
@@ -238,7 +240,6 @@ var template = {
         return template;
     },
     reply: function (reply) {
-    	
     	var templateLi = '';
     	$.each(reply, function(index, item){
     		 var date = new Date(item.replyDate);
@@ -246,8 +247,8 @@ var template = {
                  + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
                  + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         var deleteBtn = '';
-        if(reply.isMyReply) {
-            deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${reply.replyNo}>
+        if(item.isMyReply) {
+            deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
         }
@@ -260,6 +261,7 @@ var template = {
             ${deleteBtn}
             </li>`;
         });
+        console.log(templateLi);
         return templateLi;
     }
 }

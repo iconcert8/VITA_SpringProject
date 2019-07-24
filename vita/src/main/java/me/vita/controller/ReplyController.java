@@ -28,8 +28,7 @@ import me.vita.service.ReplyService;
 @Log4j
 @RequestMapping("/reply")
 /*
- * �뙎湲� �엯�젰, �뙎湲� 由ъ뒪�듃(湲곗� 踰덊샇�븘�슂), �뙎湲� �궘�젣, �뙎湲� 媛쒖닔
- * 
+ * 댓글 입력, 댓글 리스트(기준번호 필요), 댓글 사게, 댓글 개수
  */
 public class ReplyController {
 	

@@ -20,10 +20,19 @@
 	</delete>
 	
 	<select id="selectList" resultType="me.vita.dto.ReplyDTO">
-	select replyno, feedNo, replycontent, replydate , userid
-   	  from reply 
-     where feedNo = #{feedNo} order by replyno desc
-	
+		<![CDATA[
+		SELECT re.*, usr.userId isMyReply
+		FROM (select r.replyno, r.feedNo, r.replycontent, r.replydate
+				,u.userid, u.userNick, u.userLock, u.USERIMGUUID, u.USERIMGUPLOADPATH, u.USERIMGFILENAME
+		   	  	from reply r, userInfo u
+		     	where r.USERID = u.USERID AND r.FEEDNO = #{feedNo}) re,
+	     	 (SELECT userId FROM reply WHERE feedno = 1 AND userid = #{userId}) usr
+		WHERE re.userId = usr.USERID(+)
+		AND rownum <= 10
+		]]>
+		<if test="page != 0">
+			<![CDATA[and r.replyNo < #{page}]]>
+		</if>
 	</select> 
  
 	<select id="selectCount" resultType="Integer">
@@ -31,7 +40,7 @@
 	      from feed f
 	      left outer join reply r
 	                   on f.feedno = r.feedno
-	      left outer join userinfo u 
+	      left outer join userinfo u
 	                   on f.userid = u.userid
 	     where f.feedno = #{feedNo}        
 	</select>
