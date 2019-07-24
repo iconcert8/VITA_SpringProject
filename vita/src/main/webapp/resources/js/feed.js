@@ -161,6 +161,7 @@ $(document).ready(function () {
         }
     });
 
+    // 피드 상세보기
     $(document).on('click', 'div[data-target="#feedDetailModal"]', function() {
     	// feedDetailModal.empty();
         var feedNo = $(this).data("feedno");
@@ -168,5 +169,14 @@ $(document).ready(function () {
         feedService.get(feedNo, function(result) {
             feedDetailModal.empty().append(template.feedDetail(result));
         });
+        
+        // 승현 추가
+        replyPageNo = 0;
+        
+        replyService.getList(feedNo, pageNo,  function(result) {
+        	// console.log(template.reply(result))
+        	feedDetailModal.find('#replyModal').empty().append(template.reply(result));
+        });
+        
     });
 });

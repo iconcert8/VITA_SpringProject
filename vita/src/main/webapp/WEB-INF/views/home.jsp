@@ -310,7 +310,7 @@
 
 						<div class="card-header">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="reply..."
+								<input id="gogi" type="text" class="form-control" placeholder="reply..."
 									aria-describedby="sendReplyBtn">
 								<div class="input-group-append">
 									<button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
@@ -380,7 +380,11 @@
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
+<script src="/resources/js/reply.js"></script>
 <script src="/resources/js/feed.js"></script>
+
+ 
+
 
 
 <%@ include file="./include/footer.jsp"%>

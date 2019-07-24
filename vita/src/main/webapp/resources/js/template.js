@@ -238,25 +238,28 @@ var template = {
         return template;
     },
     reply: function (reply) {
-        var date = new Date(reply.replyDate);
-        var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-            + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
-            + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    	
+    	var templateLi = '';
+    	$.each(reply, function(index, item){
+    		 var date = new Date(item.replyDate);
+             var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
+                 + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         var deleteBtn = '';
         if(reply.isMyReply) {
             deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${reply.replyNo}>
-                             <span aria-hidden="true">&times;</span>
-                         </button>`;
+                            <span aria-hidden="true">&times;</span>
+                        </button>`;
         }
-        return `
-        <li class="list-group-item">
-                <div class="d-inline-block rounded bg-secondary"><img src=${reply.userImgUploadPath}/s_${reply.userImgUuid}_${reply.userImgFileName}/></div>
-                <div class="d-inline-block">
-                    <label class="mb-0">${reply.userNick}(${reply.userId})</label>
-                </div> <label class="d-inline ml-3">${reply.replyContent}</label>
-                <label class="text-secondary">(${replyDate}) </label>
-                ${deleteBtn}
-        </li>
-        `;
+        templateLi += `<li class="list-group-item">
+            <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
+            <div class="d-inline-block">
+                <label class="mb-0">${item.userNick}(${item.userId})</label>
+            </div> <label class="d-inline ml-3">${item.replyContent}</label>
+            <label class="text-secondary">(${replyDate}) </label>
+            ${deleteBtn}
+            </li>`;
+        });
+        return templateLi;
     }
 }

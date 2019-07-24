@@ -29,7 +29,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public List<ReplyDTO> getList(String userId, Integer feedNo, Integer page) {
-		return mapper.selectList(userId, feedNo, page);
+		return mapper.selectList(feedNo);
 	}
 
 	@Override
