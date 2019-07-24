@@ -30,7 +30,7 @@
 		<if test="page != 0">
 			<![CDATA[and r.replyNo < #{page}]]>
 		</if>
-		order by re.reply desc
+		order by re.replyno desc
 	</select> 
  
 	<select id="selectCount" resultType="Integer">
