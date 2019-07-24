@@ -17,6 +17,14 @@
 		notificationService.webSocketLoad();
 	});
 </script>
+<style>
+@media ( min-width : 1600px) {
+	.modal-xl {
+		max-width: 1500px;
+	} 
+}
+.toolbar-icon a{margin-right:5px;}
+</style>
 
 
 
@@ -50,7 +58,7 @@
 				<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
 				<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
 				<div class="d-inline-block" style="position:relative;">
-					<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
+					<a href="/messenger"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
 					<span style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
 				</div>
 				<div class="dropdown d-inline-block" style="position:relative;">
@@ -167,14 +175,158 @@
 		</div>
 	</div>
 	
-<!-- <script -->
-<!--   src="https://code.jquery.com/jquery-3.4.1.min.js" -->
-<!--   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
+	
+<!-- 피드 상세보기 모달 -->
+<div class="modal fade" id="feedDetailModal" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-body m-0 p-0">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body row">
+				피드 상세보기 이미지 부분
+				<div class="col-xl-8">
+					<div id="carouselControlDetail1" class="carousel slide"
+						data-interval="false" data-ride="carousel">
+						<div class="carousel-inner bg-dark text-white">
+							<div class="carousel-item active">
+								<img src="..." class="d-block w-100" alt="no image"
+									style="height: 800px;">
+							</div>
+							<div class="carousel-item">
+								<img src="..." class="d-block w-100" alt="no image"
+									style="height: 800px;">
+							</div>
+							<div class="carousel-item">
+								<img src="..." class="d-block w-100" alt="no image"
+									style="height: 800px;">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselControlDetail1"
+							role="button" data-slide="prev"> <span
+							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="carousel-control-next" href="#carouselControlDetail1"
+							role="button" data-slide="next"> <span
+							class="carousel-control-next-icon" aria-hidden="true"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+				피드 상세보기 글 정보, 댓글 부분
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body d-inline-block pt-2 pb-0">
+							<label class="text-white bg-secondary mr-1 rounded">대분류</label> <label
+								class="text-white bg-secondary rounded">소분류</label>
+							<div class="d-inline-block float-right pt-0 mt-0">
+								<button class="btn btn-outline-danger">신고</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="d-inline-block rounded bg-secondary">프로필</div>
+							<div class="d-inline-block">
+								<label>닉네임(ID)</label>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="d-inline-block bg-secondary text-white p-0">
+								#태그#태그#태그#태그</div>
+						</div>
+						<div class="card-body pt-0">
+							<div>page load. If you don’t usedata-ride="carousel" to
+								initialize your carousel, you have to initialize it yourself. It
+								cannot be used in combination with (redundant and unnecessary)
+								explicit JavaScript initialization of the same carousel. page
+								load. If you don’t use data-ride="carousel" to initialize your
+								carousel, you have to initialize it yourself. It cannot be used
+								in combination with (redundant and unnecessary) explicit
+								JavaScript initialization of the same carousel.</div>
+						</div>
 
-<!-- <script -->
-<!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
-<!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
-<!--   crossorigin="anonymous"></script> -->
+						<div class="card-body row pt-2">
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">
+									좋아요:<span class="m-0 cnt">0</span>
+								</button>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-primary w-100">즐겨찾기</button>
+							</div>
+						</div>
+
+						<div class="card-header">
+							<div class="input-group">
+								<input id="gogi" type="text" class="form-control" placeholder="reply..."
+									aria-describedby="sendReplyBtn">
+								<div class="input-group-append">
+									<button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
+								</div>
+							</div>
+						</div>
+						<div class="card-body pt-0">
+							<div>
+								댓글 <label>0</label>개
+							</div>
+							<ul class="list-group overflow-auto" style="height: 230px;">
+								<li class="list-group-item">
+									<div class="d-inline-block rounded bg-secondary">프로필</div>
+									<div class="d-inline-block">
+										<label class="mb-0">닉네임(ID)</label>
+									</div> <label class="d-inline ml-3"> initialize it yourself.
+										It cannot be used in combinatio </label> <label class="text-secondary">
+										(2019-07-21 18:32) </label>
+									<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
+								</li>
+								<li class="list-group-item">
+									<div class="d-inline-block rounded bg-secondary">프로필</div>
+									<div class="d-inline-block">
+										<label class="mb-0">닉네임(ID)</label>
+									</div> <label class="d-inline ml-3"> initialize it yourself.
+										It cannot be used in combinatio,asdon she a initialize it
+										yourself. It cannot be used in combinatio </label> <label
+									class="text-secondary"> (2019-07-21 18:32) </label>
+									<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
+								</li>
+								<li class="list-group-item">
+									<div class="d-inline-block rounded bg-secondary">프로필</div>
+									<div class="d-inline-block">
+										<label class="mb-0">닉네임(ID)</label>
+									</div> <label class="d-inline ml-3"> initialize it yourself.
+										It cannot be used in combinatio </label> <label class="text-secondary">
+										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
+								</li>
+								<li class="list-group-item">
+									<div class="d-inline-block rounded bg-secondary">프로필</div>
+									<div class="d-inline-block">
+										<label class="mb-0">닉네임(ID)</label>
+									</div> <label class="d-inline ml-3"> initialize it yourself.
+										It cannot be used in combinatio </label> <label class="text-secondary">
+										(2019-07-21 18:32) </label>
+										<button type="button" class="close float-right" aria-label="Close">
+           							 	<span aria-hidden="true">&times;</span>
+        							</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--end 피드 상세보기 모달 -->
 
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
