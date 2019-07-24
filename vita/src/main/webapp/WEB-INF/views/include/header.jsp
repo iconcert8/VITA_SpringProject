@@ -77,17 +77,37 @@
 				<div class="modal-body">
 					<!-- 글쓰기 모달창 이미지 관련 부분-->
 					<div class="card bg-light" id="imageUploadBox">
+					
+					
+					
+					
+					
+					
 						<!-- 글쓰기 모달창 이미지 미리보기 출력부분-->
-						<div class="card-header" id="image-preview">
+						
+						<div class="card-header" >
 							<ul id="image-block">
-								<li class="d-inline-block mx-1">이미지1</li>
-								<li class="d-inline-block mx-1">이미지2</li>
+<!-- 								<li class="d-inline-block mx-1" id="preview0~9">이미지1</li> -->
 							</ul>
 						</div>
+						
+						
+						
+						
+						
+						
 						<!-- 글쓰기 모달창 파일 선택 부분-->
+						
 						<div class="card-body">
-							<input type="file" id="write-image" multiple="multiple" />
+							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
 						</div>
+						
+						
+						
+						
+						
+						
+						
 					</div>
 					<!-- 글쓰기 모달창 대소분류 선택 부분-->
 					<div class="card mt-2" id="contentWriteBox">
@@ -96,33 +116,25 @@
 							<div class="form-group col-sm-4">
 								<label for="category-choose-big">대분류</label> <select
 									id="category-choose-big" class="form-control">
-									<option selected>[대분류 선택]</option>
-									<option>게임</option>
-									<option>영화</option>
 								</select>
 							</div>
 							<!-- 글쓰기 모달창 소분류 선택 부분-->
 							<div class="form-group col-sm-4">
-								<label for="category-choose-small">소분류</label> <select
-									id="category-choose-small" class="form-control">
-									<option selected>[소분류 선택]</option>
-									<option>오버워치</option>
-									<option>롤</option>
-									<option>배틀그라운드</option>
-								</select>
+								<label for="category-choose-small">소분류</label>
+								<select id="category-choose-small" class="form-control"></select>
 							</div>
 							<!-- 글쓰기 모달창 소분류 직접입력 부분, 소분류 기타일 경우에 나타남-->
 							<div class="form-group col-sm-4 d-none" id="selfInsert">
 								<label for="category-request">직접입력</label> <input type="text"
 									class="form-control" placeholder="원하는 소분류"
-									id="category-request" />
+									id="category-request" name="categoryTemp"/>
 							</div>
 						</div>
 						
 						<!-- 글쓰기 모달창 태그 입력 부분-->
 						<div class="card-body pt-0">
 							<label for="tag-write-input">태그</label> <input type="text"
-								class="form-control" placeholder="#가나다#자전거" id="tag-write-input" />
+								class="form-control" placeholder="#가나다#자전거" id="tag-write-input" name="tags"/>
 						</div>
 						
 						<!-- 글쓰기 모달창 내용 입력 부분-->
@@ -137,21 +149,33 @@
 				</div>
 				<!-- 글쓰기 모달창 푸터, 작성/취소버튼-->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">작성하기</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" >취소</button>
+					<button type="button" class="btn btn-primary" id="insertFeedBtn">작성하기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.4.1.min.js" -->
+<!--   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
+
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
+<!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
+<!--   crossorigin="anonymous"></script> -->
+
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
+<script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>
 <script type="text/javascript">
 $(function(){
+// 	글쓰기 창 선택시 대분류 나타나게 해줌
 	$("#callBig").on("click", function(){
 		categoryService.bigCall(bigCallback);
 	});
 		
+// 	대분류 선택시 소분류 생성
 	$("#category-choose-big").on("change", function(e){
 		categoryService.smallCall(this.value, smallCallback);
 		
@@ -162,6 +186,7 @@ $(function(){
 		}
 	});
 	
+// 	소분류 기타 선택시 직접입력창 생성/삭제
 	$("#category-choose-small").on("change", function(e){
 		if (this.value === "기타") {
 			$("#selfInsert").removeClass("d-none");
@@ -171,18 +196,30 @@ $(function(){
 	});
 });
 
+// 글쓰기 버튼 활성화시 대분류 선택창 부르는 콜백함수
 function bigCallback(result){
 	var html = '';
+	var one = '';
 	
+//  	처음 글쓰기 화면 활성화시 소분류 나타나게 해주는 코드
 	$.each(result, function(index, item){
+		if(document.querySelector("#category-choose-small option") === null && html === '' ){
+			categoryService.smallCall(item, smallCallback);
+		}
+		
 		html += '<option value="' + item + '">';
  		html += item+'</option>';
- 	});
+  	});
+	
+	var smallElement = document.getElementById("category-choose-small");
+	
+	var clickedSmallCategory = smallElement.value;
 	
 	$("#category-choose-big").append(html);
 	
 }
 
+//대분류 선택시 소분류 나타나게 해주는 콜백함수
 function smallCallback(result){
 	var html = '';
 	
@@ -195,3 +232,4 @@ function smallCallback(result){
 	$("#category-choose-small").append(html);
 }
 </script>
+

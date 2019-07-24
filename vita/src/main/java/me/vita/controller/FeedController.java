@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -83,14 +82,40 @@ public class FeedController {
 	
 	@PostMapping("/new")
 	@Auth
-	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, FeedDTO feedDTO) {
+	public /*ResponseEntity<String>*/ void register(@SessionAttribute("authUser") UserVO user, FeedDTO feedDTO, MultipartFile[] uploadFile) {
+		log.info("controller start");
+		log.info(user);
+		log.info(feedDTO);
+		for(MultipartFile multi : uploadFile){
+			log.info(multi.getOriginalFilename());
+		}
+
 		feedDTO.setUserId(user.getUserId());
 		if(service.register(feedDTO)) {
-			return new ResponseEntity<String>("success", HttpStatus.OK);
+			log.info("feedcontroller");
+			String uploadFolder = "../upload";
+			for(MultipartFile multi : uploadFile){
+				String uploadFileName = multi.getOriginalFilename();
+				
+//				uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
+				System.out.println(uploadFileName);
+			}
+			
+			System.out.println(uploadFolder);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+//			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+//			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-
 }
