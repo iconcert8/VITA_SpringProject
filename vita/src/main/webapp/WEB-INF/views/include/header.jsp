@@ -7,9 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<link rel="stylesheet" href="/resources/css/img-size.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/resources/js/notification.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		notificationService.webSocketLoad();
+	});
+</script>
+
 
 
 <title>VITA</title>
@@ -37,23 +45,26 @@
 				</div>
 			</div>
 			
-			<!-- 로그인 -->
+			<!-- 로그인시 메뉴 -->
 			<div class="col-md-4 toolbar-icon mt-3">
 				<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
 				<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
-				<div class="dropdown d-inline-block">
+				<div class="d-inline-block" style="position:relative;">
+					<a href="#"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
+					<span style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
+				</div>
+				<div class="dropdown d-inline-block" style="position:relative;">
 					<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
-  					<div  class="dropdown-menu dropdown-menu-right" aria-labelledby="notification-view-btn">
-    						<a class="dropdown-item" href="#">Action</a>
-    						<a class="dropdown-item" href="#">Another action</a>
-    						<a class="dropdown-item" href="#">Something else here</a>
+					<span class="notification-cnt" style="width:20px; height:20px; background-color:red; position:absolute; top:-8px; font-weight:bold; color:white;">0</span>
+  					<div class="dropdown-menu dropdown-menu-right notification-list-block overflow-auto" style="max-height:300px;" aria-labelledby="notification-view-btn">
+    						<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
+    						
   					</div>
 				</div>
 				<a href="/testlogin"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
 			</div>
 
-			<!-- 비 로그인 -->
+			<!-- 비 로그인시 메뉴 -->
 			<div class="col-md-4 toolbar-icon mt-3 d-none">
 				<a href="#"><i class="fas fa-sign-in-alt" style="font-size:34px;"></i></a>
 				<a href="#"><i class="fas fa-user-plus" style="font-size:34px;"></i></a>
