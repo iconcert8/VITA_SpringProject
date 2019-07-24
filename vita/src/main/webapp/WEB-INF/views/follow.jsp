@@ -6,9 +6,6 @@
 
 <%@ include file="./include/header.jsp"%>
 
-<style>
-.userImg{width:70px; height: auto;}
-</style>
 
 <div class="row">
 	<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
@@ -87,8 +84,7 @@
 
 
 <script type="text/javascript" src="/resources/js/follow.js"></script>
-<!-- <script type="text/javascript" src="/resources/js/notification.js"></script>
- -->
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -157,7 +153,7 @@ function getListFollowerCallback(result){
 		html += '<li class="list-group-item text-center">';
 		html +=		'<div class="row">';
 		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="userImg" src="/display?fileName='+fileCallPath+'"></div>';
+		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="img-2" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
 		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';
@@ -191,7 +187,7 @@ function getListFollowingCallback(result){
 		html += '<li class="list-group-item text-center">';
 		html +=		'<div class="row">';
 		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="userImg" src="/display?fileName='+fileCallPath+'"></div>';
+		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="img-2" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
 		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';

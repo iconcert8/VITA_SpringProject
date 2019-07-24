@@ -9,13 +9,11 @@ var goodService = (function(){
 	function registerBtnEvent(){
 		$(document).on('click', '.good', function(){
 			var feedNo = $(this).data("feedno");
-			remove(feedNo);
-			switchColorBtn($(this));
+			remove(feedNo, switchColorBtn($(this)));
 		});
 		$(document).on('click', '.nogood', function(){
 			var feedNo = $(this).data("feedno");
-			register(feedNo);
-			switchColorBtn($(this));
+			register(feedNo, switchColorBtn($(this)));
 		});
 	}
 	
@@ -28,9 +26,9 @@ var goodService = (function(){
 			url: '/good/new',
 			data: feedNo,
 			contentType:"application/json; charset=utf-8",
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});
@@ -41,9 +39,9 @@ var goodService = (function(){
 		$.ajax({
 			type:'delete',
 			url: '/good/'+feedNo,
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});

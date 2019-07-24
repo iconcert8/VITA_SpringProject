@@ -53,13 +53,11 @@ var followService = (function(){
 	function registerBtnEvent(){
 		$(document).on('click', '.fln', function(){
 			var resId = $(this).data("userid");
-			remove(resId);
-			switchColorBtn($(this));
+			remove(resId, switchColorBtn($(this)));
 		});
 		$(document).on('click', '.nofln', function(){
 			var resId = $(this).data("userid");
-			register(resId);
-			switchColorBtn($(this));
+			register(resId, switchColorBtn($(this)));
 		});
 	}
 	
@@ -69,9 +67,9 @@ var followService = (function(){
 			url: '/follow/new',
 			data: resId,
 			contentType:"application/json; charset=utf-8",
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});
@@ -81,9 +79,9 @@ var followService = (function(){
 		$.ajax({
 			type:'delete',
 			url: '/follow/'+resId,
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});
