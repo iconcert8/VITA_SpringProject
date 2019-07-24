@@ -3,7 +3,7 @@ console.log('template.........');
 var template = {
     feedSimple: function (feed, authUser) {
 
-        var date = new Date(feed.feedUpdate);
+        var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
@@ -75,7 +75,7 @@ var template = {
                         </div>
                         <div class="col">
                             <button class="btn ${replyBtn} w-100 reply"
-                                data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
+                                data-toggle="modal" data-target="#feedDetailModal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
                                 댓글:<label class="m-0">${feed.feedReplyCnt}</label>
                             </button>
                         </div>
@@ -87,10 +87,10 @@ var template = {
             </div>
         `;
     },
-    filterAdd: function (filterName, big) {
+    filterAdd: function (filterName, big, categoryNo) {
         var bigCategory = '';
         if (big) bigCategory = '<br>(' + big + ')';
-        return `<div class="d-inline-block text-center mx-1" data-filter="${filterName}">
+        return `<div class="d-inline-block text-center mx-1" data-filter="${categoryNo}" >
         <span>${filterName}</span>
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -130,7 +130,7 @@ var template = {
         return template;
     },
     feedDetail: function (feed) {
-        var date = new Date(feed.feedUpdate);
+        var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
@@ -224,7 +224,7 @@ var template = {
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
-                                        <i class="fas fa-sync-alt float-right"></i>
+                                        <i class="fas fa-sync-alt float-right pt-2"></i>
                                     </div>
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
@@ -261,7 +261,6 @@ var template = {
             ${deleteBtn}
             </li>`;
         });
-        console.log(templateLi);
         return templateLi;
     }
 }

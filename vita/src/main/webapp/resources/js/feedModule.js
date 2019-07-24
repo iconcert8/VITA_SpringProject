@@ -7,13 +7,13 @@ var feedService = {
     getList: function (module, sendData, success, error, complete) {
         console.log('getList feed.......');
         
-        if(!module) module = '/' + module;
-        var url = 'feed/list' + (module ? '/' : '') + module;
+        var url = 'feed/list' + (!module ? '' : '/') + module;
         console.log(url);
         $.ajax({
             type: "post",
             url: url,
-            data: sendData,
+            contentType : 'application/json;charset=utf-8',
+            data: JSON.stringify(sendData),
             dataType: 'json',
             success: function (response) {
                 if (success) success(response);
@@ -76,13 +76,20 @@ var viewService = {
         $(item).removeClass('btn-secondary').addClass('btn-outline-secondary');
     },
     mainPageInit : function() {
-        // 인기/최신 버튼 초기화
+       
         $('#categoryType').removeClass('d-none');
-        $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
-        $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
+        $('#userInfo').addClass('d-none');
 
-        // 카테고리바(필터) 초기화
-        $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);  
+        // 피드 삭제
+        $('#viewFeedList').empty();
+    },
+    firstMainPageInit : function () {
+         // 인기/최신 버튼 초기화
+         $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
+         $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
+ 
+         // 카테고리바(필터) 초기화
+         $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
     }
 
 }

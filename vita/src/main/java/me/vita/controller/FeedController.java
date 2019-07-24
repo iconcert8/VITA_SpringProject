@@ -51,7 +51,8 @@ public class FeedController {
 
 	@PostMapping("/list")
 	@ResponseBody
-	public List<FeedDTO> getList(@AuthUser UserVO user, CategoryFilterDTO filter) {
+	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
+		System.out.println("......................................................." + filter);
 		if(filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);
 		} else if(filter.getType().equals("recent")) {
@@ -63,21 +64,21 @@ public class FeedController {
 	@PostMapping("/list/newsfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, CategoryFilterDTO filter) {
+	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
 		return service.getListNewsFeed(user, filter);
 	}
 	
 	@PostMapping("/list/favorite")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user, CategoryFilterDTO filter) {
+	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
 		return service.getListFavorite(user, filter);
 	}
 	
 	@PostMapping("/list/userfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user, CategoryFilterDTO filter) {
+	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
 //		List<FeedDTO> list = service.getListUserFeed(user, filter);
 //		log.info(list);
 //		return list;

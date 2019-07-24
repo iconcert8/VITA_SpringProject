@@ -29,7 +29,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		HttpSession session = request.getSession();
-		if (session == null) {
+		if (session.getAttribute("authUser") == null || session.getAttribute("guset") != null) {
+			session.removeAttribute("guest");
+			session.removeAttribute("authUser");
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}

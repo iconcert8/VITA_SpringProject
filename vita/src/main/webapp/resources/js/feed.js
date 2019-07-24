@@ -2,6 +2,8 @@ $(document).ready(function () {
     var pageNo = 0;
     var module = '';
     var myBtn = '';
+    var categoryFilter = [];
+    var searchFilter = [];
     var mainType = 'popular';
 
     var viewFeedListDiv = $('#viewFeedList');
@@ -10,6 +12,9 @@ $(document).ready(function () {
     var categoryTypeDiv = $('#categoryType');
     var userBtn = $('#userLeftBtn > button');
     var feedDetailModal = $('#feedDetailModal');
+
+    var popularBtn = $('#popularBtn');
+    var recentBtn = $('#recentBtn');
     
 //  reply variables
     var replyPageNo = 0;
@@ -18,26 +23,41 @@ $(document).ready(function () {
         pageNo = 0;
         module = '';
         myBtn = '';
-        mainType = 'popular';
     }
 
-    var firstMainPage = function() {
+    var viewMainPage = function(type) {
         viewService.mainPageInit();
         refDataReset();
+        if(type) mainType = type;
         var sendData = {
             type : mainType,
-            page : pageNo
+            page : pageNo,
+            filter : categoryFilter,
+            search : searchFilter
         }
         var userId = $('#authUserId').val();
         feedService.getList('', sendData, function(result) {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
+                if(result.length-1 === i) {
+                    pageNo = item.feedNo;
+                }
             });
         });
     }
-
     // 첫 메인 페이지 동작
-    // firstMainPage();
+    viewService.firstMainPageInit();
+    mainType = 'popular';
+    categoryFilter = [2, 3];
+    serachFilter = [];
+    viewMainPage('popular');
+
+
+    // left Feed list button toggle off function
+    var leftUserBtnOff = function(btn) {
+        viewService.myBtnUnActive(btn);
+        viewMainPage();
+    }
     
     // left Feed list button event
     $('#myFeed').on('click', function () {
@@ -71,14 +91,15 @@ $(document).ready(function () {
             feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item, userId));
+                    if(result.length-1 === i) {
+                        pageNo = item.feedNo;
+                    }
                 });
             });
             myBtn = 'myFeed';
         } else {
             // 버튼 비활성화
-            viewService.myBtnUnActive(this);
-
-            refDataReset();
+           leftUserBtnOff(this);
         }
     });
 
@@ -110,15 +131,16 @@ $(document).ready(function () {
             feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item, userId));
+                    if(result.length-1 === i) {
+                        pageNo = item.feedNo;
+                    }
                 });
             });
 
             myBtn = 'myFavorite';
         } else {
             // 버튼 비활성화
-            viewService.myBtnUnActive(this);
-
-            refDataReset();
+            leftUserBtnOff(this);
         }
     });
 
@@ -150,6 +172,9 @@ $(document).ready(function () {
             feedService.getList(module, sendData, function (result) {
                 $.each(result, function (i, item) {
                     viewFeedListDiv.append(template.feedSimple(item));
+                    if(result.length-1 === i) {
+                        pageNo = item.feedNo;
+                    }
                 });
             }, function() {
             	console.log('newsfeed error');
@@ -158,14 +183,34 @@ $(document).ready(function () {
             myBtn = 'newsFeed';
         } else {
             // 버튼 비활성화
-            viewService.myBtnUnActive(this);
-
-            refDataReset();
+            leftUserBtnOff(this);
         }
     });
 
+    // 인기 최신버튼 이벤트
+    popularBtn.on('click', function() {
+        if(popularBtn.hasClass('btn-outline-secondary')) {
+            popularBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
+            recentBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
+
+            viewMainPage('popular');
+        }
+    });
+
+    recentBtn.on('click', function() {
+        if(recentBtn.hasClass('btn-outline-secondary')) {
+            recentBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
+            popularBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
+
+            viewMainPage('recent');
+        }
+    });
+
+
+
+
     // 피드 상세보기
-    $(document).on('click', 'div[data-target="#feedDetailModal"]', function() {
+    $(document).on('click', 'div[data-target="#feedDetailModal"], button[data-target="#feedDetailModal"]', function() {
     	// feedDetailModal.empty();
         var feedNo = $(this).data("feedno");
         

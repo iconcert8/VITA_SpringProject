@@ -3,9 +3,6 @@
 
 <mapper namespace="me.vita.mapper.ReplyMapper">
 	
-	
-	
-	
 	<insert id="insert" parameterType="me.vita.domain.ReplyVO">	
 		<!-- 테스트  
 		insert into REPLY	 (REPLYNO, FEEDNO, REPLYCONTENT, REPLYDATE, USERID)
@@ -14,8 +11,8 @@
 		insert into reply (replyno, feedno, replycontent, replydate, userid)
 		values (seq_replyno.nextval, #{feedno}, #{replycontent}, SYSDATE, #{userid})
 	</insert> 
-
-	<delete id="delete">
+	
+	<delete id="delete">	
 		delete from reply where replyno = #{replyno}
 	</delete>
 	
@@ -33,6 +30,7 @@
 		<if test="page != 0">
 			<![CDATA[and r.replyNo < #{page}]]>
 		</if>
+		order by re.reply desc
 	</select> 
  
 	<select id="selectCount" resultType="Integer">
