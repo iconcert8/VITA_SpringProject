@@ -1,7 +1,5 @@
 package me.vita.dto;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -13,7 +11,7 @@ public class NotificationDTO {
 	private Integer feedNo;
 	private String notifyType;
 	private String notifyMsg;
-	private Date notifyDate;
+	private String notifyDate;
 	private String notifyChk;
 	
 	//reqId info

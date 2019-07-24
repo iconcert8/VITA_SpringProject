@@ -18,7 +18,15 @@
 	
 	<update id="update">
 		update notification set notifyChk = 'T'
-		where notifyNo = #{notifyNo}
+		where resId = #{resId} and reqId = #{reqId} and notifyType = #{notifyType}
+		<if test="feedNo != null">
+			and feedNo = #{feedNo}
+		</if>
+	</update>
+	
+	<update id="updatenotifyChkAll">
+		update notification set notifyChk = 'T'
+		where resId = #{userId}
 	</update>
 	
 	<select id="selectList" resultType="me.vita.dto.NotificationDTO">

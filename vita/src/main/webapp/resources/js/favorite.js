@@ -6,13 +6,11 @@ var favoriteService = (function(){
 	function registerBtnEvent(){
 		$(document).on('click', '.favor', function(){
 			var feedNo = $(this).data("feedno");
-			remove(feedNo);
-			switchColorBtn($(this));
+			remove(feedNo, switchColorBtn($(this)));
 		});
 		$(document).on('click', '.nofavor', function(){
 			var feedNo = $(this).data("feedno");
-			register(feedNo);
-			switchColorBtn($(this));
+			register(feedNo, switchColorBtn($(this)));
 		});
 	}
 	
@@ -28,9 +26,9 @@ var favoriteService = (function(){
 			url: '/favorite/new',
 			data: feedNo,
 			contentType:"application/json; charset=utf-8",
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});
@@ -41,9 +39,9 @@ var favoriteService = (function(){
 		$.ajax({
 			type:'delete',
 			url: '/favorite/'+feedNo,
-			success: function(result){
+			success: function(){
 				if(callback){
-					callback(result);
+					callback();
 				}
 			}
 		});

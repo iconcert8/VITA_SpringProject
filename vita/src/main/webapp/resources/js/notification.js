@@ -1,6 +1,7 @@
 
 var notificationService = (function(){
 	
+	var notifyCnt = 0;
 	var notifyPage = 0;
 	
 	function webSocketLoad(){
@@ -13,7 +14,9 @@ var notificationService = (function(){
 		}
 		
 		ws.onmessage = function(event){
-			console.log(event.data);
+			var jsonData = event.data;
+			var data = JSON.parse(jsonData);
+			notificationCallback(data);
 		}
 
 		ws.onclose = function(event){
@@ -73,6 +76,91 @@ var notificationService = (function(){
 			var msg = {"type":"follow", "resId":resId};
 			ws.send(JSON.stringify(msg));
 		});
+		
+		$(document).on('click', '.dropdown-item', function(event){
+			event.stopPropagation();
+		});
+		$(document).on('click', '.nochk', function(){
+			var notifyType = $(this).data("notifytype");
+			var resId = $(this).data("userid");
+			var feedNo = $(this).data("feedno");
+			var msg = {"type":"update", "resId":resId, "feedNo":feedNo, "notifyType":notifyType};
+			ws.send(JSON.stringify(msg));
+			
+			$(this).removeClass('nochk').removeClass('bg-primary');
+			notifyCnt--;
+			updateNotifyCnt(notifyCnt);
+		});
+		
+		$(document).on('click', '.notification-ChkAll', function(event){
+			var msg = {"type":"notifyChkAll"};
+			ws.send(JSON.stringify(msg));
+			
+			$(".notification-list-block").find(".nochk").removeClass('nochk').removeClass('bg-primary');
+			notifyCnt = 0;
+			updateNotifyCnt(notifyCnt);
+		});
+		
+		var html = "";
+		function notificationCallback(data){
+			html = "";
+			if(data.length == 1){
+				$.each(data, function(index, item){
+					printNotification(index, item);
+					$(".notification-ChkAll").after(html);
+				});
+			}else{
+				$.each(data, function(index, item){
+					printNotification(index, item);
+					$(".notification-list-block").append(html);
+				});
+			}
+			
+		}
+		
+		function printNotification(index, item){
+			var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
+			
+			//임시 이미지
+			fileCallPath = 'test.gif';
+			
+			html="";
+			
+			if(item.notifyType == "follow"){
+				//상대방 페이지로 이동
+				if(item.notifyChk == "F"){
+					notifyCnt++;
+					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-notifytype="'+item.notifyType+'">';
+				}else{
+					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-notifytype="'+item.notifyType+'">';						
+				}
+			}else if(item.notifyType == "good" || item.notifyType == "favorite"){
+				//해당피드 상세보기
+				// '<div data-toggle="modal" data-target="#feedDetailModal">'
+				if(item.notifyChk == "F"){
+					notifyCnt++;
+					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
+				}else{
+					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
+				}
+			}
+			
+			html += 		'<img class="img-1" style="vertical-align:top" src="/display?fileName='+fileCallPath+'">';
+			html += 	'<div class="d-inline-block m-0 p-0">'+item.notifyMsg+'<br>';
+			html += 		'<span style="font-size:10px; color:gray;">'+item.notifyDate.substring(0,16)+'</span>';
+			html += 	'</div>';
+			html += '</a>';
+			
+			updateNotifyCnt(notifyCnt);
+		}
+		
+		function updateNotifyCnt(cnt){
+			if(cnt > 99){
+				$(".notification-cnt").text(99);					
+			}else{
+				$(".notification-cnt").text(cnt);
+			}
+		}
 		
 	}
 	

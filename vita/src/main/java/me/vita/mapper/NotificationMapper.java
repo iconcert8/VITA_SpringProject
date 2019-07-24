@@ -13,7 +13,9 @@ public interface NotificationMapper {
 	
 	int delete(NotificationVO notificationVO);
 	
-	int update(@Param("notifyNo")Integer notifyNo);
+	int update(NotificationVO notificationVO);
+	
+	int updatenotifyChkAll(@Param("userId") String userId);
 	
 	List<NotificationDTO> selectList(@Param("userId")String userId, @Param("page")Integer page);
 	

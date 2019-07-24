@@ -11,7 +11,9 @@ public interface NotificationService {
 	
 	boolean remove(NotificationVO notificationVO);
 	
-	boolean modify(Integer notifyNo);
+	boolean modify(NotificationVO notificationVO);
+
+	boolean modifyNotifyChkAll(String userId);
 	
 	List<NotificationDTO> getList(String userId, Integer page);
 	

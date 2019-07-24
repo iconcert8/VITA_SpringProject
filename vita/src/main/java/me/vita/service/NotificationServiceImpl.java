@@ -27,10 +27,15 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 
 	@Override
-	public boolean modify(Integer notifyNo) {
-		return mapper.update(notifyNo) == 1;
+	public boolean modify(NotificationVO notificationVO) {
+		return mapper.update(notificationVO) > 0;
 	}
 
+	@Override
+	public boolean modifyNotifyChkAll(String userId) {
+		return mapper.updatenotifyChkAll(userId) > -1;
+	}
+	
 	@Override
 	public List<NotificationDTO> getList(String userId, Integer page) {
 		return mapper.selectList(userId, page);
