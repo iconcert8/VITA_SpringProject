@@ -275,48 +275,34 @@ var template = {
         `;
         return template;
     },
-    reply: function () {
-        return `
-        <div class="card-body pt-0 modalReply">
-            <div>
-                댓글 <label>0</label>개
-            </div>
-            <ul class="list-group overflow-auto" style="height: 230px;">
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio,asdon she a initialize it
-                        yourself. It cannot be used in combinatio </label> <label
-                    class="text-secondary"> (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-inline-block rounded bg-secondary">프로필</div>
-                    <div class="d-inline-block">
-                        <label class="mb-0">닉네임(ID)</label>
-                    </div> <label class="d-inline ml-3"> initialize it yourself.
-                        It cannot be used in combinatio </label> <label class="text-secondary">
-                        (2019-07-21 18:32) </label>
-                </li>
-            </ul>
-        </div>
-        `
+    reply: function (reply) {
+    	
+    	var li = "";
+    	$.each(reply, function(index, item){
+    		 var date = new Date(item.replyDate);
+             var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
+                 + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    		
+			li += '<li class="list-group-item">'
+				    + '<div class="d-inline-block rounded bg-secondary">프로필</div>'
+				    + '<div class="d-inline-block">'
+				    + '<label class="mb-0">'+item.userId+'</label>'
+				    + '</div>'
+				    + '<label class="d-inline ml-3">'+item.replyContent+' </label>'
+				    + '<label class="text-secondary">'+replyDate+' </label>'
+				    + '</li>';
+		});  
+    	
+    	
+    	
+         var template = `
+		        <div class="card-body pt-0 modalReply"><div>댓글 <label>0</label>개</div>
+		            <ul class="list-group overflow-auto" style="height: 230px;">
+		                `+li+`
+		            </ul>
+		        </div>
+		        `;
+        return template;
     }
 }

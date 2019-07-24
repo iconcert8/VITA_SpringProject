@@ -27,7 +27,7 @@ public interface FeedMapper {
 
 	int updateGoodCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
 	
-	int updateReplyCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
+	int updateReplyCnt(@Param("feedNo")Integer feedNo, @Param("num")Integer num);
 	
 	int updateFeedDel(Integer feedNo);
 	

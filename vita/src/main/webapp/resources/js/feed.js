@@ -128,5 +128,14 @@ $(function () {
         feedService.get(feedNo, function(result) {
             feedDetailModal.empty().append(template.feedDetail(result));
         });
+        
+        // 승현 추가
+        pageNo = 0;
+        
+        replyService.getList(feedNo, pageNo,  function(result) {
+        	console.log(template.reply(result))
+        	feedDetailModal.find('.modalReply').eq(0).empty().append(template.reply(result))
+        });
+        
     });
 });
