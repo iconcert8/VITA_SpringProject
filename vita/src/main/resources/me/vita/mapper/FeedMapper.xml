@@ -94,8 +94,7 @@
 				AND rownum <= 10
 		]]>
 		<if test="filter.filter != null">
-			AND c.CATEGORYNO IN
-			<foreach collection="filter.filter" item="category" open="(" separator="," close=")">
+			<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
 				#{category}
 			</foreach>
 		</if>
@@ -124,8 +123,7 @@
 		]]>
 		
 		<if test="filter.filter != null">
-			AND c.CATEGORYNO IN
-			<foreach collection="filter.filter" item="category" open="(" separator="," close=")">
+			<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
 				#{category}
 			</foreach>
 		</if>

@@ -48,7 +48,7 @@ $(document).ready(function () {
     // 첫 메인 페이지 동작
     viewService.firstMainPageInit();
     mainType = 'popular';
-    categoryFilter = [2, 3];
+    categoryFilter = [];
     serachFilter = [];
     viewMainPage('popular');
 

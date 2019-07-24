@@ -65,6 +65,7 @@ public class FeedController {
 	@ResponseBody
 	@Auth
 	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
+		System.out.println(".......................................................newsFeed" + filter);
 		return service.getListNewsFeed(user, filter);
 	}
 	
