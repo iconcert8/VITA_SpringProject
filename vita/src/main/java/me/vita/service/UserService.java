@@ -17,7 +17,7 @@ public interface UserService {
 	
 	public void modifyAuthstatus(String userId);
 	
-	public boolean login(UserVO vo);
-
 	public UserDTO get(String myId, String userId);
+	
+	boolean login(UserVO userVO);
 }

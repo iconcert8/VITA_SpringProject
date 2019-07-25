@@ -60,7 +60,6 @@ public class UserController {
 		
 	}
 	
-	
 	@GetMapping("/login")
 	public String view() {
 		return "login";

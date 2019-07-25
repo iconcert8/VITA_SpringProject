@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		userVO.setAuthKey(authkey);
 		userVO.setAuthStatus("F");
 		
-		mapper.insertUser(userVO);
+		mapper.insert(userVO);
 	}
 
 	@Override
@@ -71,8 +71,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean login(UserVO vo) {
-		return false;
+	public boolean login(UserVO userVO) {
+		return mapper.login(userVO) == 1;
 	}
-
 }

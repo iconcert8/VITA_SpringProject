@@ -15,7 +15,7 @@
 			  (fv.userId(+) = f.userId  AND fv.feedNo(+) = f.FEEDNO) AND
 			  (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO) and
 			  f.userId = #{filter.goToUserId} and
-			  f.feedDel = 'F'
+			  f.feedDel = 'F' and
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
@@ -37,7 +37,7 @@
 			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
 			  (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO) and
 			  fv.userId = #{user.userId} AND fv.FEEDNO = f.FEEDNO and
-			  f.feedDel = 'F'
+			  f.feedDel = 'F' and
 			  rownum <= 10
 		]]>
 		<if test="filter.page != 0">
@@ -58,8 +58,8 @@
 				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
 				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
 				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
-				AND fl.REQID =#{user.userId} AND fl.resid = f.userid
-				f.feedDel = 'F'
+				AND fl.REQID =#{user.userId} AND fl.resid = f.userid 
+				AND f.feedDel = 'F'
 				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">

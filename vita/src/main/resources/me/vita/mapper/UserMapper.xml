@@ -23,7 +23,7 @@
 		select userpass from userinfo where userId=#{userId}
 	</select>
 	
-	<insert id="insertUser">
+	<insert id="insert">
 		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
 	</insert>
 	

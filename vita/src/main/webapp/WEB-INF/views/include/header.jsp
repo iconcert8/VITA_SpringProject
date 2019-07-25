@@ -385,7 +385,7 @@
 	</div>
 </div>
 
-<link rel="stylesheet" href="/resources/css/upload.css" />
+<link rel="stylesheet" href="/resources/css/upload.css">
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
 <script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>

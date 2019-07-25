@@ -7,8 +7,6 @@ import me.vita.dto.UserDTO;
 
 public interface UserMapper {
 
-	int insert(UserVO userVO);
-
 	int login(UserVO userVO);
 
 	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
@@ -17,7 +15,7 @@ public interface UserMapper {
 
 	String selectPw(@Param("userId") String userId);
 
-	void insertUser(UserVO userVO);
+	void insert(UserVO userVO);
 
 	int selectIdcnt(@Param("userId") String userId);
 
