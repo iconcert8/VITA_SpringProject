@@ -10,6 +10,6 @@ public interface CategoryMapper {
 
 	List<String> selectListBig();
 
-	List<String> selectListSmall(String big);
+	List<CategoryVO> selectListSmall(String big);
 
 }

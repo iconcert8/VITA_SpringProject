@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.log4j.Log4j;
+import me.vita.domain.CategoryVO;
 import me.vita.service.CategoryService;
 
 @Controller
@@ -35,7 +36,7 @@ public class CategoryController {
 
 	@GetMapping("/list/{big}")
 	@ResponseBody
-	public List<String> getListSmall(@PathVariable("big") String big) {
+	public List<CategoryVO> getListSmall(@PathVariable("big") String big) {
 		String decodeBig = "";
 		try {
 			decodeBig = URLDecoder.decode(big, "UTF-8");
