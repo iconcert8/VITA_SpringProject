@@ -218,6 +218,8 @@ $(document).ready(function () {
         var feedNo = $(this).data("feedno");
 
         feedService.get(feedNo, function (result) {
+            console.log(result);
+            
             feedDetailModal.empty().append(template.feedDetail(result, userId));
 
             //          댓글 출력
@@ -281,7 +283,7 @@ $(document).ready(function () {
         
         if(!select.prop('checked')) {
             categorys.prop('checked',true);
-
+            feedService.selectCategoryAll(categorys);
         } else {
             categorys.prop('checked',false);
         }
@@ -291,13 +293,11 @@ $(document).ready(function () {
         var categorys = $(this).parent().parent().find('input');
         if(!$(this).prop('checked')) {
             categorys.prop('checked',true);
+            feedService.selectCategoryAll(categorys);
         } else {
             categorys.prop('checked',false);
         }
     });
-
-
-
 
 
     // 댓글 이벤트

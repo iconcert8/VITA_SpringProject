@@ -45,7 +45,7 @@ public class FeedController {
 	
 	@GetMapping("/{feedNo}")
 	@ResponseBody
-	public FeedDTO get(@SessionAttribute("authUser") UserVO user, @PathVariable("feedNo") Integer feedNo) {
+	public FeedDTO get(@AuthUser UserVO user, @PathVariable("feedNo") Integer feedNo) {
 		return service.get(user, feedNo);
 	}
 

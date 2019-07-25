@@ -196,7 +196,7 @@ function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';
 
 	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
-					+ "<input type='checkbox' data-biggroup='" + big + "'>"
+					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='selectAll'>"
 					+ "<label>전체선택</label>"
 				+ "</div>";
 				

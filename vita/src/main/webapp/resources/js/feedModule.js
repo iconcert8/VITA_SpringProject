@@ -72,12 +72,14 @@ var feedService = {
         template.filterAdd(smallGroup, bigGroup, categoryNo);
     },
     selectCategoryAll : function (categorys) {
-        $.each(categorys, function (index, category) { 
-            var categoryNo = category.data('categoryno');
-            var bigGroup = category.data('biggroup');
-            var smallGroup = category.data('smallgroup');
-    
-            template.filterAdd(smallGroup, bigGroup, categoryNo);
+        $.each(categorys, function (index, category) {
+            if(!category.data('type')) {
+                var categoryNo = category.data('categoryno');
+                var bigGroup = category.data('biggroup');
+                var smallGroup = category.data('smallgroup');
+        
+                template.filterAdd(smallGroup, bigGroup, categoryNo);
+            }
         });
     },
     unSelectCategory : function(category) {
