@@ -14,7 +14,7 @@ $(document).ready(function () {
     var feedDetailModal = $('#feedDetailModal');
     var warnModal = $('#warnModal');
     var alertModal = $('#alertModal');
-    var categoryListDiv = $('#accordian');
+    var categoryListDiv = $('#accordion');
 
     var popularBtn = $('#popularBtn');
     var recentBtn = $('#recentBtn');
@@ -272,12 +272,32 @@ $(document).ready(function () {
         }
     });
 
+    
+
     // 카테고리 선택 이벤트
-    $('#categoryListDiv').on('click', '.categorySelectSmallAll', function(event) {
-        if($(this).is(':checked')) {
-            alert('체크!');
+    categoryListDiv.on('click', '.categorySelectSmallAll', function(event) {
+        var categorys = $(this).parent().find('input');
+        var select =  $(this).find('input');
+        
+        if(!select.prop('checked')) {
+            categorys.prop('checked',true);
+
+        } else {
+            categorys.prop('checked',false);
         }
-    })
+    });
+
+    categoryListDiv.on('click', '.categorySelectSmallAll > input', function(event) {
+        var categorys = $(this).parent().parent().find('input');
+        if(!$(this).prop('checked')) {
+            categorys.prop('checked',true);
+        } else {
+            categorys.prop('checked',false);
+        }
+    });
+
+
+
 
 
     // 댓글 이벤트

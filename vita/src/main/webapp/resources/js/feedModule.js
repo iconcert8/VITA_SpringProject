@@ -63,6 +63,28 @@ var feedService = {
                 if (complete) complete();
             }
         });
+    },
+    selectCategory : function (category) {
+        var categoryNo = category.data('categoryno');
+        var bigGroup = category.data('biggroup');
+        var smallGroup = category.data('smallgroup');
+
+        template.filterAdd(smallGroup, bigGroup, categoryNo);
+    },
+    selectCategoryAll : function (categorys) {
+        $.each(categorys, function (index, category) { 
+            var categoryNo = category.data('categoryno');
+            var bigGroup = category.data('biggroup');
+            var smallGroup = category.data('smallgroup');
+    
+            template.filterAdd(smallGroup, bigGroup, categoryNo);
+        });
+    },
+    unSelectCategory : function(category) {
+        
+    },
+    unSelectCategoryAll : function(categorys) {
+        
     }
 }
 
@@ -111,7 +133,7 @@ var viewService = {
          // 카테고리바(필터) 초기화
          $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
     },
-    
+
 
 }
 
