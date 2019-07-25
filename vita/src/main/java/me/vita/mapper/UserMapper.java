@@ -14,4 +14,17 @@ public interface UserMapper {
 	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
 
 	UserVO testGet(@Param("userId") String userId);
+
+	String selectPw(@Param("userId") String userId);
+
+	void insertUser(UserVO userVO);
+
+	int selectIdcnt(@Param("userId") String userId);
+
+	String selectAuthstatus(@Param("userId") String userId);
+
+	String selectAuthkey(@Param("userId") String userId);
+
+	void updateAuthstatus(@Param("userId") String userId);
+
 }

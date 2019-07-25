@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="/resources/css/scrolltop.css">
 <script src="/resources/js/scrolltop.js"></script>
+
 <style>
 
 </style>
@@ -36,6 +37,7 @@
 			</div>
 
 		</div>
+
 
 		<!-- 필터 현황 부분, 피드 출력부분 -->
 		<div class="col-md-8 col-lg-9">
