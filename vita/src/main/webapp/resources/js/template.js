@@ -5,7 +5,7 @@ var template = {
 
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-            + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+            + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
@@ -138,7 +138,7 @@ var template = {
     feedDetail: function (feed, authUser) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-            + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+            + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         var tags = '';
         for (var i = 0; i < feed.tags.length; i++) {
@@ -257,7 +257,7 @@ var template = {
         $.each(reply, function (index, item) {
             var date = new Date(item.replyDate);
             var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-                + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+                + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             var deleteBtn = '';
             if (item.isMyReply) {
@@ -332,7 +332,7 @@ var template = {
     warnfeedDetail: function(feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-            + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+            + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         var tags = '';
         for (var i = 0; i < feed.tags.length; i++) {

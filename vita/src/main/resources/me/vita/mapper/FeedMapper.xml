@@ -9,14 +9,14 @@
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
 		from feed f, category c, userInfo u, good g, favorite fv, reply r
-		where f.categoryNo = c.categoryNo and
-			  f.userId = u.userId and
-			  (g.userId(+) = f.userId AND g.feedNo(+) = f.FEEDNO) and
-			  (fv.userId(+) = f.userId  AND fv.feedNo(+) = f.FEEDNO) AND
-			  (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO) and
-			  f.userId = #{filter.goToUserId} and
-			  f.feedDel = 'F' and
-			  rownum <= 10
+		where f.categoryNo = c.categoryNo
+				AND f.userId = u.userId
+				AND (g.userId(+) = f.userId AND g.feedNo(+) = f.FEEDNO)
+				AND (fv.userId(+) = f.userId  AND fv.feedNo(+) = f.FEEDNO)
+				AND (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO)
+				AND f.userId = #{filter.goToUserId}
+				AND f.feedDel = 'F'
+				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
 			<![CDATA[and f.feedNo < #{filter.page}]]>
@@ -31,14 +31,15 @@
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
 		from feed f, category c, userInfo u, good g, favorite fv, reply r
-		where f.categoryNo = c.categoryNo and
-			  f.userId = u.userId and
-			  (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO) and
-			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
-			  (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO) and
-			  fv.userId = #{user.userId} AND fv.FEEDNO = f.FEEDNO and
-			  f.feedDel = 'F' and
-			  rownum <= 10
+		where f.categoryNo = c.categoryNo
+			AND f.userId = u.userId
+			AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+			AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+			AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+			AND fv.userId = #{user.userId}
+			AND fv.FEEDNO = f.FEEDNO
+			AND f.feedDel = 'F'
+			AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
 			<![CDATA[and f.feedNo < #{filter.page}]]>
@@ -58,7 +59,8 @@
 				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
 				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
 				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
-				AND fl.REQID =#{user.userId} AND fl.resid = f.userid 
+				AND fl.REQID =#{user.userId}
+				AND fl.resid = f.userid
 				AND f.feedDel = 'F'
 				AND rownum <= 10
 		]]>
