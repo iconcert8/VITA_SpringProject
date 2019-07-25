@@ -506,7 +506,7 @@
 										yourself. It cannot be used in combinatio </label> <label
 									class="text-secondary"> (2019-07-21 18:32) </label>
 								</li>
-								<li class="list-group-item">
+								<li class ="list-group-item">
 									<div class="d-inline-block rounded bg-secondary">프로필</div>
 									<div class="d-inline-block">
 										<label class="mb-0">닉네임(ID)</label>

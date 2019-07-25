@@ -99,7 +99,10 @@
 						<!-- 글쓰기 모달창 파일 선택 부분-->
 						
 						<div class="card-body">
-							<input type="file" id="write-image" name="uploadFile" maxlength="10" multiple="multiple" />
+							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
+						</div>
+						<div class="card-body-delete">
+							<input type="button" id="write-image-delete" name="uploadFileDelete"  value="지우기버튼 "/>
 						</div>
 						
 						
