@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import me.vita.domain.CategoryVO;
 import me.vita.mapper.CategoryMapper;
 
 @Service
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<String> getListSmall(String big) {
+	public List<CategoryVO> getListSmall(String big) {
 		return mapper.selectListSmall(big);
 	}
 

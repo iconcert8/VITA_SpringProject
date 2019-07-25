@@ -110,7 +110,7 @@
 						
 						<!-- 글쓰기 모달창 파일 선택 부분-->
 						<div class="card-body">
-							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
+							<input type="file" id="write-image" name="uploadFile" maxlength="10" multiple="multiple" />
 						</div>
 
 					</div>
@@ -382,6 +382,7 @@
 	</div>
 </div>
 
+<link rel="stylesheet" href="/resources/css/upload.css" />
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
 <script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>
@@ -416,24 +417,19 @@ $(function(){
 // 글쓰기 버튼 활성화시 대분류 선택창 부르는 콜백함수
 function bigCallback(result){
 	var html = '';
-	var one = '';
 	
-//  	처음 글쓰기 화면 활성화시 소분류 나타나게 해주는 코드
-	$.each(result, function(index, item){
-		if(document.querySelector("#category-choose-small option") === null && html === '' ){
-			categoryService.smallCall(item, smallCallback);
-		}
-		
-		html += '<option value="' + item + '">';
- 		html += item+'</option>';
-  	});
+	if(document.querySelector("#category-choose-big option") === null){
+	//  처음 글쓰기 화면 활성화시 소분류 나타나게 해주는 코드
+		categoryService.smallCall( result[0], smallCallback);
 	
-	var smallElement = document.getElementById("category-choose-small");
-	
-	var clickedSmallCategory = smallElement.value;
-	
-	$("#category-choose-big").append(html);
-	
+		$.each(result, function(index, item){
+			html += '<option value="' + item + '">';
+	 		html += item+'</option>';
+	  	});
+		var smallElement = document.getElementById("category-choose-small");
+		var clickedSmallCategory = smallElement.value;
+		$("#category-choose-big").append(html);
+	}
 }
 
 //대분류 선택시 소분류 나타나게 해주는 콜백함수
@@ -441,8 +437,8 @@ function smallCallback(result){
 	var html = '';
 	
 	$.each(result, function(index, item){
-		html += '<option value="' + item + '">';
- 		html += item+'</option>';
+		html += '<option value="' + item.smallGroup + '">';
+ 		html += item.smallGroup+'</option>';
  	});
 	
 	$("#category-choose-small").empty();

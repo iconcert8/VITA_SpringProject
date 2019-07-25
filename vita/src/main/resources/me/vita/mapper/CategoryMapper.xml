@@ -8,8 +8,8 @@
 		from category 
 	</select>
 	
-	<select id="selectListSmall" parameterType="String" resultType="String">
-		select smallGroup
+	<select id="selectListSmall" parameterType="String" resultType="me.vita.domain.CategoryVO">
+		select categoryNo, smallGroup
 		from category
 		where bigGroup = #{big}
 	</select>

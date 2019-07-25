@@ -14,6 +14,7 @@ $(document).ready(function () {
     var feedDetailModal = $('#feedDetailModal');
     var warnModal = $('#warnModal');
     var alertModal = $('#alertModal');
+    var categoryListDiv = $('#accordian');
 
     var popularBtn = $('#popularBtn');
     var recentBtn = $('#recentBtn');
@@ -269,6 +270,13 @@ $(document).ready(function () {
             });
             // warnModal.modal('hide');
         }
+    });
+
+    // 카테고리 선택 이벤트
+    $('#categoryListDiv').on('click', '.categorySelectSmallAll', function(event) {
+        if($(this).is(':checked')) {
+            alert('체크!');
+        }
     })
 
 
@@ -283,6 +291,5 @@ $(document).ready(function () {
             //reuslt
             // li 추가 append
         });
-
     });
 });

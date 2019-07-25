@@ -33,50 +33,41 @@
 
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
-				<div class="card">
-					<button class="btn card-header" id="big1" data-toggle="collapse"
-						data-target="#small1" aria-expanded="false" aria-controls="small1">게임</button>
+<!-- 				<div class="card"> -->
+<!-- 					<button class="btn card-header" id="big1" data-toggle="collapse" data-target="#small1" aria-expanded="false" aria-controls="small1">게임</button> -->
 
-					<div id="small1" class="collapse row" aria-labelledby="big1"
-						data-parent="#accordion">
+<!-- 					<div id="small1" class="collapse row" aria-labelledby="big1" data-parent="#accordion"> -->
 
-						<div class="col-sm-6">
-							<input type="checkbox"><label>전체선택</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>오버워치</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>롤</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>배틀그라운드</label>
-						</div>
+<!-- 						<div class="col-sm-6"> <input type="checkbox"><label>전체선택</label></div> -->
+<!-- 						<div class="col-sm-6"><input type="checkbox"><label>오버워치</label></div> -->
+<!-- 						<div class="col-sm-6"><input type="checkbox"><label>롤</label></div> -->
+<!-- 						<div class="col-sm-6"><input type="checkbox"><label>배틀그라운드</label></div> -->
 
-					</div>
-				</div>
-				<div class="card">
-					<button class="btn card-header" id="big2" data-toggle="collapse"
-						data-target="#small2" aria-expanded="false" aria-controls="small1">영화</button>
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="card"> -->
+<!-- 					<button class="btn card-header" id="big2" data-toggle="collapse" -->
+<!-- 						data-target="#small2" aria-expanded="false" aria-controls="small1">영화</button> -->
 
-					<div id="small2" class="collapse row" aria-labelledby="big2"
-						data-parent="#accordion">
+<!-- 					<div id="small2" class="collapse row" aria-labelledby="big2" -->
+<!-- 						data-parent="#accordion"> -->
 
-						<div class="col-sm-6">
-							<input type="checkbox"><label>전체선택</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>해리포터</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>레옹</label>
-						</div>
-						<div class="col-sm-6">
-							<input type="checkbox"><label>괴물</label>
-						</div>
+<!-- 						<div class="col-sm-6"> -->
+<!-- 							<input type="checkbox"><label>전체선택</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-6"> -->
+<!-- 							<input type="checkbox"><label>해리포터</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-6"> -->
+<!-- 							<input type="checkbox"><label>레옹</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="col-sm-6"> -->
+<!-- 							<input type="checkbox"><label>괴물</label> -->
+<!-- 						</div> -->
 
-					</div>
-				</div>
+<!-- 					</div> -->
+<!-- 				</div> -->
+
 			</div>
 
 		</div>
@@ -232,11 +223,76 @@
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
+<script type="text/javascript" src="/resources/js/category.js"></script>
+<script type="text/javascript">
 
+//소분류 호출
+function startSmallCallback(resultSmall, index){
+	var htmlSmall = '';
 
+	htmlSmall += `<div class='col-sm-6 categorySelectSmallAll'>
+						<input type='checkbox' data-bigGroup=${itemSamll.bigGroup}>
+						<label></label>
+				</div>`;
+	$.each(resultSmall, function(index, itemSmall){
+			/* 일반 소분류 버튼 */
+		htmlSmall += `<div class='col-sm-6 category'>
+						<input type='checkbox' data-categoryNo=${itemSmall.categoryNo} data-bigGroup=${itemSamll.bigGroup}>
+						<label>${itemSmall.smallGroup}</label>
+					</div>`;
+	});	
+	var name = "#small" + (index+1);
+	
+	$(name).append(htmlSmall);
+	
+}
 
- 
+//서버 시작시 큰 카테고리 호출
+function startBigCallback(result){
+	$.each(result, function(i, item){
+		var html = '';
+		html += "<div class='"
+			+ "card"
+			+ "'><button class='"
+			+ "btn card-header"
+			+ "' id='" 
+			+ "big"
+			+ (i+1) 
+			+ "' data-toggle='"
+			+ "collapse"
+			+ "' data-target='"
+			+ "#small"
+			+ (i+1)
+			+ "'aria-expanded='"
+			+ "false"
+			+ "'aria-controls='"
+			+ "small"  
+			+ (i+1) 
+			+ "'>"
+			+ item
+			+ "</button><div id='"
+			+ "small" 
+			+ (i+1)
+			+ "' class='"
+			+ "collapse row"
+			+ "'aria-labelledby='" 
+			+ "big" 
+			+ (i+1)
+			+ "'data-parent='" 
+			+ "#accordion" 
+			+ "'></div></div>";
+			
+		$("#accordion").append(html);
 
+		categoryService.smallCall(item, startSmallCallback, i);
+	});
+}
 
-
+$(function(){
+	console.log("home");
+	categoryService.bigCall(startBigCallback);
+	console.log("home2");
+})
+		
+</script>
 <%@ include file="./include/footer.jsp"%>

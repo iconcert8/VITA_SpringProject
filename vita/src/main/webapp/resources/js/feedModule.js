@@ -97,6 +97,7 @@ var viewService = {
     mainPageInit : function() {
        
         $('#categoryType').removeClass('d-none');
+
         $('#userInfo').addClass('d-none');
 
         // 피드 삭제
@@ -109,7 +110,8 @@ var viewService = {
  
          // 카테고리바(필터) 초기화
          $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
-    }
+    },
+    
 
 }
 
