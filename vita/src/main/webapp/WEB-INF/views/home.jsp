@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="/resources/css/scrolltop.css">
 <script src="/resources/js/scrolltop.js"></script>
+
 <style>
 @media ( min-width : 1600px) {
 	.modal-xl {
@@ -85,7 +86,7 @@
 
 		</div>
 
-
+		
 
 
 		<!-- 필터 현황 부분, 피드 출력부분 -->
