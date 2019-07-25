@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import me.vita.domain.DeletedFeedVO;
 import me.vita.domain.WarnVO;
-import me.vita.dto.WarnDetailDTO;
 import me.vita.dto.WarnSimpleDTO;
 import me.vita.mapper.DeletedFeedMapper;
+import me.vita.mapper.FeedMapper;
 import me.vita.mapper.WarnMapper;
 
 @Service
@@ -18,6 +18,9 @@ public class WarnServiceImpl implements WarnService {
 
 	@Autowired
 	private WarnMapper mapper;
+	
+	@Autowired FeedMapper feedMapper;
+	
 	@Autowired
 	private DeletedFeedMapper deletedFeedMapper;
 	
@@ -27,21 +30,22 @@ public class WarnServiceImpl implements WarnService {
 	}
 	
 	@Override
-	public WarnDetailDTO get(Integer feedNo) {
-		return mapper.select(feedNo);
+	public List<WarnVO> getListRequest(Integer feedNo) {
+		return mapper.selectListRequest(feedNo);
 	}
 	
 	
 	@Override
 	@Transactional
 	public boolean remove(Integer feedNo, DeletedFeedVO deletedFeedVO) {
-		mapper.modify(feedNo);
+		mapper.update(feedNo);
+		feedMapper.updateFeedDel(feedNo);
 		return deletedFeedMapper.insert(deletedFeedVO) > 0;
 	}
 	
 	@Override
 	public boolean modify(Integer feedNo) {
-		return mapper.modify(feedNo) > 0;
+		return mapper.update(feedNo) > 0;
 	}
 	
 	@Override

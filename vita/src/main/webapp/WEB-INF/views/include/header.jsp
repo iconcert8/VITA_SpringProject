@@ -177,7 +177,7 @@
 				</button>
 			</div>
 			<div class="modal-body row">
-				피드 상세보기 이미지 부분
+				<!-- 피드 상세보기 이미지 부분 -->
 				<div class="col-xl-8">
 					<div id="carouselControlDetail1" class="carousel slide"
 						data-interval="false" data-ride="carousel">
@@ -206,7 +206,7 @@
 						</a>
 					</div>
 				</div>
-				피드 상세보기 글 정보, 댓글 부분
+				<!-- 피드 상세보기 글 정보, 댓글 부분 -->
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body d-inline-block pt-2 pb-0">

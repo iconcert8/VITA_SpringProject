@@ -6,4 +6,22 @@
 		insert into warn(feedNo, userId, warnMsg, warnCategory, feedLimitContent)
 			values(#{feedNo}, #{userId}, #{warnMsg}, #{warnCategory}, #{feedLimitContent})
 	</insert>
+
+	<select id="selectList" resultType="me.vita.dto.WarnSimpleDTO">
+		select feedNo, feedLimitContent, count(feedNo) as count
+		from warn
+		where warnChk = 'F'
+		group by feedNo, feedLimitContent
+		order by count desc
+	</select>
+	
+	
+	<select id="selectListRequest" resultType="me.vita.domain.WarnVO">
+		select * from warn where feedNo = #{feedNo} and warnChk = 'F'
+	</select>
+	
+	<update id="update">
+		update warn set warnChk = 'T' where feedNo=#{feedNo}
+	</update>
+	
 </mapper>
