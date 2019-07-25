@@ -110,7 +110,10 @@
 						
 						<!-- 글쓰기 모달창 파일 선택 부분-->
 						<div class="card-body">
-							<input type="file" id="write-image" name="uploadFile" maxlength="10" multiple="multiple" />
+							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
+						</div>
+						<div class="card-body-delete">
+							<input type="button" id="write-image-delete" name="uploadFileDelete"  value="지우기버튼 "/>
 						</div>
 
 					</div>
@@ -174,7 +177,7 @@
 				</button>
 			</div>
 			<div class="modal-body row">
-				피드 상세보기 이미지 부분
+				<!-- 피드 상세보기 이미지 부분 -->
 				<div class="col-xl-8">
 					<div id="carouselControlDetail1" class="carousel slide"
 						data-interval="false" data-ride="carousel">
@@ -203,7 +206,7 @@
 						</a>
 					</div>
 				</div>
-				피드 상세보기 글 정보, 댓글 부분
+				<!-- 피드 상세보기 글 정보, 댓글 부분 -->
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body d-inline-block pt-2 pb-0">
@@ -382,7 +385,7 @@
 	</div>
 </div>
 
-<link rel="stylesheet" href="/resources/css/upload.css" />
+<link rel="stylesheet" href="/resources/css/upload.css">
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
 <script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>

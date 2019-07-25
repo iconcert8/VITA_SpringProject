@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="/resources/css/scrolltop.css">
 <script src="/resources/js/scrolltop.js"></script>
+
 <style>
 
 </style>
@@ -33,44 +34,11 @@
 
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
-<!-- 				<div class="card"> -->
-<!-- 					<button class="btn card-header" id="big1" data-toggle="collapse" data-target="#small1" aria-expanded="false" aria-controls="small1">게임</button> -->
-
-<!-- 					<div id="small1" class="collapse row" aria-labelledby="big1" data-parent="#accordion"> -->
-
-<!-- 						<div class="col-sm-6"> <input type="checkbox"><label>전체선택</label></div> -->
-<!-- 						<div class="col-sm-6"><input type="checkbox"><label>오버워치</label></div> -->
-<!-- 						<div class="col-sm-6"><input type="checkbox"><label>롤</label></div> -->
-<!-- 						<div class="col-sm-6"><input type="checkbox"><label>배틀그라운드</label></div> -->
-
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="card"> -->
-<!-- 					<button class="btn card-header" id="big2" data-toggle="collapse" -->
-<!-- 						data-target="#small2" aria-expanded="false" aria-controls="small1">영화</button> -->
-
-<!-- 					<div id="small2" class="collapse row" aria-labelledby="big2" -->
-<!-- 						data-parent="#accordion"> -->
-
-<!-- 						<div class="col-sm-6"> -->
-<!-- 							<input type="checkbox"><label>전체선택</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-sm-6"> -->
-<!-- 							<input type="checkbox"><label>해리포터</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-sm-6"> -->
-<!-- 							<input type="checkbox"><label>레옹</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-sm-6"> -->
-<!-- 							<input type="checkbox"><label>괴물</label> -->
-<!-- 						</div> -->
-
-<!-- 					</div> -->
-<!-- 				</div> -->
 
 			</div>
 
 		</div>
+
 
 		<!-- 필터 현황 부분, 피드 출력부분 -->
 		<div class="col-md-8 col-lg-9">
@@ -213,9 +181,6 @@
 </div>
 <!-- end 중간 (카테고리 선택 부분, 피드 부분)-->
 
-
-
-
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
@@ -229,10 +194,12 @@
 //소분류 호출
 function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';
+
 	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
 					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='selectAll'>"
 					+ "<label>전체선택</label>"
 				+ "</div>";
+				
 	$.each(resultSmall, function(index, itemSmall){
 			/* 일반 소분류 버튼 */
 		htmlSmall += "<div class='col-sm-6 category'>"
@@ -251,6 +218,7 @@ function startSmallCallback(resultSmall, index, big){
 function startBigCallback(result){
 	$.each(result, function(i, item){
 		var html = '';
+
 		html += "<div class='card'>"
 				+ "<button class='btn card-header' id='big"+ (i+1) + "' data-toggle='collapse' data-target='#small" + (i+1)
 				+ "' aria-expanded='false' aria-controls='small" + (i+1) + "'>"	+ item	+ "</button>"
@@ -268,4 +236,6 @@ $(function(){
 })
 		
 </script>
+
+
 <%@ include file="./include/footer.jsp"%>

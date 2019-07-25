@@ -42,5 +42,8 @@ public class ReplyServiceImpl implements ReplyService {
 	public Integer getCount(Integer feedNo) {
 		return mapper.selectCount(feedNo);
 	}
+	
+	
+	
 
 }

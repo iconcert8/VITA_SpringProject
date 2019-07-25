@@ -18,6 +18,30 @@
                   where reqId = #{myId} AND resId = #{userId}) fli   
 			where userId = #{userId} AND u.userid = flw.reqId(+) and u.userId = fli.resId(+)
 	</select>
-
+	
+	<select id="selectPw" resultType="String">
+		select userpass from userinfo where userId=#{userId}
+	</select>
+	
+	<insert id="insert">
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
+	</insert>
+	
+	<select id="selectIdcnt" resultType="int">
+		select count(*) from userinfo where userid = #{userId}
+	</select>
+	
+	<select id="selectAuthstatus" resultType="String">
+		select authstatus from userinfo where userid= #{userId}
+	</select>
+	
+	<select id="selectAuthkey" resultType="String">
+		select authkey from userinfo where userid= #{userId}
+	</select>
+	
+	<update id="updateAuthstatus">
+		update userinfo set authstatus='T' where userid=#{userId}
+	</update>
+	
 
 </mapper>

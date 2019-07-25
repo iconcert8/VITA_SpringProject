@@ -39,6 +39,9 @@ public class HomeController {
 		} else {
 			request.getSession().removeAttribute("guest");
 			request.getSession().setAttribute("authUser", authUser);
+			if(userId.equals("root")){
+				go = "admin";
+			}
 		}
 		return go;
 	}

@@ -30,43 +30,25 @@
 <link href="/resources/css/clean-blog.min.css" type="text/css"
 	rel="stylesheet">
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 <link rel="stylesheet" href="/resources/css/signup.css">
 <script type="text/javascript" src="/resources/js/signup.js"></script>
-
 </head>
 
 <body>
-
+	<div style="height: 100px;"></div>
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top"
 		id="mainNav">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Start Bootstrap</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-toggle="collapse" data-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="index.html">Home</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="about.html">About</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="post.html">Sample
-							Post</a></li>
-					<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a>
-					</li>
-				</ul>
-			</div>
+			<a href="/"><i class="fas fa-chevron-down" id="logo" style="font-size:60px; color:black">ITA</i></a>
 		</div>
 	</nav>
 
 	<!-- Page Header -->
 	<header class="masthead"
-		style="background-image: url('/resources/img/home-bg.jpg')">
+		style="background-color: #E7E7E7;">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
@@ -87,9 +69,9 @@
 				<div class="post-preview">
 					<h2 class="post-title"> </h2>
 					<h3 class="post-subtitle">
-						<form action="/login/signup" method="POST">
+						<form action="/user/new" method="POST">
 							<ul>
-								<li>ID: <input type="text" id="id" name="id" onkeyup="chkid()" />
+								<li>ID: <input type="text" id="id" name="id" onkeyup="chkid()" pattern=".{6,}" required title="6자 이상의 아이디" />
 								<p id="here1"></p><input type="hidden" id="idcheck" value="0" /></li>
 								<li>PW: <input type="password" id="password"
 									name="password" onkeyup="chkpassword(this,8)" pattern=".{8,}"
@@ -99,7 +81,7 @@
 									pattern=".{8,}" onkeyup="chkpassword_correct()" />
 								<p id="here3"></p></li>
 								<li>Nickname: <input type="text" id="nickname"
-									name="nickname" onkeyup="chknickname(this,5)" />
+									name="nickname" onkeyup="chknickname(this,5)" pattern=".{5,}" required title="5자 이상의 닉네임" />
 								<p id="here4"></p></li>
 								<li>Email: <input type="email" id="email" name="email" />
 								<p id="here5"></p></li>
