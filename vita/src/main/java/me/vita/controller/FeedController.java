@@ -52,7 +52,7 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
-		System.out.println("......................................................." + filter);
+//		System.out.println("......................................................." + filter);
 		if(filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);
 		} else if(filter.getType().equals("recent")) {
@@ -65,7 +65,7 @@ public class FeedController {
 	@ResponseBody
 	@Auth
 	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
-		System.out.println(".......................................................newsFeed" + filter);
+//		System.out.println(".......................................................newsFeed" + filter);
 		return service.getListNewsFeed(user, filter);
 	}
 	

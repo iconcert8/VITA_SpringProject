@@ -19,15 +19,17 @@
 
 		<!-- 카테고리 선택부분 -->
 		<div class="col-md-4 col-lg-3">
-
-			<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
-			<div class="card">
-				<div class="card-header" id="userLeftBtn">
-					<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
-					<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
-					<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
+			
+			<c:if test="${sessionScope.authUser != null}">
+				<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
+				<div class="card">
+					<div class="card-header" id="userLeftBtn">
+						<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
+						<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
+						<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
+					</div>
 				</div>
-			</div>
+			</c:if>
 
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
@@ -224,10 +226,14 @@
 
 
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
+<input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
+
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
+
+
 
  
 

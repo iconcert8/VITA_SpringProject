@@ -74,12 +74,15 @@ public class WarnController {
 	@PostMapping("/new")
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody WarnVO warnVO){
-		warnVO.setUserId(user.getUserId());
-		if(service.register(warnVO)) {
-			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else {
-			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		if(!user.getUserId().equals("guest")) {
+			warnVO.setUserId(user.getUserId());
+			if(service.register(warnVO)) {
+				return new ResponseEntity<String>("success", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
+		return new ResponseEntity<String>("guest fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	

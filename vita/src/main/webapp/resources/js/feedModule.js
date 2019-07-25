@@ -44,6 +44,25 @@ var feedService = {
                 if (complete) complete();
             }
         });
+    },
+    warn : function(sendData, success, error, complete) {
+        console.log('warn Btn...........');
+        
+        $.ajax({
+            type: "post",
+            url: "/warn/new",
+            contentType : "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            success: function (response) {
+                if (success) success(response);
+            },
+            error: function (xhr, status, err) {
+                if (error) error(err);
+            },
+            complete: function () {
+                if (complete) complete();
+            }
+        });
     }
 }
 

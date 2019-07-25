@@ -11,7 +11,7 @@ var template = {
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
 
         var feedImages = `<div class="carousel-item active">`;
-        for(var i in feed.feedImages) {
+        for (var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
@@ -19,7 +19,13 @@ var template = {
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
-        var warnBtn = authUser !== feed.userId ? '신고' : '삭제';
+        var warnBtn = '';
+        if (authUser !== feed.userId) {
+            warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
+            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
+        } else {
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
+        }
 
 
         return `
@@ -32,7 +38,7 @@ var template = {
                             <label>${feed.userNick}(${feed.userId})</label>
                         </div>
                         <div class="d-inline-block float-right">
-                            <button class="btn btn-outline-danger">${warnBtn}</button>
+                            ${warnBtn}
                         </div>
                     </div>
                     <!-- 피드 바디 -->
@@ -129,7 +135,7 @@ var template = {
         template += `</div>`;
         return template;
     },
-    feedDetail: function (feed) {
+    feedDetail: function (feed, authUser) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
@@ -140,14 +146,21 @@ var template = {
         }
 
         var feedImages = `<div class="carousel-item active">`;
-        for(var i in feed.feedImages) {
+        for (var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
-        
+
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+        var warnBtn = '';
+        if (authUser !== feed.userId) {
+            warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
+            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
+        } else {
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
+        }
 
         var template = `
             <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
@@ -184,7 +197,7 @@ var template = {
                                     <label class="text-white bg-secondary mr-1 rounded">${feed.bigGroup}</label> <label
                                         class="text-white bg-secondary rounded">${feed.smallGroup}</label>
                                     <div class="d-inline-block float-right pt-0 mt-0">
-                                        <button class="btn btn-outline-danger">신고</button>
+                                        ${warnBtn}
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -240,19 +253,19 @@ var template = {
         return template;
     },
     reply: function (reply) {
-    	var templateLi = '';
-    	$.each(reply, function(index, item){
-    		 var date = new Date(item.replyDate);
-             var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
-                 + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
-                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-        var deleteBtn = '';
-        if(item.isMyReply) {
-            deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
+        var templateLi = '';
+        $.each(reply, function (index, item) {
+            var date = new Date(item.replyDate);
+            var replyDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
+                + (date.getDay() < 9 ? '0' : '') + date.getDay() + ' '
+                + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+            var deleteBtn = '';
+            if (item.isMyReply) {
+                deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
-        }
-        templateLi += `<li class="list-group-item">
+            }
+            templateLi += `<li class="list-group-item">
             <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
             <div class="d-inline-block">
                 <label class="mb-0">${item.userNick}(${item.userId})</label>
@@ -262,5 +275,56 @@ var template = {
             </li>`;
         });
         return templateLi;
+    },
+    warnModal: function () {
+
+        return `<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <!-- 신고 모달창 헤더-->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalWriteTitle">신고</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- 신고 모달창 바디-->
+                <div class="modal-body">
+                    
+                    <!-- 신고 모달창 대소분류 선택 부분-->
+                    <div class="card mt-2" >
+                        <div class="card-body">
+                            <!-- 신고 모달창 대분류 선택 부분-->
+                            <div class="form-group">
+                                <label>신고분류</label> 
+                                <select class="form-control warnCategory">
+                                    <option selected>[신고 선택]</option>
+                                    <option>욕설</option>
+                                    <option>광고</option>
+                                    <option>음란</option>
+                                    <option>사기</option>
+                                    <option>도배</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- 신고 모달창 내용 입력 부분-->
+                        <div class="card-body pt-0">
+                            <div class="form-group">
+                                <label for="content-write-textarea">내용</label>
+                                <textarea class="form-control warnMsg" placeholder="내용을 입력하여 주세요" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <p class="text-danger font-weight-bolder pl-4 warnCheckMsg"></p>
+                    </div>
+                </div>
+                
+                <!-- 신고 모달창 푸터, 작성/취소버튼-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-danger" id="warnActionBtn" data-feedno='' data-limitcontent='' data-dismiss="modal" aria-label="Close">신고하기</button>
+                </div>
+            </div>
+        </div>`;
     }
 }
