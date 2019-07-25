@@ -2,18 +2,18 @@ package me.vita.mapper;
 
 import java.util.List;
 
-import me.vita.domain.DeletedFeedVO;
+import org.apache.ibatis.annotations.Param;
+
 import me.vita.domain.WarnVO;
-import me.vita.dto.WarnDetailDTO;
 import me.vita.dto.WarnSimpleDTO;
 
 public interface WarnMapper {
 
-	List<WarnSimpleDTO> selectList(Integer page);
+	List<WarnSimpleDTO> selectList(@Param("page")Integer page);
 
-	WarnDetailDTO select(Integer feedNo);
+	List<WarnVO> selectListRequest(@Param("feedNo")Integer feedNo);
 
-	int modify(Integer feedNo);
+	int update(@Param("feedNo")Integer feedNo);
 
 	int insert(WarnVO warnVO);
 }

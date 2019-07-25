@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.WarnMapper">
+
+	<select id="selectList" resultType="me.vita.dto.WarnSimpleDTO">
+		select feedNo, feedLimitContent, count(feedNo) as count
+		from warn
+		where warnChk = 'F'
+		group by feedNo, feedLimitContent
+		order by count desc
+	</select>
+	
+	
+	<select id="selectListRequest" resultType="me.vita.domain.WarnVO">
+		select * from warn where feedNo = #{feedNo} and warnChk = 'F'
+	</select>
+	
+	<update id="update">
+		update warn set warnChk = 'T' where feedNo=#{feedNo}
+	</update>
+</mapper>

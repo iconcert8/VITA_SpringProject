@@ -36,6 +36,9 @@ public class HomeController {
 			go = "testlogin";
 		} else {
 			request.getSession().setAttribute("authUser", authUser);
+			if(userId.equals("root")){
+				go = "admin";
+			}
 		}
 		return go;
 	}

@@ -20,7 +20,6 @@ import lombok.extern.log4j.Log4j;
 import me.vita.domain.DeletedFeedVO;
 import me.vita.domain.UserVO;
 import me.vita.domain.WarnVO;
-import me.vita.dto.WarnDetailDTO;
 import me.vita.dto.WarnSimpleDTO;
 import me.vita.security.Auth;
 import me.vita.security.Auth.Role;
@@ -41,14 +40,14 @@ public class WarnController {
 		return service.getList(page);
 	}
 	
-	@GetMapping("/{feedNo}")
+	@GetMapping("/list/request/{feedNo}")
 	@ResponseBody
 	@Auth(Role.ADMIN)
-	public WarnDetailDTO get(@PathVariable("feedNo") Integer feedNo) {
-		return service.get(feedNo);
+	public List<WarnVO> getListRequest(@PathVariable("feedNo") Integer feedNo) {
+		return service.getListRequest(feedNo);
 	}
 	
-	// delete이지만 수정으로 delete 처리
+	// delete이지만 수정으로 처리
 	@DeleteMapping("/{feedNo}")
 	@ResponseBody
 	@Auth(Role.ADMIN)
@@ -60,6 +59,7 @@ public class WarnController {
 		}
 	}
 	
+	//신고에 문제없어서 취소시
 	@PutMapping("/{feedNo}")
 	@ResponseBody
 	@Auth(Role.ADMIN)

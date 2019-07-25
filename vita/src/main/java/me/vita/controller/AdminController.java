@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import me.vita.security.Auth;
+import me.vita.security.Auth.Role;
 
 @Controller
 @Log4j
@@ -18,6 +20,7 @@ import lombok.extern.log4j.Log4j;
 public class AdminController {
 	
 	@GetMapping("")
+	@Auth(Role.ADMIN)
 	public void view() {}
 	
 }

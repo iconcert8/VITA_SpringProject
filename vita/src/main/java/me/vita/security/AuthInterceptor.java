@@ -42,7 +42,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 
-//		관리자 권한	
+		//관리자 권한	
 		if (adminRole != null) { // ClassType Annotation
 			if (adminRole.value().equals("ADMIN")) {
 				if (authUser.getUserId().equals("root") == false) {
