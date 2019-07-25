@@ -44,6 +44,47 @@ var feedService = {
                 if (complete) complete();
             }
         });
+    },
+    warn : function(sendData, success, error, complete) {
+        console.log('warn Btn...........');
+        
+        $.ajax({
+            type: "post",
+            url: "/warn/new",
+            contentType : "application/json;charset=utf-8",
+            data: JSON.stringify(sendData),
+            success: function (response) {
+                if (success) success(response);
+            },
+            error: function (xhr, status, err) {
+                if (error) error(err);
+            },
+            complete: function () {
+                if (complete) complete();
+            }
+        });
+    },
+    selectCategory : function (category) {
+        var categoryNo = category.data('categoryno');
+        var bigGroup = category.data('biggroup');
+        var smallGroup = category.data('smallgroup');
+
+        template.filterAdd(smallGroup, bigGroup, categoryNo);
+    },
+    selectCategoryAll : function (categorys) {
+        $.each(categorys, function (index, category) { 
+            var categoryNo = category.data('categoryno');
+            var bigGroup = category.data('biggroup');
+            var smallGroup = category.data('smallgroup');
+    
+            template.filterAdd(smallGroup, bigGroup, categoryNo);
+        });
+    },
+    unSelectCategory : function(category) {
+        
+    },
+    unSelectCategoryAll : function(categorys) {
+        
     }
 }
 
@@ -78,6 +119,7 @@ var viewService = {
     mainPageInit : function() {
        
         $('#categoryType').removeClass('d-none');
+
         $('#userInfo').addClass('d-none');
 
         // 피드 삭제
@@ -90,7 +132,8 @@ var viewService = {
  
          // 카테고리바(필터) 초기화
          $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
-    }
+    },
+
 
 }
 

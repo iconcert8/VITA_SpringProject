@@ -1,9 +1,10 @@
 package me.vita.service;
 
 import me.vita.domain.UserVO;
+import me.vita.dto.UserDTO;
 
 public interface UserService {
-
+	
 	public String getPw(String userId);
 	
 	public void register(UserVO userVO)throws Exception;
@@ -17,4 +18,6 @@ public interface UserService {
 	public void modifyAuthstatus(String userId);
 	
 	public boolean login(UserVO vo);
+
+	public UserDTO get(String myId, String userId);
 }

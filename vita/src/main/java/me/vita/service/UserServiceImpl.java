@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import me.vita.domain.MailUtils;
 import me.vita.domain.TempKey;
 import me.vita.domain.UserVO;
+import me.vita.dto.UserDTO;
 import me.vita.mapper.UserMapper;
 
 @Service
@@ -18,15 +19,19 @@ public class UserServiceImpl implements UserService {
 	private UserMapper mapper;
 	private JavaMailSender mailSender;
 
+	
+	@Override
+	public UserDTO get(String myId, String userId) {
+		return mapper.select(myId, userId);
+	}
+	
 	@Override
 	public String getPw(String userId) {
-		// TODO Auto-generated method stub
 		return mapper.selectPw(userId);
 	}
 
 	@Override
 	public void register(UserVO userVO) throws Exception {
-		// TODO Auto-generated method stub
 		String authkey = new TempKey().getkey(10, false);
 		
 		MailUtils sendMail = new MailUtils(mailSender);
@@ -41,8 +46,6 @@ public class UserServiceImpl implements UserService {
 		
 		userVO.setAuthKey(authkey);
 		userVO.setAuthStatus("F");
-		
-		
 		
 		mapper.insertUser(userVO);
 	}

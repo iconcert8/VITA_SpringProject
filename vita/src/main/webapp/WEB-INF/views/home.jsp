@@ -20,19 +20,20 @@
 
 		<!-- 카테고리 선택부분 -->
 		<div class="col-md-4 col-lg-3">
-
-			<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
-			<div class="card">
-				<div class="card-header" id="userLeftBtn">
-					<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
-					<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
-					<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
+			
+			<c:if test="${sessionScope.authUser != null}">
+				<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
+				<div class="card">
+					<div class="card-header" id="userLeftBtn">
+						<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
+						<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
+						<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
+					</div>
 				</div>
-			</div>
+			</c:if>
 
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
-			
 
 			</div>
 
@@ -96,26 +97,6 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			<!-- 회원정보, 내글 보기 경우에만 출력-->
-			<div class="card bg-light mb-3">
-				<div class="card-header text-center">
-					<div style="position:relative">
-						<h3 class="d-inline-block rounded bg-secondary text-white">
-							프로필
-						</h3>
-						<div class="custom-file d-inline" style="position:absolute; left:40px; top:18px;">
-							<input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
-							<label for="prof-img"><i class="fas fa-image"></i></label>
-						 </div>
-					</div>
-					<div class="d-inline-block ml-3">
-						<h3>닉네임(ID)</h3>
-					</div>
-				</div>
-			</div>
-			
 
 			<div class="row" id="viewFeedList">
 
@@ -201,41 +182,33 @@
 <!-- end 중간 (카테고리 선택 부분, 피드 부분)-->
 
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
+<input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
+
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
-<script type="text/javascript" src="/resources/js/category.js"></script>
+<script src="/resources/js/category.js"></script>
 <script type="text/javascript">
 
-
 //소분류 호출
-function startSmallCallback(resultSmall, index){
+function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';
 
-	htmlSmall += " <div class='"
-		+ "col-sm-6"
-		+ "'> <input type='"
-		+ "checkbox"
-		+ "' data-categoryNo="
-		+ "''"
-		+ "><label>"
-		+ "전체선택"
-		+ "</label></div>";
-		
+	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
+					+ "<input type='checkbox' data-biggroup='" + big + "'>"
+					+ "<label>전체선택</label>"
+				+ "</div>";
+				
 	$.each(resultSmall, function(index, itemSmall){
 			/* 일반 소분류 버튼 */
-		htmlSmall += " <div class='"
-			+ "col-sm-6"
-			+ "'> <input type='"
-			+ "checkbox"
-			+ "' data-categoryNo='"
-			+ itemSmall.categoryNo
-			+ "'><label>"
-			+ itemSmall.smallGroup
-			+ "</label></div>";
+		htmlSmall += "<div class='col-sm-6 category'>"
+						+ "<input type='checkbox' data-categoryno='" + itemSmall.categoryNo
+						+ "' data-biggroup='" + big + "' data-smallgroup'" + itemSmall.smallGroup + "'>"
+						+ "<label>" + itemSmall.smallGroup + "</label>"
+					+  "</div>";
 	});	
-	var name = "#" + "small" + (index+1);
+	var name = "#small" + (index+1);
 	
 	$(name).append(htmlSmall);
 	
@@ -245,7 +218,12 @@ function startSmallCallback(resultSmall, index){
 function startBigCallback(result){
 	$.each(result, function(i, item){
 		var html = '';
-		
+
+		html += "<div class='card'>"
+				+ "<button class='btn card-header' id='big"+ (i+1) + "' data-toggle='collapse' data-target='#small" + (i+1)
+				+ "' aria-expanded='false' aria-controls='small" + (i+1) + "'>"	+ item	+ "</button>"
+				+ "<div id='small" + (i+1) + "' class='collapse row' aria-labelledby='big" + (i+1) + "'data-parent='#accordion'></div>"
+			+ "</div>";
 			
 		$("#accordion").append(html);
 
@@ -254,9 +232,7 @@ function startBigCallback(result){
 }
 
 $(function(){
-	console.log("home");
 	categoryService.bigCall(startBigCallback);
-	console.log("home2");
 })
 		
 </script>

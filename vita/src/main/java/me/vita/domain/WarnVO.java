@@ -14,9 +14,9 @@ public class WarnVO {
 	private Integer feedNo;
 	private String userId;
 	private String feedLimitContent;
-	private String WarnMsg;
-	private String WarnCategory;
-	private String WarnChk;
+	private String warnMsg;
+	private String warnCategory;
+	private String warnChk;
 	private Date warnDate;
 
 }

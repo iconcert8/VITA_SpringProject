@@ -98,7 +98,7 @@ public class UserController {
 	}
 	
 
-	/*@GetMapping("/{userId}")
+	@GetMapping("/{userId}")
 	@ResponseBody
 	@Auth
 	public UserDTO get(@SessionAttribute("authUser") UserVO user, @PathVariable("userId") String userId) {
@@ -107,7 +107,7 @@ public class UserController {
 			userDTO.setIsFollow("me");
 		}
 		return userDTO;
-	}*/
+	}
 	
 	
 	

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +41,7 @@
 			<div class="col-md-3 mt-3">
 				<a href="/"><i class="fas fa-chevron-down" style="font-size:60px; color:black">ITA</i></a>
 			</div>
-
+			
 			<!-- 검색 -->
 			<div class="col-md-5 mt-3">
 				<div class="input-group">
@@ -53,30 +55,33 @@
 				</div>
 			</div>
 			
-			<!-- 로그인시 메뉴 -->
-			<div class="col-md-4 toolbar-icon mt-3">
-				<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
-				<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
-				<div class="d-inline-block" style="position:relative;">
-					<a href="/messenger"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
-					<span style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
+			<c:if test="${sessionScope.authUser != null}">
+				<div class="col-md-4 toolbar-icon mt-3">
+					<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
+					<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
+					<div class="d-inline-block" style="position:relative;">
+						<a href="/messenger"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
+						<span style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
+					</div>
+					<div class="dropdown d-inline-block" style="position:relative;">
+						<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
+						<span class="notification-cnt" style="width:20px; height:20px; background-color:red; position:absolute; top:-8px; font-weight:bold; color:white;">0</span>
+						<div class="dropdown-menu dropdown-menu-right notification-list-block overflow-auto" style="max-height:300px;" aria-labelledby="notification-view-btn">
+								<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
+								
+						</div>
+					</div>
+					<a href="/testlogout"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
 				</div>
-				<div class="dropdown d-inline-block" style="position:relative;">
-					<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
-					<span class="notification-cnt" style="width:20px; height:20px; background-color:red; position:absolute; top:-8px; font-weight:bold; color:white;">0</span>
-  					<div class="dropdown-menu dropdown-menu-right notification-list-block overflow-auto" style="max-height:300px;" aria-labelledby="notification-view-btn">
-    						<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
-    						
-  					</div>
-				</div>
-				<a href="/testlogin"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
-			</div>
+			</c:if>
 
-			<!-- 비 로그인시 메뉴 -->
-			<div class="col-md-4 toolbar-icon mt-3 d-none">
-				<a href="#"><i class="fas fa-sign-in-alt" style="font-size:34px;"></i></a>
-				<a href="#"><i class="fas fa-user-plus" style="font-size:34px;"></i></a>
-			</div>
+			<c:if test="${sessionScope.authUser == null}">
+				<!-- 비 로그인시 메뉴 -->
+				<div class="col-md-4 toolbar-icon mt-3">
+					<a href="/testlogin"><i class="fas fa-sign-in-alt" style="font-size:34px;"></i></a>
+					<a href="#"><i class="fas fa-user-plus" style="font-size:34px;"></i></a>
+				</div>
+			</c:if>	
 		</div>
 	</div>
 
@@ -96,40 +101,21 @@
 				<div class="modal-body">
 					<!-- 글쓰기 모달창 이미지 관련 부분-->
 					<div class="card bg-light" id="imageUploadBox">
-					
-					
-					
-					
-					
-					
 						<!-- 글쓰기 모달창 이미지 미리보기 출력부분-->
-						
 						<div class="card-header" >
 							<ul id="image-block">
 <!-- 								<li class="d-inline-block mx-1" id="preview0~9">이미지1</li> -->
 							</ul>
 						</div>
 						
-						
-						
-						
-						
-						
 						<!-- 글쓰기 모달창 파일 선택 부분-->
-						
 						<div class="card-body">
 							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
 						</div>
 						<div class="card-body-delete">
 							<input type="button" id="write-image-delete" name="uploadFileDelete"  value="지우기버튼 "/>
 						</div>
-						
-						
-						
-						
-						
-						
-						
+
 					</div>
 					<!-- 글쓰기 모달창 대소분류 선택 부분-->
 					<div class="card mt-2" id="contentWriteBox">
@@ -330,6 +316,74 @@
 	</div>
 </div>
 <!--end 피드 상세보기 모달 -->
+
+<!-- 신고 모달창 -->
+<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 신고 모달창 헤더-->
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalWriteTitle">신고</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<!-- 신고 모달창 바디-->
+			<div class="modal-body">
+				
+				<!-- 신고 모달창 대소분류 선택 부분-->
+				<div class="card mt-2" >
+					<div class="card-body">
+						<!-- 신고 모달창 대분류 선택 부분-->
+						<div class="form-group">
+							<label>신고분류</label> 
+							<select class="form-control warnCategory">
+								<option selected>[신고 선택]</option>
+								<option>욕설</option>
+								<option>광고</option>
+								<option>음란</option>
+								<option>사기</option>
+								<option>도배</option>
+							</select>
+						</div>
+					</div>
+					
+					
+					<!-- 신고 모달창 내용 입력 부분-->
+					<div class="card-body pt-0">
+						<div class="form-group">
+							<label for="content-write-textarea">내용</label>
+							<textarea class="form-control warnMsg" placeholder="내용을 입력하여 주세요" rows="4"></textarea>
+						</div>
+					</div>
+					<p class="text-danger font-weight-bolder pl-4 warnCheckMsg"></p>
+				</div>
+			</div>
+			
+			<!-- 신고 모달창 푸터, 작성/취소버튼-->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-danger" id="warnActionBtn" data-feedno='', data-limitcontent='' data-toggle="modal" data-target="#alertModal" aria-label="Close">신고하기</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 알림 모달창 -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body m-0 p-0">
+				<%-- <div class="card bg-light" id="imageUploadBox"> --%>
+					<%-- <div class="card-body"> --%>
+						<p class="text-secondary font-weight-bolder alertMsg text-center pt-2" style="font-size:20px;"></p>
+					<%-- </div> --%>
+				<%-- </div> --%>
+			</div>
+		</div>
+	</div>
+</div>
 
 <link rel="stylesheet" href="/resources/css/upload.css" />
 <script type="text/javascript" src="/resources/js/header.js"></script>

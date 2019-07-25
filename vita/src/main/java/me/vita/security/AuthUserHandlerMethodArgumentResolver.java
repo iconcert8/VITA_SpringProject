@@ -41,8 +41,8 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		if (session.getAttribute("authUser") == null) {
 			UserVO guest = new UserVO();
 			guest.setUserId("guest");
-			request.getSession().setAttribute("guest", "guest");
-			session.setAttribute("authUser", guest);
+			request.getSession().setAttribute("guest", guest);
+			return session.getAttribute("guest");
 		}
 
 		return session.getAttribute("authUser");

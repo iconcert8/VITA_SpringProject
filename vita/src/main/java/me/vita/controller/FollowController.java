@@ -34,6 +34,7 @@ public class FollowController {
 	FollowService service;
 	
 	@GetMapping("")
+	@Auth
 	public void view() {}
 	
 	@GetMapping("/list/follower/{search}/{page}")

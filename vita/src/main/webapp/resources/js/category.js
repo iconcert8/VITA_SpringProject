@@ -23,7 +23,7 @@ var categoryService = (function() {
 			contentType : 'application/json; charset=UTF-8',
 			success : function(result) {
 				if (callback) {
-					callback(result, index);
+					callback(result, index, value);
 				}}});}
 	
 //	bigCall 이라는 이름으로 bigCall함수 사용가능, smallCall 동일 

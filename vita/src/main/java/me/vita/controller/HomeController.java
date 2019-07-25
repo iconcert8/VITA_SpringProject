@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import me.vita.domain.UserVO;
 import me.vita.mapper.UserMapper;
+import me.vita.security.AuthUser;
 
 @Controller
 public class HomeController {
@@ -18,7 +19,8 @@ public class HomeController {
 	UserMapper mapper;
 	
 	@GetMapping("/")
-	public String home() {
+	public String home(@AuthUser UserVO user) {
+		
 		return "home";
 	}
 	
@@ -28,16 +30,23 @@ public class HomeController {
 	}
 	
 	@PostMapping("/testlogin")
-	public String home(@RequestParam("userId") String userId, HttpServletRequest request){
-
+	public String testlogin(@RequestParam("userId") String userId, HttpServletRequest request){
+		
 		String go = "home";
 		UserVO authUser = mapper.testGet(userId);
 		if(authUser == null){
 			go = "testlogin";
 		} else {
+			request.getSession().removeAttribute("guest");
 			request.getSession().setAttribute("authUser", authUser);
 		}
 		return go;
+	}
+	
+	@GetMapping("/testlogout")
+	public String testlogout(HttpServletRequest request) {
+		request.getSession().removeAttribute("authUser");
+		return "redirect:/";
 	}
 	
 }

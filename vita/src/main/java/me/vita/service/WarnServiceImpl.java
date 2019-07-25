@@ -46,7 +46,7 @@ public class WarnServiceImpl implements WarnService {
 	
 	@Override
 	public boolean register(WarnVO warnVO) {
-		return mapper.insert(warnVO) > 0;
+		return mapper.insert(warnVO) == 1;
 	}
 	
 	
