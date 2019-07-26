@@ -93,22 +93,29 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	@Transactional
 	public boolean register(FeedDTO feedDTO) {
-		System.out.println("service===================================");
+		System.out.println("service==1===============insert start");
+		
+		System.out.println(feedDTO);
+		
 		int result = mapper.insert(feedDTO);
-		System.out.println("service================================insert done");
-		System.out.println(result);
+		
+		System.out.println("service==2===============insert done");
+
+		System.out.println(feedDTO);
 		
 		List<FeedImageVO> imgs = feedDTO.getFeedImages();
+		
 		for(FeedImageVO img : imgs) {
 			feedImageMapper.insert(img);
 		}
 		
 		List<String> tags = feedDTO.getTags();
+		
 		for(String tag : tags) {
 			tagMapper.insert(feedDTO.getFeedNo(), tag);
 		}
 	
 		return result == 1;
+		
 	}
-
 }

@@ -90,6 +90,7 @@ public class FeedController {
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
 		System.out.println(feedDTO);
+		
 		if(service.register(feedDTO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}else {
