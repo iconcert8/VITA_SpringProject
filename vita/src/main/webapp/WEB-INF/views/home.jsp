@@ -42,38 +42,29 @@
 		
 			<!-- 인기, 최신 버튼 -->
 			<div class="text-right mt-2" id="categoryType">
-				<button class="btn btn-outline-secondary" id="popularBtn">인기순</button>
+				<button class="btn btn-secondary" id="popularBtn">인기순</button>
 				<button class="btn btn-outline-secondary" id="recentBtn">최신순</button>
 				<div class="clearfix mb-2"></div>
 			</div>
 
+			<!-- 유저 피드 바 -->
+			<div class="card bg-light mb-3 d-none" id="userBar">
+				<div class="card-header">
+					<button class="btn btn-outline-secondary float-right" id="goToMainBtn">Home</button>
+				</div>
+			</div>
+
 			<!-- 필터 현황 -->
-			<div class="card bg-light mb-3" id="filterBar">
+			<div class="card bg-light mb-3" id="categoryBar">
 				<div class="card-header">
 					<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>
+				</div>
+			</div>
 
-					<div class="d-inline-block text-center mx-1">
-						<span>오버워치</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-					<div class="d-inline-block text-center mx-1">
-						<span>롤</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-					<div class="d-inline-block text-center mx-1">
-						<span>배틀그라운드</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-
+			<!-- 검색바 -->
+			<div class="card bg-light mb-3 d-none" id="searchBar">
+				<div class="card-header">
+					<button class="btn btn-outline-secondary float-right" id="cancelSearch">검색 취소</button>
 				</div>
 			</div>
 

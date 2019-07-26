@@ -37,13 +37,13 @@ var categoryService = (function () {
 		var bigGroup = $(category).data('biggroup');
 		var smallGroup = $(category).data('smallgroup');
 
-		$('#filterBar > div').append(template.filterAdd(smallGroup, bigGroup, categoryNo));
+		$('#categoryBar > div').append(template.filterAdd(smallGroup, bigGroup, categoryNo));
 	}
 
 	function unselectCategory(category) {
 		var categoryNo = $(category).data('categoryno');
 
-		$('#filterBar > div').find(`div[data-categoryno="${categoryNo}"]`).remove();
+		$('#categoryBar > div').find(`div[data-categoryno="${categoryNo}"]`).remove();
 		var filter = categoryFilter.indexOf(categoryNo);
 		categoryFilter.splice(filter, 1);
 	}

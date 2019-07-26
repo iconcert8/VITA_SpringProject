@@ -99,8 +99,9 @@ var template = {
     },
     filterAdd: function (filterName, big, categoryNo) {
         if(!categoryFilter.includes(categoryNo)) {
-            categoryFilter.push(categoryNo);
-
+            if(categoryNo) {
+                categoryFilter.push(categoryNo);
+            }
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}">
@@ -112,6 +113,7 @@ var template = {
                     </div>`;
         }
     },
+
     userInfo: function (user, authUser) {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded bg-secondary text-white">

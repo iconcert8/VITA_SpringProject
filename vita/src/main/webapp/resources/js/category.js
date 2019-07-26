@@ -56,10 +56,17 @@ $(document).ready(function () {
     
    // 카테고리 선택 이벤트
     var categoryListDiv = $('#accordion');
-    var filterBarDiv = $('#filterBar > div');
+    var categoryBarDiv = $('#categoryBar');
+
+
+    categoryListDiv.click(function(e) {
+        viewService.myBtnUnActive();
+        viewService.userBarReset();
+    });
     
     // 전체선택
     categoryListDiv.on('click', 'div.categorySelectSmallAll > button', function(event) {
+
         var chekcboxName = $(this).data('type');
         var categorys = $(`input[name=${chekcboxName}]`);
         
@@ -107,7 +114,7 @@ $(document).ready(function () {
     });
 
     // 카테고리 바 이벤트
-    filterBarDiv.on('click', '.close', function() {
+    categoryBarDiv.on('click', '.close', function() {
         categoryService.deleteCategory($(this).parent());
         viewMainPage();
     });
@@ -121,35 +128,5 @@ $(document).ready(function () {
         });
         viewMainPage();
     });
-
-/*     // 전체선택 div
-    categoryListDiv.on('click', 'div.categorySelectSmallAll', function(event) {
-        var categorys = $(this).parent().find('input');
-        var select =  $(this).find('input');
-        var name = select.data('type');
-        alert(select.prop('checked'));
-        console.log(select);
-        if(!select.prop('checked')) {
-            categorys.prop('checked',true);
-            $(`input[name=${name}]`).each(function (i, category) {
-                categoryService.selectCategory(category);
-            });
-        } else {
-            categorys.prop('checked',false);
-            $(`input[name=${name}]`).each(function (i, category) {
-                categoryService.unSelectCategory(category);
-            });
-        }
-        viewMainPage();
-    }); 
-    // 전체선택 checkbox - 이벤트 버블링 이용
-    categoryListDiv.on('click', 'input[data-type^="small"]', function(event) {
-        var categorys = $(this).parent().parent().find('input');
-        if(!$(this).prop('checked')) {
-            categorys.prop('checked',true);
-        } else {
-            categorys.prop('checked',false);
-        }
-    }); */
 
 });
