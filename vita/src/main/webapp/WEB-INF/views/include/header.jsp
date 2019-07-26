@@ -391,12 +391,16 @@
 <script src="/resources/js/categoryModule.js"></script>
 <script src="/resources/js/category.js"></script>
 <script src="/resources/js/search.js"></script>
+<script src="/resources/js/good.js"></script>
+<script src="/resources/js/favorite.js"></script>
 
 <script type="text/javascript">
 
 $(function(){
 	//알림 웹소켓 로드
 	notificationService.webSocketLoad();
+	goodService.registerBtnEvent();
+	favoriteService.registerBtnEvent();
 	
 	//글쓰기 창 선택시 대분류 나타나게 해줌
 	$("#callBig").on("click", function(){

@@ -20,9 +20,9 @@ var template = {
         }
         feedImages += `</div>`;
 
-        var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
+        var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
-        var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+        var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary nofavor' : 'btn-primary favor';
         var warnBtn = '';
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
@@ -79,8 +79,8 @@ var template = {
                     </div>
                     <div class="card-body row pt-2">
                         <div class="col">
-                            <button class="btn w-100 ${goodBtn} good" data-feedno=${feed.feedNo}>
-                                좋아요:<label class="m-0">${feed.feedGoodCnt}</label>
+                            <button class="btn w-100 ${goodBtn}" data-feedno="${feed.feedNo}" data-userid="${feed.userId}">
+                                좋아요:<label class="m-0 cnt">${feed.feedGoodCnt}</label>
                             </button>
                         </div>
                         <div class="col">
@@ -90,7 +90,7 @@ var template = {
                             </button>
                         </div>
                         <div class="col">
-                            <button class="btn w-100 ${favoriteBtn} favorite" data-feedno=${feed.feedNo}>즐겨찾기</button>
+                            <button class="btn w-100 ${favoriteBtn}" data-feedno="${feed.feedNo}" data-userid="${feed.userId}">즐겨찾기</button>
                         </div>
                     </div>
                 </div>
@@ -172,8 +172,8 @@ var template = {
         feedImages += `</div>`;
 
 
-        var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
-        var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+        var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
+        var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary nofavor' : 'btn-primary favor';
         var warnBtn = '';
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
@@ -236,12 +236,12 @@ var template = {
         
                                 <div class="card-body row pt-2">
                                     <div class="col">
-                                        <button class="btn ${goodBtn} w-100 good" data-feedNo="${feed.feedNo}">
-                                            좋아요:<label class="m-0">0</label>
+                                        <button class="btn ${goodBtn} w-100" data-feedno="${feed.feedNo}" data-userid="${feed.userId}">
+                                            좋아요:<label class="m-0 cnt">${feed.feedGoodCnt}</label>
                                         </button>
                                     </div>
                                     <div class="col">
-                                        <button class="btn ${favoriteBtn} w-100 favorite" data-feedNo="${feed.feedNo}">즐겨찾기</button>
+                                        <button class="btn ${favoriteBtn} w-100" data-feedno="${feed.feedNo}" data-userid="${feed.userId}">즐겨찾기</button>
                                     </div>
                                 </div>
                                 <!-- 댓글 부분 -->

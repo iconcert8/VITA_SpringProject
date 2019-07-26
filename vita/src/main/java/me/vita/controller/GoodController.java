@@ -44,7 +44,6 @@ public class GoodController {
 	@DeleteMapping("/{feedNo}")
 	@Auth
 	public ResponseEntity<String> remove(@SessionAttribute("authUser") UserVO user, @PathVariable("feedNo") Integer feedNo){
-		System.out.println("good feedNo : " +feedNo);
 		GoodVO goodVO = new GoodVO();
 		goodVO.setUserId(user.getUserId());
 		goodVO.setFeedNo(feedNo);
