@@ -203,7 +203,6 @@ $(document).ready(function () {
 
     // 신고하기
     warnModal.on('click', '#warnActionBtn', function (event) {
-        
         var feedNo = $(this).data('feedno');
         var limitContent = $(this).data('limitcontent');
         var warnCategory = warnModal.find('.warnCategory').val();
@@ -229,7 +228,7 @@ $(document).ready(function () {
                     alertModal.modal('show');
                 }
             });
-            // warnModal.modal('hide');
+            warnModal.modal('hide');
         }
     });
 

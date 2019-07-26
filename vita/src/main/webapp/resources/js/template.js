@@ -343,7 +343,7 @@ var template = {
                 <!-- 신고 모달창 푸터, 작성/취소버튼-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-danger" id="warnActionBtn" data-feedno='' data-limitcontent='' data-dismiss="modal" aria-label="Close">신고하기</button>
+                    <button type="button" class="btn btn-danger" id="warnActionBtn" data-feedno='' data-limitcontent='' aria-label="Close">신고하기</button>
                 </div>
             </div>
         </div>`;
