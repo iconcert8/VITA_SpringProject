@@ -209,10 +209,10 @@ $(document).ready(function () {
         var warnMsg = warnModal.find('.warnMsg').val();
         if (warnCategory === '[신고 선택]') {
             warnModal.find('.warnCheckMsg').text('신고 분류를 선택해 주세요.');
-            // return false;
+            return false;
         } else if (warnMsg === '') {
             warnModal.find('.warnCheckMsg').text('신고 내용을 입력해 주세요.');
-            // return false;
+            return false;
         } else {
             var sendData = {
                 "feedNo": feedNo,
