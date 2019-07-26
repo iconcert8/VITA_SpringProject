@@ -97,14 +97,24 @@ var template = {
             </div>
         `;
     },
-    filterAdd: function (filterName, big, categoryNo) {
-        if(!categoryFilter.includes(categoryNo)) {
-            if(categoryNo) {
+    filterAdd: function (filterName, big, categoryNo, btn) {
+
+        var flag = false;
+        if(categoryNo) {
+            if(!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
+                flag = true;
             }
+        } else {
+            if(!searchFilter.includes(filterName) && !btn) {
+                searchFilter.push(filterName);
+                flag = true;
+            }
+        }
+        if(flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
-            return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}">
+            return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
                         <span>${filterName}</span>
                         <button type="button" class="close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

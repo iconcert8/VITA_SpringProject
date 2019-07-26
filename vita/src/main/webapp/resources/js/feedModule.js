@@ -99,8 +99,10 @@ var viewService = {
         $('#categoryType').removeClass('d-none');
         $('#categoryBar').removeClass('d-none');
         $('#userBar').addClass('d-none');
-        $('#searchBar').addClass('d-none');
         $('#userInfo').addClass('d-none');
+        if(searchFilter.length == 0) {
+            $('#searchBar').addClass('d-none');
+        }
         // 피드 삭제
         $('#viewFeedList').empty();
     },

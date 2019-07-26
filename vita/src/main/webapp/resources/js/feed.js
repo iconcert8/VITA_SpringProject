@@ -4,8 +4,6 @@ $(document).ready(function () {
     var myBtn = '';
     var mainType = 'popular';
 
-
-
     var viewFeedListDiv = $('#viewFeedList');
     var userInfoDiv = $('#userInfo');
     var categoryTypeDiv = $('#categoryType');
@@ -36,8 +34,6 @@ $(document).ready(function () {
         viewService.mainPageInit();
         refDataReset();
         if (type) mainType = type;
-
-        console.log(categoryFilter);
         
         var sendData = {
             type: mainType,
@@ -45,7 +41,6 @@ $(document).ready(function () {
             filter: categoryFilter,
             search: searchFilter
         }
-        // var userId = $('#authUserId').val();
         feedService.getList('', sendData, function (result) {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
@@ -57,7 +52,6 @@ $(document).ready(function () {
     }
 
     // 첫 메인 페이지 동작
-    // viewService.firstMainPageInit();
     mainType = 'popular';
     categoryFilter = [];
     serachFilter = [];
@@ -111,7 +105,7 @@ $(document).ready(function () {
             });
 
             leftUserBtnOn(this, 'userfeed');
-            $('#userBar > div').append(template.filterAdd('내 피드'));
+            $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
             myBtn = 'myFeed';
         } else {
             // 버튼 비활성화
@@ -129,7 +123,7 @@ $(document).ready(function () {
             leftUserBtnOn(this, 'favorite');
             // 카테고리 바 수정
             
-            $('#userBar > div').append(template.filterAdd('즐겨찾기'));
+            $('#userBar > div').append(template.filterAdd('즐겨찾기', '', '', true));
             myBtn = 'myFavorite';
         } else {
             // 버튼 비활성화
@@ -146,7 +140,7 @@ $(document).ready(function () {
             leftUserBtnOn(this, 'newsfeed');
             console.log($('#userBar > div'));
             
-            $('#userBar > div').append(template.filterAdd('팔로우글'));
+            $('#userBar > div').append(template.filterAdd('팔로우글', '', '', true));
             myBtn = 'newsFeed';
         } else {
             // 버튼 비활성화
