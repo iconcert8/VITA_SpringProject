@@ -87,30 +87,38 @@ var userService = {
 }
 
 var viewService = {
-    myBtnActive: function (userBtn, item) {
-        userBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
+    myBtnActive: function (item) {
+        $('#userLeftBtn > button').removeClass('btn-secondary').addClass('btn-outline-secondary');
         $(item).removeClass('btn-outline-secondary').addClass('btn-secondary');
     },
-    myBtnUnActive: function (item) {
-        $(item).removeClass('btn-secondary').addClass('btn-outline-secondary');
+    myBtnUnActive: function () {
+        $('#userLeftBtn > button').removeClass('btn-secondary').addClass('btn-outline-secondary');
     },
     mainPageInit: function () {
 
         $('#categoryType').removeClass('d-none');
-
+        $('#categoryBar').removeClass('d-none');
+        $('#userBar').addClass('d-none');
         $('#userInfo').addClass('d-none');
-
+        if(searchFilter.length == 0) {
+            $('#searchBar').addClass('d-none');
+        }
         // 피드 삭제
         $('#viewFeedList').empty();
     },
-    firstMainPageInit: function () {
-        // 인기/최신 버튼 초기화
-        $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
-        $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
+    userBarReset : function () {
+        $('#userBar > div').find('div').remove();
+    }
+    // firstMainPageInit: function () {
+    //     // 인기/최신 버튼 초기화
+    //     $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
+    //     $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-        // 카테고리바(필터) 초기화
-        $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
-    },
+    //     // 카테고리바(필터) 초기화
+    //     $('#categoryBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
+    // },
+
+
 }
 
 var insertFeed = function add(feed){

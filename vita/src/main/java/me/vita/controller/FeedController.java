@@ -52,6 +52,7 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
+//		System.out.println("......................................................." + user.getUserId());
 //		System.out.println("......................................................." + filter);
 		if(filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);

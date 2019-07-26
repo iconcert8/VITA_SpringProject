@@ -42,38 +42,29 @@
 		
 			<!-- 인기, 최신 버튼 -->
 			<div class="text-right mt-2" id="categoryType">
-				<button class="btn btn-outline-secondary" id="popularBtn">인기순</button>
+				<button class="btn btn-secondary" id="popularBtn">인기순</button>
 				<button class="btn btn-outline-secondary" id="recentBtn">최신순</button>
 				<div class="clearfix mb-2"></div>
 			</div>
 
+			<!-- 유저 피드 바 -->
+			<div class="card bg-light mb-3 d-none" id="userBar">
+				<div class="card-header">
+					<button class="btn btn-outline-secondary float-right" id="goToMainBtn">Home</button>
+				</div>
+			</div>
+
 			<!-- 필터 현황 -->
-			<div class="card bg-light mb-3" id="filterBar">
+			<div class="card bg-light mb-3" id="categoryBar">
 				<div class="card-header">
 					<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>
+				</div>
+			</div>
 
-					<div class="d-inline-block text-center mx-1">
-						<span>오버워치</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-					<div class="d-inline-block text-center mx-1">
-						<span>롤</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-					<div class="d-inline-block text-center mx-1">
-						<span>배틀그라운드</span>
-						<button type="button" class="close" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<br>(게임)
-					</div>
-
+			<!-- 검색바 -->
+			<div class="card bg-light mb-3 d-none" id="searchBar">
+				<div class="card-header">
+					<button class="btn btn-outline-secondary float-right" id="cancelSearch">검색 취소</button>
 				</div>
 			</div>
 
@@ -180,49 +171,7 @@
 
 
 <script type="text/javascript">
-//소분류 호출
-function startSmallCallback(resultSmall, index, big){
-	var htmlSmall = '';
 
-	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
-					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='small" + (index+1) + "'>"
-					+ "<label>전체선택</label>"
-				+ "</div>";
-				
-	$.each(resultSmall, function(i, itemSmall){
-			/* 일반 소분류 버튼 */
-		htmlSmall += "<div class='col-sm-6 category'>"
-						+ "<input type='checkbox' data-categoryno='" + itemSmall.categoryNo
-						+ "' data-biggroup='" + big + "' data-smallgroup='" + itemSmall.smallGroup + "' name='small" + (index+1) + "'>"
-						+ "<label>" + itemSmall.smallGroup + "</label>"
-					+  "</div>";
-	});
-	var name = "#small" + (index+1);
-	
-	$(name).append(htmlSmall);
-	
-}
-
-//서버 시작시 큰 카테고리 호출
-function startBigCallback(result){
-	$.each(result, function(i, item){
-		var html = '';
-
-		html += "<div class='card'>"
-				+ "<button class='btn card-header' id='big"+ (i+1) + "' data-toggle='collapse' data-target='#small" + (i+1)
-				+ "' aria-expanded='false' aria-controls='small" + (i+1) + "'>"	+ item	+ "</button>"
-				+ "<div id='small" + (i+1) + "' class='collapse row' aria-labelledby='big" + (i+1) + "'data-parent='#accordion'></div>"
-			+ "</div>";
-			
-		$("#accordion").append(html);
-
-		categoryService.smallCall(item, startSmallCallback, i);
-	});
-}
-
-$(function(){
-	categoryService.bigCall(startBigCallback);
-})
 		
 </script>
 

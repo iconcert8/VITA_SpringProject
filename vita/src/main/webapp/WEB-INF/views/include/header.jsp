@@ -26,8 +26,6 @@
 .toolbar-icon a{margin-right:5px;}
 </style>
 
-
-
 <title>VITA</title>
 </head>
 <body>
@@ -43,7 +41,7 @@
 			<!-- 검색 -->
 			<div class="col-md-5 mt-3">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search tag..." aria-describedby="searchBtn">
+					<input type="text" class="form-control" placeholder="Search tag..." aria-describedby="searchBtn" id="searchForm">
 					<div class="input-group-append">
 						<button class="btn btn-outline-primary" id="searchBtn"><i class="fas fa-search" style="font-size:20px;"></i></button>
 					</div>
@@ -392,6 +390,8 @@
 <script src="/resources/js/feed.js"></script>
 <script src="/resources/js/categoryModule.js"></script>
 <script src="/resources/js/category.js"></script>
+<script src="/resources/js/search.js"></script>
+
 <script type="text/javascript">
 
 $(function(){

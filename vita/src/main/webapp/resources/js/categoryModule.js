@@ -37,21 +37,21 @@ var categoryService = (function () {
 		var bigGroup = $(category).data('biggroup');
 		var smallGroup = $(category).data('smallgroup');
 
-		$('#filterBar > div').append(template.filterAdd(smallGroup, bigGroup, categoryNo));
+		$('#categoryBar > div').append(template.filterAdd(smallGroup, bigGroup, categoryNo));
 	}
 
-	function unSelectCategory(category) {
+	function unselectCategory(category) {
 		var categoryNo = $(category).data('categoryno');
 
-		$('#filterBar > div').find(`div[data-filter="${categoryNo}"]`).remove();
+		$('#categoryBar > div').find(`div[data-categoryno="${categoryNo}"]`).remove();
 		var filter = categoryFilter.indexOf(categoryNo);
 		categoryFilter.splice(filter, 1);
 	}
 
 	function deleteCategory(category) {
 		var categoryNo = $(category).data('categoryno');
-		$('#accordion').find(`input[data-categoryno="${categoryNo}"]`).prop('checked',false);
-		console.log($('#accordion').find(`input[data-categoryno="${categoryNo}"]`));
+		
+		$('#accordion > div').find(`input[data-categoryno=${categoryNo}]`).prop('checked',false);
 		
 		$(category).remove();
 		var filter = categoryFilter.indexOf(categoryNo);
@@ -63,7 +63,7 @@ var categoryService = (function () {
 		bigCall: bigCall,
 		smallCall: smallCall,
 		selectCategory: selectCategory,
-		unSelectCategory: unSelectCategory,
+		unselectCategory: unselectCategory,
 		deleteCategory : deleteCategory
 	};
 })();

@@ -6,12 +6,14 @@ $(document).ready(function () {
 
     var viewFeedListDiv = $('#viewFeedList');
     var userInfoDiv = $('#userInfo');
-    var filterBarDiv = $('#filterBar > div');
     var categoryTypeDiv = $('#categoryType');
-    var userBtn = $('#userLeftBtn > button');
     var feedDetailModal = $('#feedDetailModal');
     var warnModal = $('#warnModal');
     var alertModal = $('#alertModal');
+
+    var userBarDiv = $('#userBar');
+    var categoryBarDiv = $('#categoryBar');
+    var searchBarDiv = $('#searchBar')
 
     var popularBtn = $('#popularBtn');
     var recentBtn = $('#recentBtn');
@@ -32,13 +34,13 @@ $(document).ready(function () {
         viewService.mainPageInit();
         refDataReset();
         if (type) mainType = type;
+        
         var sendData = {
             type: mainType,
             page: pageNo,
             filter: categoryFilter,
             search: searchFilter
         }
-        // var userId = $('#authUserId').val();
         feedService.getList('', sendData, function (result) {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
@@ -48,8 +50,8 @@ $(document).ready(function () {
             });
         });
     }
+
     // 첫 메인 페이지 동작
-    viewService.firstMainPageInit();
     mainType = 'popular';
     categoryFilter = [];
     serachFilter = [];
@@ -57,138 +59,101 @@ $(document).ready(function () {
 
 
     // left Feed list button toggle off function
-    var leftUserBtnOff = function (btn) {
-        viewService.myBtnUnActive(btn);
+    var leftUserBtnOff = function () {
+        viewService.myBtnUnActive();
+        viewService.userBarReset();
         viewMainPage();
     }
 
-    // left Feed list button event
+    var leftUserBtnOn = function(btn, module) {
+        viewService.myBtnActive(btn);
+        categoryTypeDiv.addClass('d-none');
+        categoryBarDiv.addClass('d-none');
+        userBarDiv.removeClass('d-none');
+
+        viewService.userBarReset();
+
+         //  기존 내용 비우기
+         viewFeedListDiv.empty();
+
+        // 페이지 번호 초기화및 전송
+        pageNo = 0;
+        var sendData = {
+            "page": pageNo,
+            "goToUserId": userId
+        }
+        feedService.getList(module, sendData, function (result) {
+            $.each(result, function (i, item) {
+                viewFeedListDiv.append(template.feedSimple(item, userId));
+                if (result.length - 1 === i) {
+                    pageNo = item.feedNo;
+                }
+            });
+        });
+    }
+
+    // 내글버튼
     $('#myFeed').on('click', function () {
         console.log('myFeedBtn........');
         if (myBtn !== 'myFeed') {
 
             // 버튼 활성화
-            viewService.myBtnActive(userBtn, this);
-            // var userId = $('#authUserId').val();
-
             // 회원정보 표시
             userInfoDiv.removeClass('d-none').empty();
             userService.get(userId, function (result) {
                 userInfoDiv.append(template.userInfo(result, true));
             });
 
-            // 카테고리 바 수정
-            categoryTypeDiv.addClass('d-none');
-            filterBarDiv.empty().append(template.filterAdd('내 피드'));
+            leftUserBtnOn(this, 'userfeed');
+            $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
 
-            // 기존 내용 비우기
-            viewFeedListDiv.empty();
-
-            // 페이지 번호 초기화및 전송
-            pageNo = 0;
-            var sendData = {
-                "page": pageNo,
-                "goToUserId": userId
-            }
-            module = 'userfeed';
-            feedService.getList(module, sendData, function (result) {
-                $.each(result, function (i, item) {
-                    viewFeedListDiv.append(template.feedSimple(item, userId));
-                    if (result.length - 1 === i) {
-                        pageNo = item.feedNo;
-                    }
-                });
-            });
             myBtn = 'myFeed';
         } else {
             // 버튼 비활성화
-            leftUserBtnOff(this);
+            leftUserBtnOff();
         }
     });
 
+    // 즐겨찾기
     $('#myFavorite').on('click', function () {
         console.log('myFavoriteBtn........');
         if (myBtn !== 'myFavorite') {
-            // 버튼 활성화
-            viewService.myBtnActive(userBtn, this);
-            // var userId = $('#authUserId').val();
-
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
 
+            leftUserBtnOn(this, 'favorite');
             // 카테고리 바 수정
-            categoryTypeDiv.addClass('d-none');
-            filterBarDiv.empty().append(template.filterAdd('즐겨찾기'));
-
-            // 기존 내용 비우기
-            viewFeedListDiv.empty();
-
-            // 페이지 번호 초기화및 전송
-            pageNo = 0;
-            var sendData = {
-                "page": pageNo,
-                "goToUserId": userId
-            }
-
-            module = 'favorite';
-            feedService.getList(module, sendData, function (result) {
-                $.each(result, function (i, item) {
-                    viewFeedListDiv.append(template.feedSimple(item, userId));
-                    if (result.length - 1 === i) {
-                        pageNo = item.feedNo;
-                    }
-                });
-            });
-
+            
+            $('#userBar > div').append(template.filterAdd('즐겨찾기', '', '', true));
             myBtn = 'myFavorite';
         } else {
             // 버튼 비활성화
-            leftUserBtnOff(this);
+            leftUserBtnOff();
         }
     });
 
+    // 팔로우글
     $('#newsFeed').on('click', function () {
         console.log('newsFeedBtn........');
         if (myBtn !== 'newsFeed') {
-            // 버튼 활성화
-            viewService.myBtnActive(userBtn, this);
-            // var userId = $('#authUserId').val();
-
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
-
-            // 카테고리 바 수정
-            categoryTypeDiv.addClass('d-none');
-            filterBarDiv.empty().append(template.filterAdd('팔로우글'));
-
-            // 기존 내용 비우기
-            viewFeedListDiv.empty();
-
-            // 페이지 번호 초기화및 전송
-            pageNo = 0;
-            var sendData = {
-                "page": pageNo,
-                "goToUserId": userId
-            }
-
-            module = 'newsfeed';
-            feedService.getList(module, sendData, function (result) {
-                $.each(result, function (i, item) {
-                    viewFeedListDiv.append(template.feedSimple(item));
-                    if (result.length - 1 === i) {
-                        pageNo = item.feedNo;
-                    }
-                });
-            }, function () {
-                console.log('newsfeed error');
-            });
-
+            leftUserBtnOn(this, 'newsfeed');
+            console.log($('#userBar > div'));
+            
+            $('#userBar > div').append(template.filterAdd('팔로우글', '', '', true));
             myBtn = 'newsFeed';
         } else {
             // 버튼 비활성화
-            leftUserBtnOff(this);
+            leftUserBtnOff();
         }
     });
+
+    // 유저바 home 버튼, x버튼
+    $('#userBar').on('click', '#goToMainBtn, .close',function() {
+        leftUserBtnOff();
+    });
+
 
     // 인기 최신버튼 이벤트
     popularBtn.on('click', function () {
@@ -280,81 +245,4 @@ $(document).ready(function () {
             // li 추가 append
         });
     });
-
-    // // 카테고리 선택 이벤트
-    // var categoryListDiv = $('#accordion');
-    
-    // // 전체선택 div
-    // categoryListDiv.on('click', '.categorySelectSmallAll', function(event) {
-    // event.stopPropagation();
-    // var categorys = $(this).parent().find('input');
-    // var select = $(this).find('input');
-    // var name = select.data('type');
-    // if(!select.prop('checked')) {
-    // categorys.prop('checked',true);
-    // $(`input[name=${name}]`).each(function (i, category) {
-    // categoryService.selectCategory(category);
-    // });
-    // } else {
-    // categorys.prop('checked',false);
-    // $(`input[name=${name}]`).each(function (i, category) {
-    // categoryService.unSelectCategory(category);
-    // });
-    // }
-    // viewMainPage();
-    // });
-
-    // // 전체선택 checkbox
-    // categoryListDiv.on('click', '.categorySelectSmallAll > input',
-	// function(event) {
-    // var categorys = $(this).parent().parent().find('input');
-    // var select = $(this);
-    // var name = select.data('type');
-    // if(!select.prop('checked')) {
-    // categorys.prop('checked',true);
-    // $(`input[name=${name}]`).each(function (i, category) {
-    // categoryService.selectCategory(category);
-    // });
-    // } else {
-    // categorys.prop('checked',false);
-    // $(`input[name=${name}]`).each(function (i, category) {
-    // categoryService.unSelectCategory(category);
-    // });
-    // }
-    // viewMainPage();
-    // });
-
-    // // 개별 선택 div
-    // categoryListDiv.on('click', '.category', function(event) {
-    // var select = $(this).find('input');
-        
-    // if(!select.prop('checked')) {
-    // select.prop('checked',true);
-    // categoryService.selectCategory(select);
-    // } else {
-    // select.prop('checked',false);
-    // categoryService.unSelectCategory(select);
-    // }
-    // viewMainPage();
-    // });
-
-    // // 개별 선택 checkbox
-    // categoryListDiv.on('click', '.category > input', function(event) {
-    // var select = $(this);
-        
-    // if(!select.prop('checked')) {
-    // select.prop('checked',true);
-    // categoryService.selectCategory(select);
-    // } else {
-    // select.prop('checked',false);
-    // categoryService.unSelectCategory(select);
-    // }
-    // viewMainPage();
-    // });
-
-    // 카테고리 바 이벤트
-    filterBarDiv.on('click', '.close', function() {
-        categoryService.deleteCategory($(this).parent());
-        viewMainPage();
-    });
-})
+});
