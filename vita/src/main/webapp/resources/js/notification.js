@@ -1,6 +1,7 @@
 
 var notificationService = (function(){
 	
+	var authUserId = $('#authUserId').val();
 	var notifyCnt = 0;
 	var notifyPage = 0;
 	
@@ -77,9 +78,30 @@ var notificationService = (function(){
 			ws.send(JSON.stringify(msg));
 		});
 		
+		//notification list click event
 		$(document).on('click', '.dropdown-item', function(event){
+			event.preventDefault();
 			event.stopPropagation();
+			
+			var notifyType = $(this).data("notifytype");
+			if(notifyType == "follow"){
+				
+			}else if(notifyType == "good" || notifyType == "favorite"){
+				var feedNo = $(this).data("feedno");
+
+		        feedService.get(feedNo, function (result) {
+		            $("#feedDetailModal").empty().append(template.feedDetail(result, authUserId));
+
+		            //댓글 출력
+		            replyPageNo = 0;
+		            replyService.getList(feedNo, replyPageNo, function (result) {
+		            	$("#feedDetailModal").find('#replyModal').append(template.reply(result));
+		            });
+		        });
+			}
+			
 		});
+		//notification nocheck click event 
 		$(document).on('click', '.nochk', function(){
 			var notifyType = $(this).data("notifytype");
 			var resId = $(this).data("userid");
@@ -91,7 +113,7 @@ var notificationService = (function(){
 			notifyCnt--;
 			updateNotifyCnt(notifyCnt);
 		});
-		
+		//notification allcheck click event
 		$(document).on('click', '.notification-ChkAll', function(event){
 			var msg = {"type":"notifyChkAll"};
 			ws.send(JSON.stringify(msg));
@@ -100,7 +122,8 @@ var notificationService = (function(){
 			notifyCnt = 0;
 			updateNotifyCnt(notifyCnt);
 		});
-		
+
+
 		var html = "";
 		function notificationCallback(data){
 			html = "";
@@ -143,6 +166,13 @@ var notificationService = (function(){
 				}else{
 					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
 				}
+			}else{
+				if(item.notifyChk == "F"){
+					notifyCnt++;
+					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';
+				}else{
+					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';					
+				}
 			}
 			
 			html += 		'<img class="img-1" style="vertical-align:top" src="/display?fileName='+fileCallPath+'">';
@@ -164,5 +194,21 @@ var notificationService = (function(){
 		
 	}
 	
-	return {webSocketLoad:webSocketLoad};
+	//delete 피드 알림
+	function register(notification){
+		
+		$.ajax({
+			type:'post',
+			url: '/notification/new',
+			data: JSON.stringify(notification),
+			contentType:"application/json; charset=utf-8",
+			success: function(){
+				if(callback){
+					callback();
+				}
+			}
+		});
+	}
+	
+	return {webSocketLoad:webSocketLoad, register:register};
 })();

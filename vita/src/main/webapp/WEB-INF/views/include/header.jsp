@@ -13,6 +13,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="/resources/css/upload.css">
+
+
 <script type="text/javascript" src="/resources/js/notification.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -385,10 +390,17 @@
 	</div>
 </div>
 
-<link rel="stylesheet" href="/resources/css/upload.css">
+<input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
+<input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
+
+
 <script type="text/javascript" src="/resources/js/header.js"></script>
 <script type="text/javascript" src="/resources/js/category.js"></script>
 <script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>
+<script src="/resources/js/template.js"></script>
+<script src="/resources/js/feedModule.js"></script>
+<script src="/resources/js/replyModule.js"></script>
+<script src="/resources/js/feed.js"></script>
 <script type="text/javascript">
 $(function(){
 // 	글쓰기 창 선택시 대분류 나타나게 해줌

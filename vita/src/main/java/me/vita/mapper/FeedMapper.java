@@ -11,7 +11,7 @@ import me.vita.dto.FeedDTO;
 
 public interface FeedMapper {
 
-	FeedVO select(Integer feedNo);
+	FeedVO select(@Param("feedNo")Integer feedNo);
 	
 	FeedDTO selectDetail(@Param("user") UserVO user, @Param("feedNo") Integer feedNo);
 

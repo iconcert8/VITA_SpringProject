@@ -4,7 +4,7 @@
 <mapper namespace="me.vita.mapper.NotificationMapper">
 	
 	<insert id="insert">
-		insert into notification
+		insert into notification(notifyNo, reqId, resId, feedNo, notifyType, notifyMsg, notifyDate, notifyChk)
 		values (seq_notifyno.nextval, #{reqId}, #{resId, jdbcType=VARCHAR}, #{feedNo, jdbcType=INTEGER}, #{notifyType}, #{notifyMsg}, sysdate, 'F')
 	</insert>
 

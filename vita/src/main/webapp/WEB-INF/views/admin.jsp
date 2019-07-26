@@ -402,7 +402,7 @@
 <script type="text/javascript" src="/resources/js/warn.js"></script>
 <script type="text/javascript" src="/resources/js/template.js"></script>
 <script type="text/javascript" src="/resources/js/feedModule.js"></script>
-
+<script type="text/javascript" src="/resources/js/notification.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -433,7 +433,6 @@ $(document).ready(function(){
             warnService.getListRequest(feedNo, warnGetListRequestCallback);
         });
     });
-	
 	//warn delete modal 뿌리기
 	$(document).on('click', 'button[data-target="#deleteModal"]', function(){
 		var feedNo = $(this).data("feedno");
@@ -455,6 +454,10 @@ $(document).ready(function(){
 			alert("삭제 완료"); 
 			$("#deleteModal").modal("hide");
 			$tr.closest("tr").remove();
+			
+			var notification = {"reqId":"root", "feedNo":feedNo, "notifyType":"delete"};
+			
+			notificationService.register(notification);
 		});
 	});
 	
@@ -468,8 +471,9 @@ $(document).ready(function(){
 		});
 	});
 	
-	/* 콜백함수 */
 	
+	/* 콜백함수 */
+	/* warn콜백함수 */
 	function warnGetListCallback(result){
 		$(".warn-table").empty();
 		$.each(result, function(index, item){
@@ -486,7 +490,7 @@ $(document).ready(function(){
 			html +=	'</tr>';
 			
 			$(".warn-table").append(html);
-		});	
+		});
 	}
 	
 	function warnGetListRequestCallback(result){
