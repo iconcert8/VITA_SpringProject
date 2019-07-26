@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <style type="text/css">
-.adminList:HOVER{
+.adminList:HOVER{ 
 	background-color: #007bff;
 	color:white;
 	cursor:pointer;
