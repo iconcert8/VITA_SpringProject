@@ -14,6 +14,14 @@
 		where bigGroup = #{big}
 	</select>
 	
+	<insert id="insert">
+		<selectKey keyProperty="categoryNo" order="BEFORE" resultType="int">
+			select seq_categoryNo.nextval from dual	
+		</selectKey>
+		
+		insert into category(categoryNo, bigGroup, smallGroup)
+		values (#{categoryNo}, #{bigGroup}, #{smallGroup})
+	</insert>
 
 
 </mapper>

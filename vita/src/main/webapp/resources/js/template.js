@@ -487,5 +487,116 @@ var template = {
 					</div>
 				</div>`;
     	return deletetemplate;
+    },
+    
+    categoryRequestDecisionAlertModal: function(text, btn){
+    	
+    	var decisionAlertModal = `
+			<!-- 카테고리 추가시 확인 모달창 -->
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<!-- 카테고리 추가 바디-->
+						<div class="modal-body">
+							${text}
+						</div>
+						<!-- 카테고리 모달창 푸터, 확인 버튼-->
+						<div class="modal-footer">
+							<button type="button" class="btn ${btn}" data-dismiss="modal">확인</button>
+						</div>
+					</div>
+				</div>
+		    </div>
+    			`;
+    	return decisionAlertModal;
+
+    },
+    
+    deletedfeedDetail: function(feed, warnCategory) {
+        var date = new Date(feed.feedDate);
+        var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
+            + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
+            + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+        var tags = '';
+        for (var i = 0; i < feed.tags.length; i++) {
+            tags += '#' + feed.tags[i] + ' ';
+        }
+
+        var feedImages = `<div class="carousel-item active">`;
+        for(var i in feed.feedImages) {
+            feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        }
+        feedImages += `</div>`;
+        
+
+        var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
+        var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
+
+        var deletedDetailTemplate = `
+            <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
+                <div class="modal-content">
+                    <div class="modal-body m-0 p-0">
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body row">
+                        <!-- 피드 상세보기 이미지 부분 -->
+                        <div class="col-xl-8">
+                            <div id="carouselControlDetail1" class="carousel slide"
+                                data-interval="false" data-ride="carousel">
+                                <div class="carousel-inner bg-dark text-white">
+                                    ${feedImages}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                    role="button" data-slide="prev"> <span
+                                    class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+                                    class="sr-only">Previous</span>
+                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                    role="button" data-slide="next"> <span
+                                    class="carousel-control-next-icon" aria-hidden="true"></span> <span
+                                    class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- 피드 상세보기 글 정보, 댓글 부분 -->
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-body d-inline-block pt-2 pb-0">
+                                    <label class="text-white bg-secondary mr-1 rounded">${feed.bigGroup}</label> <label
+                                        class="text-white bg-secondary rounded">${feed.smallGroup}</label>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                                    <div class="d-inline-block">
+                                        <label>${feed.userNick}(${feed.userId})</label>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-inline-block bg-secondary text-white p-0">
+                                        ${tags}</div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div>${feed.feedContent}</div>
+                                </div>
+        
+                                <!-- 댓글 부분 -->
+                                <div class="card-header">
+                                    <div>
+                                    	${warnCategory}
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <ul class="list-group overflow-auto" style="height: 300px;" id="deletedFeedReasonBox">
+          
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        return deletedDetailTemplate;
     }
 }

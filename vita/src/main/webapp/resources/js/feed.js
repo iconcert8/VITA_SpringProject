@@ -21,7 +21,7 @@ $(document).ready(function () {
     var userId = $('#authUserId').val();
     var guest = $('#guest').val();
 
-    //  reply variables
+    // reply variables
     var replyPageNo = 0;
 
     var refDataReset = function () {
@@ -106,6 +106,7 @@ $(document).ready(function () {
 
             leftUserBtnOn(this, 'userfeed');
             $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
+
             myBtn = 'myFeed';
         } else {
             // 버튼 비활성화
@@ -180,7 +181,7 @@ $(document).ready(function () {
         feedService.get(feedNo, function (result) {
             feedDetailModal.empty().append(template.feedDetail(result, userId));
 
-            //          댓글 출력
+            // 댓글 출력
             replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
                 feedDetailModal.find('#replyModal').append(template.reply(result));
@@ -240,9 +241,8 @@ $(document).ready(function () {
             "": 값
         }
         replyService.regist(sendData, function (result) {
-            //reuslt
+            // reuslt
             // li 추가 append
         });
     });
-
 });

@@ -91,12 +91,13 @@ var notificationService = (function(){
 
 		        feedService.get(feedNo, function (result) {
 		            $("#feedDetailModal").empty().append(template.feedDetail(result, authUserId));
-
+		            
 		            //댓글 출력
 		            replyPageNo = 0;
 		            replyService.getList(feedNo, replyPageNo, function (result) {
 		            	$("#feedDetailModal").find('#replyModal').append(template.reply(result));
 		            });
+		            $("#feedDetailModal").modal("show");
 		        });
 			}
 			
@@ -162,16 +163,16 @@ var notificationService = (function(){
 				// '<div data-toggle="modal" data-target="#feedDetailModal">'
 				if(item.notifyChk == "F"){
 					notifyCnt++;
-					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
+					html += '<a class="dropdown-item bg-primary nochk" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
 				}else{
-					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
+					html += '<a class="dropdown-item" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
 				}
 			}else{
 				if(item.notifyChk == "F"){
 					notifyCnt++;
-					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';
+					html += '<a class="dropdown-item bg-primary nochk" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';
 				}else{
-					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';					
+					html += '<a class="dropdown-item"  data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';					
 				}
 			}
 			

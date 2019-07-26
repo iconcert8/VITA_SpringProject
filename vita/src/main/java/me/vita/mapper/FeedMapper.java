@@ -3,7 +3,9 @@ package me.vita.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 
+import lombok.experimental.PackagePrivate;
 import me.vita.domain.FeedVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
@@ -31,7 +33,7 @@ public interface FeedMapper {
 	
 	int updateFeedDel(Integer feedNo);
 	
-	int updateCategory(String feedNo, Integer categoryNo);
+	int updateCategory(@Param("feedNo")Integer feedNo, @Param("categoryNo")Integer categoryNo);
 
 	int insert(FeedDTO feedDTO);
 
