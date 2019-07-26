@@ -203,17 +203,16 @@ $(document).ready(function () {
 
     // 신고하기
     warnModal.on('click', '#warnActionBtn', function (event) {
-        
         var feedNo = $(this).data('feedno');
         var limitContent = $(this).data('limitcontent');
         var warnCategory = warnModal.find('.warnCategory').val();
         var warnMsg = warnModal.find('.warnMsg').val();
         if (warnCategory === '[신고 선택]') {
             warnModal.find('.warnCheckMsg').text('신고 분류를 선택해 주세요.');
-            return false;
+            // return false;
         } else if (warnMsg === '') {
             warnModal.find('.warnCheckMsg').text('신고 내용을 입력해 주세요.');
-            return false;
+            // return false;
         } else {
             var sendData = {
                 "feedNo": feedNo,
@@ -229,7 +228,7 @@ $(document).ready(function () {
                     alertModal.modal('show');
                 }
             });
-            // warnModal.modal('hide');
+            warnModal.modal('hide');
         }
     });
 
