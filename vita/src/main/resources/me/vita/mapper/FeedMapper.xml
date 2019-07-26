@@ -159,7 +159,9 @@
 		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, sysdate, sysdate, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
 	</insert>
 	
-	
-	
-	
+	<update id="updateCategory">
+		update feed 
+		set categoryNo = #{categoryNo}, categoryTemp = null
+		where feedNo = #{feedNo}
+	</update>
 </mapper>

@@ -12,14 +12,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <style type="text/css">
-.adminList:HOVER{ 
-	background-color: #007bff;
-	color:white;
-	cursor:pointer;
-}
+
 .hover:HOVER {
 	cursor: pointer;
-	background-color: #F0F1F2;
+	color:white;
+	background-color: #007bff;
 }
 @media ( min-width : 1600px) {
 	.modal-xl {
@@ -41,11 +38,11 @@
 						<div>
 							<label style="color: gray; font-weight: bold;">관리자</label>
 						</div></li>
-					<li class="list-group-item py-4 adminList" data-adminlist="warnlist">신고목록</li>
-					<li class="list-group-item py-4 adminList" data-adminlist="categorylist">카테고리관리</li>
-					<li class="list-group-item py-4 adminList" data-adminlist="deletelist">삭제목록</li>
-					<li class="list-group-item py-4 adminList" data-adminlist="statistics">통계보기</li>
-					<li class="list-group-item pt-5"><a href="#">로그아웃</a></li>
+					<li class="list-group-item py-4 adminList hover" data-adminlist="warnlist">신고목록</li>
+					<li class="list-group-item py-4 adminList hover" data-adminlist="categorylist">카테고리관리</li>
+					<li class="list-group-item py-4 adminList hover" data-adminlist="deletelist">삭제목록</li>
+					<li class="list-group-item py-4 adminList hover" data-adminlist="statistics">통계보기</li>
+					<li class="list-group-item pt-5"><a href="/testlogin">로그아웃</a></li>
 				</ul>
 
 			</div>
@@ -112,7 +109,7 @@
 							<div class="col-4">
 								<div class="card">
 									<div class="card-header">#대분류</div>
-									<ul class="list-group">
+									<ul class="list-group category-big-list">
 										<li class="list-group-item">Cras justo odio</li>
 										<li class="list-group-item">Dapibus ac facilisis in</li>
 										<li class="list-group-item">Morbi leo risus</li>
@@ -131,24 +128,8 @@
 											<div class="col">#처리</div>
 										</div>
 									</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col">소분류</div>
-											<div class="col">6</div>
-											<div class="col">
-												<button class="btn btn-outline-danger">삭제</button>
-												<button class="btn btn-outline-primary">취소</button>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col">소분류2</div>
-											<div class="col">5</div>
-											<div class="col">
-												<button class="btn btn-outline-danger">삭제</button>
-												<button class="btn btn-outline-primary">취소</button>
-											</div>
-										</div>
+									<div class="card-body category-small-list">
+										
 									</div>
 								</div>
 							</div>
@@ -171,25 +152,29 @@
 							<thead>
 								<tr>
 									<th scope="col">#글번호</th>
+									<th scope="col">#삭제사유</th>
 									<th></th>
 									<th scope="col">#내용</th>
 									<th></th>
 									<th scope="col">#처리</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="deletedFeedListBox">
 								<tr>
 									<th scope="row">1</th>
+									<td>삭제사유</td>
 									<td colspan="3">Mark kand ibfqo badp hqnd l</td>
 									<td><button class="btn btn-outline-success">복구</button></td>
 								</tr>
 								<tr>
 									<th scope="row">2</th>
+									<td>삭제사유</td>
 									<td colspan="3">Jacob</td>
 									<td><button class="btn btn-outline-success">복구</button></td>
 								</tr>
 								<tr>
 									<th scope="row">3</th>
+									<td>삭제사유</td>
 									<td colspan="3">Larry</td>
 									<td><button class="btn btn-outline-success">복구</button></td>
 								</tr>
@@ -208,7 +193,7 @@
 	
 	
 <!-- 신고 상세보기 모달 -->
-<div class="modal fade" id="warnDetailModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="adminFeedDetailModal" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
@@ -399,10 +384,30 @@
 	</div>
 </div>
 
+<!-- 카테고리 추가시 확인 모달창 -->
+<div class="modal fade" id="categoryRequestDecisionAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 카테고리 추가 바디-->
+			<div class="modal-body">
+						
+			</div>
+			<!-- 카테고리 모달창 푸터, 확인 버튼-->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary categoryRequestDecision" data-dismiss="modal">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript" src="/resources/js/warn.js"></script>
 <script type="text/javascript" src="/resources/js/template.js"></script>
 <script type="text/javascript" src="/resources/js/feedModule.js"></script>
 <script type="text/javascript" src="/resources/js/notification.js"></script>
+<script type="text/javascript" src="/resources/js/categoryModule.js"></script>
+<script type="text/javascript" src="/resources/js/categoryRequest.js"></script>
+<script type="text/javascript" src="/resources/js/deletedFeed.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -413,10 +418,10 @@ $(document).ready(function(){
 			warnService.getList(0, warnGetListCallback);
 		}
 		if(type=="categorylist"){
-			
+			categoryService.bigCall(categoryBigListCallback);
 		}
 		if(type=="deletelist"){
-			
+			deletedFeedService.getList(0, deletedFeedGetListCallback);
 		}
 		if(type=="statistics"){
 			
@@ -425,11 +430,11 @@ $(document).ready(function(){
 	
 	/* warn 이벤트 등록 */
 	//warn detail modal 뿌리기
-	$(document).on('click', 'td[data-target="#warnDetailModal"]', function() {
+	$(document).on('click', 'td[data-target="#adminFeedDetailModal"]', function() {
         var feedNo = $(this).data("feedno");
         
         feedService.get(feedNo, function(result) {
-            $('#warnDetailModal').empty().append(template.warnfeedDetail(result));
+            $('#adminFeedDetailModal').empty().append(template.warnfeedDetail(result));
             warnService.getListRequest(feedNo, warnGetListRequestCallback);
         });
     });
@@ -472,16 +477,18 @@ $(document).ready(function(){
 	});
 	
 	
-	/* 콜백함수 */
 	/* warn콜백함수 */
 	function warnGetListCallback(result){
 		$(".warn-table").empty();
 		$.each(result, function(index, item){
-		
+			var content = item.feedLimitContent;
+			if(content.length > 30){
+				content = content.substring(0,30);
+			}
 			var html = "";
 			html += '<tr>';
 			html += 	'<th>'+item.feedNo+'</th>';
-			html +=		'<td class="hover" data-toggle="modal" data-target="#warnDetailModal" data-feedno="'+item.feedNo+'" colspan="3">'+item.feedLimitContent+'</td>';
+			html +=		'<td class="hover" data-toggle="modal" data-target="#adminFeedDetailModal" data-feedno="'+item.feedNo+'" colspan="3">'+content+'</td>';
 			html +=		'<td>'+item.count+'</td>';
 			html +=		'<td>';
 			html +=			'<button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal" data-feedno="'+item.feedNo+'" data-feedlimitcontent="'+item.feedLimitContent+'">삭제</button>';
@@ -513,6 +520,137 @@ $(document).ready(function(){
 		});	
 	}
 	
+	/* category 이벤트 등록 */
+	//big카테고리 클릭시 이벤트(소분류 불러오기, 버튼 활성화)
+	$(document).on('click', "li[data-big]", function(){
+		var big = $(this).data("big");
+		categoryRequestService.getList(big, 0, categorySmallListCallback);
+		$("li[data-big]").removeClass("active");
+		$(this).addClass("active");
+	});
+	
+	//카테고리 추가시
+	$(document).on('click', ".categoryRequestDecision-btn", function(){
+		var $row = $(this).closest(".row");
+		var bigGroup = $row.data("biggroup");
+		var smallGroup = $row.data("smallgroup");
+		var feedNo = [];
+		$row.find("option").each(function(){
+			feedNo.push(Number($(this).val()))
+		});
+		categoryRequestService.register(bigGroup, smallGroup, feedNo, function(){
+			var text = bigGroup+" / "+smallGroup+" 이 추가되었습니다.";
+			$("#categoryRequestDecisionAlertModal").empty();
+			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-primary'));
+			$("#categoryRequestDecisionAlertModal").modal("show");
+			$row.remove();
+		});
+		
+		
+	});
+	
+	//카테고리 요청 취소시
+	$(document).on('click', ".categoryRequestDismiss-btn", function(){
+		var $row = $(this).closest(".row");
+		var bigGroup = $row.data("biggroup");
+		var smallGroup = $row.data("smallgroup");
+		
+		categoryRequestService.remove(bigGroup, smallGroup, function(){
+			var text = bigGroup+" / "+smallGroup+" 이 거절되었습니다.";
+			$("#categoryRequestDecisionAlertModal").empty();
+			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-danger'));
+			$("#categoryRequestDecisionAlertModal").modal("show");
+			$row.remove();
+		});
+	});
+	
+	/* category 콜백함수 */
+	function categoryBigListCallback(result){
+		$(".category-big-list").empty();
+		$.each(result, function(index, item){
+			var html = "";
+			
+			html += '<li class="list-group-item hover" data-big="'+item+'">';
+			html += 	item;
+			html += '</li>';
+			
+			$(".category-big-list").append(html);
+		});
+		
+	}
+	
+	function categorySmallListCallback(result, big){
+		$(".category-small-list").empty();
+		if(result == null || result == ""){
+			$(".category-small-list").append(big+" 요청 없음");
+		}
+		$.each(result, function(index, item){
+			var html = "";
+			html += '<div class="row mb-2" data-biggroup="'+item.bigGroup+'" data-smallgroup="'+item.categoryRequestSmallGroup+'">';
+			html +=		'<datalist>';
+			$.each(item.feedNo, function(i, fno){
+				html +=		'<option value="'+fno+'">';
+			});
+			html +=		'</datalist>';
+			html += 	'<div class="col">'+item.categoryRequestSmallGroup+'</div>';
+			html += 	'<div class="col">'+item.count+'</div>';			
+			html += 	'<div class="col">';
+			html +=			'<button class="btn btn-outline-primary categoryRequestDecision-btn mx-1">수락</button>';
+			html +=			'<button class="btn btn-outline-danger categoryRequestDismiss-btn mx-1">취소</button>';
+			html += 	'</div>';	
+			html += '</div>';
+			
+		
+			$(".category-small-list").append(html);
+		});
+	}
+	
+	
+	
+	/* deletefeed 이벤트 등록 */
+	//deletefeed 상세보기 창
+	$(document).on('click', '.deletedContent', function() {
+		var $tr = $(this).closest('tr');
+        var feedNo = $tr.data("feedno");
+        var warnCategory = $tr.data("warncategory");
+        var deletedFeedReason = $tr.data("deletedfeedreason");
+        
+        
+        feedService.get(feedNo, function(result) {
+        	var html = "";
+        	html += '<li class="list-group-item">';
+        	html += 	deletedFeedReason;
+        	html +=	'</li>';
+            $('#adminFeedDetailModal').empty().append(template.deletedfeedDetail(result, warnCategory));
+            $('#deletedFeedReasonBox').append(html);
+            
+            $('#adminFeedDetailModal').modal("show");
+        });
+    });
+	
+	
+	/* deletefeed 콜백함수 */
+	function deletedFeedGetListCallback(result){
+		$(".deletedFeedListBox").empty();
+		$.each(result, function(index, item){
+			var content = item.feedLimitContent;
+			if(content.length > 30){
+				content = content.substring(0,30);
+			}
+			
+			var html = "";
+			html += '<tr data-feedno="'+item.feedNo+'" data-warncategory="'+item.warnCategory+'" data-deletedfeedreason="'+item.deletedFeedReason+'">';
+			html +=		'<th>'+item.feedNo+'</th>';
+			html +=		'<td>'+item.warnCategory+'</td>';
+			html +=		'<td class="hover deletedContent" colspan="3">'+content+'</td>';
+			html +=		'<td><button class="btn btn-outline-success">복구</button></td>';
+			html += '</tr>';
+			
+			$(".deletedFeedListBox").append(html);
+		});
+		
+		
+	}
 	
 });
 </script>

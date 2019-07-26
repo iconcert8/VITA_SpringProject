@@ -23,6 +23,8 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	@Override
 	public boolean register(NotificationVO notificationVO) {
+		
+		//delete 알림의 경우 if문으로 간다
 		if(notificationVO.getResId() == null){
 			FeedVO feedVO = feedMapper.select(notificationVO.getFeedNo());
 			String content = feedVO.getFeedContent();

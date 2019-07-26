@@ -30,20 +30,25 @@ public class CategoryRequestServiceImpl implements CategoryRequestService{
 		categoryVO.setSmallGroup(dto.getCategoryRequestSmallGroup());
 		categoryMapper.insert(categoryVO);
 		
-		for(String feedNo : dto.getFeedNoList().split("|")) {
+		for(Integer feedNo : dto.getFeedNo()) {
 			feedMapper.updateCategory(feedNo, categoryVO.getCategoryNo());
 		}
-		return mapper.delete(dto)==1;
+		return mapper.delete(dto) > 0;
 	}
 
 	@Override
 	public boolean remove(CategoryRequestDTO dto) {
-		return mapper.delete(dto) == 1;
+		return mapper.delete(dto) > 0;
 	}
 
 	@Override
+	@Transactional
 	public List<CategoryRequestDTO> getList(String big, Integer page) {
-		return mapper.selectList(big, page);
+		List<CategoryRequestDTO> list = mapper.selectList(big, page);
+		for(CategoryRequestDTO dto : list){
+			dto.setFeedNo(mapper.selectListFeedNo(dto));
+		}
+		return list;
 	}
 
 }

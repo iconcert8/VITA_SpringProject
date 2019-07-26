@@ -17,13 +17,6 @@
 
 <link rel="stylesheet" href="/resources/css/upload.css">
 
-
-<script type="text/javascript" src="/resources/js/notification.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		notificationService.webSocketLoad();
-	});
-</script>
 <style>
 @media ( min-width : 1600px) {
 	.modal-xl {
@@ -390,7 +383,7 @@
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
-
+<script src="/resources/js/notification.js"></script>
 <script src="/resources/js/header.js"></script>
 <script src="/resources/js/feedUploadFile.js"></script>
 <script src="/resources/js/template.js"></script>
@@ -400,13 +393,17 @@
 <script src="/resources/js/categoryModule.js"></script>
 <script src="/resources/js/category.js"></script>
 <script type="text/javascript">
+
 $(function(){
-// 	글쓰기 창 선택시 대분류 나타나게 해줌
+	//알림 웹소켓 로드
+	notificationService.webSocketLoad();
+	
+	//글쓰기 창 선택시 대분류 나타나게 해줌
 	$("#callBig").on("click", function(){
 		categoryService.bigCall(bigCallback);
 	});
 		
-// 	대분류 선택시 소분류 생성
+	//대분류 선택시 소분류 생성
 	$("#category-choose-big").on("change", function(e){
 		categoryService.smallCall(this.value, smallCallback);
 		
