@@ -117,9 +117,6 @@
 						<div class="card-body">
 							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
 						</div>
-						<div class="card-body-delete">
-							<input type="button" id="write-image-delete" name="uploadFileDelete"  value="지우기버튼 "/>
-						</div>
 
 					</div>
 					<!-- 글쓰기 모달창 대소분류 선택 부분-->
@@ -422,7 +419,7 @@ $(function(){
 	
 // 	소분류 기타 선택시 직접입력창 생성/삭제
 	$("#category-choose-small").on("change", function(e){
-		if (this.value === "기타") {
+		if ((this.value).substr((this.value).indexOf("&")+1) === "기타") {
 			$("#selfInsert").removeClass("d-none");
 		}else{
 			$("#selfInsert").addClass("d-none");
@@ -453,7 +450,7 @@ function smallCallback(result){
 	var html = '';
 	
 	$.each(result, function(index, item){
-		html += '<option value="' + item.smallGroup + '">';
+		html += '<option value="' + item.categoryNo+ "&" + item.smallGroup + '">';
  		html += item.smallGroup+'</option>';
  	});
 	

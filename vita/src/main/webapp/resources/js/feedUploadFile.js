@@ -1,31 +1,27 @@
 $(function() {
-	$("#write-image-delete").on("click", function() {
-		$("#image-block").empty();
-	});
-
-	$("#insertFeedBtn").on("click", function(e) {
-		var formData = new FormData();
-		var inputFile = $("input[name='uploadFile']");
-		var files = inputFile[0].files;
-
-		for (var i = 0; i < files.length; i++) {
-			formData.append("uploadFile", files[i]);
-		}
-
-		console.log("ajax start");
-
-		$.ajax({
-			url : '/feed/new',
-			processData : false,
-			contentType : "application/json; charset=UTF-8",
-			data : formData,
-			type : 'POST',
-			success : function(result) {
-				alert("Uploaded");
-			}
-		});
-		console.log("ajax end");
-	});
+//	$("#insertFeedBtn").on("click", function(e) {
+//		var formData = new FormData();
+//		var inputFile = $("input[name='uploadFile']");
+//		var files = inputFile[0].files;
+//
+//		for (var i = 0; i < files.length; i++) {
+//			formData.append("uploadFile", files[i]);
+//		}
+//
+//		console.log("ajax start");
+//
+//		$.ajax({
+//			url : '/feed/new',
+//			processData : false,
+//			contentType : "application/json; charset=UTF-8",
+//			data : formData,
+//			type : 'POST',
+//			success : function(result) {
+//				alert("Uploaded");
+//			}
+//		});
+//		console.log("ajax end");
+//	});
 
 	// 이미지 미리보기 설정
 	$("#write-image").on("change", handleImg);

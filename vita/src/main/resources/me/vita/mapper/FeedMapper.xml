@@ -149,4 +149,17 @@
 	<select id="select" resultType="me.vita.domain.FeedVO">
 		select * from feed where feedNo=#{feedNo}
 	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="feedNo" order="BEFORE" resultType="int">
+			SELECT seq_feedNo.nextval FROM DUAL		
+		</selectKey>
+		
+		INSERT INTO feed(feedNo, categoryNo, userId, feedContent, feedLimitContent, feedGoodCnt, feedReplyCnt, feedDate, feedUpdate, feedLock, categoryTemp, feedDel)
+		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, sysdate, sysdate, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
+	</insert>
+	
+	
+	
+	
 </mapper>

@@ -19,7 +19,7 @@ $(document).ready(function () {
     var userId = $('#authUserId').val();
     var guest = $('#guest').val();
 
-    //  reply variables
+    // reply variables
     var replyPageNo = 0;
 
     var refDataReset = function () {
@@ -81,7 +81,7 @@ $(document).ready(function () {
             categoryTypeDiv.addClass('d-none');
             filterBarDiv.empty().append(template.filterAdd('내 피드'));
 
-            //  기존 내용 비우기
+            // 기존 내용 비우기
             viewFeedListDiv.empty();
 
             // 페이지 번호 초기화및 전송
@@ -109,7 +109,7 @@ $(document).ready(function () {
     $('#myFavorite').on('click', function () {
         console.log('myFavoriteBtn........');
         if (myBtn !== 'myFavorite') {
-            //        	버튼 활성화
+            // 버튼 활성화
             viewService.myBtnActive(userBtn, this);
             // var userId = $('#authUserId').val();
 
@@ -120,7 +120,7 @@ $(document).ready(function () {
             categoryTypeDiv.addClass('d-none');
             filterBarDiv.empty().append(template.filterAdd('즐겨찾기'));
 
-            //  기존 내용 비우기
+            // 기존 내용 비우기
             viewFeedListDiv.empty();
 
             // 페이지 번호 초기화및 전송
@@ -150,7 +150,7 @@ $(document).ready(function () {
     $('#newsFeed').on('click', function () {
         console.log('newsFeedBtn........');
         if (myBtn !== 'newsFeed') {
-            //  버튼 활성화
+            // 버튼 활성화
             viewService.myBtnActive(userBtn, this);
             // var userId = $('#authUserId').val();
 
@@ -161,7 +161,7 @@ $(document).ready(function () {
             categoryTypeDiv.addClass('d-none');
             filterBarDiv.empty().append(template.filterAdd('팔로우글'));
 
-            //  기존 내용 비우기
+            // 기존 내용 비우기
             viewFeedListDiv.empty();
 
             // 페이지 번호 초기화및 전송
@@ -216,7 +216,7 @@ $(document).ready(function () {
         feedService.get(feedNo, function (result) {
             feedDetailModal.empty().append(template.feedDetail(result, userId));
 
-            //          댓글 출력
+            // 댓글 출력
             replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
                 feedDetailModal.find('#replyModal').append(template.reply(result));
@@ -276,7 +276,7 @@ $(document).ready(function () {
             "": 값
         }
         replyService.regist(sendData, function (result) {
-            //reuslt
+            // reuslt
             // li 추가 append
         });
     });
@@ -286,69 +286,70 @@ $(document).ready(function () {
     
     // // 전체선택 div
     // categoryListDiv.on('click', '.categorySelectSmallAll', function(event) {
-    //     event.stopPropagation();
-    //     var categorys = $(this).parent().find('input');
-    //     var select =  $(this).find('input');
-    //     var name = select.data('type');
-    //     if(!select.prop('checked')) {
-    //     	categorys.prop('checked',true);
-    //         $(`input[name=${name}]`).each(function (i, category) {
-    //             categoryService.selectCategory(category);
-    //         });
-    //     } else {
-    //         categorys.prop('checked',false);
-    //         $(`input[name=${name}]`).each(function (i, category) {
-    //             categoryService.unSelectCategory(category);
-    //         });
-    //     }
-    //     viewMainPage();
+    // event.stopPropagation();
+    // var categorys = $(this).parent().find('input');
+    // var select = $(this).find('input');
+    // var name = select.data('type');
+    // if(!select.prop('checked')) {
+    // categorys.prop('checked',true);
+    // $(`input[name=${name}]`).each(function (i, category) {
+    // categoryService.selectCategory(category);
+    // });
+    // } else {
+    // categorys.prop('checked',false);
+    // $(`input[name=${name}]`).each(function (i, category) {
+    // categoryService.unSelectCategory(category);
+    // });
+    // }
+    // viewMainPage();
     // });
 
     // // 전체선택 checkbox
-    // categoryListDiv.on('click', '.categorySelectSmallAll > input', function(event) {
-    //     var categorys = $(this).parent().parent().find('input');
-    //     var select =  $(this);
-    //     var name = select.data('type');
-    //     if(!select.prop('checked')) {
-    //         categorys.prop('checked',true);
-    //         $(`input[name=${name}]`).each(function (i, category) {
-    //             categoryService.selectCategory(category);
-    //         });
-    //     } else {
-    //         categorys.prop('checked',false);
-    //         $(`input[name=${name}]`).each(function (i, category) {
-    //             categoryService.unSelectCategory(category);
-    //         });
-    //     }
-    //     viewMainPage();
+    // categoryListDiv.on('click', '.categorySelectSmallAll > input',
+	// function(event) {
+    // var categorys = $(this).parent().parent().find('input');
+    // var select = $(this);
+    // var name = select.data('type');
+    // if(!select.prop('checked')) {
+    // categorys.prop('checked',true);
+    // $(`input[name=${name}]`).each(function (i, category) {
+    // categoryService.selectCategory(category);
+    // });
+    // } else {
+    // categorys.prop('checked',false);
+    // $(`input[name=${name}]`).each(function (i, category) {
+    // categoryService.unSelectCategory(category);
+    // });
+    // }
+    // viewMainPage();
     // });
 
     // // 개별 선택 div
     // categoryListDiv.on('click', '.category', function(event) {
-    //     var select =  $(this).find('input');
+    // var select = $(this).find('input');
         
-    //     if(!select.prop('checked')) {
-    //         select.prop('checked',true);
-    //         categoryService.selectCategory(select);
-    //     } else {
-    //         select.prop('checked',false);
-    //         categoryService.unSelectCategory(select);
-    //     }
-    //     viewMainPage();
+    // if(!select.prop('checked')) {
+    // select.prop('checked',true);
+    // categoryService.selectCategory(select);
+    // } else {
+    // select.prop('checked',false);
+    // categoryService.unSelectCategory(select);
+    // }
+    // viewMainPage();
     // });
 
     // // 개별 선택 checkbox
     // categoryListDiv.on('click', '.category > input', function(event) {
-    //     var select =  $(this);
+    // var select = $(this);
         
-    //     if(!select.prop('checked')) {
-    //         select.prop('checked',true);
-    //         categoryService.selectCategory(select);
-    //     } else {
-    //         select.prop('checked',false);
-    //         categoryService.unSelectCategory(select);
-    //     }
-    //     viewMainPage();
+    // if(!select.prop('checked')) {
+    // select.prop('checked',true);
+    // categoryService.selectCategory(select);
+    // } else {
+    // select.prop('checked',false);
+    // categoryService.unSelectCategory(select);
+    // }
+    // viewMainPage();
     // });
 
     // 카테고리 바 이벤트
@@ -356,4 +357,4 @@ $(document).ready(function () {
         categoryService.deleteCategory($(this).parent());
         viewMainPage();
     });
-});
+})
