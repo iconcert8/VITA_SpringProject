@@ -50,7 +50,7 @@
 			<!-- 필터 현황 -->
 			<div class="card bg-light mb-3" id="filterBar">
 				<div class="card-header">
-					<button class="btn btn-outline-secondary float-right">초기화</button>
+					<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>
 
 					<div class="d-inline-block text-center mx-1">
 						<span>오버워치</span>
@@ -180,24 +180,23 @@
 
 
 <script type="text/javascript">
-
 //소분류 호출
 function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';
 
 	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
-					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='selectAll'>"
+					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='small" + (index+1) + "'>"
 					+ "<label>전체선택</label>"
 				+ "</div>";
 				
-	$.each(resultSmall, function(index, itemSmall){
+	$.each(resultSmall, function(i, itemSmall){
 			/* 일반 소분류 버튼 */
 		htmlSmall += "<div class='col-sm-6 category'>"
 						+ "<input type='checkbox' data-categoryno='" + itemSmall.categoryNo
-						+ "' data-biggroup='" + big + "' data-smallgroup'" + itemSmall.smallGroup + "'>"
+						+ "' data-biggroup='" + big + "' data-smallgroup='" + itemSmall.smallGroup + "' name='small" + (index+1) + "'>"
 						+ "<label>" + itemSmall.smallGroup + "</label>"
 					+  "</div>";
-	});	
+	});
 	var name = "#small" + (index+1);
 	
 	$(name).append(htmlSmall);

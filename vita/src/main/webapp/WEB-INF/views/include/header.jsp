@@ -395,12 +395,13 @@
 
 
 <script type="text/javascript" src="/resources/js/header.js"></script>
-<script type="text/javascript" src="/resources/js/category.js"></script>
 <script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
 <script src="/resources/js/feed.js"></script>
+<script src="/resources/js/categoryModule.js"></script>
+<script src="/resources/js/category.js"></script>
 <script type="text/javascript">
 $(function(){
 // 	글쓰기 창 선택시 대분류 나타나게 해줌
