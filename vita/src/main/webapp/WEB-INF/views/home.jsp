@@ -180,49 +180,7 @@
 
 
 <script type="text/javascript">
-//소분류 호출
-function startSmallCallback(resultSmall, index, big){
-	var htmlSmall = '';
 
-	htmlSmall += "<div class='col-sm-6 categorySelectSmallAll'>"
-					+ "<input type='checkbox' data-biggroup='" + big + "' data-type='small" + (index+1) + "'>"
-					+ "<label>전체선택</label>"
-				+ "</div>";
-				
-	$.each(resultSmall, function(i, itemSmall){
-			/* 일반 소분류 버튼 */
-		htmlSmall += "<div class='col-sm-6 category'>"
-						+ "<input type='checkbox' data-categoryno='" + itemSmall.categoryNo
-						+ "' data-biggroup='" + big + "' data-smallgroup='" + itemSmall.smallGroup + "' name='small" + (index+1) + "'>"
-						+ "<label>" + itemSmall.smallGroup + "</label>"
-					+  "</div>";
-	});
-	var name = "#small" + (index+1);
-	
-	$(name).append(htmlSmall);
-	
-}
-
-//서버 시작시 큰 카테고리 호출
-function startBigCallback(result){
-	$.each(result, function(i, item){
-		var html = '';
-
-		html += "<div class='card'>"
-				+ "<button class='btn card-header' id='big"+ (i+1) + "' data-toggle='collapse' data-target='#small" + (i+1)
-				+ "' aria-expanded='false' aria-controls='small" + (i+1) + "'>"	+ item	+ "</button>"
-				+ "<div id='small" + (i+1) + "' class='collapse row' aria-labelledby='big" + (i+1) + "'data-parent='#accordion'></div>"
-			+ "</div>";
-			
-		$("#accordion").append(html);
-
-		categoryService.smallCall(item, startSmallCallback, i);
-	});
-}
-
-$(function(){
-	categoryService.bigCall(startBigCallback);
-})
 		
 </script>
 

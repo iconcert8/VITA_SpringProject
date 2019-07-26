@@ -4,7 +4,7 @@
 <mapper namespace="me.vita.mapper.CategoryMapper">
 
 	<select id="selectListBig" resultType="String">
-		select distinct bigGroup
+		select /*+ INDEX(category pk_cate_categoryNo) */ distinct bigGroup
 		from category 
 	</select>
 	

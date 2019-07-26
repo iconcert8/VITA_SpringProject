@@ -103,7 +103,7 @@ var template = {
 
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
-            return `<div class="d-inline-block text-center mx-1" data-filter="${categoryNo}">
+            return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}">
                         <span>${filterName}</span>
                         <button type="button" class="close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
