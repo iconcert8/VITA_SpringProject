@@ -1,6 +1,3 @@
-/**
- * 
- */
 console.log('Feed Module.........');
 
 var feedService = {
@@ -87,38 +84,30 @@ var userService = {
 }
 
 var viewService = {
-    myBtnActive: function (item) {
-        $('#userLeftBtn > button').removeClass('btn-secondary').addClass('btn-outline-secondary');
+    myBtnActive: function (userBtn, item) {
+        userBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
         $(item).removeClass('btn-outline-secondary').addClass('btn-secondary');
     },
-    myBtnUnActive: function () {
-        $('#userLeftBtn > button').removeClass('btn-secondary').addClass('btn-outline-secondary');
+    myBtnUnActive: function (item) {
+        $(item).removeClass('btn-secondary').addClass('btn-outline-secondary');
     },
     mainPageInit: function () {
 
         $('#categoryType').removeClass('d-none');
-        $('#categoryBar').removeClass('d-none');
-        $('#userBar').addClass('d-none');
+
         $('#userInfo').addClass('d-none');
-        if(searchFilter.length == 0) {
-            $('#searchBar').addClass('d-none');
-        }
+
         // 피드 삭제
         $('#viewFeedList').empty();
     },
-    userBarReset : function () {
-        $('#userBar > div').find('div').remove();
-    }
-    // firstMainPageInit: function () {
-    //     // 인기/최신 버튼 초기화
-    //     $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
-    //     $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
+    firstMainPageInit: function () {
+        // 인기/최신 버튼 초기화
+        $('#popularBtn').removeClass('btn-outline-secondary').addClass('btn-secondary');
+        $('#recentBtn').removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-    //     // 카테고리바(필터) 초기화
-    //     $('#categoryBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
-    // },
-
-
+        // 카테고리바(필터) 초기화
+        $('#filterBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
+    },
 }
 
 var insertFeed = function add(feed){
@@ -143,7 +132,13 @@ $("#insertFeedBtn").on("click", function(){
 	// 피드 내용 console.log($("#content-write-textarea").val());
 	// userId console.log($("#authUserId").val());
 	// 태그+피드 리미트 console.log(($("#tag-write-input").val()+"&"+$("#content-write-textarea").val()).substr(0,50));
-
+	
+	var tags = $("#tag-write-input").val().split("#");
+	tags.splice(0, 1);
+	console.log(tags);
+	
+	
+	
 	var smallElement = $("#category-choose-small").val();
 	
 	console.log("카테고리 번호 : " + smallElement.substr(0, smallElement.indexOf("&")));
@@ -156,7 +151,7 @@ $("#insertFeedBtn").on("click", function(){
 			feedLimitContent : ($("#tag-write-input").val()+ "&"+$("#content-write-textarea").val()).substr(0,50),
 			categoryTemp : $("#category-request").val(),
 			// 태그 string 배열
-			tags : ['a','b'],		
+			tags : tags,		
 			// FeedImageVO 배열
 			feedImages : [
 				{feedImgUuid : "aaa", feedImgUploadPath : "/resources/upload", feedImgFileName : "dfdf"},
@@ -165,4 +160,3 @@ $("#insertFeedBtn").on("click", function(){
 			]	
 		});
 })
-

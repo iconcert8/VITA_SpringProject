@@ -1,11 +1,19 @@
 package me.vita.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.vita.controller.FeedController;
 import me.vita.domain.FeedImageVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
@@ -25,6 +33,9 @@ public class FeedServiceImpl implements FeedService{
 	
 	@Autowired
 	private TagMapper tagMapper;
+	
+	@Autowired
+	ServletContext ser;
 	
 	@Override
 	@Transactional
@@ -93,15 +104,31 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	@Transactional
 	public boolean register(FeedDTO feedDTO) {
-		System.out.println("service==1===============insert start");
-		
-		System.out.println(feedDTO);
+		System.out.println("register start ----------------------");
 		
 		int result = mapper.insert(feedDTO);
 		
-		System.out.println("service==2===============insert done");
-
-		System.out.println(feedDTO);
+		List<String> tags = feedDTO.getTags();
+		
+		for(String tag : tags) {
+			tagMapper.insert(feedDTO.getFeedNo(), tag);
+			System.out.println("tag입력 성공일껄" + tag);
+		}
+		
+		
+		
+		
+		String a = ser.getRealPath("/resources");
+		
+		System.out.println("real path :   " + a);
+		
+		String path = System.getProperty("user.dir");
+		String uploadFolder = "\\resources\\upload";
+		File uploadPath = new File(uploadFolder, getFolder());
+		
+		System.out.println("uploadPath : " + uploadPath);
+		
+		System.out.println(path);
 		
 		List<FeedImageVO> imgs = feedDTO.getFeedImages();
 		
@@ -109,13 +136,17 @@ public class FeedServiceImpl implements FeedService{
 			feedImageMapper.insert(img);
 		}
 		
-		List<String> tags = feedDTO.getTags();
-		
-		for(String tag : tags) {
-			tagMapper.insert(feedDTO.getFeedNo(), tag);
-		}
 	
-		return result == 1;
 		
+		return result == 1;
+	}
+	private String getFolder() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+
+		Date date = new Date();
+
+		String str = dateFormat.format(date);
+
+		return str.replace("-", File.separator);
 	}
 }

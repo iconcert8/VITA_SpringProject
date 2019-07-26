@@ -1,5 +1,8 @@
 package me.vita.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
 import me.vita.domain.UserVO;
@@ -42,7 +44,7 @@ public class FeedController {
 
 	@Autowired
 	private FeedService service;
-	
+
 	@GetMapping("/{feedNo}")
 	@ResponseBody
 	public FeedDTO get(@AuthUser UserVO user, @PathVariable("feedNo") Integer feedNo) {
@@ -52,49 +54,53 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		System.out.println("......................................................." + user.getUserId());
-//		System.out.println("......................................................." + filter);
-		if(filter.getType().equals("popular")) {
+		// System.out.println("......................................................."
+		// + filter);
+		if (filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);
-		} else if(filter.getType().equals("recent")) {
+		} else if (filter.getType().equals("recent")) {
 			return service.getListRecent(user, filter);
 		}
 		return null;
 	}
-	
+
 	@PostMapping("/list/newsfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		System.out.println(".......................................................newsFeed" + filter);
+	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
+		// System.out.println(".......................................................newsFeed"
+		// + filter);
 		return service.getListNewsFeed(user, filter);
 	}
-	
+
 	@PostMapping("/list/favorite")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
+	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
 		return service.getListFavorite(user, filter);
 	}
-	
+
 	@PostMapping("/list/userfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		List<FeedDTO> list = service.getListUserFeed(user, filter);
-//		log.info(list);
-//		return list;
+	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
+		// List<FeedDTO> list = service.getListUserFeed(user, filter);
+		// log.info(list);
+		// return list;
 		return service.getListUserFeed(user, filter);
 	}
-	
+
 	@PostMapping("/new")
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
 		System.out.println(feedDTO);
-		
-		if(service.register(feedDTO)) {
+
+		if (service.register(feedDTO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
