@@ -149,4 +149,10 @@
 	<select id="select" resultType="me.vita.domain.FeedVO">
 		select * from feed where feedNo=#{feedNo}
 	</select>
+	
+	<update id="updateCategory">
+		update feed 
+		set categoryNo = #{categoryNo}, categoryTemp = null
+		where feedNo = #{feedNo}
+	</update>
 </mapper>

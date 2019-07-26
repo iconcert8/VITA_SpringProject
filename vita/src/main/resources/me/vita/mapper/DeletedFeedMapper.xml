@@ -8,4 +8,10 @@
 		values (seq_deletedFeedNo.nextval, #{deletedFeedReason}, #{warnCategory}, #{feedLimitContent}, sysdate, #{feedNo})	
 	</insert>
 	
+	<select id="selectList" resultType="me.vita.domain.DeletedFeedVO">
+		select /*+INDEX_DESC(deletedFeed pk_delfeed_deletedfeedno)*/ 
+			* 
+		from deletedFeed
+	</select>
+	
 </mapper>
