@@ -17,4 +17,6 @@ public interface UserService {
 	public void modifyAuthstatus(String userId);
 	
 	public boolean login(UserVO vo);
+	
+	public String[] getSearchkey();
 }

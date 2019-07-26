@@ -13,7 +13,7 @@
 	</select>
 	
 	<insert id="insertUser">
-		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, #{userImg}, 'open',#{authkey},#{authstatus})
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'open', #{userImg},'','',#{authkey},#{authstatus})
 	</insert>
 	
 	<select id="selectIdcnt" resultType="int">
@@ -32,5 +32,9 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 	
+	<select id="selectSearchkeyword" resultType="String[]">
+		select searchkeyword from search 
+		<![CDATA[WHERE searchdate>=(sysdate-0.1) AND searchdate < sysdate group by searchkeyword having count(*) >= 1 ORDER BY count(*) DESC]]>
+	</select>
 
 </mapper>

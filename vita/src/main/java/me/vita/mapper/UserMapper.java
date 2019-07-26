@@ -13,4 +13,5 @@ public interface UserMapper {
 	public String selectAuthstatus(@Param("userId") String userId);
 	public String selectAuthkey(@Param("userId") String userId);
 	public void updateAuthstatus(@Param("userId") String userId);
+	public String[] selectSearchkeyword();
 }

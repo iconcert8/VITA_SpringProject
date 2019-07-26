@@ -75,4 +75,11 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public String[] getSearchkey() {
+		// TODO Auto-generated method stub
+		System.out.println("getsearchkey()="+mapper.selectSearchkeyword());
+		return mapper.selectSearchkeyword();
+	}
+
 }

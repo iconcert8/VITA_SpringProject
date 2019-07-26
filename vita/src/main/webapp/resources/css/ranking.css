@@ -5,14 +5,16 @@ body {
     margin: 0;
 }
 
-#content {
-    margin: 20px;
+#rank {
+   	margin-left:790px;
     padding: 10px;
-    background: #393;
+    background: #dddedf;
+    width: 200px;
+    height: 40px;
 }
 
 #rank-list a {
-    color: #FFF;
+    color: #400040;
     text-decoration: none;
 }
 
@@ -22,7 +24,7 @@ body {
 
 #rank-list {
     overflow: hidden;
-    width: 160px;
+    width: 200px;
     height: 20px;
     margin: 0;
 }
