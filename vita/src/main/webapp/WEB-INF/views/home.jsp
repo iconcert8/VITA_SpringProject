@@ -7,9 +7,6 @@
 <link rel="stylesheet" href="/resources/css/scrolltop.css">
 <script src="/resources/js/scrolltop.js"></script>
 
-<style>
-
-</style>
 
 <!-- 스크롤 탑 버튼-->
 <i onclick="topFunction()" id="scrollTopBtn" class="fas fa-arrow-up"></i>
@@ -181,17 +178,8 @@
 </div>
 <!-- end 중간 (카테고리 선택 부분, 피드 부분)-->
 
-<input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
-<input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
-
-<script src="/resources/js/template.js"></script>
-<script src="/resources/js/feedModule.js"></script>
-<script src="/resources/js/replyModule.js"></script>
-<script src="/resources/js/feed.js"></script>
-
 
 <script type="text/javascript">
-
 //소분류 호출
 function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';

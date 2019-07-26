@@ -94,6 +94,7 @@ public class NotificationHandler extends TextWebSocketHandler{
 				notificationVO.setReqId(resId);
 				notificationVO.setResId(myId);
 				notificationVO.setNotifyType(notifyType);
+				System.out.println(notificationVO);
 				service.modify(notificationVO);
 				return;
 			case "follow":
