@@ -394,8 +394,8 @@
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
 
-<script type="text/javascript" src="/resources/js/header.js"></script>
-<script type="text/javascript" src="/resources/js/feedUploadFile.js"></script>
+<script src="/resources/js/header.js"></script>
+<script src="/resources/js/feedUploadFile.js"></script>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
