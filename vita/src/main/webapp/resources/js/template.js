@@ -1,5 +1,9 @@
 console.log('template.........');
 
+var categoryFilter = [];
+var searchFilter = [];
+var viewMainPage;
+
 var template = {
     feedSimple: function (feed, authUser) {
 
@@ -94,15 +98,19 @@ var template = {
         `;
     },
     filterAdd: function (filterName, big, categoryNo) {
-        var bigCategory = '';
-        if (big) bigCategory = '<br>(' + big + ')';
-        return `<div class="d-inline-block text-center mx-1" data-filter="${categoryNo}" >
-        <span>${filterName}</span>
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-            ${bigCategory}
-        </div>`;
+        if(!categoryFilter.includes(categoryNo)) {
+            categoryFilter.push(categoryNo);
+
+            var bigCategory = '';
+            if (big) bigCategory = '<br>(' + big + ')';
+            return `<div class="d-inline-block text-center mx-1" data-filter="${categoryNo}">
+                        <span>${filterName}</span>
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        ${bigCategory}
+                    </div>`;
+        }
     },
     userInfo: function (user, authUser) {
         var template = `<div class="card-header text-center">

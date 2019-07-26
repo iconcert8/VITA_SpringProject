@@ -1,33 +1,73 @@
-$(function() {console.log("start category.js");})
+$(document).ready(function () {
+   // 카테고리 선택 이벤트
+    var categoryListDiv = $('#accordion');
+    
+    // 전체선택 div
+    categoryListDiv.on('click', 'div.categorySelectSmallAll', function(event) {
+        var categorys = $(this).parent().find('input');
+        var select =  $(this).find('input');
+        var name = select.data('type');
+        alert(select.prop('checked'));
+        console.log(select);
+        if(!select.prop('checked')) {
+        	categorys.prop('checked',true);
+            $(`input[name=${name}]`).each(function (i, category) {
+                categoryService.selectCategory(category);
+            });
+        } else {
+            categorys.prop('checked',false);
+            $(`input[name=${name}]`).each(function (i, category) {
+                categoryService.unSelectCategory(category);
+            });
+        }
+        viewMainPage();
+    });
 
-var categoryService = (function() {
-//	url get타입으로 요청을 보내서 받은 값을 callback 함수가 존재하면 result를 안에 넣어서 보낸다
-	function bigCall(callback) {
-		$.ajax({
-			type : 'get',
-			url : '/category/list/big.json',
-			// 타입으로 보낸다
-			contentType : 'application/json; charset=UTF-8',
-			success : function(result) {
-				if (callback) {
-					callback(result);
-				}}});}
-	
-//	url+대분류를 get타입으로 요청을 보내서 받은 값을 callback 함수가 존재하면 result를 안에 넣어서 보낸다
-	function smallCall(value, callback, index) {
-		$.ajax({
-			type : 'get',
-			url : '/category/list/'+ value + '.json',
-			dataType : 'JSON',
-			// 타입으로 보낸다
-			contentType : 'application/json; charset=UTF-8',
-			success : function(result) {
-				if (callback) {
-					callback(result, index, value);
-				}}});}
-	
-//	bigCall 이라는 이름으로 bigCall함수 사용가능, smallCall 동일 
-	return {
-		bigCall : bigCall,
-		smallCall : smallCall
-	};})();
+    // 전체선택 checkbox
+    categoryListDiv.on('click', 'input[data-type^="small"]', function(event) {
+        var categorys = $(this).parent().parent().find('input');
+        var select =  $(this);
+        var name = select.data('type');
+        if(!select.prop('checked')) {
+            categorys.prop('checked',true);
+            $(`input[name=${name}]`).each(function (i, category) {
+                categoryService.selectCategory(category);
+            });
+        } else {
+            categorys.prop('checked',false);
+            $(`input[name=${name}]`).each(function (i, category) {
+                categoryService.unSelectCategory(category);
+            });
+        }
+        viewMainPage();
+    });
+
+    // 개별 선택 div
+    categoryListDiv.on('click', '.category', function(event) {
+        var select =  $(this).find('input');
+        
+        if(!select.prop('checked')) {
+            select.prop('checked',true);
+            categoryService.selectCategory(select);
+        } else {
+            select.prop('checked',false);
+            categoryService.unSelectCategory(select);
+        }
+        viewMainPage();
+    });
+
+    // 개별 선택 checkbox
+    categoryListDiv.on('click', 'input[name^="small"]', function(event) {
+        var select =  $(this);
+        event.stopPropagation();
+        if(!select.prop('checked')) {
+            select.prop('checked',true);
+            categoryService.selectCategory(select);
+        } else {
+            select.prop('checked',false);
+            categoryService.unSelectCategory(select);
+        }
+        viewMainPage();
+    });
+
+});
