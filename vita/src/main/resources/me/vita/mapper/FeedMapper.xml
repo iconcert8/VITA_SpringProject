@@ -176,4 +176,13 @@
 		set categoryNo = #{categoryNo}, categoryTemp = null
 		where feedNo = #{feedNo}
 	</update>
+	
+	<update id="updateGoodCnt">
+		update feed set feedGoodCnt = feedGoodCnt + #{num} where feedNo = #{feedNo}
+	</update>
+	
+	<update id="updateReplyCnt">
+		update feed set feedReplyCnt = feedReplyCnt + #{num} where feedNo = #{feedNo}
+	</update>
+	
 </mapper>

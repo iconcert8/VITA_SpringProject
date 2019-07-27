@@ -33,7 +33,6 @@ public class FavoriteController {
 	@PostMapping("/new")
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user,@RequestBody Integer feedNo){
-		System.out.println("favorite feedNo : " +feedNo);
 		FavoriteVO favoriteVO = new FavoriteVO();
 		favoriteVO.setFeedNo(feedNo);
 		favoriteVO.setUserId(user.getUserId());
@@ -47,7 +46,6 @@ public class FavoriteController {
 	@DeleteMapping("/{feedNo}")
 	@Auth
 	public ResponseEntity<String> remove(@SessionAttribute("authUser") UserVO user, @PathVariable("feedNo") Integer feedNo){
-		System.out.println("favorite feedNo : " +feedNo);
 		FavoriteVO favoriteVO = new FavoriteVO();
 		favoriteVO.setUserId(user.getUserId());
 		favoriteVO.setFeedNo(feedNo);
