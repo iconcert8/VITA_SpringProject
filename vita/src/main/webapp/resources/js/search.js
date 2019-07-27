@@ -33,9 +33,6 @@ $(document).ready(function () {
         search.remove();
         var filter = searchFilter.indexOf(keyword);
         searchFilter.splice(filter, 1);
-        // if(searchFilter.length === 0) {
-        //     searchBarDiv.addClass('d-none');
-        // }
         viewMainPage();
     });
 

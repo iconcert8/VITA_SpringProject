@@ -85,7 +85,7 @@
 	
 	<select id="selectListPopular" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		SELECT distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
@@ -120,7 +120,7 @@
 	
 	<select id="selectListRecent" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		SELECT distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply

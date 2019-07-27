@@ -107,7 +107,12 @@ var template = {
             }
         } else {
             if(!searchFilter.includes(filterName) && !btn) {
-                searchFilter.push(filterName);
+                if(filterName.charAt(0) === '#') {
+                    searchFilter.push(filterName.substring(1));
+                } else {
+                    searchFilter.push(filterName);
+                    filterName = '#' + filterName;
+                }
                 flag = true;
             }
         }
