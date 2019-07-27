@@ -51,16 +51,17 @@
 
 	<!-- websocket handler -->
 	<beans:bean id="notificationHandeler" class="me.vita.handler.NotificationHandler" />
+	<beans:bean id="messengerHandler" class="me.vita.handler.MessengerHandler"/>
 	<websocket:handlers>
-		<websocket:mapping handler="notificationHandeler"
-			path="/notification/websocket" />
+		<websocket:mapping handler="notificationHandeler" path="/notification/websocket" />
+		<websocket:mapping handler="messengerHandler" path="/messenger/websocket"/>
 		<websocket:handshake-interceptors>
-			<beans:bean
-				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
+		
 	</websocket:handlers>
 
-
+	
 
 
 </beans:beans>

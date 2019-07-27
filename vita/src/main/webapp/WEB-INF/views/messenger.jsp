@@ -95,9 +95,9 @@
 					<div>
 						<div class="input-group">
 							<input type="text" class="form-control" placeholder="..."
-								aria-describedby="msgSendBtn">
+								aria-describedby="msgSendBtn" id="sendMsgForm">
 							<div class="input-group-append">
-								<button class="btn btn-outline-primary" id="msgSendBtn">
+								<button class="btn btn-outline-primary" id="sendMsgBtn">
 									<i class="fas fa-paper-plane" style="font-size: 20px;"></i>
 								</button>
 							</div>

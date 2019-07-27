@@ -113,8 +113,8 @@ var template = {
                     searchFilter.push(filterName);
                     filterName = '#' + filterName;
                 }
-                flag = true;
             }
+            flag = true;
         }
         if(flag) {
             var bigCategory = '';
