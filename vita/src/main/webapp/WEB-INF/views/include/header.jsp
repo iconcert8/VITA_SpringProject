@@ -402,6 +402,7 @@ $(function(){
 	goodService.registerBtnEvent();
 	favoriteService.registerBtnEvent();
 	
+	
 	//글쓰기 창 선택시 대분류 나타나게 해줌
 	$("#callBig").on("click", function(){
 		categoryService.bigCall(bigCallback);

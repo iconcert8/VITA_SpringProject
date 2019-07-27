@@ -2,6 +2,8 @@ package me.vita.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import me.vita.domain.DeletedFeedVO;
 
 public interface DeletedFeedMapper {
@@ -12,5 +14,5 @@ public interface DeletedFeedMapper {
 
 	DeletedFeedVO select(Integer feedNo);
 
-	int delete(Integer feedNo);
+	int delete(@Param("feedNo")Integer feedNo);
 }

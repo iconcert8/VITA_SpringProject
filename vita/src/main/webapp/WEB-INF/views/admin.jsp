@@ -385,7 +385,7 @@
 </div>
 
 <!-- 카테고리 추가시 확인 모달창 -->
-<div class="modal fade" id="categoryRequestDecisionAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
+<div class="modal fade" id="decisionAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
 	aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
@@ -395,7 +395,7 @@
 			</div>
 			<!-- 카테고리 모달창 푸터, 확인 버튼-->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary categoryRequestDecision" data-dismiss="modal">확인</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
 	</div>
@@ -540,9 +540,9 @@ $(document).ready(function(){
 		});
 		categoryRequestService.register(bigGroup, smallGroup, feedNo, function(){
 			var text = bigGroup+" / "+smallGroup+" 이 추가되었습니다.";
-			$("#categoryRequestDecisionAlertModal").empty();
-			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-primary'));
-			$("#categoryRequestDecisionAlertModal").modal("show");
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-primary'));
+			$("#decisionAlertModal").modal("show");
 			$row.remove();
 		});
 		
@@ -557,9 +557,9 @@ $(document).ready(function(){
 		
 		categoryRequestService.remove(bigGroup, smallGroup, function(){
 			var text = bigGroup+" / "+smallGroup+" 이 거절되었습니다.";
-			$("#categoryRequestDecisionAlertModal").empty();
-			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-danger'));
-			$("#categoryRequestDecisionAlertModal").modal("show");
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-danger'));
+			$("#decisionAlertModal").modal("show");
 			$row.remove();
 		});
 	});
@@ -627,7 +627,22 @@ $(document).ready(function(){
             $('#adminFeedDetailModal').modal("show");
         });
     });
-	
+	//복구시 ajax호출 및 alert창	
+	$(document).on('click', '.recoverBtn', function(){
+		var $tr = $(this).closest("tr");
+		var feedNo = $tr.data("feedno");
+		
+		deletedFeedService.modify(feedNo, function(){
+			var text = feedNo+"번 게시글이 복구 되었습니다.";
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-success'));
+			$("#decisionAlertModal").modal("show");
+			$tr.remove();
+			
+			var notification = {"reqId":"root", "feedNo":feedNo, "notifyType":"deleteRecover"};
+			notificationService.register(notification);
+		});
+	});
 	
 	/* deletefeed 콜백함수 */
 	function deletedFeedGetListCallback(result){
@@ -643,7 +658,7 @@ $(document).ready(function(){
 			html +=		'<th>'+item.feedNo+'</th>';
 			html +=		'<td>'+item.warnCategory+'</td>';
 			html +=		'<td class="hover deletedContent" colspan="3">'+content+'</td>';
-			html +=		'<td><button class="btn btn-outline-success">복구</button></td>';
+			html +=		'<td><button class="btn btn-outline-success recoverBtn">복구</button></td>';
 			html += '</tr>';
 			
 			$(".deletedFeedListBox").append(html);

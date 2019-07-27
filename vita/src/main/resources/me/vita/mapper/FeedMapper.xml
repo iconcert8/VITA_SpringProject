@@ -155,7 +155,7 @@
 	</select>
 	
 	<update id="updateFeedDel">
-		update feed set feedDel = 'T' where feedNo = #{feedNo}
+		update feed set feedDel = #{feedDel} where feedNo = #{feedNo}
 	</update>
 	
 	<select id="select" resultType="me.vita.domain.FeedVO">

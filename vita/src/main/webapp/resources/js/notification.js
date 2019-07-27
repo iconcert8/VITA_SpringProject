@@ -9,7 +9,6 @@ var notificationService = (function(){
 		var ws = new WebSocket("ws://localhost:8081/notification/websocket");
 		
 		ws.onopen = function(){
-			console.log("info: connection opened");
 			var msg = {"type":"list", "page":notifyPage};
 			ws.send(JSON.stringify(msg));
 		}
@@ -21,11 +20,11 @@ var notificationService = (function(){
 		}
 
 		ws.onclose = function(event){
-			console.log("info: connection closed");
+			console.log("info: notification socket connection closed");
 		}
 		
 		ws.onerror = function(event){
-			console.log("info: connection closed by error");
+			console.log("info: notification socket connection closed by error");
 		}
 		
 		/*
@@ -79,14 +78,12 @@ var notificationService = (function(){
 		});
 		
 		//notification list click event
-		$(document).on('click', '.dropdown-item', function(event){
+		$(document).on('click', '.notification-list-block .dropdown-item', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			
 			var notifyType = $(this).data("notifytype");
-			if(notifyType == "follow"){
-				
-			}else if(notifyType == "good" || notifyType == "favorite"){
+			if(notifyType == "good" || notifyType == "favorite" || notifyType == "deleteRecover"){
 				var feedNo = $(this).data("feedno");
 
 		        feedService.get(feedNo, function (result) {
@@ -150,26 +147,27 @@ var notificationService = (function(){
 			
 			html="";
 			
+			if(item.notifyChk == "F"){
+				notifyCnt++;
+			}
+			
 			if(item.notifyType == "follow"){
 				//상대방 페이지로 이동
 				if(item.notifyChk == "F"){
-					notifyCnt++;
 					html += '<a class="dropdown-item bg-primary nochk" href="#" data-userid="'+item.userId+'" data-notifytype="'+item.notifyType+'">';
 				}else{
 					html += '<a class="dropdown-item" href="#" data-userid="'+item.userId+'" data-notifytype="'+item.notifyType+'">';						
 				}
-			}else if(item.notifyType == "good" || item.notifyType == "favorite"){
+			}else if(item.notifyType == "good" || item.notifyType == "favorite" || item.notifyType == "deleteRecover"){
 				//해당피드 상세보기
 				// '<div data-toggle="modal" data-target="#feedDetailModal">'
 				if(item.notifyChk == "F"){
-					notifyCnt++;
 					html += '<a class="dropdown-item bg-primary nochk" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
 				}else{
 					html += '<a class="dropdown-item" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';						
 				}
 			}else{
 				if(item.notifyChk == "F"){
-					notifyCnt++;
 					html += '<a class="dropdown-item bg-primary nochk" data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';
 				}else{
 					html += '<a class="dropdown-item"  data-userid="'+item.userId+'" data-feedno="'+item.feedNo+'" data-notifytype="'+item.notifyType+'">';					
@@ -196,6 +194,7 @@ var notificationService = (function(){
 	}
 	
 	//delete 피드 알림
+	//delete recover 피드 알림
 	function register(notification){
 		
 		$.ajax({
