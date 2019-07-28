@@ -120,7 +120,14 @@ var notificationService = (function(){
 			notifyCnt = 0;
 			updateNotifyCnt(notifyCnt);
 		});
-
+		
+		$(".notification-list-block").scroll(function(){
+			if($(".notification-list-block").scrollTop() == $(".notification-list-block").prop("scrollHeight")-$(".notification-list-block").height()){
+				notifyPage++;
+				var msg = {"type":"list", "page":notifyPage};
+				ws.send(JSON.stringify(msg));
+			}
+		});
 
 		var html = "";
 		function notificationCallback(data){
@@ -131,10 +138,19 @@ var notificationService = (function(){
 					$(".notification-ChkAll").after(html);
 				});
 			}else{
+				$(".notification-list-block").empty();
 				$.each(data, function(index, item){
 					printNotification(index, item);
 					$(".notification-list-block").append(html);
 				});
+				notifyOff = '<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>';
+				$(".notification-list-block").prepend(notifyOff);
+			}
+			
+			//리스트 불러올 때
+			if(data[0].notifyChkCount != null && data[0].notifyChkCount != ""){
+				notifyCnt = data[0].notifyChkCount;
+				updateNotifyCnt(notifyCnt);
 			}
 			
 		}

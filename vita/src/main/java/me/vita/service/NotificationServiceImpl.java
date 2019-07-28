@@ -57,7 +57,11 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	@Override
 	public List<NotificationDTO> getList(String userId, Integer page) {
-		return mapper.selectList(userId, page);
+		List<NotificationDTO> list = mapper.selectList(userId, page);
+		if(list.size() != 0) {
+			list.get(0).setNotifyChkCount(mapper.selectNotifyChkCount(userId));
+		}
+		return list;
 	}
 
 	@Override
