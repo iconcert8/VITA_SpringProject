@@ -23,4 +23,5 @@ public class AdminController {
 	@Auth(Role.ADMIN)
 	public void view() {}
 	
+
 }
