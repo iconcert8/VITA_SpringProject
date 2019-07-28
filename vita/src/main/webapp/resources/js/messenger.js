@@ -1,19 +1,21 @@
+
+// WebSocket
 var ws = new WebSocket("ws://localhost:8081/messenger/websocket");
 
 ws.onopen = function () {
     console.log("[!]info: messenger connection opened");
-//    var msg = {
-//        "type": "list",
-//        "page": notifyPage
-//    };
-//    ws.send(JSON.stringify(msg));
+    //    var msg = {
+    //        "type": "list",
+    //        "page": notifyPage
+    //    };
+    //    ws.send(JSON.stringify(msg));
 }
 
 ws.onmessage = function (event) {
-//    var jsonData = event.data;
-//    var data = JSON.parse(jsonData);
-//    notificationCallback(data);
-	console.log(event.data);
+    //    var jsonData = event.data;
+    //    var data = JSON.parse(jsonData);
+    //    notificationCallback(data);
+    console.log(event.data);
 }
 
 ws.onclose = function (event) {
@@ -24,37 +26,46 @@ ws.onerror = function (event) {
     console.log("[!]info: messenger connection closed by error");
 }
 
+//---------------------------------------------
+
+var userId = $('#authUserId').val();
+var resId;
 
 var messengerService = {
-//    var currentTime = new Date();
+    send : function () {  
+        var date = new Date();
+        var msgDate = date.getFullYear() + ':' + (date.getMonth() + 1) + ':' + date.getDate() + ':' + date.getHours() + ':' +
+            date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
     
-	sendMsg : function(msg) {
         var sendMsg = {
-            "msg" : msg,
-
+            "msg": msg,
+            "msgDate": msgDate,
+            "reqId": userId
         }
-		ws.send(msg);
-	}
-		
+        ws.send(msg);
+
+    }
+    
 }
 
-$(document).ready(function() {
-    
+// 이벤트
+$(document).ready(function () {
+
     var sendMsgForm = $('#sendMsgForm');
-    
-     // enter키
-     sendMsgForm.on('keyup', function(event) {
-    	var msg = $(this).val();
+
+    // enter키
+    sendMsgForm.on('keyup', function (event) {
+        var msg = $(this).val();
         if (event.keyCode == 13 && msg) {
             ws.send(msg);
         }
     });
 
     // 검색버튼
-    $('#sendMsgBtn').on('click', function(event) {
-        if(sendMsgForm.val()) {
+    $('#sendMsgBtn').on('click', function (event) {
+        if (sendMsgForm.val()) {
             ws.send(sendMsgForm.val());
         }
     });
-	
+
 });

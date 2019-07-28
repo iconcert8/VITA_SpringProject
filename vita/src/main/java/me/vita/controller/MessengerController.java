@@ -18,4 +18,11 @@ public class MessengerController {
 	@GetMapping("")
 	@Auth
 	public void view() {  }
+	
+	@GetMapping("/list")
+	@Auth
+	public String getList() {
+		
+		return null;
+	}
 }
