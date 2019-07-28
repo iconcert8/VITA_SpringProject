@@ -26,7 +26,13 @@ ws.onerror = function (event) {
 
 
 var messengerService = {
+//    var currentTime = new Date();
+    
 	sendMsg : function(msg) {
+        var sendMsg = {
+            "msg" : msg,
+
+        }
 		ws.send(msg);
 	}
 		

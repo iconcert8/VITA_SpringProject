@@ -42,7 +42,7 @@
 		
 			<!-- 인기, 최신 버튼 -->
 			<div class="text-right mt-2" id="categoryType">
-				<button class="btn btn-secondary" id="popularBtn">인기순</button>
+				<button class="btn btn-secondary" id="popularBtn">인기글</button>
 				<button class="btn btn-outline-secondary" id="recentBtn">최신순</button>
 				<div class="clearfix mb-2"></div>
 			</div>

@@ -50,9 +50,12 @@ public class MessengerHandler extends TextWebSocketHandler {
 		JsonObject jsonObject = (JsonObject)new JsonParser().parse(requestText);
 
 		// json객체에서 인스턴스 추출
-		String reqId = jsonObject.get("reqId") == null ? null : jsonObject.get("reqId").getAsString();
-		String resId = jsonObject.get("resId") == null ? null : jsonObject.get("resId").getAsString();
-		Long msgDate = jsonObject.get("msgDate") == null ? null : jsonObject.get("msgDate").getAsLong();
+		String msg = jsonObject.get("msg").getAsString();
+		Long msgDate = jsonObject.get("msgDate").getAsLong();
+		String reqId = jsonObject.get("reqId").getAsString();
+		String resId = jsonObject.get("resId").getAsString();
+		
+		
 
 	}
 
