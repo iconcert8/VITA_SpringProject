@@ -47,8 +47,8 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 	
-	<select id="selectSearchkeyword" resultType="String[]">
-		select searchkeyword from search 
+	<select id="selectSearchkeyword" resultType="String">
+		SELECT searchkeyword from search 
 		<![CDATA[WHERE searchdate>=(sysdate-0.1) AND searchdate < sysdate group by searchkeyword having count(*) >= 1 ORDER BY count(*) DESC]]>
 	</select>
 

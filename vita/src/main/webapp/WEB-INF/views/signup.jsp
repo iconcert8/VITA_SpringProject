@@ -88,16 +88,16 @@ body{
 			<h2>SIGN-UP form</h2>
 			<form action="/user/new" method="POST" id="form">
 				<p>ID</p>
-				<input type="text" id="id" name="id" onkeyup="chkid()" pattern=".{6,}" required title="6자 이상의 아이디" />
+				<input type="text" id="id" name="id" onkeyup="chkid()" pattern=".{6,}" required title="6ì ì´ìì ìì´ë" />
 				<p id="here1"></p>
 				<p>PASSWORD</p>
-				<input type="password" id="password" name="password" onkeyup="chkpassword(this,8)" pattern=".{8,}" required title="8자 이상의 비밀번호" />
+				<input type="password" id="password" name="password" onkeyup="chkpassword(this,8)" pattern=".{8,}" required title="8ì ì´ìì ë¹ë°ë²í¸" />
 				<p id="here2"></p>
 				<p>CONFIRM PASSWORD</p>
 				<input type="password" id="password_chk" pattern=".{8,}" onkeyup="chkpassword_correct()" />
 				<p id="here3"></p>
 				<p>NICKNAME</p>
-				<input type="text" id="nickname" name="nickname" onkeyup="chknickname(this,5)" pattern=".{5,}" required title="5자 이상의 닉네임" />
+				<input type="text" id="nickname" name="nickname" onkeyup="chknickname(this,5)" pattern=".{5,}" required title="5ì ì´ìì ëë¤ì" />
 				<p id="here4"></p> 
 				<p>EMAIL</p>
 				<input type="email" id="email" name="email" />
@@ -108,7 +108,7 @@ body{
 		</div>
 
 		<div id="jb-footer">
-			<p>Copyright</p>
+			<p>회원가입화면입니다.</p>
 		</div>
 	</div>
 </body>

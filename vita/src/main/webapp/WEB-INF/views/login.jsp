@@ -97,7 +97,7 @@ body{
 		</div>
 
 		<div id="jb-footer">
-			<p>Copyright</p>
+			<p>로그인화면입니다.</p>
 		</div>
 	</div>
 </body>
