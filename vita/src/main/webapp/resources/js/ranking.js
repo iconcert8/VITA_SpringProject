@@ -17,9 +17,7 @@ $(function() {
     
     $.ajax({
     	type: 'get',
-    	url: "rank",
-    	dataType: "json",
-    	contentType: "application/json; charset=UTF-8",
+    	url: "",
     	success: function(data){
     		alert(data);
     	}

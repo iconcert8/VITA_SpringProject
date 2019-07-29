@@ -1,5 +1,7 @@
 package me.vita.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String[] getSearchkey() {
+	public List<String> getSearchkey() {
 		// TODO Auto-generated method stub
 		System.out.println("getsearchkey()=" + mapper.selectSearchkeyword());
 		return mapper.selectSearchkeyword();

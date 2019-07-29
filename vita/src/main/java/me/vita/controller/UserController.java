@@ -1,6 +1,7 @@
 package me.vita.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/rank", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
-	public String[] rank(){
+	public List<String> rank(){
+		System.out.println("controller= "+service.getSearchkey().toString());
 		return service.getSearchkey();
 	}
 	

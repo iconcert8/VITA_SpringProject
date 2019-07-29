@@ -1,7 +1,9 @@
 package me.vita.mapper;
 
-import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 
@@ -29,5 +31,5 @@ public interface UserMapper {
 
 	void updateAuthstatus(@Param("userId") String userId);
 
-	String[] selectSearchkeyword();
+	List<String> selectSearchkeyword();
 }

@@ -1,5 +1,7 @@
 package me.vita.service;
 
+import java.util.List;
+
 import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 
@@ -21,6 +23,6 @@ public interface UserService {
 
 	public boolean login(UserVO vo);
 
-	public String[] getSearchkey();
+	public List<String> getSearchkey();
 
 }
