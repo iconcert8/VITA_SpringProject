@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -36,15 +37,25 @@ public class UserController {
 		return "signup";
 	}
 	
+	
 	@GetMapping("/rank")
 	public String rankview(){
 		return "ranking";
 	}
 	
-	@PostMapping(value="/new")
-	public String register(UserVO userVO, RedirectAttributes rttr)throws Exception {
-		
-		service.register(userVO);
+	@GetMapping("/homerank")
+	public String rankview2(){
+		return "home_ranking";
+	}
+	
+	@RequestMapping(value="/rank", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
+	public String[] rank(){
+		return service.getSearchkey();
+	}
+	
+	@RequestMapping(value="/new", method=RequestMethod.POST)
+	public String register(UserVO userVO, @RequestParam("id") String id, @RequestParam("password") String pw, @RequestParam("nickname") String nick, @RequestParam("email") String email, RedirectAttributes rttr)throws Exception {
+//		service.register(id, pw, nick, email);
 		return "redirect:login";
 	}
 	

@@ -14,17 +14,16 @@ import me.vita.mapper.UserMapper;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper mapper;
 	private JavaMailSender mailSender;
 
-	
 	@Override
 	public UserDTO get(String myId, String userId) {
 		return mapper.select(myId, userId);
 	}
-	
+
 	@Override
 	public String getPw(String userId) {
 		return mapper.selectPw(userId);
@@ -33,20 +32,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void register(UserVO userVO) throws Exception {
 		String authkey = new TempKey().getkey(10, false);
-		
+
 		MailUtils sendMail = new MailUtils(mailSender);
-		
+
 		sendMail.setSubject("[VITA]sign-up authKey");
-		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ")
-				.append(authkey).append("  </b></p>").toString());
+		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ").append(authkey)
+				.append("  </b></p>").toString());
 		sendMail.setFrom("Administer ", "Juan");
 		sendMail.setTo(userVO.getUserEmail());
 		sendMail.send();
-		
-		
+
 		userVO.setAuthKey(authkey);
 		userVO.setAuthStatus("F");
-		
+
 		mapper.insert(userVO);
 	}
 
@@ -74,4 +72,12 @@ public class UserServiceImpl implements UserService {
 	public boolean login(UserVO userVO) {
 		return mapper.login(userVO) == 1;
 	}
+
+	@Override
+	public String[] getSearchkey() {
+		// TODO Auto-generated method stub
+		System.out.println("getsearchkey()=" + mapper.selectSearchkeyword());
+		return mapper.selectSearchkeyword();
+	}
+
 }

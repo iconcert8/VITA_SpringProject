@@ -3,9 +3,13 @@
 
 <mapper namespace="me.vita.mapper.UserMapper">
 	
-
+	
+	<insert id="insert">
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
+	</insert>
+	
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from userInfo where userId = #{userId}
+		select * from user where userId = #{userId}
 	</select>
 	
 	<select id="select" resultType="me.vita.dto.UserDTO">
@@ -23,8 +27,8 @@
 		select userpass from userinfo where userId=#{userId}
 	</select>
 	
-	<insert id="insert">
-		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
+	<insert id="insertUser">
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'open', #{userImg},'','',#{authkey},#{authstatus})
 	</insert>
 	
 	<select id="selectIdcnt" resultType="int">
@@ -43,5 +47,9 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 	
+	<select id="selectSearchkeyword" resultType="String[]">
+		select searchkeyword from search 
+		<![CDATA[WHERE searchdate>=(sysdate-0.1) AND searchdate < sysdate group by searchkeyword having count(*) >= 1 ORDER BY count(*) DESC]]>
+	</select>
 
 </mapper>

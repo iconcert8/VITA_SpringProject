@@ -7,6 +7,8 @@ import me.vita.dto.UserDTO;
 
 public interface UserMapper {
 
+	void insert(UserVO userVO);
+
 	int login(UserVO userVO);
 
 	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
@@ -15,7 +17,9 @@ public interface UserMapper {
 
 	String selectPw(@Param("userId") String userId);
 
-	void insert(UserVO userVO);
+	void insertUser(@Param("userId") String userId, @Param("userPass") String userPass,
+			@Param("userNick") String userNick, @Param("userEmail") String userEmail, @Param("userImg") String userImg,
+			@Param("authkey") String authkey, @Param("authstatus") String authstatus);
 
 	int selectIdcnt(@Param("userId") String userId);
 
@@ -25,4 +29,5 @@ public interface UserMapper {
 
 	void updateAuthstatus(@Param("userId") String userId);
 
+	String[] selectSearchkeyword();
 }

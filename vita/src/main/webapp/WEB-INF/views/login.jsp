@@ -1,127 +1,104 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<!-- Bootstrap core CSS -->
-<link href="/resources/vendor/bootstrap/css/bootstrap.min.css"
-	type="text/css" rel="stylesheet">
-
-<!-- Custom fonts for this template -->
-<link href="/resources/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
-	rel='stylesheet' type='text/css'>
-<link
-	href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-	rel='stylesheet' type='text/css'>
-
-<!-- Custom styles for this template -->
-<link href="/resources/css/clean-blog.min.css" type="text/css"
-	rel="stylesheet">
-
+<title>Vita-Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-<script type="text/javascript" src="/resources/js/jquery-3.4.1.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/resources/js/login.js"></script>
-<style type="text/css">
+<style>
 body{
-	font-size: 40px;
+	background-color: #FCFCFC;
 }
-#middle{
-	margin: 300px;
+
+#jb-container {
+	width: 1200px;
+	margin: 100px auto;
+	padding: 20px;
+	border: 1px solid #bcbcbc;
 }
-form{
-	padding-left: 600px;
-	width: 1400px;
-	height: 300px;
-	position: absolute;
-	top: 1000px;
-	left: 300px;
+
+#jb-header {
+	padding: 20px 490px;
+	margin-bottom: 20px;
+	border: 1px solid #bcbcbc;
+	background-color: #F9F9F9;
 }
-#button{
-	list-style:none;
-	margin-right: 500px;
-	width: 450px;
-	height: 300px;
+
+#jb-content {
+	width: 1158px;
+	padding: 20px 250px;
+	margin-bottom: 20px;
+	float: left;
+	border: 1px solid #bcbcbc;
+	font-size: 50px;
 }
-span{
- width:200px;
- margin: 0;
-}
-#img{
-	width:300px;
-	position: absolute;
-	left:770px;
-	top:970px;
-	
+
+#jb-footer {
+	clear: both;
+	padding: 20px;
+	border: 1px solid #bcbcbc;
+	background-color: #F9F9F9;
 }
 #id{
-	margin-bottom: 13px;
+	margin-bottom: 10px;
 }
 #pw{
-	
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 #log_in{
-	width:200px;
-	height: 150px;
+	font-size: 30px;
+	width:269px;
+	height: 120px;
 }
 #sign_up{
-	width:200px;
-	height: 150px;
+	font-size: 30px;
+	width:268px;
+	height: 120px;
+}
+
+@media ( max-width : 480px ) {
+	#jb-container {
+		width: auto;
+	}
+	#jb-content {
+		float: none;
+		width: auto;
+	}
+	#jb-sidebar {
+		float: none;
+		width: auto;
+	}
 }
 </style>
-<title>Log-In</title>
 </head>
 <body>
-
-	<div style="height: 100px;"></div>
-	<section>
-		<!-- Navigation -->
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top"
-			id="mainNav">
-			<div class="container">
+	<div id="jb-container">
+		<div id="jb-header">
+			<h1>
 				<a href="/"><i class="fas fa-chevron-down" id="logo"
 					style="font-size: 60px; color: black">ITA</i></a>
-			</div>
-		</nav>
-		
-		<!-- Page Header -->
-		<header class="masthead"
-			style="background-color: #E7E7E7;">
-			<div class="overlay"></div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 col-md-10 mx-auto">
-						<div class="site-heading">
-							<h1>로그인</h1>
-							<span class="subheading"> </span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
-		<p id="img"><img alt="idpw" src="/resources/img/IDPW.jpg" /></p>
-		<article id="middle">
-			<form action="/user/login" method="post">
-				<input type="text" name="id" id="id" /><br>
+			</h1>
+		</div>
+		<div id="jb-content">
+			<h2>LOG-IN</h2>
+			<form action="/user/login" method="post" class="card-body">
+				<p>ID</p>
+				<input type="text" name="id" id="id" />
+				<p>PASSWORD</p>
 				<input type="password" name="pw" id="pw" /><br>
-				<ul id="button">
-				<li><input type="submit" value="로그인" id="log_in" class="btn btn-primary float-right" /></li>
-				<li><input type="button" value="회원가입" id="sign_up" class="btn btn-primary float-right" /></li>
-				</ul>
+				<input type="button" value="signup" id="sign_up" class="btn btn-primary" />
+				<input type="submit" value="Login" id="log_in" class="btn btn-success" />
 			</form>
-		</article>
-		\
-	</section>
+		</div>
 
+		<div id="jb-footer">
+			<p>Copyright</p>
+		</div>
+	</div>
 </body>
 </html>
