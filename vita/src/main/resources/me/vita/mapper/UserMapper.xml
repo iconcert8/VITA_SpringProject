@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from user where userId = #{userId}
+		select * from userinfo where userId = #{userId}
 	</select>
 	
 	<select id="select" resultType="me.vita.dto.UserDTO">
@@ -47,7 +47,7 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 	
-	<select id="selectSearchkeyword" resultType="String[]">
+	<select id="selectSearchkeyword" resultType="String">
 		select searchkeyword from search 
 		<![CDATA[WHERE searchdate>=(sysdate-0.1) AND searchdate < sysdate group by searchkeyword having count(*) >= 1 ORDER BY count(*) DESC]]>
 	</select>

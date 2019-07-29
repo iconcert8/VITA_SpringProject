@@ -45,7 +45,7 @@ $(document).ready(function () {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
                 if (result.length - 1 === i) {
-                    pageNo = item.rn;
+                    pageNo = item.feedno;
                 }
             });
         });
@@ -86,7 +86,7 @@ $(document).ready(function () {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
                 if (result.length - 1 === i) {
-                    pageNo = item.rn;
+                    pageNo = item.feedno;
                 }
             });
         });

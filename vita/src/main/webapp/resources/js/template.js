@@ -603,5 +603,54 @@ var template = {
             </div>
         `;
         return deletedDetailTemplate;
+    },
+    messengerList : function (last, select) {
+         var active = last.userId === select ? 'active' : '';
+
+        return `<a href="#" class="list-group-item list-group-item-action ${active}" data-contact="${last.userId}">
+                    <div class="d-inline-block rounded bg-secondary float-left">
+                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="height: 50px;">
+                    </div>
+                    <div class="d-inline-block float-left mx-2">
+                        <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
+                        <label class="text-secondary lastMsg">${last.msg}</label>
+                        
+                    </div>
+                    <div class="d-inline-block float-right mt-3">
+                        <span class="badge badge-pill badge-danger">${last.readless}</span>
+                    </div>
+                </a>`;
+    },
+    message : function(msg, contactUser, time) {
+        var template;
+        if(msg.reqId === contactUser) {
+            template = `<!-- 상대방 채팅 -->
+            <div>
+                <div class="clearfix"></div>
+                <div class="d-inline-block rounded bg-secondary float-left">
+                    <img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
+                </div>
+                <div class="d-inline-block float-left mx-2">
+                    <label>${msg.userNick}(${msg.userId})</label>
+                    <div>
+                    ${msg.msg}
+                        <label class="msgTime pl-2 text-muted float-left" style="font-size: 10px;" data-time="${time}">${time}</label>
+                    </div>
+                </div>
+            </div>`
+        } else {
+            var readless = msg.msgChk === 0 ? '' : '1';
+            template = `<!-- 내 채팅 -->
+            <div>
+                <div class="clearfix"></div>
+                <div class="float-right mx-2">
+                    <label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">${readless}</label>
+                    <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-time="${time}">${time}</label>
+                    ${msg.msg}
+                </div>
+            </div>`
+        }
+        console.log(template);
+        return template;
     }
 }

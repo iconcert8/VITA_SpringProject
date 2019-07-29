@@ -1,57 +1,62 @@
 
-// WebSocket
-var ws = new WebSocket("ws://localhost:8081/messenger/websocket");
-
-ws.onopen = function () {
-    console.log("[!]info: messenger connection opened");
-    //    var msg = {
-    //        "type": "list",
-    //        "page": notifyPage
-    //    };
-    //    ws.send(JSON.stringify(msg));
-}
-
-ws.onmessage = function (event) {
-    //    var jsonData = event.data;
-    //    var data = JSON.parse(jsonData);
-    //    notificationCallback(data);
-    console.log(event.data);
-}
-
-ws.onclose = function (event) {
-    console.log("[!]info: messenger connection closed");
-}
-
-ws.onerror = function (event) {
-    console.log("[!]info: messenger connection closed by error");
-}
-
-//---------------------------------------------
-
-var userId = $('#authUserId').val();
-var resId;
-
-var messengerService = {
-    send : function () {  
-        var date = new Date();
-        var msgDate = date.getFullYear() + ':' + (date.getMonth() + 1) + ':' + date.getDate() + ':' + date.getHours() + ':' +
-            date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
-    
-        var sendMsg = {
-            "msg": msg,
-            "msgDate": msgDate,
-            "reqId": userId
-        }
-        ws.send(msg);
-
-    }
-    
-}
-
-// 이벤트
 $(document).ready(function () {
 
     var sendMsgForm = $('#sendMsgForm');
+    var messengerListDiv = $('#messengerList');
+    var messageViewDiv = $('#messageView');
+    var contactUser;
+    var days = [];
+    var times = [];
+
+    var viewMessengerPage = function (select) {
+        messengerListDiv.empty();
+        messengerService.getList(function (result) {
+            $.each(result, function (i, item) {
+                messengerListDiv.append(template.messengerList(item, select));
+            });
+        });
+    }
+
+    // 메신저 화면 클릭 이동
+    viewMessengerPage();
+
+    // 이벤트---------------------------------------------------------
+    messengerListDiv.on('click', 'a', function (event) {
+        // 초기화
+        days = [];
+        times = [];
+        contactUser = $(this).data('contact');
+
+        messengerService.get(contactUser, function (result) {
+            
+            messageViewDiv.empty();
+            $.each(result, function (i, item) {
+                console.log(item);
+                var date = new Date(item.msgDate);
+                var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
+
+                if (!days.includes(dateDay)) {
+                    days.push(dateDay);
+                    $('<div class="text-center bg-info font-weight-bolder"></div>').text(dateDay).appendTo(messageViewDiv);
+                }
+
+                var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours()-12 : date.getHours())
+                        + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+
+                if(!times.includes(dateTime)){
+                    times.push(dateTime);
+                } else {
+                    messageViewDiv.find(`label[date-time="${dateTime}"`).hide();
+                }
+                console.log(dateTime);
+                
+                messageViewDiv.append(template.message(item, contactUser, dateTime));
+            });
+
+        });
+    });
+
+
 
     // enter키
     sendMsgForm.on('keyup', function (event) {
@@ -61,11 +66,13 @@ $(document).ready(function () {
         }
     });
 
-    // 검색버튼
+    // 보내기버튼
     $('#sendMsgBtn').on('click', function (event) {
         if (sendMsgForm.val()) {
             ws.send(sendMsgForm.val());
         }
     });
+
+
 
 });
