@@ -1,8 +1,5 @@
 package me.vita.controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
 import me.vita.domain.UserVO;
@@ -97,11 +96,25 @@ public class FeedController {
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
 		System.out.println(feedDTO);
-
-		if (service.register(feedDTO)) {
-			return new ResponseEntity<String>("success", HttpStatus.OK);
+		int feedNo = service.register(feedDTO);
+		if (feedNo != 0) {
+			System.out.println("true");
+			return new ResponseEntity<String>("" + feedNo, HttpStatus.OK);
 		} else {
+			System.out.println("false");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/copy/{feedNo}")
+	@Auth
+	public void copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
+		System.out.println("copy controller");
+		
+		if (service.registerImg(uploadFile, feedNo)) {
+			System.out.println("성공");
+		} else {
+			System.out.println("실패");
 		}
 	}
 }

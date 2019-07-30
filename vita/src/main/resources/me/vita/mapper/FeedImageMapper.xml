@@ -6,4 +6,16 @@
 			from feedImage
 			where feedNo = #{feedNo}
 	</select>
+	
+	<insert id="insert">
+		INSERT INTO feedImage(feedImgUuid, feedImgUploadPath, feedImgFileName, feedNo)
+		VALUES (#{feedImgUuid}, #{feedImgUploadPath}, #{feedImgFileName}, #{feedNo})
+	</insert>
+	
+	<select id="getData" resultType="me.vita.domain.FeedImageVO">
+		SELECT *
+		FROM feedImage
+		WHERE feedImgFileName = #{feedImgFileName}
+		AND feedNo = #{feedNo}
+	</select>
 </mapper>
