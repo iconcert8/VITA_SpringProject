@@ -23,7 +23,7 @@
 				,u.userid, u.userNick, u.userLock, u.USERIMGUUID, u.USERIMGUPLOADPATH, u.USERIMGFILENAME
 		   	  	from reply r, userInfo u
 		     	where r.USERID = u.USERID AND r.FEEDNO = #{feedNo}) re,
-	     	 (SELECT userId FROM reply WHERE feedno = 1 AND userid = #{userId}) usr
+	     	 (SELECT userId FROM reply WHERE feedno = #{feedNo} AND userid = #{userId}) usr
 		WHERE re.userId = usr.USERID(+)
 		AND rownum <= 10
 		]]>

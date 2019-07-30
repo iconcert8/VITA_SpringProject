@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.StatisticsMapper">
+
+	<select id="frequency" resultType="String">
+		<if test="big == null">
+			select biggroup
+			from feed f, category c
+			where f.categoryNo = c.categoryNo
+		</if>
+
+		<if test="big != null">
+			select smallgroup
+			from feed f, category c
+			where f.categoryNo = c.categoryNo and biggroup=#{big}
+		</if>
+	</select>
+
+	<select id="wordcloud" resultType="String">
+		select f.feedContent
+		from feed f, category c
+		where f.categoryNo = c.categoryNo
+		<if test="big != null">
+			and c.bigGroup = #{big}
+			<if test="small != null">
+				and c.smallGroup = #{small}
+			</if>
+		</if>
+	</select>
+
+</mapper>
