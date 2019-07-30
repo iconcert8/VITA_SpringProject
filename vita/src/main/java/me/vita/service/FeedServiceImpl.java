@@ -170,16 +170,12 @@ public class FeedServiceImpl implements FeedService {
 			data.setFeedNo(feedNo);
 			
 			FeedImageVO re = feedImageMapper.getData(data);
-			System.out.println("re.toString() :------ " + re.toString());
 			
 			File uploadPath = new File(re.getFeedImgUploadPath());
-			System.out.println("uploadPath.toString() : ------" + uploadPath.toString());
 
 			String uploadFileName = re.getFeedImgUuid() + "_" + re.getFeedImgFileName();
-			System.out.println("uploadFileName : -------" + uploadFileName);
 			
 			File saveFile = new File(uploadPath, uploadFileName);
-			System.out.println("saveFile.toString() : --------" + saveFile.toString());
 			
 			try {
 				multipartFile.transferTo(saveFile);
