@@ -48,8 +48,8 @@ public class MessengerServiceImpl implements MessengerService{
 	}
 
 	@Override
-	public boolean modify(String reqId, String resId, Integer msgNo) {
-		return mapper.update(reqId, resId, msgNo) > 0;
+	public int modify(String reqId, String resId, Integer msgNo) {
+		return mapper.update(reqId, resId, msgNo);
 	}
 	
 	

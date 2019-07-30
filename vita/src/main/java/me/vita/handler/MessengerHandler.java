@@ -80,13 +80,20 @@ public class MessengerHandler extends TextWebSocketHandler {
 		}
 	}
 
-	private void checkMessage(WebSocketSession session, JsonObject jobj) {
+	private void checkMessage(WebSocketSession session, JsonObject jobj) throws IOException {
 		String reqId = jobj.get("contactUser").getAsString();
 		String resId = getUser(session).getUserId();
 		Integer msgNo = jobj.get("msgNo").getAsInt();
 		
-		if(service.modify(reqId, resId, msgNo));
-		
+		WebSocketSession responseSession = (WebSocketSession) userSessions.get(reqId);
+		int re = service.modify(reqId, resId, msgNo);
+		if(re > 0) {
+			if (responseSession != null) {
+				jobj.addProperty("count", re);
+				responseSession.sendMessage(new TextMessage(new Gson().toJson(jobj)));
+				session.sendMessage(new TextMessage(new Gson().toJson(jobj)));
+			}
+		}
 	}
 
 	private void sendMessage(WebSocketSession session, JsonObject jobj) throws IOException {

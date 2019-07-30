@@ -1,21 +1,11 @@
 
-var contactUser;
+
 $(document).ready(function () {
 
     var sendMsgForm = $('#sendMsgForm');
     var messengerListDiv = $('#messengerList');
     var messageViewDiv = $('#messageView');
     var messengerContactInfoH5 = $('#messengerContactInfo');
-
-    // 메시지 보내기
-    var sendMsg = function (msg) {
-        var sendMsg = {
-            type: "message",
-            msg: msg,
-            resId: contactUser
-        }
-        messengerService.send(sendMsg);
-    }
 
     var viewMessengerPage = function () {
         messengerListDiv.empty();
@@ -50,18 +40,11 @@ $(document).ready(function () {
                 messageViewDiv.append(template.message(item, contactUser));
 
             });
-            scrollBottom();
+            messengerService.scrollBottom();
 
             // 상대바 메시지 읽었음 확인 메시지 전송
-            var check = {
-                type: 'check',
-                msgNo : msgNo,
-                contactUser : contactUser
-            }
-            console.log(check);
-            
-            messengerService(check);
-        });  
+            messengerService.check(msgNo);
+        });
     }
 
     // 이벤트---------------------------------------------------------
@@ -76,7 +59,7 @@ $(document).ready(function () {
     sendMsgForm.on('keyup', function (event) {
         var msg = $(this).val();
         if (event.keyCode == 13 && msg) {
-            sendMsg(msg);
+            messengerService.sendMsg(msg);
             $(this).val('');
         }
     });
@@ -84,29 +67,35 @@ $(document).ready(function () {
     // 보내기버튼
     $('#sendMsgBtn').on('click', function (event) {
         if (sendMsgForm.val()) {
-            sendMsg(sendMsgForm.val());
+            messengerService.sendMsg(sendMsgForm.val());
             sendMsgForm.val('');
         }
     });
 });
 
-function scrollBottom() {
-    var element = document.getElementById('messageView');
-    element.scrollTop = element.scrollHeight;
-}
-
 function messengerAnalyzer(data) {
+    var loginUserId = $('#authUserId').val();
     switch (data.type) {
         case 'message':
+            // 상대방 메세지 표시및 확인 전송
             if (contactUser === data.userId) {
                 $('#messageView').append(template.message(data, contactUser));
-                scrollBottom();
+                messengerService.check(data.msgNo);
+                messengerService.scrollBottom();
             }
             break;
         case 'success':
+            // 내가 보낸 메시지 표시
             if(contactUser === data.resId) {
                 $('#messageView').append(template.message(data, contactUser));
-                scrollBottom();
+                messengerService.scrollBottom();
+            }
+            break;
+        case 'check':
+            if(contactUser === data.resId) {
+                messengerService.readMsg(data.msgNo)
+            } else if(loginUserId === data.resId) {
+                messengerService.readMsg(data.msgNo, data.count);
             }
             break;
         case 'noti':

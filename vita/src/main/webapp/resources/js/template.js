@@ -655,10 +655,10 @@ var template = {
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
                 <div class="d-inline-block rounded bg-secondary float-left">
-                    <label data-usertime="${dateTime}"></label><img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;"></label>
+                    <img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
                 </div>
                 <div class="d-inline-block float-left mx-2">
-                    <label class="text-dark" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</label>
+                    <label class="text-dark" style="font-size: 12px;">${msg.userNick}(${msg.userId})</label>
                     <div>
                     ${msg.msg}
                         <label class="msgTime pl-2 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
@@ -671,8 +671,6 @@ var template = {
             if(msg.msgChk === 'F') {
                 readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
             }
-            
-            msg.msgChk !== 'F' ? '' : '1';
             template = `
             <div class="mt-1 myMsg">
                 <div class="clearfix"></div>
