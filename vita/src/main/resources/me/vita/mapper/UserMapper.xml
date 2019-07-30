@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from user where userId = #{userId}
+		select * from userinfo where userId = #{userId}
 	</select>
 	
 	

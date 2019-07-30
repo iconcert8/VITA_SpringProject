@@ -4,7 +4,7 @@
 <mapper namespace="me.vita.mapper.GoodMapper">
 	
 	<insert id="insert">
-		insert into good
+		insert into good(userId, feedNo, goodDate)
 		values (#{userId}, #{feedNo}, sysdate)
 	</insert>
 

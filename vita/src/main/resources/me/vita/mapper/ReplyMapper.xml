@@ -8,12 +8,12 @@
 		insert into REPLY	 (REPLYNO, FEEDNO, REPLYCONTENT, REPLYDATE, USERID)
 		values (seq_replyno.nextval, 1, '댓글내용', SYSDATE, '이승현')
 		-->
-		insert into reply (replyno, feedno, replycontent, replydate, userid)
-		values (seq_replyno.nextval, #{feedno}, #{replycontent}, SYSDATE, #{userid})
+		insert into reply (replyNo, feedNo, replyContent, replyDate, userId)
+		values (seq_replyno.nextval, #{feedNo}, #{replyContent}, SYSDATE, #{userId})
 	</insert> 
 	
 	<delete id="delete">	
-		delete from reply where replyno = #{replyno}
+		delete from reply where replyno = #{replyNo}
 	</delete>
 	
 	<select id="selectList" resultType="me.vita.dto.ReplyDTO">
@@ -23,7 +23,7 @@
 				,u.userid, u.userNick, u.userLock, u.USERIMGUUID, u.USERIMGUPLOADPATH, u.USERIMGFILENAME
 		   	  	from reply r, userInfo u
 		     	where r.USERID = u.USERID AND r.FEEDNO = #{feedNo}) re,
-	     	 (SELECT userId FROM reply WHERE feedno = 1 AND userid = #{userId}) usr
+	     	 (SELECT userId FROM reply WHERE feedno = #{feedNo} AND userid = #{userId}) usr
 		WHERE re.userId = usr.USERID(+)
 		AND rownum <= 10
 		]]>

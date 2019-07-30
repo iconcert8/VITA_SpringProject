@@ -19,4 +19,7 @@ public class NotificationDTO {
 	private String userImgUuid;
 	private String userImgUploadPath;
 	private String userImgFileName;
+	
+	//notify check 'F' count
+	private Integer notifyChkCount;
 }

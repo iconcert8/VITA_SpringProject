@@ -15,5 +15,19 @@ var deletedFeedService = (function(){
 		});
 	}
 	
-	return {getList:getList};
+	function modify(feedNo, callback){
+		if(feedNo == null) return;
+		
+		$.ajax({
+			type:'put',
+			url: '/deletedFeed/'+feedNo,
+			success: function(result){
+				if(callback){
+					callback();
+				}
+			}
+		});
+	}
+	
+	return {getList:getList, modify:modify};
 })(); 

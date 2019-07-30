@@ -24,12 +24,16 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	public boolean register(NotificationVO notificationVO) {
 		
-		//delete 알림의 경우 if문으로 간다
+		//delete feed 알림의 경우 if문으로 간다
 		if(notificationVO.getResId() == null){
 			FeedVO feedVO = feedMapper.select(notificationVO.getFeedNo());
 			String content = feedVO.getFeedContent();
 			if(content.length() > 20){content = content.substring(0, 20);}
-			content = "관리자에 의해 \""+content+"\" 게시물이 삭제 되었습니다.";
+			if(notificationVO.getNotifyType().equals("delete")) {
+				content = "관리자에 의해 \""+content+"\" 게시물이 삭제 되었습니다.";
+			}else if(notificationVO.getNotifyType().equals("deleteRecover")) {
+				content = "관리자에 의해 \""+content+"\" 게시물이 복구 되었습니다.";
+			}
 			notificationVO.setResId(feedVO.getUserId());
 			notificationVO.setNotifyMsg(content);
 		}
@@ -53,7 +57,11 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	@Override
 	public List<NotificationDTO> getList(String userId, Integer page) {
-		return mapper.selectList(userId, page);
+		List<NotificationDTO> list = mapper.selectList(userId, page);
+		if(list.size() != 0) {
+			list.get(0).setNotifyChkCount(mapper.selectNotifyChkCount(userId));
+		}
+		return list;
 	}
 
 	@Override

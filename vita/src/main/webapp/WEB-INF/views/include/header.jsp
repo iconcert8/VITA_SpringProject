@@ -62,7 +62,7 @@
 					<div class="dropdown d-inline-block" style="position:relative;">
 						<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
 						<span class="notification-cnt" style="width:20px; height:20px; background-color:red; position:absolute; top:-8px; font-weight:bold; color:white;">0</span>
-						<div class="dropdown-menu dropdown-menu-right notification-list-block overflow-auto" style="max-height:300px;" aria-labelledby="notification-view-btn">
+						<div class="dropdown-menu dropdown-menu-right notification-list-block p-0 overflow-auto" style="height:300px;" aria-labelledby="notification-view-btn">
 								<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
 								
 						</div>
@@ -403,6 +403,7 @@ $(function(){
 	notificationService.webSocketLoad();
 	goodService.registerBtnEvent();
 	favoriteService.registerBtnEvent();
+	
 	
 	//글쓰기 창 선택시 대분류 나타나게 해줌
 	$("#callBig").on("click", function(){
