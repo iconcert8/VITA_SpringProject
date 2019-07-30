@@ -4,10 +4,11 @@
 
 	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select * from
+		(select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
-			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply, rownum rn
 		from feed f, category c, userInfo u, good g, favorite fv, reply r
 		where f.categoryNo = c.categoryNo
 				AND f.userId = u.userId
@@ -16,20 +17,18 @@
 				AND (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO)
 				AND f.userId = #{filter.goToUserId}
 				AND f.feedDel = 'F'
-				AND rownum <= 10
+				AND rownum <= (#{filter.page} + 10)
+		order by f.feeddate desc) where rn > #{filter.page}
 		]]>
-		<if test="filter.page != 0">
-			<![CDATA[and f.feedNo < #{filter.page}]]>
-		</if>
-		order by f.feedno desc
 	</select>
 	
 	<select id="selectListFavorite" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select * from
+		(select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
-			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply, rownum rn
 		from feed f, category c, userInfo u, good g, favorite fv, reply r
 		where f.categoryNo = c.categoryNo
 			AND f.userId = u.userId
@@ -39,20 +38,18 @@
 			AND fv.userId = #{user.userId}
 			AND fv.FEEDNO = f.FEEDNO
 			AND f.feedDel = 'F'
-			AND rownum <= 10
+			AND rownum <= (#{filter.page} + 10)
+		order by f.feeddate desc) where rn > #{filter.page}
 		]]>
-		<if test="filter.page != 0">
-			<![CDATA[and f.feedNo < #{filter.page}]]>
-		</if>
-		order by f.feedno desc
 	</select>
 	
 	<select id="selectListNewsFeed" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select * from
+		(select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
-			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply, rownum rn
 		from feed f, category c, userInfo u, good g, favorite fv, reply r, follow fl
 		where f.categoryNo = c.categoryNo
 				AND f.userId = u.userId
@@ -62,12 +59,9 @@
 				AND fl.REQID =#{user.userId}
 				AND fl.resid = f.userid
 				AND f.feedDel = 'F'
-				AND rownum <= 10
+				AND rownum <= (#{filter.page} + 10)
+		order by f.feeddate desc) where rn > #{filter.page}
 		]]>
-		<if test="filter.page != 0">
-			<![CDATA[and f.feedNo < #{filter.page}]]>
-		</if>
-		order by f.feedno desc
 	</select>
 	
 	<select id="selectDetail" resultType="me.vita.dto.FeedDTO">
@@ -85,73 +79,113 @@
 	
 	<select id="selectListPopular" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
-			c.categoryNo, c.bigGroup, c.smallGroup,
-			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
-			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
-		from feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
-		where f.FEEDDATE > sysdate - 7
-				AND f.categoryNo = c.categoryNo
-				AND f.userId = u.userId
-				AND f.feedno = t.feedno
-				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
-				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
-				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
-				AND f.feedDel = 'F'
-				AND rownum <= 10
-		]]>
-		<if test="filter.filter != null">
-			<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
-				#{category}
-			</foreach>
-		</if>
-		<if test="filter.search != null">
-			<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
-				#{search}
-			</foreach>
-		</if>
-		<if test="filter.page != 0">
-			<![CDATA[
-				AND f.feedNo < #{filter.page}
-			]]>
-		</if>
-		ORDER BY feedgoodcnt DESC, feedreplycnt DESC
+		select *
+		from (select feed.*, rownum rn
+		      from (SELECT distinct f.feedNo,
+		                            f.feedLimitContent,
+		                            f.feedGoodCnt,
+		                            f.feedReplyCnt,
+		                            f.feedDate,
+		                            f.feedUpdate,
+		                            f.feedLock,
+		                            f.categoryTemp,
+		                            c.categoryNo,
+		                            c.bigGroup,
+		                            c.smallGroup,
+		                            u.userId,
+		                            u.userNick,
+		                            u.userImgUuid,
+		                            u.userImgUploadPath,
+		                            u.userImgFileName,
+		                            g.userId  AS isGood,
+		                            fv.userId AS isFavorite,
+		                            r.userId  AS isReply
+		            from feed f,
+		                 category c,
+		                 userInfo u,
+		                 good g,
+		                 favorite fv,
+		                 reply r,
+		                 tag t
+		            where f.FEEDDATE > sysdate - 7
+		              AND f.categoryNo = c.categoryNo
+		              AND f.userId = u.userId
+		              AND f.feedno = t.feedno
+		              AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+		              AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+		              AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+		              AND f.feedDel = 'F'
+		              ]]>
+						<if test="filter.filter != null">
+							<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
+								#{category}
+							</foreach>
+						</if>
+						<if test="filter.search != null">
+							<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
+								#{search}
+							</foreach>
+						</if>
+		<![CDATA[
+						AND rownum <= #{filter.page} + 10
+		            ORDER BY feedgoodcnt DESC, feedreplycnt DESC) feed)
+		where rn > #{filter.page}
+		]]>	
 	</select>
 	
 	<select id="selectListRecent" resultType="me.vita.dto.FeedDTO">
+				<![CDATA[
+		select *
+		from (select feed.*, rownum rn
+		      from (SELECT distinct f.feedNo,
+		                            f.feedLimitContent,
+		                            f.feedGoodCnt,
+		                            f.feedReplyCnt,
+		                            f.feedDate,
+		                            f.feedUpdate,
+		                            f.feedLock,
+		                            f.categoryTemp,
+		                            c.categoryNo,
+		                            c.bigGroup,
+		                            c.smallGroup,
+		                            u.userId,
+		                            u.userNick,
+		                            u.userImgUuid,
+		                            u.userImgUploadPath,
+		                            u.userImgFileName,
+		                            g.userId  AS isGood,
+		                            fv.userId AS isFavorite,
+		                            r.userId  AS isReply
+		            from feed f,
+		                 category c,
+		                 userInfo u,
+		                 good g,
+		                 favorite fv,
+		                 reply r,
+		                 tag t
+		            where f.categoryNo = c.categoryNo
+		              AND f.userId = u.userId
+		              AND f.feedno = t.feedno
+		              AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+		              AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+		              AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+		              AND f.feedDel = 'F'
+		              ]]>
+						<if test="filter.filter != null">
+							<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
+								#{category}
+							</foreach>
+						</if>
+						<if test="filter.search != null">
+							<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
+								#{search}
+							</foreach>
+						</if>
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
-			c.categoryNo, c.bigGroup, c.smallGroup,
-			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
-			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
-		from feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
-		where f.FEEDDATE > sysdate - 7 
-				AND f.categoryNo = c.categoryNo
-				AND f.userId = u.userId
-				AND f.feedno = t.feedno
-				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
-				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
-				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
-				AND f.feedDel = 'F'
-				AND rownum <= 10
-		]]>
-		
-		<if test="filter.filter != null">
-			<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
-				#{category}
-			</foreach>
-		</if>
-		<if test="filter.search != null">
-			<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
-				#{search}
-			</foreach>
-		</if>
-		<if test="filter.page != 0">
-			<![CDATA[
-				AND f.feedNo < #{filter.page}
-			]]>
-		</if>
-		ORDER BY feeddate DESC
+						AND rownum <= #{filter.page} + 10
+		            ORDER BY feeddate DESC) feed)
+		where rn > #{filter.page}
+		]]>	
 	</select>
 	
 	<update id="updateFeedDel">
@@ -168,7 +202,7 @@
 		</selectKey>
 		
 		INSERT INTO feed(feedNo, categoryNo, userId, feedContent, feedLimitContent, feedGoodCnt, feedReplyCnt, feedDate, feedUpdate, feedLock, categoryTemp, feedDel)
-		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, sysdate, sysdate, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
+		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, systimestamp, systimestamp, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
 	</insert>
 	
 	<update id="updateCategory">

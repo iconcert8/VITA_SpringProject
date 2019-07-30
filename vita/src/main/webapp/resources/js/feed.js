@@ -15,7 +15,7 @@ $(document).ready(function () {
     var categoryBarDiv = $('#categoryBar');
     var searchBarDiv = $('#searchBar')
 
-    var popularBtn = $('#popularBtn');
+    var popularBtn = $('#popularBtn');       
     var recentBtn = $('#recentBtn');
 
     var userId = $('#authUserId').val();
@@ -45,7 +45,7 @@ $(document).ready(function () {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
                 if (result.length - 1 === i) {
-                    pageNo = item.feedNo;
+                    pageNo = item.rn;
                 }
             });
         });
@@ -86,7 +86,7 @@ $(document).ready(function () {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, userId));
                 if (result.length - 1 === i) {
-                    pageNo = item.feedNo;
+                    pageNo = item.rn;
                 }
             });
         });

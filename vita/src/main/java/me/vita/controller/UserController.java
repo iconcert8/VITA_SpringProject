@@ -1,6 +1,7 @@
 package me.vita.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -18,33 +20,43 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
+import me.vita.mapper.UserMapper;
 import me.vita.security.Auth;
 import me.vita.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-/*
- * 회원가입페이지, 로그인페이지, 회원가입 처리, 로그인처리(interceptor), 유저정보
- */
 public class UserController {
 	
 	@Autowired
 	UserService service;
+	UserMapper mapper;
 	
 	@GetMapping("/new")
 	public String signupview(){
 		return "signup";
 	}
 	
+	
 	@GetMapping("/rank")
 	public String rankview(){
 		return "ranking";
 	}
 	
-	@PostMapping(value="/new")
-	public String register(UserVO userVO, RedirectAttributes rttr)throws Exception {
-		
-		service.register(userVO);
+	@GetMapping("/homerank")
+	public String rankview2(){
+		return "home_ranking";
+	}
+	
+	@RequestMapping(value="/rank", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
+	public List<String> rank(){
+		System.out.println("controller= "+mapper.selectSearchkeyword());
+		return service.getSearchkey();
+	}
+	
+	@RequestMapping(value="/new", method=RequestMethod.POST)
+	public String register(UserVO userVO, @RequestParam("id") String id, @RequestParam("password") String pw, @RequestParam("nickname") String nick, @RequestParam("email") String email, RedirectAttributes rttr)throws Exception {
+		service.register(id,pw,nick,email);
 		return "redirect:login";
 	}
 	
@@ -57,7 +69,6 @@ public class UserController {
 		
 		return map;
 
-		
 	}
 	
 	@GetMapping("/login")
@@ -67,7 +78,6 @@ public class UserController {
 	
 	//로그인
 	@PostMapping("/login")
-	//interceptor 처리 / 로그인 실패시 작동
 	public ModelAndView login(@RequestParam("id") String id, @RequestParam("pw") String pw, ModelAndView mav) {
 		String password = service.getPw(id);
 		if(password==null){

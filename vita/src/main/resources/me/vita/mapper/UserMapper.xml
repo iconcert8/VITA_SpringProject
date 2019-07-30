@@ -3,10 +3,15 @@
 
 <mapper namespace="me.vita.mapper.UserMapper">
 	
-
+	
+	<insert id="insert">
+		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
+	</insert>
+	
 	<select id="testGet" resultType="me.vita.domain.UserVO">
-		select * from userInfo where userId = #{userId}
+		select * from user where userId = #{userId}
 	</select>
+	
 	
 	<select id="select" resultType="me.vita.dto.UserDTO">
 		select u.userId, u.userNick, u.userLock, u.userImgUuid, u.userImgUploadPath, u.userImgFileName, flw.reqId, fli.resId isFollow
@@ -22,10 +27,6 @@
 	<select id="selectPw" resultType="String">
 		select userpass from userinfo where userId=#{userId}
 	</select>
-	
-	<insert id="insert">
-		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'A', 'defaultUserimgUuid','defaultUploadPath','defaultFilename', sysdate, #{authkey},#{authstatus})
-	</insert>
 	
 	<select id="selectIdcnt" resultType="int">
 		select count(*) from userinfo where userid = #{userId}
@@ -43,5 +44,9 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 	
+	<select id="selectSearchkeyword" resultType="String">
+		select searchKeyword from search 
+		WHERE searchdate BETWEEN (sysdate-0.1) AND sysdate group by searchKeyword ORDER BY count(*) DESC
+	</select>
 
 </mapper>

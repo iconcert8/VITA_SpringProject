@@ -8,6 +8,7 @@ import lombok.Data;
 public class MessengerVO {
 	
 	private Integer msgNo;
+	private String msg;
 	private Date msgDate;
 	private String msgChk;
 	private String msgDel;
