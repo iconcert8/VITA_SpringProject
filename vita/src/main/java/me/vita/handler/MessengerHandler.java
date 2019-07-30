@@ -58,6 +58,8 @@ public class MessengerHandler extends TextWebSocketHandler {
 		String requestText = message.getPayload();
 		JsonParser jsonParse = new JsonParser();
 		JsonObject jobj = (JsonObject) jsonParse.parse(requestText);
+		
+		System.out.println(requestText);
 
 		// json객체에서 인스턴스 추출
 		String type = jobj.get("type").getAsString();

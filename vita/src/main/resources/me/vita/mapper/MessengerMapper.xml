@@ -27,6 +27,11 @@
 			WHERE m.MSGNO = #{msgNo} AND u.userId = m.reqid
 	</select>
 	
+	<select id="selectTotalChkCount" resultType="Integer">
+		SELECT count(*) readless FROM MESSENGER
+			where MSGCHK = 'F' AND resid = #{userId}
+	</select>
+	
 	<insert id="insert">
 		<selectKey keyProperty="msgNo" order="BEFORE" resultType="int">
 			select seq_msgno.nextval from dual
@@ -38,7 +43,7 @@
 	<update id="update">
 		<![CDATA[
 		UPDATE MESSENGER SET msgChk = 'T'
-			where reqId = #{reqId} and resId = #{resId} AND MSGNO <= #{msgNo}
+			where reqId = #{reqId} and resId = #{resId} AND msgChk='F' AND MSGNO <= #{msgNo}
 		]]>
 	</update>
 

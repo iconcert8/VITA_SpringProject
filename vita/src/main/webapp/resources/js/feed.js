@@ -73,6 +73,7 @@ $(document).ready(function () {
         categoryBarDiv.addClass('d-none');
         userBarDiv.removeClass('d-none');
 
+        // 기존 유저바 내용 삭제
         viewService.userBarReset();
 
          //  기존 내용 비우기

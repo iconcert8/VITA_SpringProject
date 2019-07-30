@@ -73,15 +73,19 @@ $(document).ready(function () {
     });
 });
 
-function messengerAnalyzer(data) {
-    var loginUserId = $('#authUserId').val();
+messengerAnalyzer = function (data) {
+    var authUserId = $('#authUserId').val();
     switch (data.type) {
         case 'message':
             // 상대방 메세지 표시및 확인 전송
+            console.log(data);
+            console.log(contactUser === data.userId);
             if (contactUser === data.userId) {
                 $('#messageView').append(template.message(data, contactUser));
                 messengerService.check(data.msgNo);
                 messengerService.scrollBottom();
+            } else {
+
             }
             break;
         case 'success':
@@ -92,9 +96,10 @@ function messengerAnalyzer(data) {
             }
             break;
         case 'check':
-            if(contactUser === data.resId) {
+            // 상대방이 내 메시지를 확인했을 때
+            if(authUserId === data.contactUser) {
                 messengerService.readMsg(data.msgNo)
-            } else if(loginUserId === data.resId) {
+            } else if(contactUser === data.contactUser) { //내가 상대방 메세지를 확인하여 알림 개수를 지우기
                 messengerService.readMsg(data.msgNo, data.count);
             }
             break;

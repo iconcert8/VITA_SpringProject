@@ -7,7 +7,7 @@ var messengerService = {
             msg: msg,
             resId: contactUser
         }
-        messengerws.send(JSON.stringify(msg));
+        messengerws.send(JSON.stringify(sendMsg));
     },
     getList : function (success, error, complete) {
         $.ajax({

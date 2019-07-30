@@ -55,9 +55,31 @@
 				<div class="col-md-4 toolbar-icon mt-3">
 					<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
 					<a href="/follow"><i class="fas fa-user-friends" style="font-size:34px;"></i></a>
-					<div class="d-inline-block" style="position:relative;">
-						<a href="/messenger"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
-						<span style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
+					<div class="dropdown d-inline-block" style="position:relative;">
+						<%-- <a href="/messenger"> --%>
+						<a class="dropdown" href="#" role="button" id="messengerNotiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-envelope" style="font-size:34px;"></i></a>
+						<span id="messengerToalCnt" style="width:20px; height:20px; background-color: red; position:absolute; right:-3px; top:-8px; font-weight:bold; color:white;">0</span>
+						<div class="dropdown-menu dropdown-menu-right messengerNotiList p-0 overflow-auto" style="height:300px;" aria-labelledby="messengerNotiBtn" id="messengerNotiList">
+							<button class="dropdown-item" onclick="location.href='/messenger'">메신저창으로 이동</button>
+							<a href="#" class="list-group-item list-group-item-action dropdown-item" data-contact="">
+								<div class="d-inline-block rounded bg-secondary float-left">프로필</div>
+								<div class="d-inline-block float-left mx-2">
+									<label>닉네임(ID)</label><br>
+									<label class=".text-secondary lastMsg">마지막 대화 내용</label>
+								</div>
+								<div class="d-inline-block float-right mt-3">
+								<span class="badge badge-pill badge-danger">2</span>
+								</div>
+							</a>
+							<a href="#" class="list-group-item list-group-item-action dropdown-item" data-contact="">
+								<div class="d-inline-block rounded bg-secondary">프로필</div>
+								<span class="badge badge-pill badge-danger float-right mt-1">2</span>
+								<div class="d-inline-block">
+									<label>닉네임(ID)</label><br>
+									<label class=".text-secondary lastMsg">마지막 대화 내용</label>
+								</div>
+							</a>
+						</div>
 					</div>
 					<div class="dropdown d-inline-block" style="position:relative;">
 						<a class="dropdown" href="#" role="button" id="notification-view-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  data-offset="50,10"><i class="fas fa-bell" style="font-size:34px;"></i></a>
@@ -391,6 +413,7 @@
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
 <script src="/resources/js/notification.js"></script>
+<script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
 
 <script src="/resources/js/header.js"></script>
