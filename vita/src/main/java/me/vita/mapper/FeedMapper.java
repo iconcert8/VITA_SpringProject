@@ -29,7 +29,7 @@ public interface FeedMapper {
 	
 	int updateReplyCnt(@Param("feedNo")Integer feedNo, @Param("num")Integer num);
 	
-	int updateFeedDel(Integer feedNo);
+	int updateFeedDel(@Param("feedNo")Integer feedNo, @Param("feedDel")String feedDel);
 	
 	int updateCategory(@Param("feedNo")Integer feedNo, @Param("categoryNo")Integer categoryNo);
 

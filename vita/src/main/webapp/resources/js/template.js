@@ -494,10 +494,11 @@ var template = {
 				</div>`;
         return deletetemplate;
     },
+    
+    decisionAlertModal: function(text, btn){
+    	
+    	var decisionAlertModalTemplate = `
 
-    categoryRequestDecisionAlertModal: function (text, btn) {
-
-        var decisionAlertModal = `
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -513,7 +514,7 @@ var template = {
 				</div>
 		    </div>
     			`;
-        return decisionAlertModal;
+    	return decisionAlertModalTemplate;
 
     },
 

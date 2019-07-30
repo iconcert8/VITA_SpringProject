@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<style type="text/css">
+<style type="text/css"> 
 
 .hover:HOVER {
 	cursor: pointer;
@@ -184,7 +184,50 @@
 					</div>
 				</div>
 
-
+				
+				<div class="card bg-light mb-3 d-none view statisticscard">
+					<div class="card-header">
+						<ul class="nav nav-pills row text-center pb-0" style="font-size: 18px;">
+							<li class="nav-item col">
+								<a class="nav-link statistics-nav-btn frequency" href="#">게시물 개수</a>
+							</li>
+							<li class="nav-item col">
+								<a class="nav-link statistics-nav-btn otherStatic1" href="#">???</a></li>
+							<li class="nav-item col">
+								<a class="nav-link statistics-nav-btn otherStatic2" href="#">???</a>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="card-body statistics-body frequencyBody d-none">
+						<div class="row">
+							<!-- 대분류 선택 부분-->
+							<div class="col-sm-3 text-center pt-1">
+								<span style="font-size:18px;">대분류</span>
+							</div>
+							<div class="form-group col-sm-6">
+								<select id="choose-big" class="form-control">
+								</select>
+							</div>
+							<div class="col-sm-3 text-center">
+								<button class="btn btn-primary frequencyResultBtn">확인하기</button>
+							</div>
+						</div>
+						<div class="frequencyResult">
+							
+						</div>
+						
+					</div>
+					
+					<div class="card-body statistics-body otherBody1 d-none">
+						other1
+					</div>
+					
+					<div class="card-body statistics-body otherBody2 d-none">
+						other2
+					</div>
+					
+				</div>
 
 
 			</div>
@@ -385,7 +428,7 @@
 </div>
 
 <!-- 카테고리 추가시 확인 모달창 -->
-<div class="modal fade" id="categoryRequestDecisionAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
+<div class="modal fade" id="decisionAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
 	aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
@@ -395,7 +438,7 @@
 			</div>
 			<!-- 카테고리 모달창 푸터, 확인 버튼-->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary categoryRequestDecision" data-dismiss="modal">확인</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
 	</div>
@@ -408,6 +451,7 @@
 <script type="text/javascript" src="/resources/js/categoryModule.js"></script>
 <script type="text/javascript" src="/resources/js/categoryRequest.js"></script>
 <script type="text/javascript" src="/resources/js/deletedFeed.js"></script>
+<script type="text/javascript" src="/resources/js/statistics.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -540,9 +584,9 @@ $(document).ready(function(){
 		});
 		categoryRequestService.register(bigGroup, smallGroup, feedNo, function(){
 			var text = bigGroup+" / "+smallGroup+" 이 추가되었습니다.";
-			$("#categoryRequestDecisionAlertModal").empty();
-			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-primary'));
-			$("#categoryRequestDecisionAlertModal").modal("show");
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-primary'));
+			$("#decisionAlertModal").modal("show");
 			$row.remove();
 		});
 		
@@ -557,9 +601,9 @@ $(document).ready(function(){
 		
 		categoryRequestService.remove(bigGroup, smallGroup, function(){
 			var text = bigGroup+" / "+smallGroup+" 이 거절되었습니다.";
-			$("#categoryRequestDecisionAlertModal").empty();
-			$("#categoryRequestDecisionAlertModal").append(template.categoryRequestDecisionAlertModal(text, 'btn-danger'));
-			$("#categoryRequestDecisionAlertModal").modal("show");
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-danger'));
+			$("#decisionAlertModal").modal("show");
 			$row.remove();
 		});
 	});
@@ -627,7 +671,22 @@ $(document).ready(function(){
             $('#adminFeedDetailModal').modal("show");
         });
     });
-	
+	//복구시 ajax호출 및 alert창	
+	$(document).on('click', '.recoverBtn', function(){
+		var $tr = $(this).closest("tr");
+		var feedNo = $tr.data("feedno");
+		
+		deletedFeedService.modify(feedNo, function(){
+			var text = feedNo+"번 게시글이 복구 되었습니다.";
+			$("#decisionAlertModal").empty();
+			$("#decisionAlertModal").append(template.decisionAlertModal(text, 'btn-success'));
+			$("#decisionAlertModal").modal("show");
+			$tr.remove();
+			
+			var notification = {"reqId":"root", "feedNo":feedNo, "notifyType":"deleteRecover"};
+			notificationService.register(notification);
+		});
+	});
 	
 	/* deletefeed 콜백함수 */
 	function deletedFeedGetListCallback(result){
@@ -643,7 +702,7 @@ $(document).ready(function(){
 			html +=		'<th>'+item.feedNo+'</th>';
 			html +=		'<td>'+item.warnCategory+'</td>';
 			html +=		'<td class="hover deletedContent" colspan="3">'+content+'</td>';
-			html +=		'<td><button class="btn btn-outline-success">복구</button></td>';
+			html +=		'<td><button class="btn btn-outline-success recoverBtn">복구</button></td>';
 			html += '</tr>';
 			
 			$(".deletedFeedListBox").append(html);
@@ -651,6 +710,52 @@ $(document).ready(function(){
 		
 		
 	}
+	
+	/* statistics 콜백함수 */
+	
+	/* statistics 이벤트 등록 */
+	//nav버튼 이벤트
+	$(document).on("click", ".statistics-nav-btn", function(){
+		$(".statistics-nav-btn").removeClass("active");
+		$(this).addClass("active");
+	});
+	
+	//게시물 개수버튼 이벤트
+	$(document).on("click", ".frequency", function(){
+		$(".statistics-body").addClass("d-none");
+		$(".frequencyBody").removeClass("d-none");
+		categoryService.bigCall(function(result){
+			$("#choose-big").empty();
+			$("#choose-big").append('<option value="null">전체</option>')
+			$.each(result, function(index, item){
+				html ="";
+				html += '<option class="frequencyBigOption" value="' + item + '">';
+		 		html += 	item;
+		 		html += '</option>';
+		 		
+		 		$("#choose-big").append(html);
+		  	});
+		});
+	});
+	//frequency 큰 카테고리 선택 이벤트
+	$(document).on("click", ".frequencyResultBtn", function(){
+		var select = $("#choose-big").val();
+		
+		statisticsService.frequency(select, function(result){
+			console.log(result);
+		});
+	});
+	
+	//다른 통계nav버튼 이벤트
+	$(document).on("click", ".otherStatic1", function(){
+		$(".statistics-body").addClass("d-none");
+		$(".otherBody1").removeClass("d-none");
+	});
+	//다른 통계nav버튼 이벤트
+	$(document).on("click", ".otherStatic2", function(){
+		$(".statistics-body").addClass("d-none");
+		$(".otherBody2").removeClass("d-none");
+	});
 	
 });
 </script>
@@ -669,7 +774,7 @@ $(document).ready(function(){
 		if(type=="warnlist") {$(".view").addClass("d-none"); $('.warncard').removeClass("d-none");}
 		if(type=="categorylist"){$(".view").addClass("d-none"); $('.categorycard').removeClass("d-none");}
 		if(type=="deletelist"){$(".view").addClass("d-none"); $('.deletecard').removeClass("d-none");}
-		if(type=="statistics"){$(".view").addClass("d-none"); $('.statistics').removeClass("d-none");}
+		if(type=="statistics"){$(".view").addClass("d-none"); $('.statisticscard').removeClass("d-none");}
 	});
 });
 </script>

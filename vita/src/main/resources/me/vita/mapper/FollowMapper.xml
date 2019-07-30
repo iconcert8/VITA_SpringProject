@@ -19,7 +19,7 @@
          	 	</if>
         <![CDATA[
     	)
-		where rn > (#{page}*20) and rn <= (#{page}*20)+20 and userId != #{userId}
+		where rn > (#{page}*20) and rn <= (#{page}*20)+20 and userId != #{userId} and userId != 'root'
 		]]>
 	</select>
 	
@@ -61,12 +61,13 @@
 		<![CDATA[
 					) fln
 			 )		
-		where rn > (#{page}*20) and rn <= (#{page}*20)+20
+		where rn > (#{page}*20) and rn <= (#{page}*20)+20 
 		]]>
 	</select>
 	
 	<insert id="insert">
-		insert into follow values(#{reqId}, #{resId}, sysdate)
+		insert into follow(reqId, resId, followDate)
+		values(#{reqId}, #{resId}, sysdate)
 	</insert>
 
 	<delete id="delete">

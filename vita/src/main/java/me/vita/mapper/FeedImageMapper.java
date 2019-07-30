@@ -10,4 +10,5 @@ public interface FeedImageMapper {
 
 	int insert(FeedImageVO img);
 
+	FeedImageVO getData(FeedImageVO data);
 }

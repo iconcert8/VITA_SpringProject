@@ -3,6 +3,7 @@ $(document).ready(function () {
     var module = '';
     var myBtn = '';
     var mainType = 'popular';
+    var removeBtn = ("#RemoveBtn");
 
     var viewFeedListDiv = $('#viewFeedList');
     var userInfoDiv = $('#userInfo');
@@ -20,6 +21,7 @@ $(document).ready(function () {
 
     var userId = $('#authUserId').val();
     var guest = $('#guest').val();
+   
 
     // reply variables
     var replyPageNo = 0;
@@ -177,8 +179,9 @@ $(document).ready(function () {
     $(document).on('click', 'div[data-target="#feedDetailModal"], button[data-target="#feedDetailModal"]', function () {
         // feedDetailModal.empty();
         var feedNo = $(this).data("feedno");
-
+        
         feedService.get(feedNo, function (result) {
+        	console.log(result);
             feedDetailModal.empty().append(template.feedDetail(result, userId));
 
             // 댓글 출력
@@ -187,6 +190,7 @@ $(document).ready(function () {
                 feedDetailModal.find('#replyModal').append(template.reply(result));
             });
         });
+        
     });
 
     // 신고버튼 모달창으로 데이터 이동
@@ -231,17 +235,90 @@ $(document).ready(function () {
             warnModal.modal('hide');
         }
     });
-
-    // 댓글 이벤트
-    $('#sendReplyBtn').on('click', function () {
-        replyPageNo = 0;
+ 
+    
+    $(document).on('click', 'button[data-target="#send"]', function(){
+    	console.log("reply.......");
+     	var replyContent = $('#replyContent').val();
+        var userId = $('#authUserId').val();
+        var feedNo = $(this).data('feedno');
+        var replyNo = $(this).data('replyno');	
+    	replyPageNo = 0; 
         var sendData = {
-            "파라미터이름": 값,
-            "": 값
-        }
-        replyService.regist(sendData, function (result) {
-            // reuslt
-            // li 추가 append
-        });
+        		"feedNo" : feedNo,
+        		"replyNo" : replyNo,
+        		"replyContent" : replyContent,
+        		"userid" : userId,
+        		
+      
+        } 
+        replyService.register(sendData, function(result) {
+        	
+        	replyPageNo = 0;
+            replyService.getList(feedNo, replyPageNo, function (result) {
+            	feedDetailModal.find('#replyModal').empty();
+                feedDetailModal.find('#replyModal').prepend(template.reply(result));
+            });
+        }); 
+         
+ 
+         
     });
+    
+    $(document).on('click', 'button[data-target="#RemoveBtn"], span[data-target="#RemoveBtn"]', function (e){
+    	
+
+	var replyNo = $(this).data('replyno');
+	var feedNo = $(this).data('feedno');
+    	
+    	replyService.remove(feedNo, replyNo, function(result){
+    		 
+    		alert(result);
+    		feedDetailModal.find('#replyModal').hide(template.reply(result));
+    		 
+    	}) 
+    });
+    
+
+  /*  // 피드삭제
+    $(document).on('click', 'button[data-target="#deleteFeedBtn"]' , function(){
+    	
+    });
+*/
+    // 댓글삭제
+    /*
+     $(document).on('click', 'button[id="#deleteReplyBtn"]' , function(){
+    	var replyNo = $(this).data('replyno');
+    	var feedNo = $(this).data('feedno');
+    	
+    	var sendData = {
+    			"replyno" : replyNo,
+    			"feedNo" : feedNo,
+    	}
+            replyService.deleteList(feedNo, replyNo, function (result) {
+            	feedDetailModal.find('#replyModal').remove();
+    	})
+    	
+    }) 
+    */
+
+
+    // Document height = 문서 전체의 높이를 의미
+    // Window Height = 화면의 높이를 의미
+    // Scroll top = 스크롤의 top이 위치하고 있는 높이를 의미
+    	
+
+    		
+		/*if(scrollHeight == documentHeight - 200){
+			
+			for (var i=0;i < 10;i++){
+				replyPageNo = 0;
+	            replyService.scrollList(feedNo, replyPageNo, function (result) {
+	                feedDetailModal.find('#replyModal').append(template.reply(result));
+	            });
+			}
+		}*/
+	
+   
+	
 });

@@ -97,7 +97,7 @@ body{
 		</div>
 
 		<div id="jb-footer">
-			<p>Copyright</p>
+			<p>hello guys</p>
 		</div>
 	</div>
 </body>

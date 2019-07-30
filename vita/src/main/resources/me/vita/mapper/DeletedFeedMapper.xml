@@ -14,4 +14,8 @@
 		from deletedFeed
 	</select>
 	
+	<delete id="delete">
+		delete from deletedFeed where feedNo = #{feedNo}
+	</delete>
+	
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,7 +43,7 @@ public class FeedController {
 
 	@Autowired
 	private FeedService service;
-	
+
 	@GetMapping("/{feedNo}")
 	@ResponseBody
 	public FeedDTO get(@AuthUser UserVO user, @PathVariable("feedNo") Integer feedNo) {
@@ -52,50 +53,61 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		System.out.println("......................................................." + user.getUserId());
-//		System.out.println("......................................................." + filter);
-		if(filter.getType().equals("popular")) {
+		// System.out.println("......................................................."
+		// + filter);
+		if (filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);
-		} else if(filter.getType().equals("recent")) {
+		} else if (filter.getType().equals("recent")) {
 			return service.getListRecent(user, filter);
 		}
 		return null;
 	}
-	
+
 	@PostMapping("/list/newsfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		System.out.println(".......................................................newsFeed" + filter);
+	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
 		return service.getListNewsFeed(user, filter);
 	}
-	
+
 	@PostMapping("/list/favorite")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
+	public List<FeedDTO> getListFavorite(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
 		return service.getListFavorite(user, filter);
 	}
-	
+
 	@PostMapping("/list/userfeed")
 	@ResponseBody
 	@Auth
-	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		List<FeedDTO> list = service.getListUserFeed(user, filter);
-//		log.info(list);
-//		return list;
+	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter) {
 		return service.getListUserFeed(user, filter);
 	}
-	
+
 	@PostMapping("/new")
 	@Auth
-	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
-		System.out.println(feedDTO);
-		
-		if(service.register(feedDTO)) {
-			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else {
+	public ResponseEntity<String> register(@RequestBody FeedDTO feedDTO) {
+		int feedNo = service.register(feedDTO);
+		if (feedNo != 0) {
+			System.out.println("true");
+			return new ResponseEntity<String>("" + feedNo, HttpStatus.OK);
+		} else {
+			System.out.println("false");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/copy/{feedNo}")
+	@Auth
+	public void copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
+		
+		if (service.registerImg(uploadFile, feedNo)) {
+			System.out.println("성공");
+		} else {
+			System.out.println("실패");
 		}
 	}
 }

@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,6 +21,7 @@
 <title>VITA</title>
 </head>
 <body>
+
 	<!-- 툴바 -->
 	<div class="container-fluid bg-light mb-5 py-3" style="position: sticky; top: 0px; z-index: 10;">
 		<div class="row text-center">

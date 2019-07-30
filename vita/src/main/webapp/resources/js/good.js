@@ -7,14 +7,23 @@ var goodService = (function(){
 	//<button class="btn-primary good" data-feedno="해당feedNo" data-userid="해당userId"><span class="cnt"></span></button>
 	//<button class="btn-outline-primary nogood" data-feedno="해당feedNo" data-userid="해당userId"><span class="cnt"></span></button>
 	function registerBtnEvent(){
-		$(document).on('click', '.good', function(){
-			var feedNo = $(this).data("feedno");
-			remove(feedNo, switchColorBtn($(this)));
-		});
-		$(document).on('click', '.nogood', function(){
-			var feedNo = $(this).data("feedno");
-			register(feedNo, switchColorBtn($(this)));
-		});
+		if($('#authUserId').val() != null && $('#authUserId').val() != ""){
+			$(document).on('click', '.good', function(){
+				var feedNo = $(this).data("feedno");
+				remove(feedNo, switchColorBtn($(this)));
+			});
+			$(document).on('click', '.nogood', function(){
+				var feedNo = $(this).data("feedno");
+				register(feedNo, switchColorBtn($(this)));
+			});
+		}else{
+			$(document).on('click', '.good', function(){
+				alert("로그인 후 이용가능 합니다");
+			});
+			$(document).on('click', '.nogood', function(){
+				alert("로그인 후 이용가능 합니다");
+			});
+		}
 	}
 	
 	

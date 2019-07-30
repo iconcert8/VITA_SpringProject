@@ -37,7 +37,7 @@ public class DeletedFeedServiceImpl implements DeletedFeedService{
 	@Override
 	@Transactional
 	public boolean modify(Integer feedNo) {
-		feedMapper.updateFeedDel(feedNo);
+		feedMapper.updateFeedDel(feedNo, "F");
 		return mapper.delete(feedNo) == 1;
 	}
 

@@ -42,10 +42,10 @@
 			<exclude-mapping path="/user/login" />
 			<beans:bean class="me.vita.security.AuthInterceptor" />
 		</interceptor>
-		<interceptor>
+		<!-- <interceptor>
 			<mapping path="/user/login" />
 			<beans:bean class="me.vita.security.AuthLoginInterceptor" />
-		</interceptor>
+		</interceptor> -->
 	</interceptors>
 
 

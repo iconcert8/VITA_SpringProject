@@ -12,6 +12,7 @@
 		select * from userinfo where userId = #{userId}
 	</select>
 	
+	
 	<select id="select" resultType="me.vita.dto.UserDTO">
 		select u.userId, u.userNick, u.userLock, u.userImgUuid, u.userImgUploadPath, u.userImgFileName, flw.reqId, fli.resId isFollow
 			from userInfo u, (select reqId
@@ -26,10 +27,6 @@
 	<select id="selectPw" resultType="String">
 		select userpass from userinfo where userId=#{userId}
 	</select>
-	
-	<insert id="insertUser">
-		insert into userinfo values(#{userId}, #{userPass}, #{userNick}, #{userEmail}, 'open', #{userImg},'','',#{authkey},#{authstatus})
-	</insert>
 	
 	<select id="selectIdcnt" resultType="int">
 		select count(*) from userinfo where userid = #{userId}
@@ -48,8 +45,8 @@
 	</update>
 	
 	<select id="selectSearchkeyword" resultType="String">
-		select searchkeyword from search 
-		<![CDATA[WHERE searchdate>=(sysdate-0.1) AND searchdate < sysdate group by searchkeyword having count(*) >= 1 ORDER BY count(*) DESC]]>
+		select searchKeyword from search 
+		WHERE searchdate BETWEEN (sysdate-0.1) AND sysdate group by searchKeyword ORDER BY count(*) DESC
 	</select>
 
 </mapper>
