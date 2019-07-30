@@ -64,7 +64,6 @@
 						<span class="notification-cnt" style="width:20px; height:20px; background-color:red; position:absolute; top:-8px; font-weight:bold; color:white;">0</span>
 						<div class="dropdown-menu dropdown-menu-right notification-list-block p-0 overflow-auto" style="height:300px;" aria-labelledby="notification-view-btn">
 								<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
-								
 						</div>
 					</div>
 					<a href="/testlogout"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
@@ -82,10 +81,11 @@
 	</div>
 
 	<!-- 글쓰기 모달창 -->
-	<div class="modal fade" id="writeModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
-		aria-hidden="true">
+	<form class="modal fade" id="writeModal" tabindex="-1" role="dialog" aria-labelledby="modalWriteTitle"
+		aria-hidden="true" enctype="multipart/form-data" method="POST">
 		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 			<div class="modal-content">
+			
 				<!-- 글쓰기 모달창 헤더-->
 				<div class="modal-header">
 					<h5 class="modal-title" id="modalWriteTitle">글 작성</h5>
@@ -93,49 +93,56 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<!-- 글쓰기 모달창 바디-->
 				<div class="modal-body">
+				
 					<!-- 글쓰기 모달창 이미지 관련 부분-->
 					<div class="card bg-light" id="imageUploadBox">
+					
 						<!-- 글쓰기 모달창 이미지 미리보기 출력부분-->
 						<div class="card-header" >
 							<ul id="image-block">
-<!-- 								<li class="d-inline-block mx-1" id="preview0~9">이미지1</li> -->
+								<!-- 	<li class="d-inline-block mx-1" id="preview0~9">이미지1</li> -->
 							</ul>
 						</div>
 						
 						<!-- 글쓰기 모달창 파일 선택 부분-->
 						<div class="card-body">
-							<input type="file" id="write-image" name="uploadFile" multiple="multiple" />
+							<input type="file" id="write-image" name="uploadFile" multiple />
 						</div>
-
 					</div>
+					
 					<!-- 글쓰기 모달창 대소분류 선택 부분-->
-					<div class="card mt-2" id="contentWriteBox">
+					<div class="card mt-2" id="contentWriteBox" >
 						<div class="card-body row">
+						
 							<!-- 글쓰기 모달창 대분류 선택 부분-->
 							<div class="form-group col-sm-4">
-								<label for="category-choose-big">대분류</label> <select
-									id="category-choose-big" class="form-control">
+								<label for="category-choose-big">대분류</label>
+								<select id="category-choose-big" class="form-control">
 								</select>
 							</div>
+							
 							<!-- 글쓰기 모달창 소분류 선택 부분-->
 							<div class="form-group col-sm-4">
 								<label for="category-choose-small">소분류</label>
 								<select id="category-choose-small" class="form-control"></select>
 							</div>
+							
 							<!-- 글쓰기 모달창 소분류 직접입력 부분, 소분류 기타일 경우에 나타남-->
 							<div class="form-group col-sm-4 d-none" id="selfInsert">
-								<label for="category-request">직접입력</label> <input type="text"
-									class="form-control" placeholder="원하는 소분류"
-									id="category-request" name="categoryTemp"/>
+								<label for="category-request">직접입력</label>
+								<input type="text" class="form-control" placeholder="원하는 소분류"
+									 id="category-request" name="categoryTemp"/>
 							</div>
 						</div>
 						
 						<!-- 글쓰기 모달창 태그 입력 부분-->
 						<div class="card-body pt-0">
-							<label for="tag-write-input">태그</label> <input type="text"
-								class="form-control" placeholder="#가나다#자전거" id="tag-write-input" name="tags"/>
+							<label for="tag-write-input">태그</label>
+							<input type="text" class="form-control" placeholder="#가나다#자전거"
+								id="tag-write-input" name="tags"/>
 						</div>
 						
 						<!-- 글쓰기 모달창 내용 입력 부분-->
@@ -147,15 +154,17 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
+				
 				<!-- 글쓰기 모달창 푸터, 작성/취소버튼-->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal" >취소</button>
-					<button type="button" class="btn btn-primary" id="insertFeedBtn">작성하기</button>
+					<input type="submit" class="btn btn-primary" id="insertFeedBtn" value="작성하기" />
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 	
 	
 <!-- 피드 상세보기 모달 -->

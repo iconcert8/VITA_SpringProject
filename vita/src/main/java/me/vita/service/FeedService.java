@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
@@ -24,6 +25,9 @@ public interface FeedService {
 
 	List<FeedDTO> getListUserFeed(UserVO user, CategoryFilterDTO filter);
 
-	boolean register(FeedDTO feedDTO);
+	int register(FeedDTO feedDTO);
+	
+	boolean registerImg(MultipartFile[] multi, Integer feedNo);
+	
 
 }

@@ -1,11 +1,20 @@
 package me.vita.service;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.log4j.Log4j;
 import me.vita.domain.FeedImageVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
@@ -15,17 +24,24 @@ import me.vita.mapper.FeedMapper;
 import me.vita.mapper.TagMapper;
 
 @Service
-public class FeedServiceImpl implements FeedService{
-	
+@Log4j
+public class FeedServiceImpl implements FeedService {
+
 	@Autowired
 	private FeedMapper mapper;
-	
+
 	@Autowired
 	private FeedImageMapper feedImageMapper;
-	
+
 	@Autowired
 	private TagMapper tagMapper;
-	
+
+	@Autowired
+	private ServletContext ser;
+
+	// @Autowired
+	// MultipartFile m;
+
 	@Override
 	@Transactional
 	public FeedDTO get(UserVO user, Integer feedNo) {
@@ -38,10 +54,10 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<FeedDTO> getListPopular(UserVO user, CategoryFilterDTO filter) {
 		List<FeedDTO> feedDTOs = mapper.selectListPopular(user, filter);
-		//썸네일 이미지 리스트 각각 가져오기
-		for(FeedDTO dto : feedDTOs) {
+		// 썸네일 이미지 리스트 각각 가져오기
+		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+			// dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -49,10 +65,10 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<FeedDTO> getListRecent(UserVO user, CategoryFilterDTO filter) {
 		List<FeedDTO> feedDTOs = mapper.selectListRecent(user, filter);
-		//썸네일 이미지 리스트 각각 가져오기
-		for(FeedDTO dto : feedDTOs) {
+		// 썸네일 이미지 리스트 각각 가져오기
+		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+			// dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -60,10 +76,10 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<FeedDTO> getListNewsFeed(UserVO user, CategoryFilterDTO filter) {
 		List<FeedDTO> feedDTOs = mapper.selectListNewsFeed(user, filter);
-		//썸네일 이미지 리스트 각각 가져오기
-		for(FeedDTO dto : feedDTOs) {
+		// 썸네일 이미지 리스트 각각 가져오기
+		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+			// dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -71,10 +87,10 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<FeedDTO> getListFavorite(UserVO user, CategoryFilterDTO filter) {
 		List<FeedDTO> feedDTOs = mapper.selectListFavorite(user, filter);
-		//썸네일 이미지 리스트 각각 가져오기
-		for(FeedDTO dto : feedDTOs) {
+		// 썸네일 이미지 리스트 각각 가져오기
+		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+			// dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
@@ -82,40 +98,96 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<FeedDTO> getListUserFeed(UserVO user, CategoryFilterDTO filter) {
 		List<FeedDTO> feedDTOs = mapper.selectListUserFeed(user, filter);
-		//썸네일 이미지 리스트 각각 가져오기
-		for(FeedDTO dto : feedDTOs) {
+		// 썸네일 이미지 리스트 각각 가져오기
+		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
-//			dto.setTags(tagMapper.selectList(dto.getFeedNo()));
+			// dto.setTags(tagMapper.selectList(dto.getFeedNo()));
 		}
 		return feedDTOs;
 	}
-	
+
 	@Override
 	@Transactional
-	public boolean register(FeedDTO feedDTO) {
-		System.out.println("service==1===============insert start");
-		
-		System.out.println(feedDTO);
-		
+	public int register(FeedDTO feedDTO) {
 		int result = mapper.insert(feedDTO);
-		
-		System.out.println("service==2===============insert done");
 
-		System.out.println(feedDTO);
-		
-		List<FeedImageVO> imgs = feedDTO.getFeedImages();
-		
-		for(FeedImageVO img : imgs) {
-			feedImageMapper.insert(img);
-		}
-		
 		List<String> tags = feedDTO.getTags();
-		
-		for(String tag : tags) {
+
+		for (String tag : tags) {
 			tagMapper.insert(feedDTO.getFeedNo(), tag);
 		}
-	
-		return result == 1;
+
+		// 파일 업로드 ---------------------------------------------
+		// String feedImgUploadPath = ser.getRealPath("/resources");
+		String feedImgUploadPath = "C:\\upload";
 		
+		int feedNo = feedDTO.getFeedNo();
+		
+		File uploadPath = new File(feedImgUploadPath, getFolder());
+		
+		// 폴더가 없으면 폴더를 생성
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		
+		feedImgUploadPath = uploadPath.toString();
+		
+		List<FeedImageVO> imgs = feedDTO.getFeedImages();
+
+		// 이미지 이름을 가져와서 img객체를 지정해주기
+		for (FeedImageVO img : imgs) {
+			UUID uuid = UUID.randomUUID();
+			img.setFeedImgUuid(uuid.toString());
+			img.setFeedImgUploadPath(feedImgUploadPath);
+			img.setFeedNo(feedNo);
+			feedImageMapper.insert(img);
+
+			String uploadFileName = uuid.toString() + "_" + img.getFeedImgFileName();
+			File saveFile = new File(uploadPath, uploadFileName);
+		}
+		return feedNo;
+	}
+
+	private String getFolder() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+
+		Date date = new Date();
+
+		String str = dateFormat.format(date);
+
+		return str.replace("-", File.separator);
+	}
+
+	@Override
+	public boolean registerImg(MultipartFile[] multi, Integer feedNo) {
+		for(MultipartFile multipartFile : multi){
+			String feedImgFileName = multipartFile.getOriginalFilename();
+
+			FeedImageVO data = new FeedImageVO();
+			
+			data.setFeedImgFileName(feedImgFileName);
+			data.setFeedNo(feedNo);
+			
+			FeedImageVO re = feedImageMapper.getData(data);
+			System.out.println("re.toString() :------ " + re.toString());
+			
+			File uploadPath = new File(re.getFeedImgUploadPath());
+			System.out.println("uploadPath.toString() : ------" + uploadPath.toString());
+
+			String uploadFileName = re.getFeedImgUuid() + "_" + re.getFeedImgFileName();
+			System.out.println("uploadFileName : -------" + uploadFileName);
+			
+			File saveFile = new File(uploadPath, uploadFileName);
+			System.out.println("saveFile.toString() : --------" + saveFile.toString());
+			
+			try {
+				multipartFile.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -8,5 +8,9 @@
 			where feedNo = #{feedNo}
 	</select>
 
+	<insert id="insert">
+		INSERT INTO tag(feedNo, tagName) 
+		VALUES(#{feedNo}, #{tag})
+	</insert>
 
 </mapper>
