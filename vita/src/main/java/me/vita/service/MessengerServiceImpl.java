@@ -36,5 +36,22 @@ public class MessengerServiceImpl implements MessengerService{
 	public List<MessengerDTO> getListContactUser(UserVO user, String contactUser) {
 		return mapper.selectListContactUser(user.getUserId(), contactUser);
 	}
+
+	@Override
+	public boolean register(MessengerVO sendMsg) {
+		return mapper.insert(sendMsg) == 1;
+	}
+
+	@Override
+	public MessengerDTO get(Integer msgNo) {
+		return mapper.select(msgNo);
+	}
+
+	@Override
+	public boolean modify(String reqId, String resId, Integer msgNo) {
+		return mapper.update(reqId, resId, msgNo) > 0;
+	}
+	
+	
 	
 }

@@ -12,4 +12,10 @@ public interface MessengerService {
 
 	List<MessengerDTO> getListContactUser(UserVO user, String contactUser);
 
+	boolean register(MessengerVO sendMsg);
+
+	MessengerDTO get(Integer msgNo);
+
+	boolean modify(String reqId, String resId, Integer msgNo);
+
 }

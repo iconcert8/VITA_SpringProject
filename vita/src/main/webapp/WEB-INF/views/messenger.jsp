@@ -55,7 +55,7 @@
 			<div class="card">
 				<div class="card-header">
 					<!-- 채팅 상단 프로필 -->
-					<h5>
+					<h5 id="messengerContactInfo">
 						<div class="d-inline-block rounded bg-secondary">프로필</div>
 						<div class="d-inline-block">
 							<label>닉네임(ID)</label>
@@ -114,7 +114,7 @@
 
 
 </div>
-
+<%-- <script src="/resources/js/messengerWebSocket.js"></script> --%>
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messenger.js"></script>
 <!-- 검색결과 숨김 이벤트 -->

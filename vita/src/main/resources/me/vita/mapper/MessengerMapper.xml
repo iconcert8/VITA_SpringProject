@@ -13,14 +13,34 @@
 	
 	<select id="selectListContactUser" resultType="me.vita.dto.MessengerDTO">
 		SELECT m.*, u.userId, u.usernick, u.userimguuid, u.userimguploadpath, u.userimgfilename
-			FROM MESSENGER m, USERINFO U
+			FROM MESSENGER m, USERINFO u
 			WHERE m.reqId IN (#{user},#{contact})
 			AND m.resId IN (#{user},#{contact})
 			AND u.USERID = m.reqid
-			ORDER BY m.MSGDATE DESC
+			AND m.MSGDEL = 'F'
+			ORDER BY m.MSGDATE
 	</select>
-
-
+	
+	<select id="select" resultType="me.vita.dto.MessengerDTO">
+		SELECT m.*, u.userId, u.usernick, u.userimguuid, u.userimguploadpath, u.userimgfilename
+			FROM MESSENGER m, USERINFO u
+			WHERE m.MSGNO = #{msgNo} AND u.userId = m.reqid
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="msgNo" order="BEFORE" resultType="int">
+			select seq_msgno.nextval from dual
+		</selectKey>
+		INSERT INTO MESSENGER(msgno, msg, msgDate, reqId, resId)
+			VALUES(#{msgNo}, #{msg}, #{msgDate}, #{reqId}, #{resId})
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+		UPDATE MESSENGER SET msgChk = 'T'
+			where reqId = #{reqId} and resId = #{resId} AND MSGNO <= #{msgNo}
+		]]>
+	</update>
 
 
 </mapper>

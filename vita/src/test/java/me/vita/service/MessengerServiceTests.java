@@ -17,12 +17,17 @@ public class MessengerServiceTests {
 	@Autowired
 	private MessengerService service;
 	
-	@Test
+//	@Test
 	public void mapToList() {
 		UserVO user = new UserVO();
 		user.setUserId("userId4");
 		
 		log.info(service.getList(user));
+	}
+	
+	@Test
+	public void getTest() {
+		log.info(service.get(33));
 	}
 
 }

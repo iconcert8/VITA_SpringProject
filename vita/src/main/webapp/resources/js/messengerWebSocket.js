@@ -1,29 +1,23 @@
 
-var msgws;
-var messengerWebSocket = function() {
-    msgws = new WebSocket("ws://localhost:8081/messenger/websocket");
+var messengerWs;
+var messengerWebSocket = function () {
+    messengerws = new WebSocket("ws://localhost:8081/messenger/websocket");
 
-    msgws.onopen = function () {
+    messengerws.onopen = function () {
         console.log("[!]info: messenger connection opened");
-        //    var msg = {
-        //        "type": "list",
-        //        "page": notifyPage
-        //    };
-        //    ws.send(JSON.stringify(msg));
     }
 
-    msgws.onmessage = function (event) {
-        //    var jsonData = event.data;
-        //    var data = JSON.parse(jsonData);
-        //    notificationCallback(data);
-        console.log(event.data);
+    messengerws.onmessage = function (event) {
+        var responseData = event.data;
+        var data = JSON.parse(responseData);
+        messengerAnalyzer(data);
     }
 
-    msgws.onclose = function (event) {
+    messengerws.onclose = function (event) {
         console.log("[!]info: messenger connection closed");
     }
 
-    msgws.onerror = function (event) {
+    messengerws.onerror = function (event) {
         console.log("[!]info: messenger connection closed by error");
     }
 }

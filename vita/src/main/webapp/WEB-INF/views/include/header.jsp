@@ -397,7 +397,7 @@
 <script src="/resources/js/favorite.js"></script>
 
 <script type="text/javascript">
-
+console.log('contactUser : ', contactUser);
 $(function(){
 	//알림 웹소켓 로드
 	notificationService.webSocketLoad();
