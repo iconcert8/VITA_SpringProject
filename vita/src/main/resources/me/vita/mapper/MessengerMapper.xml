@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.vita.mapper.MessengerMapper">
+	
+	<resultMap id="messengerDTO" type="me.vita.dto.MessengerDTO"/>
+
+	<select id="selectList" statementType="CALLABLE">
+		{ CALL messenger_list_proc(
+			#{userId, mode=INOUT, jdbcType=VARCHAR, javaType=String},
+			#{list, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=messengerDTO})
+		}
+	</select>
+	
+	<select id="selectListContactUser" resultType="me.vita.dto.MessengerDTO">
+		SELECT m.*, u.userId, u.usernick, u.userimguuid, u.userimguploadpath, u.userimgfilename
+			FROM MESSENGER m, USERINFO u
+			WHERE m.reqId IN (#{user},#{contact})
+			AND m.resId IN (#{user},#{contact})
+			AND u.USERID = m.reqid
+			AND m.MSGDEL = 'F'
+			ORDER BY m.MSGDATE
+	</select>
+	
+	<select id="select" resultType="me.vita.dto.MessengerDTO">
+		SELECT m.*, u.userId, u.usernick, u.userimguuid, u.userimguploadpath, u.userimgfilename
+			FROM MESSENGER m, USERINFO u
+			WHERE m.MSGNO = #{msgNo} AND u.userId = m.reqid
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="msgNo" order="BEFORE" resultType="int">
+			select seq_msgno.nextval from dual
+		</selectKey>
+		INSERT INTO MESSENGER(msgno, msg, msgDate, reqId, resId)
+			VALUES(#{msgNo}, #{msg}, #{msgDate}, #{reqId}, #{resId})
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+		UPDATE MESSENGER SET msgChk = 'T'
+			where reqId = #{reqId} and resId = #{resId} AND MSGNO <= #{msgNo}
+		]]>
+	</update>
+
+
+</mapper>

@@ -1,71 +1,119 @@
 
-// WebSocket
-var ws = new WebSocket("ws://localhost:8081/messenger/websocket");
-
-ws.onopen = function () {
-    console.log("[!]info: messenger connection opened");
-    //    var msg = {
-    //        "type": "list",
-    //        "page": notifyPage
-    //    };
-    //    ws.send(JSON.stringify(msg));
-}
-
-ws.onmessage = function (event) {
-    //    var jsonData = event.data;
-    //    var data = JSON.parse(jsonData);
-    //    notificationCallback(data);
-    console.log(event.data);
-}
-
-ws.onclose = function (event) {
-    console.log("[!]info: messenger connection closed");
-}
-
-ws.onerror = function (event) {
-    console.log("[!]info: messenger connection closed by error");
-}
-
-//---------------------------------------------
-
-var userId = $('#authUserId').val();
-var resId;
-
-var messengerService = {
-    send : function () {  
-        var date = new Date();
-        var msgDate = date.getFullYear() + ':' + (date.getMonth() + 1) + ':' + date.getDate() + ':' + date.getHours() + ':' +
-            date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
-    
-        var sendMsg = {
-            "msg": msg,
-            "msgDate": msgDate,
-            "reqId": userId
-        }
-        ws.send(msg);
-
-    }
-    
-}
-
-// 이벤트
+var contactUser;
 $(document).ready(function () {
 
     var sendMsgForm = $('#sendMsgForm');
+    var messengerListDiv = $('#messengerList');
+    var messageViewDiv = $('#messageView');
+    var messengerContactInfoH5 = $('#messengerContactInfo');
 
+    // 메시지 보내기
+    var sendMsg = function (msg) {
+        var sendMsg = {
+            type: "message",
+            msg: msg,
+            resId: contactUser
+        }
+        messengerService.send(sendMsg);
+    }
+
+    var viewMessengerPage = function () {
+        messengerListDiv.empty();
+        messengerService.getList(function (result) {
+            $.each(result, function (i, item) {
+                messengerListDiv.append(template.messengerList(item));
+            });
+        });
+    }
+
+    // 메신저 화면 클릭 이동
+    viewMessengerPage();
+
+    // 대화상대 선택
+    var selectContactUser = function (element) {
+        // 초기화
+        msgDays = [];
+        messengerListDiv.find('a[data-contact]').removeClass('active');
+        $(element).addClass('active');
+        contactUser = $(element).data('contact');
+
+        messengerService.get(contactUser, function (result) {
+            messageViewDiv.empty();
+            var msgNo;
+            $.each(result, function (i, item) {
+                // user info
+                if (i === 0) {
+                    messengerContactInfoH5.empty().append(template.messengerContactInfo(item));
+                } else if(i === result.length - 1) {
+                    msgNo = item.msgNo;
+                }
+                messageViewDiv.append(template.message(item, contactUser));
+
+            });
+            scrollBottom();
+
+            // 상대바 메시지 읽었음 확인 메시지 전송
+            var check = {
+                type: 'check',
+                msgNo : msgNo,
+                contactUser : contactUser
+            }
+            console.log(check);
+            
+            messengerService(check);
+        });  
+    }
+
+    // 이벤트---------------------------------------------------------
+    // 목록 선택
+    messengerListDiv.on('click', 'a', function (event) {
+        selectContactUser(this);
+    });
+
+
+    // 메세지 보내기
     // enter키
     sendMsgForm.on('keyup', function (event) {
         var msg = $(this).val();
         if (event.keyCode == 13 && msg) {
-            ws.send(msg);
+            sendMsg(msg);
+            $(this).val('');
         }
     });
 
-    // 검색버튼
+    // 보내기버튼
     $('#sendMsgBtn').on('click', function (event) {
         if (sendMsgForm.val()) {
-            ws.send(sendMsgForm.val());
+            sendMsg(sendMsgForm.val());
+            sendMsgForm.val('');
         }
     });
-
 });
+
+function scrollBottom() {
+    var element = document.getElementById('messageView');
+    element.scrollTop = element.scrollHeight;
+}
+
+function messengerAnalyzer(data) {
+    switch (data.type) {
+        case 'message':
+            if (contactUser === data.userId) {
+                $('#messageView').append(template.message(data, contactUser));
+                scrollBottom();
+            }
+            break;
+        case 'success':
+            if(contactUser === data.resId) {
+                $('#messageView').append(template.message(data, contactUser));
+                scrollBottom();
+            }
+            break;
+        case 'noti':
+
+            break;
+        case 'sendError':
+
+            break;
+    }
+}

@@ -29,20 +29,18 @@
 						</div>
 					</div>
 				</div>
-				<!-- 검색결과 출력구간 -->
+
+				<!-- 대화목록및 팔로우 검색 출력구간 -->
 				<div class="card-body p-0">
-					<div class="list-group">
-						<a href="#" class="list-group-item list-group-item-action active">
+					<div class="list-group" id="messengerList">
+						<a href="#" class="list-group-item list-group-item-action active" data-contact="">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
 							<div class="d-inline-block">
-								<label>닉네임(ID)</label>
+								<label>닉네임(ID)</label><br>
+								<label class=".text-secondary lastMsg">마지막 대화 내용</label>
 							</div>
-						</a> <a href="#" class="list-group-item list-group-item-action">
-							<div class="d-inline-block rounded bg-secondary">프로필</div>
-							<div class="d-inline-block">
-								<label>닉네임(ID)</label>
-							</div>
-						</a> <a href="#" class="list-group-item list-group-item-action">
+						</a>
+						<a href="#" class="list-group-item list-group-item-action">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
 							<div class="d-inline-block">
 								<label>닉네임(ID)</label>
@@ -55,38 +53,42 @@
 		<div class="col-lg-8">
 			<!-- 채팅창 쪽 -->
 			<div class="card">
-				<div class="card-body">
+				<div class="card-header">
 					<!-- 채팅 상단 프로필 -->
-					<h5>
+					<h5 id="messengerContactInfo">
 						<div class="d-inline-block rounded bg-secondary">프로필</div>
 						<div class="d-inline-block">
 							<label>닉네임(ID)</label>
 						</div>
 					</h5>
+				</div>
+				<div class="card-body">
+					
 					<!-- 채팅, overflow시 스크롤 생성됨 -->
-					<div class="overflow-auto" style="height: 500px;">
+					<div class="overflow-auto" style="height: 500px;" id="messageView">
 						
 						<!-- 상대방 채팅 -->
 						<div>
-							<div class="d-inline-block rounded bg-secondary">프로필</div>
-							<div class="d-inline-block">
-								<label>닉네임(ID)</label> <label
-									style="font-size: 12px; color: gray;">2019-12-12
-									10:20:24</label>
+							<div class="clearfix"></div>
+							<div class="d-inline-block rounded bg-secondary float-left">프로필</div>
+							<div class="d-inline-block float-left mx-2">
+								<label>닉네임(ID)</label>
+								<div>
+									안녕하세요
+									<label class="msgTime pl-2"style="font-size: 10px; color: gray;">오후 10:20</label>
+								</div>
 							</div>
-							<div>안녕하세요</div>
 						</div>
 
 						<!-- 내 채팅 -->
-						<div class="float-right">
-							<div>
-								<label style="font-size: 12px; color: gray;">2019-12-12
-									10:20:34</label>
-							</div>
+						<div>
 							<div class="clearfix"></div>
-							<div class="float-right">안녕하세요</div>
+							<div class="float-right mx-2">
+								<label class="readless pr-1" style="font-size: 8px; color: gray;">1</label>
+								<label class="msgTime pr-2" style="font-size: 10px; color: gray;">오후 10:20</label>
+								안녕하세요
+							</div>
 						</div>
-						<div class="clearfix"></div>
 
 						
 					</div>
@@ -112,7 +114,9 @@
 
 
 </div>
-
+<%-- <script src="/resources/js/messengerWebSocket.js"></script> --%>
+<script src="/resources/js/messengerModule.js"></script>
+<script src="/resources/js/messenger.js"></script>
 <!-- 검색결과 숨김 이벤트 -->
 <script>
 	$(document).ready(function(){

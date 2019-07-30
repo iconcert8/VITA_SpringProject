@@ -2,6 +2,7 @@ console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
+var msgDays = [];
 var viewMainPage;
 
 var template = {
@@ -100,14 +101,14 @@ var template = {
     filterAdd: function (filterName, big, categoryNo, btn) {
 
         var flag = false;
-        if(categoryNo) {
-            if(!categoryFilter.includes(categoryNo)) {
+        if (categoryNo) {
+            if (!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
                 flag = true;
             }
         } else {
-            if(!searchFilter.includes(filterName) && !btn) {
-                if(filterName.charAt(0) === '#') {
+            if (!searchFilter.includes(filterName) && !btn) {
+                if (filterName.charAt(0) === '#') {
                     searchFilter.push(filterName.substring(1));
                 } else {
                     searchFilter.push(filterName);
@@ -116,7 +117,7 @@ var template = {
             }
             flag = true;
         }
-        if(flag) {
+        if (flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
@@ -353,8 +354,8 @@ var template = {
             </div>
         </div>`;
     },
-    
-    warnfeedDetail: function(feed) {
+
+    warnfeedDetail: function (feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -365,11 +366,11 @@ var template = {
         }
 
         var feedImages = `<div class="carousel-item active">`;
-        for(var i in feed.feedImages) {
+        for (var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
-        
+
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -442,9 +443,9 @@ var template = {
         `;
         return warntemplate;
     },
-    
-    warnDelete: function(feedNo, feedLimitContent){
-    	var deletetemplate = `
+
+    warnDelete: function (feedNo, feedLimitContent) {
+        var deletetemplate = `
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<!-- 삭제 모달창 헤더-->
@@ -491,12 +492,13 @@ var template = {
 						</div>
 					</div>
 				</div>`;
-    	return deletetemplate;
+        return deletetemplate;
     },
     
     decisionAlertModal: function(text, btn){
     	
     	var decisionAlertModalTemplate = `
+
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -515,8 +517,8 @@ var template = {
     	return decisionAlertModalTemplate;
 
     },
-    
-    deletedfeedDetail: function(feed, warnCategory) {
+
+    deletedfeedDetail: function (feed, warnCategory) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -527,11 +529,11 @@ var template = {
         }
 
         var feedImages = `<div class="carousel-item active">`;
-        for(var i in feed.feedImages) {
+        for (var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
-        
+
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -603,5 +605,97 @@ var template = {
             </div>
         `;
         return deletedDetailTemplate;
+    },
+    messengerList: function (last, select) {
+        // var active = last.userId === select ? 'active' : '';
+
+        return `<a href="#" class="list-group-item list-group-item-action" data-contact="${last.userId}">
+                    <div class="d-inline-block rounded bg-secondary float-left">
+                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="height: 50px;">
+                    </div>
+                    <div class="d-inline-block float-left mx-2">
+                        <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
+                        <label class="text-secondary lastMsg">${last.msg}</label>
+                        
+                    </div>
+                    <div class="d-inline-block float-right mt-3">
+                        <span class="badge badge-pill badge-danger">${last.readless}</span>
+                    </div>
+                </a>`;
+    },
+    message: function (msg, contactUser, temp) {
+        // if(temp === 'temp') {
+        //     return `<!-- 내 채팅 -->
+        //     <div class="mt-1 myMsg" data-temp="${msg.msg}">
+        //         <div class="clearfix"></div>
+        //         <div class="text-right mx-2">
+        //             <label class="readless pr-1 text-muted" style="font-size: 8px;" data-read=""></label>
+        //             <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime=""></label>
+        //             ${msg.msg}
+        //         </div>
+        //     </div>`
+        // }if(temp === 'success') {
+        //     $(`div.myMsg[data-temp="${msg.msg}"`).empty().data('temp', '');
+        // }
+
+        var date = new Date(msg.msgDate);
+        var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
+
+        if (!msgDays.includes(dateDay)) {
+            msgDays.push(dateDay);
+            $('<div class="text-center bg-info font-weight-bolder clearfix"></div>').text(dateDay).appendTo('#messageView');
+        }
+
+        var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
+            + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+
+        var template;
+        if (msg.reqId === contactUser) {
+            $(`label[data-usertime="${dateTime}"]`).hide();
+            template = `<!-- 상대방 채팅 -->
+            <div class="mt-1 userMsg">
+                <div class="clearfix"></div>
+                <div class="d-inline-block rounded bg-secondary float-left">
+                    <label data-usertime="${dateTime}"></label><img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;"></label>
+                </div>
+                <div class="d-inline-block float-left mx-2">
+                    <label class="text-dark" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</label>
+                    <div>
+                    ${msg.msg}
+                        <label class="msgTime pl-2 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
+                    </div>
+                </div>
+            </div>`;
+        } else {
+            $(`label[data-mytime="${dateTime}"]`).hide();
+            var readless = '';
+            if(msg.msgChk === 'F') {
+                readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
+            }
+            
+            msg.msgChk !== 'F' ? '' : '1';
+            template = `
+            <div class="mt-1 myMsg">
+                <div class="clearfix"></div>
+                <div class="text-right mx-2">
+                    ${readless}
+                    <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
+                    ${msg.msg}
+                </div>
+            </div>
+            `;
+            // if(!temp) {
+            //     template = $(`<div class="mt-1 myMsg"></div>`).append(template);
+            // }
+        }
+        return template;
+    },
+    messengerContactInfo: function (user) {
+        return `<div class="d-inline-block rounded bg-secondary">
+            <img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}">
+        </div>
+        <div class="d-inline-block">
+            <label>${user.userNick}(${user.userId})</label>
+        </div>`;
     }
 }

@@ -382,7 +382,7 @@
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
 <script src="/resources/js/notification.js"></script>
-<script src="/resources/js/messenger.js"></script>
+<script src="/resources/js/messengerWebSocket.js"></script>
 
 <script src="/resources/js/header.js"></script>
 <script src="/resources/js/feedUploadFile.js"></script>
@@ -397,7 +397,6 @@
 <script src="/resources/js/favorite.js"></script>
 
 <script type="text/javascript">
-
 $(function(){
 	//알림 웹소켓 로드
 	notificationService.webSocketLoad();
