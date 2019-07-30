@@ -30,23 +30,7 @@
 	<!-- 파일 업로드를 위한 빈 설정 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
 
-	<annotation-driven>
-		<argument-resolvers>
-			<beans:bean class="me.vita.security.AuthUserHandlerMethodArgumentResolver" />
-		</argument-resolvers>
-	</annotation-driven>
-
-	<interceptors>
-		<interceptor>
-			<mapping path="/**" />
-			<exclude-mapping path="/user/login" />
-			<beans:bean class="me.vita.security.AuthInterceptor" />
-		</interceptor>
-		<interceptor>
-			<mapping path="/user/login" />
-			<beans:bean class="me.vita.security.AuthLoginInterceptor" />
-		</interceptor>
-	</interceptors>
+	
 
 
 	<!-- websocket handler -->

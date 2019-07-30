@@ -1,15 +1,13 @@
 package me.vita.service;
 
 import java.util.List;
-
-import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 
 public interface UserService {
 
-	public String getPw(String userId);
+	public void register(String id, String pw, String nick, String email) throws Exception;
 
-	public void register(UserVO userVO) throws Exception;
+	public String getPw(String userId);
 
 	public int getUserIdcnt(String userId);
 
@@ -20,8 +18,6 @@ public interface UserService {
 	public void modifyAuthstatus(String userId);
 
 	public UserDTO get(String myId, String userId);
-
-	public boolean login(UserVO vo);
 
 	public List<String> getSearchkey();
 

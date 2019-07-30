@@ -21,30 +21,7 @@
 <title>VITA</title>
 </head>
 <body>
-	<%
-		try{
-			String driver = "oracle.jdbc.driver.OracleDriver";
-			Class.forName(driver);
-			String url="jdbc:oracle:thin:@localhost:1521:XE";
-			String userName="vita";
-			String passWord="1234";
-			Connection con = DriverManager.getConnection(url, userName, passWord);
-			Statement st = con.createStatement();
-			
-			String sql = "select searchkeyword from search WHERE searchdate BETWEEN (sysdate-0.1) AND sysdate group by searchkeyword ORDER BY count(*) DESC";
-			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()){
-				String s = rs.getString("searchkeyword");
-				String strXML = "";
-				strXML+="<general>";
-				strXML+="<searchkeyword>"+s+"</searchkeyword></general>";
-				out.write(strXML);
-			}
-			} catch(Exception e){
-				System.out.println(e);
-			}
-		
-	%>
+
 	<!-- 툴바 -->
 	<div class="container-fluid bg-light mb-5 py-3" style="position: sticky; top: 0px; z-index: 10;">
 		<div class="row text-center">

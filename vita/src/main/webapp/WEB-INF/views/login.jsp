@@ -97,7 +97,7 @@ body{
 		</div>
 
 		<div id="jb-footer">
-			<p>로그인화면입니다.</p>
+			<p>hello guys</p>
 		</div>
 	</div>
 </body>

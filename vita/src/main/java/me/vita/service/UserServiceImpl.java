@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import me.vita.domain.MailUtils;
 import me.vita.domain.TempKey;
-import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 import me.vita.mapper.UserMapper;
 
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void register(UserVO userVO) throws Exception {
+	public void register(String id, String pw, String nick, String email) throws Exception {
 		String authkey = new TempKey().getkey(10, false);
 
 		MailUtils sendMail = new MailUtils(mailSender);
@@ -41,13 +40,10 @@ public class UserServiceImpl implements UserService {
 		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ").append(authkey)
 				.append("  </b></p>").toString());
 		sendMail.setFrom("Administer ", "Juan");
-		sendMail.setTo(userVO.getUserEmail());
+		sendMail.setTo(email);
 		sendMail.send();
 
-		userVO.setAuthKey(authkey);
-		userVO.setAuthStatus("F");
-
-		mapper.insert(userVO);
+		mapper.insert(id,pw,nick,email,authkey,"F");
 	}
 
 	@Override
@@ -70,10 +66,10 @@ public class UserServiceImpl implements UserService {
 		mapper.updateAuthstatus(userId);
 	}
 
-	@Override
+	/*@Override
 	public boolean login(UserVO userVO) {
 		return mapper.login(userVO) == 1;
-	}
+	}*/
 
 	@Override
 	public List<String> getSearchkey() {
