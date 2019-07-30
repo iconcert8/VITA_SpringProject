@@ -6,7 +6,8 @@ var statisticsService = (function(){
 		
 		$.ajax({
 			type:'get',
-			url: '/statistics/frequency/'+big+".json",
+			url: '/statistics/frequency/'+big,
+			dataType: 'text',
 			success: function(result){
 				if(callback){
 					callback(result);

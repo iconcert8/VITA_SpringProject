@@ -15,5 +15,7 @@ public interface WarnMapper {
 
 	int update(@Param("feedNo")Integer feedNo);
 
+	int delete(@Param("feedNo")Integer feedNo);
+	
 	int insert(WarnVO warnVO);
 }
