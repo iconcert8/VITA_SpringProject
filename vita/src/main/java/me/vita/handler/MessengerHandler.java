@@ -34,9 +34,6 @@ public class MessengerHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("MessengerHandler connect");
-		for (String key : userSessions.keySet()) {
-			System.out.println("user : " + key);
-		}
 		if (getUser(session) == null) {
 			session.close();
 			return;

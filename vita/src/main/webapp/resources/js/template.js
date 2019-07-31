@@ -669,7 +669,7 @@ var template = {
         if (readless === 0) {
             readlessHide = 'd-none';
         }
-        return `<a href="/messenger" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
+        return `<a href="/messenger/${last.userId}" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
                     <div class="d-inline-block rounded bg-secondary">
                     <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="${last.userImgFileName}" style="width:20px; height:20px;">
                     </div>
@@ -686,7 +686,7 @@ var template = {
 
         if (!msgDays.includes(dateDay)) {
             msgDays.push(dateDay);
-            $('<div class="text-center bg-info font-weight-bolder clearfix"></div>').text(dateDay).appendTo('#messageView');
+            $('<div class="text-center font-weight-bolder msgDays"></div>').text(dateDay).appendTo('#messageView');
         }
 
         var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())

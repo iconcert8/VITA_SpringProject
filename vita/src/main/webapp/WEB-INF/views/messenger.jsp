@@ -4,6 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="./include/header.jsp"%>
 
+<style>
+.msgDays {
+	text-align: center;
+	text-shadow: 0 0 2px #000;
+	clear: both;
+}
+</style>
+
 <div class="container">
 
 	<div class="row">
@@ -56,10 +64,10 @@
 				<div class="card-header">
 					<!-- 채팅 상단 프로필 -->
 					<h5 id="messengerContactInfo">
-						<div class="d-inline-block rounded bg-secondary">프로필</div>
+						<%-- <div class="d-inline-block rounded bg-secondary">프로필</div>
 						<div class="d-inline-block">
 							<label>닉네임(ID)</label>
-						</div>
+						</div> --%>
 					</h5>
 				</div>
 				<div class="card-body">
@@ -67,7 +75,7 @@
 					<!-- 채팅, overflow시 스크롤 생성됨 -->
 					<div class="overflow-auto" style="height: 500px;" id="messageView">
 						
-						<!-- 상대방 채팅 -->
+						<%-- <!-- 상대방 채팅 -->
 						<div>
 							<div class="clearfix"></div>
 							<div class="d-inline-block rounded bg-secondary float-left">프로필</div>
@@ -88,7 +96,7 @@
 								<label class="msgTime pr-2" style="font-size: 10px; color: gray;">오후 10:20</label>
 								안녕하세요
 							</div>
-						</div>
+						</div> --%>
 
 						
 					</div>
@@ -105,15 +113,14 @@
 							</div>
 						</div>
 					</div>
-				
-
-				</div>
+s				</div>
 			</div>
 		</div>
 	</div>
 
 
 </div>
+<input type="hidden" id="contactUser" value='<c:out value="${contactUser }"/>'>
 <script src="/resources/js/messenger.js"></script>
 <!-- 검색결과 숨김 이벤트 -->
 <script>
