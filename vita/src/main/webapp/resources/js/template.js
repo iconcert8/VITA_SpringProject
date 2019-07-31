@@ -282,7 +282,7 @@ var template = {
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
                                        
-                                        <i id="returnBtn" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
+                                        <i id="	" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
                                        
                                     </div> 
                                     
