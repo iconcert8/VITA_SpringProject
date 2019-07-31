@@ -153,9 +153,9 @@ var messengerService = {
     },
     displayMessengerNotiCount : function (addCount) {
         messengerNotiCount += addCount;
-        var display;
+        var display = messengerNotiCount;
         if(messengerNotiCount > 300) display = '300+';
-        if(messengerNotiCount <= 0) {
+        if(messengerNotiCount < 0) {
             messengerNotiCount = 0;
             display = 0;
         }

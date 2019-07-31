@@ -94,6 +94,8 @@ public class FeedController {
 	@Auth
 	public List<FeedDTO> getListUserFeed(@SessionAttribute("authUser") UserVO user,
 			@RequestBody CategoryFilterDTO filter, @PathVariable("contactUser") String userId) {
+		System.out.println("......................................" + filter);
+		System.out.println("......................................" + userId);
 		filter.setGoToUserId(userId);
 		return service.getListUserFeed(user, filter);
 	}

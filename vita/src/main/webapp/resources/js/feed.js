@@ -224,7 +224,9 @@ $(document).ready(function () {
             // 회원정보 표시
             userInfoDiv.removeClass('d-none').empty();
             userService.get(contactUserId, function (result) {
-                userInfoDiv.append(template.userInfo(result, true));
+                console.log('userInfo ',result);
+                
+                userInfoDiv.append(template.userInfo(result));
             });
             viewUserPage('userfeed', contactUserId);
         }
