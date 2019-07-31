@@ -1,6 +1,13 @@
+
+var contactUser;
 var messengerService = {
-    send : function (msg) {  
-        messengerws.send(JSON.stringify(msg));
+    sendMsg : function (msg) {
+        var sendMsg = {
+            type: "message",
+            msg: msg,
+            resId: contactUser
+        }
+        messengerws.send(JSON.stringify(sendMsg));
     },
     getList : function (success, error, complete) {
         $.ajax({
@@ -33,5 +40,29 @@ var messengerService = {
                 if (complete) complete();
             }
         });
+    },
+    readMsg : function (msgNo, count) {
+        if(!count) {
+            $('label[data-read]').each(function(i, item) {
+                console.log($(item).data('read'));
+                if($(item).data('read') <= msgNo) {
+                    $(item).remove();
+                }
+            });
+        } else {
+
+        }
+    },
+    check : function(msgNo) {
+        var check = {
+            type: 'check',
+            msgNo : msgNo,
+            contactUser : contactUser
+        }
+        messengerws.send(JSON.stringify(check));
+    },
+    scrollBottom : function() {
+        var element = document.getElementById('messageView');
+        element.scrollTop = element.scrollHeight;
     }
 }

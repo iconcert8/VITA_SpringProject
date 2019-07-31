@@ -31,7 +31,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		if (session.getAttribute("guest") != null) {
 			session.removeAttribute("guest");
-			response.sendRedirect(request.getContextPath() + "/user/login");
+//			response.sendRedirect(request.getContextPath() + "/user/login");
 			response.sendRedirect(request.getContextPath() + "/testlogin");
 			return false;
 		}
@@ -39,7 +39,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		UserVO authUser = (UserVO) session.getAttribute("authUser");
 		if (authUser == null) {
 			response.sendRedirect(request.getContextPath() + "/testlogin");
-			response.sendRedirect(request.getContextPath() + "/user/login");
+//			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
 

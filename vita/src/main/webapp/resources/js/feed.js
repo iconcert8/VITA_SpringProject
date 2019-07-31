@@ -67,12 +67,13 @@ $(document).ready(function () {
         viewMainPage();
     }
 
-    var leftUserBtnOn = function(btn, module) {
+    var leftUserBtnOn = function(btn) {
         viewService.myBtnActive(btn);
         categoryTypeDiv.addClass('d-none');
         categoryBarDiv.addClass('d-none');
         userBarDiv.removeClass('d-none');
 
+        // 기존 유저바 내용 삭제
         viewService.userBarReset();
 
          //  기존 내용 비우기
@@ -80,6 +81,9 @@ $(document).ready(function () {
 
         // 페이지 번호 초기화및 전송
         pageNo = 0;
+    }
+
+    var viewUserPage = function (module) {
         var sendData = {
             "page": pageNo,
             "goToUserId": userId
@@ -99,16 +103,17 @@ $(document).ready(function () {
         console.log('myFeedBtn........');
         if (myBtn !== 'myFeed') {
 
-            // 버튼 활성화
             // 회원정보 표시
             userInfoDiv.removeClass('d-none').empty();
             userService.get(userId, function (result) {
                 userInfoDiv.append(template.userInfo(result, true));
             });
 
-            leftUserBtnOn(this, 'userfeed');
-            $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
+            leftUserBtnOn(this);    //버튼 활성화
+            viewUserPage('userfeed');   //피드 불러오기
 
+            // 유저바 내용 수정
+            $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
             myBtn = 'myFeed';
         } else {
             // 버튼 비활성화
@@ -123,9 +128,10 @@ $(document).ready(function () {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
 
-            leftUserBtnOn(this, 'favorite');
-            // 카테고리 바 수정
-            
+            leftUserBtnOn(this);        //버튼 활성화
+            viewUserPage('favorite');  //피드 불러오기
+
+            // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('즐겨찾기', '', '', true));
             myBtn = 'myFavorite';
         } else {
@@ -140,9 +146,11 @@ $(document).ready(function () {
         if (myBtn !== 'newsFeed') {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
-            leftUserBtnOn(this, 'newsfeed');
-            console.log($('#userBar > div'));
+
+            leftUserBtnOn(this);        //버튼 활성화
+            viewUserPage('newsfeed');  //피드 불러오기
             
+            // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('팔로우글', '', '', true));
             myBtn = 'newsFeed';
         } else {

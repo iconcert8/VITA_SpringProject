@@ -16,6 +16,6 @@ public interface MessengerService {
 
 	MessengerDTO get(Integer msgNo);
 
-	boolean modify(String reqId, String resId, Integer msgNo);
+	int modify(String reqId, String resId, Integer msgNo);
 
 }

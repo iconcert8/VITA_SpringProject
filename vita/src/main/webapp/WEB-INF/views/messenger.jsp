@@ -33,7 +33,7 @@
 				<!-- 대화목록및 팔로우 검색 출력구간 -->
 				<div class="card-body p-0">
 					<div class="list-group" id="messengerList">
-						<a href="#" class="list-group-item list-group-item-action active" data-contact="">
+						<a href="#" class="list-group-item list-group-item-action dropdown-item bg-primary" data-contact="">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
 							<div class="d-inline-block">
 								<label>닉네임(ID)</label><br>
@@ -114,8 +114,6 @@
 
 
 </div>
-<%-- <script src="/resources/js/messengerWebSocket.js"></script> --%>
-<script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messenger.js"></script>
 <!-- 검색결과 숨김 이벤트 -->
 <script>

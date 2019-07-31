@@ -606,22 +606,43 @@ var template = {
         `;
         return deletedDetailTemplate;
     },
-    messengerList: function (last, select) {
-        // var active = last.userId === select ? 'active' : '';
-
+    messengerList: function (last) {
+        var msg = last.msg
+        if(msg > 10) {
+            msg = msg.substring(0, 10) + '...';
+        }
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${last.userId}">
                     <div class="d-inline-block rounded bg-secondary float-left">
-                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="height: 50px;">
+                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="width:50px; height:50px;">
                     </div>
                     <div class="d-inline-block float-left mx-2">
                         <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
-                        <label class="text-secondary lastMsg">${last.msg}</label>
-                        
+                        <label class="text-secondary lastMsg">${msg}</label>
                     </div>
                     <div class="d-inline-block float-right mt-3">
                         <span class="badge badge-pill badge-danger">${last.readless}</span>
                     </div>
                 </a>`;
+    },
+    notiMessengerList : function(last) {
+        var msg = last.msg
+        var readless;
+        if(msg > 7) {
+            msg = msg.substring(0, 7) + '...';
+        }
+        if(last.readless > 0) {
+            readless = `<span class="d-block badge badge-pill badge-danger float-right ml-2 mt-4">${last.readless}</span>`;
+        }
+        return `<a href="#" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
+                    <div class="d-inline-block rounded bg-secondary">
+                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="${last.userImgFileName}" style="width:20px; height:20px;">
+                    </div>
+                    ${readless}
+                    <div class="d-inline-block mr-5">
+                        <label class="font-weight-bolder" style="font-size: 15px;">${last.userNick}(${last.userId})</label><br>
+                        <label class="text-secondary lastMsg" style="font-size: 14px;">${msg}</label>
+                    </div>
+				</a>`;
     },
     message: function (msg, contactUser, temp) {
         // if(temp === 'temp') {
@@ -656,10 +677,10 @@ var template = {
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
                 <div class="d-inline-block rounded bg-secondary float-left">
-                    <label data-usertime="${dateTime}"></label><img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;"></label>
+                    <img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
                 </div>
                 <div class="d-inline-block float-left mx-2">
-                    <label class="text-dark" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</label>
+                    <label class="text-dark" style="font-size: 12px;">${msg.userNick}(${msg.userId})</label>
                     <div>
                     ${msg.msg}
                         <label class="msgTime pl-2 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
@@ -672,8 +693,6 @@ var template = {
             if(msg.msgChk === 'F') {
                 readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
             }
-            
-            msg.msgChk !== 'F' ? '' : '1';
             template = `
             <div class="mt-1 myMsg">
                 <div class="clearfix"></div>
