@@ -1,9 +1,12 @@
 $(document).ready(function () {
     var pageNo = 0;
-    var module = '';
+    var userModule = '';
     var myBtn = '';
     var mainType = 'popular';
     var removeBtn = ("#RemoveBtn");
+
+    // reply variables
+    var replyPageNo = 0;
 
     var viewFeedListDiv = $('#viewFeedList');
     var userInfoDiv = $('#userInfo');
@@ -19,16 +22,13 @@ $(document).ready(function () {
     var popularBtn = $('#popularBtn');       
     var recentBtn = $('#recentBtn');
 
-    var userId = $('#authUserId').val();
+    var authUserId = $('#authUserId').val();
     var guest = $('#guest').val();
    
 
-    // reply variables
-    var replyPageNo = 0;
-
     var refDataReset = function () {
         pageNo = 0;
-        module = '';
+        userModule = '';
         myBtn = '';
     }
 
@@ -45,20 +45,13 @@ $(document).ready(function () {
         }
         feedService.getList('', sendData, function (result) {
             $.each(result, function (i, item) {
-                viewFeedListDiv.append(template.feedSimple(item, userId));
+                viewFeedListDiv.append(template.feedSimple(item, authUserId));
                 if (result.length - 1 === i) {
                     pageNo = item.feedno;
                 }
             });
         });
     }
-
-    // 첫 메인 페이지 동작
-    mainType = 'popular';
-    categoryFilter = [];
-    serachFilter = [];
-    viewMainPage('popular');
-
 
     // left Feed list button toggle off function
     var leftUserBtnOff = function () {
@@ -83,20 +76,37 @@ $(document).ready(function () {
         pageNo = 0;
     }
 
-    var viewUserPage = function (module) {
+    var viewUserPage = function (module, gotoUserId) {
+        if(module) {
+            userModule = module;
+        }
+        var v_module = userModule;
+
+        if(gotoUserId) {
+            viewFeedListDiv.empty();
+            v_module += '/' + gotoUserId;
+        }
         var sendData = {
             "page": pageNo,
-            "goToUserId": userId
+            "goToUserId": gotoUserId
         }
-        feedService.getList(module, sendData, function (result) {
+        feedService.getList(v_module, sendData, function (result) {
             $.each(result, function (i, item) {
-                viewFeedListDiv.append(template.feedSimple(item, userId));
+                viewFeedListDiv.append(template.feedSimple(item, authUserId));
                 if (result.length - 1 === i) {
                     pageNo = item.feedno;
                 }
             });
         });
     }
+
+    //---------------------------------------------------------------------------
+
+    // 첫 메인 페이지 동작
+    mainType = 'popular';
+    categoryFilter = [];
+    serachFilter = [];
+    viewMainPage('popular');
 
     // 내글버튼
     $('#myFeed').on('click', function () {
@@ -105,7 +115,7 @@ $(document).ready(function () {
 
             // 회원정보 표시
             userInfoDiv.removeClass('d-none').empty();
-            userService.get(userId, function (result) {
+            userService.get(authUserId, function (result) {
                 userInfoDiv.append(template.userInfo(result, true));
             });
 
@@ -190,21 +200,39 @@ $(document).ready(function () {
         
         feedService.get(feedNo, function (result) {
         	console.log(result);
-            feedDetailModal.empty().append(template.feedDetail(result, userId));
+            feedDetailModal.empty().append(template.feedDetail(result, authUserId));
 
             // 댓글 출력
             replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
-                feedDetailModal.find('#replyModal').append(template.reply(result, userId));
+                feedDetailModal.find('#replyModal').append(template.reply(result, authUserId));
             });
         });
-        
+    });
+
+    // 프로필 클릭
+    $(document).on('click', 'div.goToUserFeed', function() {
+        contactUserId = $(this).data('contact');
+        if(contactUserId === authUserId) {
+            var blogLink = document.getElementById('myFeed');
+            //IE 이외의 경우
+            var event = document.createEvent("MouseEvents");
+            event.initEvent("click", false, true);
+            blogLink.dispatchEvent(event);
+        } else {
+            // 회원정보 표시
+            userInfoDiv.removeClass('d-none').empty();
+            userService.get(contactUserId, function (result) {
+                userInfoDiv.append(template.userInfo(result, true));
+            });
+            viewUserPage('userfeed', contactUserId);
+        }
     });
 
     // 신고버튼 모달창으로 데이터 이동
     $(document).on('click', 'button[data-target="#warnModal"]', function () {
         // alert(userId + ':' + guest);
-        if(userId || !guest) {
+        if(authUserId || !guest) {
             warnModal.empty().append(template.warnModal());
             warnModal.find('#warnActionBtn').data('feedno', $(this).data('feedno'));
             warnModal.find('#warnActionBtn').data('limitcontent', $(this).data('limitcontent'));
@@ -277,7 +305,7 @@ $(document).ready(function () {
     	replyService.remove(feedNo, replyNo, function(result){
     		replyService.getList(feedNo, replyPageNo, function (result) {
     			feedDetailModal.find('#replyModal').empty();
-    			feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
+    			feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
     		});
     	});
     	
