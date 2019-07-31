@@ -38,9 +38,7 @@ function chkpassword(obj, minByte){
 	var strValue = obj.value;
 	var strLen = strValue.length;
 	var totalByte = 0;
-	var len = 0;
 	var oneChar = "";
-	var str2 = "";
 	
 	for(var i=0; i<strLen;i++){
 		oneChar = strValue.charAt(i);
@@ -62,9 +60,7 @@ function chknickname(obj, minByte){
 	var strValue = obj.value;
 	var strLen = strValue.length;
 	var totalByte = 0;
-	var len = 0;
 	var oneChar = "";
-	var str2 = "";
 	
 	for(var i=0; i<strLen;i++){
 		oneChar = strValue.charAt(i);
@@ -82,8 +78,9 @@ function chknickname(obj, minByte){
 	}
 }
 
+
 //id검사함수
-function chkid(){
+function chkid(obj,minByte){
 	var userId= $('#id').val();
 	if(userId==''){
 		$('#here1').append().removeClass().html('');
@@ -97,14 +94,31 @@ function chkid(){
 		dataType: "json",
 		contentType: "application/json; charset=UTF-8",
 		success: function(data){
+			var strValue = obj.value;
+			var strLen = strValue.length;
+			var totalByte = 0;
+			var oneChar = "";
 			if(data.cnt>0 || $('#id').val()==""){
 				//아이디가 중복될 경우
 				$('#here1').append().removeClass().html('').html('사용 불가능한 아이디입니다.').addClass('warn');
 				$('#idcheck').val("0");
 			}else{
 				//중복되지 않을경우
-				$('#here1').append().removeClass().html('').html('사용가능한 아이디입니다.').addClass('ok');
-				$('#idcheck').val("1");
+				for(var i=0; i<strLen;i++){
+					oneChar = strValue.charAt(i);
+					if(escape(oneChar).length>4){
+						totalByte+=2;
+					}else{
+						totalByte++;
+					}
+				}
+				
+				if(totalByte<minByte){
+					$('#here1').append().removeClass().html('').html('사용 불가능한 아이디입니다.').addClass('warn');
+				}else{
+					$('#here1').append().removeClass().html('').html('사용가능한 아이디입니다.').addClass('ok');
+					$('#idcheck').val("1");
+				}
 			}
 		}
 	});
