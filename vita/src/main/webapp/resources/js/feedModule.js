@@ -157,6 +157,21 @@ var copyImg = function(feedNo){
 		type : 'post',
 		success : function(result) {
 			alert("Uploaded");
+			$("#write-image").val('');
+			$("#tag-write-input").val('');
+			$("#content-write-textarea").val('');
+			$("#category-request").val('');
+			$("#image-block").empty();
+			
+//			$(".modal-open").removeClass("modal-open");
+//			$("#writeModal").addClass();
+//			$("#writeModal").removeClass("show");
+//			$("#writeModal").removeAttr("style");
+//			$("#writeModal").removeAttr("aria-modal");
+//			$("#writeModal").attr("aria-hidden", "true");
+//			$(".modal-backdrop fade show").removeAttr("class");
+			$("#writeModal").modal("hide");
+			
 		}
 	});
 };

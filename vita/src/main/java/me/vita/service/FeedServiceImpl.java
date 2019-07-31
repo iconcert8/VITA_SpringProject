@@ -160,12 +160,12 @@ public class FeedServiceImpl implements FeedService {
 	}
 
 	@Override
+	@Transactional
 	public boolean registerImg(MultipartFile[] multi, Integer feedNo) {
 		for(MultipartFile multipartFile : multi){
 			String feedImgFileName = multipartFile.getOriginalFilename();
-
-			FeedImageVO data = new FeedImageVO();
 			
+			FeedImageVO data = new FeedImageVO();
 			data.setFeedImgFileName(feedImgFileName);
 			data.setFeedNo(feedNo);
 			
