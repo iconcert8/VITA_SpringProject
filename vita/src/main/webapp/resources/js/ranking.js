@@ -14,14 +14,20 @@ $(function() {
     
     
     
-    
     $.ajax({
     	type: 'get',
-    	url: "rank",
+    	url: "/user/ranking",
     	dataType: "json",
-    	contentType: "application/json; charset=UTF-8",
     	success: function(data){
-    		alert(data);
+    		$('#rank_1').html(data[0]);
+    		$('#rank_2').html(data[1]);
+    		$('#rank_3').html(data[2]);
+    		$('#rank_4').html(data[3]);
+    		$('#rank_5').html(data[4]);
+    	},
+    	error: function(request, status, error){
+    		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
     	}
     });
     

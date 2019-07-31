@@ -46,7 +46,7 @@
 	
 	<select id="selectSearchkeyword" resultType="String">
 		select searchKeyword from search 
-		WHERE searchdate BETWEEN (sysdate-0.1) AND sysdate group by searchKeyword ORDER BY count(*) DESC
+		WHERE searchdate BETWEEN (sysdate-10) AND sysdate group by searchKeyword ORDER BY count(*) DESC
 	</select>
 
 </mapper>
