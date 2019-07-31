@@ -4,6 +4,7 @@ var categoryFilter = [];
 var searchFilter = [];
 var viewMainPage;
 
+
 var template = {
     feedSimple: function (feed, authUser) {
 
@@ -35,7 +36,7 @@ var template = {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn"  data-feedno=${feed.feedNo}>삭제</button>`
             
         }
         
@@ -43,8 +44,8 @@ var template = {
         
 
         return `
-            <div class="col-xl-6">
-                <div class="card bg-light mb-4">
+            <div class="col-xl-6" id="viewFeedDetailList">
+                <div class="card bg-light mb-4" >
                     <!-- 피드 헤더 -->
                     <div class="card-header">
                         <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
@@ -280,8 +281,10 @@ var template = {
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
-                                        <i class="fas fa-sync-alt float-right pt-2"></i>
-                                    </div>
+                                       
+                                        <i id="returnBtn" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
+                                       
+                                    </div> 
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
         									

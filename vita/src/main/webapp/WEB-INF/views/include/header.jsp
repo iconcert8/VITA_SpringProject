@@ -10,13 +10,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/img-size.css">
+
+ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
 <link rel="stylesheet" href="/resources/css/upload.css">
-
+<style>
+ 
+</style>
 <style>
 @media ( min-width : 1600px) {
 	.modal-xl {
@@ -24,6 +28,10 @@
 	} 
 }
 .toolbar-icon a{margin-right:5px;}
+
+#returnBtn:HOVER {
+	background-color: gray;
+}
 </style>
 
 <title>VITA</title>
@@ -50,7 +58,7 @@
 					-<b>실시간 인기검색어</b>-
 				</div>
 			</div>
-			
+		
 			<c:if test="${sessionScope.authUser != null}">
 				<div class="col-md-4 toolbar-icon mt-3">
 					<a href="" data-toggle="modal" id="callBig" data-target="#writeModal"><i class="fas fa-edit" style="font-size:34px;"></i></a>
@@ -412,6 +420,7 @@
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
+
 <script src="/resources/js/notification.js"></script>
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
@@ -427,7 +436,6 @@
 <script src="/resources/js/search.js"></script>
 <script src="/resources/js/good.js"></script>
 <script src="/resources/js/favorite.js"></script>
-
 <script type="text/javascript">
 $(function(){
 	//알림 웹소켓 로드
