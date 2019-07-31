@@ -186,4 +186,9 @@ public class FeedServiceImpl implements FeedService {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean remove(Integer feedNo) {
+		return mapper.delete(feedNo) == 1;
+	}
 }

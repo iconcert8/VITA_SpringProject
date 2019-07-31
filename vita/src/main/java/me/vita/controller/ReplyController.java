@@ -42,8 +42,6 @@ public class ReplyController {
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody ReplyVO replyVO){
 		replyVO.setUserId(user.getUserId());
-		System.out.println(replyVO);
-		System.out.println(replyVO.getReplyContent());
 		if(service.register(replyVO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
@@ -61,8 +59,6 @@ public class ReplyController {
 		return service.getList(userId, feedNo, page);
 	}
 	
-	
-	
 	@DeleteMapping("/{feedNo}/{replyNo}")
 	@Auth
 	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo, @PathVariable("replyNo") Integer replyNo){
@@ -78,5 +74,6 @@ public class ReplyController {
 		Integer goodCount  = service.getCount(feedNo);
 		return new ResponseEntity<Integer>(goodCount, HttpStatus.OK);
 	}
+	
 	
 }

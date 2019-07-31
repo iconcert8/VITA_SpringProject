@@ -33,7 +33,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public boolean remove(Integer feedNo ,Integer replyNo) {
+	public boolean remove(Integer feedNo, Integer replyNo) {
 		feedMapper.updateReplyCnt(feedNo, -1);
 		return mapper.delete(replyNo) > 0;
 	}
@@ -42,8 +42,6 @@ public class ReplyServiceImpl implements ReplyService {
 	public Integer getCount(Integer feedNo) {
 		return mapper.selectCount(feedNo);
 	}
-	
-	
 	
 
 }

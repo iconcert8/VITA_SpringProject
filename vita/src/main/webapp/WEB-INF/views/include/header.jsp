@@ -277,7 +277,7 @@
 								<input id="gogi" type="text" class="form-control" placeholder="reply..."
 									aria-describedby="sendReplyBtn">
 								<div class="input-group-append">
-									<button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
+									<button class="btn btn-outline-primary" data-target="#send" id="sendReplyBtn">댓글</button>
 								</div>
 							</div>
 						</div>

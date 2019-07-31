@@ -195,7 +195,7 @@ $(document).ready(function () {
             // 댓글 출력
             replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
-                feedDetailModal.find('#replyModal').append(template.reply(result));
+                feedDetailModal.find('#replyModal').append(template.reply(result, userId));
             });
         });
         
@@ -245,27 +245,25 @@ $(document).ready(function () {
     });
  
     
-    $(document).on('click', 'button[data-target="#send"]', function(){
+    $(document).on('click', '#sendReplyBtn', function(){
     	console.log("reply.......");
      	var replyContent = $('#replyContent').val();
         var userId = $('#authUserId').val();
         var feedNo = $(this).data('feedno');
-        var replyNo = $(this).data('replyno');	
-    	replyPageNo = 0; 
+        var replyNo = $(this).data('replyno');
+    	replyPageNo = 0;
         var sendData = {
         		"feedNo" : feedNo,
         		"replyNo" : replyNo,
         		"replyContent" : replyContent,
-        		"userid" : userId,
-        		
-      
+        		"userId" : userId
         } 
         replyService.register(sendData, function(result) {
         	
         	replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
             	feedDetailModal.find('#replyModal').empty();
-                feedDetailModal.find('#replyModal').prepend(template.reply(result));
+                feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
             });
         }); 
          
@@ -273,60 +271,26 @@ $(document).ready(function () {
          
     });
     
-    $(document).on('click', 'button[data-target="#RemoveBtn"], span[data-target="#RemoveBtn"]', function (e){
-    	
-
-	var replyNo = $(this).data('replyno');
-	var feedNo = $(this).data('feedno');
-    	
+    $(document).on('click', 'button[data-target="#RemoveBtn"]', function (e){
+		var replyNo = $(this).data('replyno');
+		var feedNo = $(this).data('feedno');
     	replyService.remove(feedNo, replyNo, function(result){
-    		 
-    		alert(result);
-    		feedDetailModal.find('#replyModal').hide(template.reply(result));
-    		 
-    	}) 
+    		replyService.getList(feedNo, replyPageNo, function (result) {
+    			feedDetailModal.find('#replyModal').empty();
+    			feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
+    		});
+    	});
+    	
     });
     
 
-  /*  // 피드삭제
+    // 피드삭제
     $(document).on('click', 'button[data-target="#deleteFeedBtn"]' , function(){
     	
-    });
-*/
-    // 댓글삭제
-    /*
-     $(document).on('click', 'button[id="#deleteReplyBtn"]' , function(){
-    	var replyNo = $(this).data('replyno');
     	var feedNo = $(this).data('feedno');
+    	feedService.remove(feedNo, function(result){
+    		//console.log("delete");
+    	});
     	
-    	var sendData = {
-    			"replyno" : replyNo,
-    			"feedNo" : feedNo,
-    	}
-            replyService.deleteList(feedNo, replyNo, function (result) {
-            	feedDetailModal.find('#replyModal').remove();
-    	})
-    	
-    }) 
-    */
-
-
-    // Document height = 문서 전체의 높이를 의미
-    // Window Height = 화면의 높이를 의미
-    // Scroll top = 스크롤의 top이 위치하고 있는 높이를 의미
-    	
-
-    		
-		/*if(scrollHeight == documentHeight - 200){
-			
-			for (var i=0;i < 10;i++){
-				replyPageNo = 0;
-	            replyService.scrollList(feedNo, replyPageNo, function (result) {
-	                feedDetailModal.find('#replyModal').append(template.reply(result));
-	            });
-			}
-		}*/
-	
-   
-	
+    });
 });

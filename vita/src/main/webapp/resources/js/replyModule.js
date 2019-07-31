@@ -10,8 +10,8 @@ var replyService = {
         $.ajax({
         	type: "get",
             url: "/reply/list/"+feedNo+"/"+page,
-            dataType: 'json',
-            contentType:"application/json; charset=utf-8",
+            dataType: 'json', //받는 데이터 타입
+            contentType:"application/json; charset=utf-8", //보내는 데이터 타입
             success: function (response) {
                 if (success) success(response);
             },
@@ -24,7 +24,7 @@ var replyService = {
         });
     },
     
-    register: function (sendData, success, error, complete) {
+    register: function (sendData, success) {
 		$.ajax({
 			type:'post',
 			url: '/reply/new',
@@ -32,22 +32,15 @@ var replyService = {
 			contentType:"application/json; charset=utf-8",
 			success: function (response) {
                 if (success) success(response);
-                
-            },
-            error: function (xhr, status, err) {
-                if (error) error(err);
-            },
-            complete: function () {
-                if (complete) complete();
             }
+            
 		});
     },
     
     remove : function remove(feedNo, replyNo, success, error, complete ) {
     	$. ajax({
     		type : 'delete',
-    		url : "/reply/list/"+feedNo+"/"+replyNo,
-    		dataType:'json',
+    		url : "/reply/"+feedNo+"/"+replyNo,
     		success : function (response){
     			if(success) success(response);
     		},
@@ -59,7 +52,9 @@ var replyService = {
     		}
     		
     	})
-    }
+    	
+    },
+    
     /*
     deleteList : function(sendData, success, error, complete){
     	$.ajax({

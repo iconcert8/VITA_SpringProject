@@ -2,7 +2,6 @@ console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
-var msgDays = [];
 var viewMainPage;
 
 var template = {
@@ -36,9 +35,12 @@ var template = {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            
         }
-
+        
+        
+        
 
         return `
             <div class="col-xl-6">
@@ -76,7 +78,7 @@ var template = {
                                 role="button" data-slide="next"> <span
                                 class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Next</span>
-                            </a>
+                            </a> 
                         </div>
                     </div>
                     <div class="card-body pt-2" data-toggle="modal"
@@ -103,28 +105,23 @@ var template = {
                     </div>
                 </div>
             </div>
-        `;
+        `; 
     },
     filterAdd: function (filterName, big, categoryNo, btn) {
 
         var flag = false;
-        if (categoryNo) {
-            if (!categoryFilter.includes(categoryNo)) {
+        if(categoryNo) {
+            if(!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
                 flag = true;
             }
         } else {
-            if (!searchFilter.includes(filterName) && !btn) {
-                if (filterName.charAt(0) === '#') {
-                    searchFilter.push(filterName.substring(1));
-                } else {
-                    searchFilter.push(filterName);
-                    filterName = '#' + filterName;
-                }
+            if(!searchFilter.includes(filterName) && !btn) {
+                searchFilter.push(filterName);
+                flag = true;
             }
-            flag = true;
         }
-        if (flag) {
+        if(flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
@@ -198,10 +195,15 @@ var template = {
         var warnBtn = '';
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
-            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
+            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`;
+           
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
-        }
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+             
+        
+     
+       }     
+       
 
         var template = `
             <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
@@ -268,13 +270,13 @@ var template = {
                                 <!-- 댓글 부분 -->
                                 <div class="card-header">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="reply..."
+                                        <input  id="replyContent"  type="text" class="form-control"  placeholder="reply..."
                                             aria-describedby="sendReplyBtn">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
-                                        </div>
+                                            <button class="btn btn-outline-primary" data-target="#send" data-feedno="${feed.feedNo}" id="sendReplyBtn">댓글</button>
+                                        </div> 
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
@@ -282,7 +284,7 @@ var template = {
                                     </div>
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
-          
+        									
                                     </ul>
                                 </div>
                             </div>
@@ -293,7 +295,7 @@ var template = {
         `;
         return template;
     },
-    reply: function (reply) {
+    reply: function (reply, authUser) {
         var templateLi = '';
         $.each(reply, function (index, item) {
             var date = new Date(item.replyDate);
@@ -301,11 +303,13 @@ var template = {
                 + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             var deleteBtn = '';
-            if (item.isMyReply) {
-                deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
+            
+           if (authUser == item.isMyReply) {
+                deleteBtn = `<button type="button" data-target="#RemoveBtn" class="close float-right" aria-label="Close"  data-feedno=${item.feedNo} data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
-            }
+           } 
+           
             templateLi += `<li class="list-group-item">
             <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
             <div class="d-inline-block">
@@ -369,8 +373,8 @@ var template = {
             </div>
         </div>`;
     },
-
-    warnfeedDetail: function (feed) {
+    
+    warnfeedDetail: function(feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -379,7 +383,6 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
-
         
         var feedImages = "";
         for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
@@ -394,7 +397,6 @@ var template = {
         		feedImages += `</div>`;
         	}
         }
-
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -467,9 +469,9 @@ var template = {
         `;
         return warntemplate;
     },
-
-    warnDelete: function (feedNo, feedLimitContent) {
-        var deletetemplate = `
+    
+    warnDelete: function(feedNo, feedLimitContent){
+    	var deletetemplate = `
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<!-- 삭제 모달창 헤더-->
@@ -516,13 +518,11 @@ var template = {
 						</div>
 					</div>
 				</div>`;
-        return deletetemplate;
+    	return deletetemplate;
     },
     
-    decisionAlertModal: function(text, btn){
-    	
+    categoryRequestDecisionAlertModal: function(text, btn){
     	var decisionAlertModalTemplate = `
-
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -539,10 +539,9 @@ var template = {
 		    </div>
     			`;
     	return decisionAlertModalTemplate;
-
     },
-
-    deletedfeedDetail: function (feed, warnCategory) {
+    
+    deletedfeedDetail: function(feed, warnCategory) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -564,6 +563,7 @@ var template = {
         		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
         		feedImages += `</div>`;
         	}
+
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
