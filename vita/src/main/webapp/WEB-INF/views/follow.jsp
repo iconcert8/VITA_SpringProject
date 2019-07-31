@@ -83,7 +83,6 @@
 
 
 
-<script type="text/javascript" src="/resources/js/follow.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -130,7 +129,6 @@ $(document).ready(function(){
 		if($(".flw-list").scrollTop() == $(".flw-list").prop("scrollHeight") - $(".flw-list").height()){
 			var searchWord = $("#flw-search-input").val();
 			page++;
-			console.log("page: "+page);
 			searchAction(searchWord, page);
 		}
 	});
@@ -156,10 +154,7 @@ function getListFollowerCallback(result){
 	
 	$.each(result, function(index, item){
 		
-		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
-		
-		//임시 이미지
-		fileCallPath = 'test.gif';
+		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/"+item.userImgUuid+"_"+item.userImgFileName);
 		
 		var html = "";
 		html += '<li class="list-group-item text-center">';
@@ -190,10 +185,8 @@ function getListFollowingCallback(result){
 	
 	$.each(result, function(index, item){
 		
-		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
+		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/"+item.userImgUuid+"_"+item.userImgFileName);
 		
-		//임시 이미지
-		fileCallPath = 'test.gif';
 		
 		var html = "";
 		html += '<li class="list-group-item text-center">';
