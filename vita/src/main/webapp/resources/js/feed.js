@@ -316,6 +316,6 @@ $(document).ready(function () {
 		replyService.getList(feedNo, replyPageNo, function (result) {
 			feedDetailModal.find('#replyModal').empty();
 			feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
-		})
+		}) 
 	});
 });

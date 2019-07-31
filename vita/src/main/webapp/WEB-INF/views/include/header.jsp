@@ -31,7 +31,7 @@
 
 #returnBtn:HOVER {
 	background-color: gray;
-}
+} 
 </style>
 
 <title>VITA</title>

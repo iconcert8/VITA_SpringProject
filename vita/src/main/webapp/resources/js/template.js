@@ -223,7 +223,7 @@ var template = {
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
+                                 <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"><span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
@@ -282,7 +282,7 @@ var template = {
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
                                        
-                                        <i id="	" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
+                                        <i id="returnBtn" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
                                        
                                     </div> 
                                     
