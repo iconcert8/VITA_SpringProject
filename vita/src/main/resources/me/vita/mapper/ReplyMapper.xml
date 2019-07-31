@@ -41,5 +41,12 @@
 	                   on f.userid = u.userid
 	     where f.feedno = #{feedNo}        
 	</select>
+	
+	<delete id="deleteAll">	 
+		delete from reply where feedno = #{feedNo}
+	</delete>
+	
+	
+ 
 
 </mapper> 

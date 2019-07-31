@@ -34,6 +34,7 @@ public interface FeedMapper {
 	int updateCategory(@Param("feedNo")Integer feedNo, @Param("categoryNo")Integer categoryNo);
 
 	int insert(FeedDTO feedDTO);
-
+	
+	int delete(@Param("feedNo")Integer feedNo);
 
 }

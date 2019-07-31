@@ -29,5 +29,6 @@ public interface FeedService {
 	
 	boolean registerImg(MultipartFile[] multi, Integer feedNo);
 	
+	boolean remove(Integer feedNo);
 
 }

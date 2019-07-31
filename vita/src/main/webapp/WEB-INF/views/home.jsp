@@ -27,7 +27,7 @@
 						<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
 					</div>
 				</div>
-			</c:if>
+			</c:if> 
 
 			<!-- 카테고리 선택 아코디언 -->
 			<div class="accordion" id="accordion">
@@ -168,12 +168,6 @@
 	</div>
 </div>
 <!-- end 중간 (카테고리 선택 부분, 피드 부분)-->
-
-
-<script type="text/javascript">
-
-		
-</script>
 
 
 <%@ include file="./include/footer.jsp"%>

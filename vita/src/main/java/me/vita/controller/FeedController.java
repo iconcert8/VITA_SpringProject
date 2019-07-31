@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,22 +93,36 @@ public class FeedController {
 	public ResponseEntity<String> register(@RequestBody FeedDTO feedDTO) {
 		int feedNo = service.register(feedDTO);
 		if (feedNo != 0) {
-			System.out.println("true");
 			return new ResponseEntity<String>("" + feedNo, HttpStatus.OK);
 		} else {
-			System.out.println("false");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping("/copy/{feedNo}")
 	@Auth
-	public void copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
+	public ResponseEntity<String> copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
+		
+	
 		
 		if (service.registerImg(uploadFile, feedNo)) {
+			
 			System.out.println("성공");
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
+			
 			System.out.println("실패");
+			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@DeleteMapping("/{feedNo}")
+	@Auth
+	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo){
+		if(service.remove(feedNo)) {
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

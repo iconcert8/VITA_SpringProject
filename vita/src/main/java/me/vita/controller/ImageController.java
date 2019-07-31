@@ -28,7 +28,7 @@ public class ImageController {
 	public ResponseEntity<byte[]> getFile(@RequestParam("fileName")String fileName){
 		log.info("fileName : " + fileName);
 		
-		File file = new File("c:\\upload\\", fileName);
+		File file = new File(fileName);
 		
 		log.info("file : " + file);
 		

@@ -196,4 +196,8 @@
 		update feed set feedReplyCnt = feedReplyCnt + #{num} where feedNo = #{feedNo}
 	</update>
 	
+	<delete id="delete">	 
+		delete from feed where feedNo = #{feedNo}
+	</delete>
+	
 </mapper>

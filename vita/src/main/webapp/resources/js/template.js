@@ -2,7 +2,6 @@ console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
-var msgDays = [];
 var viewMainPage;
 
 var template = {
@@ -14,12 +13,19 @@ var template = {
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
-
-        var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
-            feedImages += `<img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        var feedImages = "";
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}
         }
-        feedImages += `</div>`;
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
@@ -29,9 +35,12 @@ var template = {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            
         }
-
+        
+        
+        
 
         return `
             <div class="col-xl-6">
@@ -55,21 +64,21 @@ var template = {
                         <input type="hidden" name="categoryNo" value=${feed.categoryNo}>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="carouselControl1" class="carousel slide"
+                        <div id="feedNo${feed.feedNo}" class="carousel slide"
                             data-interval="false" data-ride="carousel">
                             <div class="carousel-inner bg-dark text-white"
                                 data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
                                 ${feedImages}
                             </div>
-                            <a class="carousel-control-prev" href="#carouselControl1"
+                            <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                 role="button" data-slide="prev"> <span
                                 class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Previous</span>
-                            </a> <a class="carousel-control-next" href="#carouselControl1"
+                            </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                 role="button" data-slide="next"> <span
                                 class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Next</span>
-                            </a>
+                            </a> 
                         </div>
                     </div>
                     <div class="card-body pt-2" data-toggle="modal"
@@ -96,28 +105,23 @@ var template = {
                     </div>
                 </div>
             </div>
-        `;
+        `; 
     },
     filterAdd: function (filterName, big, categoryNo, btn) {
 
         var flag = false;
-        if (categoryNo) {
-            if (!categoryFilter.includes(categoryNo)) {
+        if(categoryNo) {
+            if(!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
                 flag = true;
             }
         } else {
-            if (!searchFilter.includes(filterName) && !btn) {
-                if (filterName.charAt(0) === '#') {
-                    searchFilter.push(filterName.substring(1));
-                } else {
-                    searchFilter.push(filterName);
-                    filterName = '#' + filterName;
-                }
+            if(!searchFilter.includes(filterName) && !btn) {
+                searchFilter.push(filterName);
+                flag = true;
             }
-            flag = true;
         }
-        if (flag) {
+        if(flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
@@ -170,12 +174,20 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
-
-        var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
-            feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        
+        var feedImages = "";
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}
         }
-        feedImages += `</div>`;
 
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
@@ -183,10 +195,15 @@ var template = {
         var warnBtn = '';
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
-            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
+            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`;
+           
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
-        }
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+             
+        
+     
+       }     
+       
 
         var template = `
             <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
@@ -200,16 +217,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"><span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
@@ -253,13 +270,13 @@ var template = {
                                 <!-- 댓글 부분 -->
                                 <div class="card-header">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="reply..."
+                                        <input  id="replyContent"  type="text" class="form-control"  placeholder="reply..."
                                             aria-describedby="sendReplyBtn">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
-                                        </div>
+                                            <button class="btn btn-outline-primary" data-target="#send" data-feedno="${feed.feedNo}" id="sendReplyBtn">댓글</button>
+                                        </div> 
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
@@ -267,7 +284,7 @@ var template = {
                                     </div>
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
-          
+        									
                                     </ul>
                                 </div>
                             </div>
@@ -278,7 +295,7 @@ var template = {
         `;
         return template;
     },
-    reply: function (reply) {
+    reply: function (reply, authUser) {
         var templateLi = '';
         $.each(reply, function (index, item) {
             var date = new Date(item.replyDate);
@@ -286,11 +303,13 @@ var template = {
                 + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             var deleteBtn = '';
-            if (item.isMyReply) {
-                deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
+            
+           if (authUser == item.isMyReply) {
+                deleteBtn = `<button type="button" data-target="#RemoveBtn" class="close float-right" aria-label="Close"  data-feedno=${item.feedNo} data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
-            }
+           } 
+           
             templateLi += `<li class="list-group-item">
             <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
             <div class="d-inline-block">
@@ -354,8 +373,8 @@ var template = {
             </div>
         </div>`;
     },
-
-    warnfeedDetail: function (feed) {
+    
+    warnfeedDetail: function(feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -364,13 +383,20 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
-
-        var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
-            feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        
+        var feedImages = "";
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}
         }
-        feedImages += `</div>`;
-
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -387,16 +413,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"> <span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
@@ -443,9 +469,9 @@ var template = {
         `;
         return warntemplate;
     },
-
-    warnDelete: function (feedNo, feedLimitContent) {
-        var deletetemplate = `
+    
+    warnDelete: function(feedNo, feedLimitContent){
+    	var deletetemplate = `
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<!-- 삭제 모달창 헤더-->
@@ -492,13 +518,11 @@ var template = {
 						</div>
 					</div>
 				</div>`;
-        return deletetemplate;
+    	return deletetemplate;
     },
     
-    decisionAlertModal: function(text, btn){
-    	
+    categoryRequestDecisionAlertModal: function(text, btn){
     	var decisionAlertModalTemplate = `
-
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -515,10 +539,9 @@ var template = {
 		    </div>
     			`;
     	return decisionAlertModalTemplate;
-
     },
-
-    deletedfeedDetail: function (feed, warnCategory) {
+    
+    deletedfeedDetail: function(feed, warnCategory) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -528,12 +551,20 @@ var template = {
             tags += '#' + feed.tags[i] + ' ';
         }
 
-        var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
-            feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
-        }
-        feedImages += `</div>`;
+        var feedImages = "";
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}
 
+        }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -550,16 +581,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"> <span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
