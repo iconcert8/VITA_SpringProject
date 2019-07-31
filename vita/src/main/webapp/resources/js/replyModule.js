@@ -24,7 +24,7 @@ var replyService = {
         });
     },
     
-    register: function (sendData, success, error, complete) {
+    register: function (sendData, success) {
 		$.ajax({
 			type:'post',
 			url: '/reply/new',
@@ -32,21 +32,15 @@ var replyService = {
 			contentType:"application/json; charset=utf-8",
 			success: function (response) {
                 if (success) success(response);
-                
-            },
-            error: function (xhr, status, err) {
-                if (error) error(err);
-            },
-            complete: function () {
-                if (complete) complete();
             }
+            
 		});
     },
     
     remove : function remove(feedNo, replyNo, success, error, complete ) {
     	$. ajax({
     		type : 'delete',
-    		url : "/reply/list/"+feedNo+"/"+replyNo,
+    		url : "/reply/"+feedNo+"/"+replyNo,
     		dataType:'json',
     		success : function (response){
     			if(success) success(response);
@@ -59,6 +53,26 @@ var replyService = {
     		}
     		
     	})
+    	
+    },
+    feedRemove : function feedRemove(feedNo, success, error, complete ) {
+    	console.log('remove Btn...........');
+    	
+    	$. ajax({
+    		type : 'delete',
+    		url : "/reply/feed/"+feedNo,
+    		dataType:'json',
+    		success : function (response){
+    			if(success) success(response);
+    		},
+    		error: function (xhr, status, err){
+    			if(error) error(err);
+    		},
+    		complete: function () {
+    			if(complete) complete();
+    		}
+    	});
+    	
     }
     /*
     deleteList : function(sendData, success, error, complete){

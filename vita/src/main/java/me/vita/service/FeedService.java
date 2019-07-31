@@ -28,6 +28,5 @@ public interface FeedService {
 	int register(FeedDTO feedDTO);
 	
 	boolean registerImg(MultipartFile[] multi, Integer feedNo);
-	
 
 }

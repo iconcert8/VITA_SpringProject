@@ -61,8 +61,6 @@ public class ReplyController {
 		return service.getList(userId, feedNo, page);
 	}
 	
-	
-	
 	@DeleteMapping("/{feedNo}/{replyNo}")
 	@Auth
 	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo, @PathVariable("replyNo") Integer replyNo){
@@ -77,6 +75,18 @@ public class ReplyController {
 	public ResponseEntity<Integer> getCount(@PathVariable("replyNo") Integer feedNo) {
 		Integer goodCount  = service.getCount(feedNo);
 		return new ResponseEntity<Integer>(goodCount, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/feed/{feedNo}")
+	@Auth
+	public ResponseEntity<String> feedRemove(@PathVariable("feedNo") Integer feedNo){
+		if(service.feedRemove(feedNo)) {
+			System.out.println("삭제 성공");
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		} else {
+			System.out.println("삭제 씰패");
+			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 }

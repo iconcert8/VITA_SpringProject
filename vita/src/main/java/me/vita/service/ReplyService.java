@@ -11,9 +11,9 @@ public interface ReplyService {
 
 	List<ReplyDTO> getList(String userId, Integer feedNo, Integer page);
 
-	boolean remove(Integer feedNo,Integer replyNo);
+	boolean remove(Integer feedNo, Integer replyNo);
 
 	Integer getCount(Integer feedNo);
 
-	
+	boolean feedRemove(Integer feedNo);
 }

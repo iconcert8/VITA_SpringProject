@@ -35,5 +35,4 @@ public interface FeedMapper {
 
 	int insert(FeedDTO feedDTO);
 
-
 }

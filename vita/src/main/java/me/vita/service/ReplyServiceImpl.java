@@ -33,7 +33,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public boolean remove(Integer feedNo ,Integer replyNo) {
+	public boolean remove(Integer feedNo, Integer replyNo) {
 		feedMapper.updateReplyCnt(feedNo, -1);
 		return mapper.delete(replyNo) > 0;
 	}
@@ -43,7 +43,12 @@ public class ReplyServiceImpl implements ReplyService {
 		return mapper.selectCount(feedNo);
 	}
 	
-	
+
+	@Override
+	public boolean feedRemove(Integer feedNo) {
+		mapper.deleteAll(feedNo); // 댓글 전체삭제
+		return mapper.feedDelete(feedNo) > 0;
+	}
 	
 
 }

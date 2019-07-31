@@ -2,7 +2,6 @@ console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
-var msgDays = [];
 var viewMainPage;
 
 var template = {
@@ -29,9 +28,12 @@ var template = {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+            
         }
-
+        
+        
+        
 
         return `
             <div class="col-xl-6">
@@ -69,7 +71,7 @@ var template = {
                                 role="button" data-slide="next"> <span
                                 class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Next</span>
-                            </a>
+                            </a> 
                         </div>
                     </div>
                     <div class="card-body pt-2" data-toggle="modal"
@@ -96,28 +98,23 @@ var template = {
                     </div>
                 </div>
             </div>
-        `;
+        `; 
     },
     filterAdd: function (filterName, big, categoryNo, btn) {
 
         var flag = false;
-        if (categoryNo) {
-            if (!categoryFilter.includes(categoryNo)) {
+        if(categoryNo) {
+            if(!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
                 flag = true;
             }
         } else {
-            if (!searchFilter.includes(filterName) && !btn) {
-                if (filterName.charAt(0) === '#') {
-                    searchFilter.push(filterName.substring(1));
-                } else {
-                    searchFilter.push(filterName);
-                    filterName = '#' + filterName;
-                }
+            if(!searchFilter.includes(filterName) && !btn) {
+                searchFilter.push(filterName);
+                flag = true;
             }
-            flag = true;
         }
-        if (flag) {
+        if(flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
@@ -183,10 +180,15 @@ var template = {
         var warnBtn = '';
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
-            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
+            data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`;
+           
         } else {
-            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-feedno=${feed.feedNo}>삭제</button>`
-        }
+            warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
+             
+        
+     
+       }     
+       
 
         var template = `
             <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
@@ -253,13 +255,13 @@ var template = {
                                 <!-- 댓글 부분 -->
                                 <div class="card-header">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="reply..."
+                                        <input  id="replyContent"  type="text" class="form-control"  placeholder="reply..."
                                             aria-describedby="sendReplyBtn">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-primary" id="sendReplyBtn">댓글</button>
-                                        </div>
+                                            <button class="btn btn-outline-primary" data-target="#send" data-feedno="${feed.feedNo}" id="sendReplyBtn">댓글</button>
+                                        </div> 
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
@@ -267,7 +269,7 @@ var template = {
                                     </div>
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
-          
+        									
                                     </ul>
                                 </div>
                             </div>
@@ -278,7 +280,7 @@ var template = {
         `;
         return template;
     },
-    reply: function (reply) {
+    reply: function (reply, authUser) {
         var templateLi = '';
         $.each(reply, function (index, item) {
             var date = new Date(item.replyDate);
@@ -286,11 +288,13 @@ var template = {
                 + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             var deleteBtn = '';
-            if (item.isMyReply) {
-                deleteBtn += `<button type="button" class="close float-right" aria-label="Close" data-replyno=${item.replyNo}>
+            
+           if (authUser == item.isMyReply) {
+                deleteBtn = `<button type="button" data-target="#RemoveBtn" class="close float-right" aria-label="Close"  data-feedno=${item.feedNo} data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
-            }
+           } 
+           
             templateLi += `<li class="list-group-item">
             <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
             <div class="d-inline-block">
@@ -354,8 +358,8 @@ var template = {
             </div>
         </div>`;
     },
-
-    warnfeedDetail: function (feed) {
+    
+    warnfeedDetail: function(feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -366,11 +370,11 @@ var template = {
         }
 
         var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
+        for(var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
-
+        
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -443,9 +447,9 @@ var template = {
         `;
         return warntemplate;
     },
-
-    warnDelete: function (feedNo, feedLimitContent) {
-        var deletetemplate = `
+    
+    warnDelete: function(feedNo, feedLimitContent){
+    	var deletetemplate = `
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<!-- 삭제 모달창 헤더-->
@@ -492,13 +496,12 @@ var template = {
 						</div>
 					</div>
 				</div>`;
-        return deletetemplate;
+    	return deletetemplate;
     },
     
-    decisionAlertModal: function(text, btn){
+    categoryRequestDecisionAlertModal: function(text, btn){
     	
-    	var decisionAlertModalTemplate = `
-
+    	var decisionAlertModal = `
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -514,11 +517,11 @@ var template = {
 				</div>
 		    </div>
     			`;
-    	return decisionAlertModalTemplate;
+    	return decisionAlertModal;
 
     },
-
-    deletedfeedDetail: function (feed, warnCategory) {
+    
+    deletedfeedDetail: function(feed, warnCategory) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -529,11 +532,11 @@ var template = {
         }
 
         var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
+        for(var i in feed.feedImages) {
             feedImages += `<img src="${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
         }
         feedImages += `</div>`;
-
+        
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary' : 'btn-primary';
@@ -605,97 +608,5 @@ var template = {
             </div>
         `;
         return deletedDetailTemplate;
-    },
-    messengerList: function (last, select) {
-        // var active = last.userId === select ? 'active' : '';
-
-        return `<a href="#" class="list-group-item list-group-item-action" data-contact="${last.userId}">
-                    <div class="d-inline-block rounded bg-secondary float-left">
-                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="height: 50px;">
-                    </div>
-                    <div class="d-inline-block float-left mx-2">
-                        <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
-                        <label class="text-secondary lastMsg">${last.msg}</label>
-                        
-                    </div>
-                    <div class="d-inline-block float-right mt-3">
-                        <span class="badge badge-pill badge-danger">${last.readless}</span>
-                    </div>
-                </a>`;
-    },
-    message: function (msg, contactUser, temp) {
-        // if(temp === 'temp') {
-        //     return `<!-- 내 채팅 -->
-        //     <div class="mt-1 myMsg" data-temp="${msg.msg}">
-        //         <div class="clearfix"></div>
-        //         <div class="text-right mx-2">
-        //             <label class="readless pr-1 text-muted" style="font-size: 8px;" data-read=""></label>
-        //             <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime=""></label>
-        //             ${msg.msg}
-        //         </div>
-        //     </div>`
-        // }if(temp === 'success') {
-        //     $(`div.myMsg[data-temp="${msg.msg}"`).empty().data('temp', '');
-        // }
-
-        var date = new Date(msg.msgDate);
-        var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
-
-        if (!msgDays.includes(dateDay)) {
-            msgDays.push(dateDay);
-            $('<div class="text-center bg-info font-weight-bolder clearfix"></div>').text(dateDay).appendTo('#messageView');
-        }
-
-        var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
-            + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-
-        var template;
-        if (msg.reqId === contactUser) {
-            $(`label[data-usertime="${dateTime}"]`).hide();
-            template = `<!-- 상대방 채팅 -->
-            <div class="mt-1 userMsg">
-                <div class="clearfix"></div>
-                <div class="d-inline-block rounded bg-secondary float-left">
-                    <label data-usertime="${dateTime}"></label><img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;"></label>
-                </div>
-                <div class="d-inline-block float-left mx-2">
-                    <label class="text-dark" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</label>
-                    <div>
-                    ${msg.msg}
-                        <label class="msgTime pl-2 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
-                    </div>
-                </div>
-            </div>`;
-        } else {
-            $(`label[data-mytime="${dateTime}"]`).hide();
-            var readless = '';
-            if(msg.msgChk === 'F') {
-                readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
-            }
-            
-            msg.msgChk !== 'F' ? '' : '1';
-            template = `
-            <div class="mt-1 myMsg">
-                <div class="clearfix"></div>
-                <div class="text-right mx-2">
-                    ${readless}
-                    <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
-                    ${msg.msg}
-                </div>
-            </div>
-            `;
-            // if(!temp) {
-            //     template = $(`<div class="mt-1 myMsg"></div>`).append(template);
-            // }
-        }
-        return template;
-    },
-    messengerContactInfo: function (user) {
-        return `<div class="d-inline-block rounded bg-secondary">
-            <img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}">
-        </div>
-        <div class="d-inline-block">
-            <label>${user.userNick}(${user.userId})</label>
-        </div>`;
     }
 }
