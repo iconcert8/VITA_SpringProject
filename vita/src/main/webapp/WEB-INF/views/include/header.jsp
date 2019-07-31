@@ -412,6 +412,7 @@ $(function(){
 	favoriteService.registerBtnEvent();
 	
 	//글쓰기 창 선택시 대분류 나타나게 해줌
+	// 글쓰기 창 선택시 글쓰기 창의 숨기기 클래스를 없애줌 - 작성하기에서 추가해줌
 	$("#callBig").on("click", function(){
 		categoryService.bigCall(bigCallback);
 	});

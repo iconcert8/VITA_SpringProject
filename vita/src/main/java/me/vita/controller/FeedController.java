@@ -95,26 +95,26 @@ public class FeedController {
 	@PostMapping("/new")
 	@Auth
 	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
-		System.out.println(feedDTO);
 		int feedNo = service.register(feedDTO);
 		if (feedNo != 0) {
-			System.out.println("true");
 			return new ResponseEntity<String>("" + feedNo, HttpStatus.OK);
 		} else {
-			System.out.println("false");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping("/copy/{feedNo}")
 	@Auth
-	public void copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
-		System.out.println("copy controller");
+	public ResponseEntity<String> copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
 		
 		if (service.registerImg(uploadFile, feedNo)) {
+			
 			System.out.println("성공");
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
+			
 			System.out.println("실패");
+			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
