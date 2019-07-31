@@ -113,9 +113,15 @@ var template = {
                 flag = true;
             }
         } else {
+            if (filterName.charAt(0) === '#') {
+                filterName = filterName.substring(1)
+            }
             if (!searchFilter.includes(filterName) && !btn) {
                 searchFilter.push(filterName);
+                filterName = '#' + filterName;
                 flag = true;
+                console.log(searchFilter);
+
             }
         }
         if (flag) {

@@ -64,6 +64,7 @@ $(document).ready(function () {
         viewService.myBtnActive(btn);
         categoryTypeDiv.addClass('d-none');
         categoryBarDiv.addClass('d-none');
+        searchBarDiv.addClass('d-none');
         userBarDiv.removeClass('d-none');
 
         // 기존 유저바 내용 삭제

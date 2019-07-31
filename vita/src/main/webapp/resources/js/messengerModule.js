@@ -104,14 +104,19 @@ var messengerService = {
         $(element).addClass('active');
         contactUser = $(element).data('contact');
 
+        userService.get(contactUser, function(result) {
+            messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
+        });
+
         messengerService.get(contactUser, function (result) {
             messageViewDiv.empty();
             var msgNo;
             $.each(result, function (i, item) {
                 // user info
-                if (i === 0) {
-                    messengerContactInfoH5.empty().append(template.messengerContactInfo(item));
-                } else if(i === result.length - 1) {
+                // if (i === 0) {
+                //     messengerContactInfoH5.empty().append(template.messengerContactInfo(item));
+                // } else
+                if(i === result.length - 1) {
                     msgNo = item.msgNo;
                 }
                 messageViewDiv.append(template.message(item, contactUser));
@@ -148,7 +153,13 @@ var messengerService = {
     },
     displayMessengerNotiCount : function (addCount) {
         messengerNotiCount += addCount;
-        var display = messengerNotiCount > 300 ? '300+' : messengerNotiCount;
+        var display;
+        if(messengerNotiCount > 300) display = '300+';
+        if(messengerNotiCount <= 0) {
+            messengerNotiCount = 0;
+            display = 0;
+        }
+
         $('#messengerToalCnt').text(display);
     }
 }

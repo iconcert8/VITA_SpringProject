@@ -118,6 +118,8 @@ var viewService = {
         $('#userInfo').addClass('d-none');
         if(searchFilter.length == 0) {
             $('#searchBar').addClass('d-none');
+        } else {
+            $('#searchBar').removeClass('d-none');
         }
         // 피드 삭제
         $('#viewFeedList').empty();
