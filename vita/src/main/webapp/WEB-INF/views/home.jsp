@@ -89,8 +89,10 @@
 			<div class="row" id="viewFeedList">
 
 				<!-- 피드 1개 -->
-				<div class="col-xl-6">
-					<div class="card bg-light mb-4">
+				
+				<div id="viewFeedDetailList">
+				<div class="col-xl-6" >
+					<div class="card bg-light mb-4" >
 						<!-- 피드 헤더 -->
 						<div class="card-header">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -161,6 +163,7 @@
 							</div>
 						</div>
 					</div>
+				</div>
 				</div>
 				<!-- end 피드1개-->
 			</div>

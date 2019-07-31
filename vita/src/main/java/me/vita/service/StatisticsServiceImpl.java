@@ -7,6 +7,7 @@ import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import me.vita.dto.StatisticsTimeseriesDTO;
 import me.vita.mapper.StatisticsMapper;
 
 @Service
@@ -19,13 +20,13 @@ public class StatisticsServiceImpl implements StatisticsService {
 	
 	@Override
 	public String frequency(String big) {
-		List<String> grouplist = mapper.frequency(big);
+		List<String> list = mapper.frequency(big);
 		
- 		if(grouplist.size() == 0) return "null.jpg";
+ 		if(list.size() == 0) return "C:/upload/null.jpg";
 		String contents = "group <- c(";
-		for(int i = 0; i < grouplist.size(); i++){
-			if(i == grouplist.size()-1) contents += "'"+grouplist.get(i).replace(",", "")+"')";
-			else contents += "'"+grouplist.get(i).replace(",", "")+"',";
+		for(int i = 0; i < list.size(); i++){
+			if(i == list.size()-1) contents += "'"+list.get(i).replace(",", "")+"')";
+			else contents += "'"+list.get(i).replace(",", "")+"',";
 		}
 
 		RConnection c = null;
@@ -42,17 +43,20 @@ public class StatisticsServiceImpl implements StatisticsService {
 			c.close();
 		}
 		
-		return "frequency.jpg";
+		return "C:/upload/frequency.jpg";
 	}
 	
 
-	//워드 클라우드 인코딩.....
 	@Override
 	public String wordcloud(String big, String small) {
-		/*List<String> feedList = mapper.wordcloud(big, small);
+		List<String> list = mapper.wordcloud(big, small);
 		String contents = "";
-		for(String content : feedList){
+		for(String content : list){
 			contents += content+" ";
+		}
+		
+		if(contents.length() < 50){
+			return "C:/upload/null.jpg";
 		}
 		
 		RConnection c = null;
@@ -64,31 +68,64 @@ public class StatisticsServiceImpl implements StatisticsService {
 			c.eval("library(RColorBrewer)");
 			
 			c.eval("text = '"+contents+"'");
-			String[] notword = {"내", "것", "때문", "때", "한", "도", "을", "를", "이", "가", "은", "는", "에", "에게", "께"};
-			c.assign("notword", notword);
+			c.eval("notword = c('내', '것', '때문', '때', '한', '도', '을', '를', '이', '가', '은', '는', '에', '에게', '께', '의', 'ㅋ', 'ㄷ')");
 			
 			c.eval("words = unlist(sapply(text, extractNoun, USE.NAMES = FALSE))");
-			System.out.println(c.eval("Encoding(words)").asString());
-			String[] strs = c.eval("words").asStrings();
-			for(String str : strs){
-				System.out.println(str);
-			}
 			
 			c.eval("wordfreq = table(words)");
-			//c.eval("wordfreq = wordfreq[!names(wordfreq) %in% notword]");
+			c.eval("wordfreq = wordfreq[!names(wordfreq) %in% notword]");
 			
-			
-			c.eval("png(filename = \"c:/upload/test2.png\")");
+			c.eval("png(filename = \"C:/upload/wordcloud.png\")");
 			c.eval("wordcloud(names(wordfreq), freq=wordfreq, max.words = 100, random.order = FALSE, colors = brewer.pal(8, \"Dark2\"))");
 			c.eval("dev.off()");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			c.close();
-		}*/
+			if(c != null){
+				c.close();
+			}
+		}
 		
 		
-		return "test2.png";
+		return "C:/upload/wordcloud.png";
+	}
+	
+	@Override
+	public String timeseries(String period, String big, String small) {
+		List<StatisticsTimeseriesDTO> list = mapper.timeseries(period, big, small);
+		if(list.size() < 2) return "C:/upload/null.jpg";
+			
+		String feedDate = "feedDate = c(";
+		String feedCount = "feedCount = c(";
+		for(int i = 0; i < list.size(); i++){
+			StatisticsTimeseriesDTO dto = list.get(i);
+			if(i == list.size()-1){
+				feedDate += "'"+dto.getFeedDate()+"')";
+				feedCount += dto.getFeedCount()+")";
+			}else{
+				feedDate += "'"+dto.getFeedDate()+"',";
+				feedCount += dto.getFeedCount()+",";
+			}
+		}
+		RConnection c = null;
+		try {
+			c = new RConnection();
+			c.eval("library(ggplot2)");
+			c.eval(feedDate);
+			c.eval(feedCount);
+			c.eval("data = data.frame(feedDate, feedCount)");
+			c.eval("ggplot(data, aes(x=feedDate, y=feedCount, group=1))+geom_line()");
+			c.eval("ggsave(\"C:/upload/timeseries.jpg\")");
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(c != null){
+				c.close();
+			}
+		}
+		
+		return "C:/upload/timeseries.jpg";
 	}
 
 }

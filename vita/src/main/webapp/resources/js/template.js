@@ -4,6 +4,7 @@ var categoryFilter = [];
 var searchFilter = [];
 var viewMainPage;
 
+
 var template = {
     feedSimple: function (feed, authUser) {
 
@@ -36,12 +37,11 @@ var template = {
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
             warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
-
         }
 
         return `
-            <div class="col-xl-6">
-                <div class="card bg-light mb-4">
+            <div class="col-xl-6" id="viewFeedDetailList">
+                <div class="card bg-light mb-4" >
                     <!-- 피드 헤더 -->
                     <div class="card-header">
                         <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${feed.userId}"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
@@ -139,12 +139,17 @@ var template = {
 
     userInfo: function (user, authUser) {
         var template = `<div class="card-header text-center">
-                                <div class="d-inline-block rounded bg-secondary text-white">
+                                <div class="d-inline-block rounded" >
                                     <h3>
-                                        <img src=${user.userImgUploadPath}/s_${user.userImgUuid}_${user.userImgFileName}/>
-                                    <h3>
-                                </div>
-                                <div class="d-inline-block ml-3">
+                                        <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
+                                    <h3></div>`;
+        if(authUser){
+        	 template += `		<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;"">
+        		 							<input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
+											<label class="btn btn-outline-primary" for="prof-img" style="width:150px;">ProImg 바꾸기</label>
+        		 						</div>`;
+        }
+        template +=    `<div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>
                                 </div>`;
         if (!authUser) {
@@ -219,7 +224,7 @@ var template = {
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
+                                 <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"><span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
@@ -278,8 +283,10 @@ var template = {
                                 <div class="card-body pt-0">
                                     <div>
                                         댓글 <label>${feed.feedReplyCnt}</label>개
-                                        <i class="fas fa-sync-alt float-right pt-2"></i>
-                                    </div>
+                                       
+                                        <i id="returnBtn" data-feedno=${feed.feedNo} class="fas fa-sync-alt float-right pt-2"></i>
+                                       
+                                    </div> 
                                     
                                     <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
         									
@@ -383,17 +390,17 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            }
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -550,18 +557,18 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            }
 
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';

@@ -192,9 +192,9 @@
 								<a class="nav-link statistics-nav-btn frequency" href="#">게시물 개수</a>
 							</li>
 							<li class="nav-item col">
-								<a class="nav-link statistics-nav-btn otherStatic1" href="#">???</a></li>
+								<a class="nav-link statistics-nav-btn wordcloud" href="#">게시물 키워드</a></li>
 							<li class="nav-item col">
-								<a class="nav-link statistics-nav-btn otherStatic2" href="#">???</a>
+								<a class="nav-link statistics-nav-btn timeseries" href="#">일별 게시물 수</a>
 							</li>
 						</ul>
 					</div>
@@ -206,11 +206,11 @@
 								<span style="font-size:18px;">대분류</span>
 							</div>
 							<div class="form-group col-sm-6">
-								<select id="choose-big" class="form-control">
+								<select id="choose-frequency-big" class="form-control">
 								</select>
 							</div>
 							<div class="col-sm-3 text-center">
-								<button class="btn btn-primary frequencyResultBtn">확인하기</button>
+								<button class="btn btn-primary frequencyResultBtn">확인</button>
 							</div>
 						</div>
 						<div class="frequencyResult text-center">
@@ -219,12 +219,67 @@
 						
 					</div>
 					
-					<div class="card-body statistics-body otherBody1 d-none">
-						other1
+					<div class="card-body statistics-body wordcloudBody d-none">
+						<div class="row">
+							<!-- 대분류 선택 부분-->
+							<div class="col-lg-2 text-center pt-1">
+								<span style="font-size:18px;">대분류</span>
+							</div>
+							<div class="form-group col-lg-3">
+								<select id="choose-wordcloud-big" class="form-control">
+								</select>
+							</div>
+							<div class="col-lg-2 text-center pt-1">
+								<span style="font-size:18px;">소분류</span>
+							</div>
+							<div class="form-group col-lg-3">
+								<select id="choose-wordcloud-small" class="form-control">
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<button class="btn btn-primary wordcloudResultBtn">확인</button>
+							</div>
+						</div>
+						<div class="wordcloudResult text-center">
+							
+						</div>
 					</div>
 					
-					<div class="card-body statistics-body otherBody2 d-none">
-						other2
+					<div class="card-body statistics-body timeseriesBody d-none">
+						<div class="row">
+							<!-- 대분류 선택 부분-->
+							<div class="col-lg-2 text-center pt-1">
+								<span style="font-size:18px;">대분류</span>
+							</div>
+							<div class="form-group col-lg-4">
+								<select id="choose-timeseries-big" class="form-control">
+								</select>
+							</div>
+							<div class="col-lg-2 text-center pt-1">
+								<span style="font-size:18px;">소분류</span>
+							</div>
+							<div class="form-group col-lg-4">
+								<select id="choose-timeseries-small" class="form-control">
+								</select>
+							</div>
+							<div class="col-lg-2 text-center pt-1">
+								<span style="font-size:18px;">기간</span>
+							</div>
+							<div class="form-group col-lg-4">
+								<select id="choose-timeseries-period" class="form-control">
+									<option value="null">전체기간</option>
+									<option value="7">최근 일주일</option>
+									<option value="30">최근 한달</option>
+									<option value="365">최근 1년</option>
+								</select>
+							</div>
+							<div class="col-lg-6 text-center">
+								<button class="btn btn-primary timeseriesResultBtn">확인</button>
+							</div>
+						</div>
+						<div class="timeseriesResult text-center">
+							
+						</div>
 					</div>
 					
 				</div>
@@ -712,7 +767,6 @@ $(document).ready(function(){
 	}
 	
 	/* statistics 콜백함수 */
-	
 	/* statistics 이벤트 등록 */
 	//nav버튼 이벤트
 	$(document).on("click", ".statistics-nav-btn", function(){
@@ -725,25 +779,24 @@ $(document).ready(function(){
 		$(".statistics-body").addClass("d-none");
 		$(".frequencyBody").removeClass("d-none");
 		categoryService.bigCall(function(result){
-			$("#choose-big").empty();
-			$("#choose-big").append('<option value="null">전체</option>')
+			$("#choose-frequency-big").empty();
+			$("#choose-frequency-big").append('<option value="null">전체</option>')
 			$.each(result, function(index, item){
 				html ="";
 				html += '<option class="frequencyBigOption" value="' + item + '">';
 		 		html += 	item;
 		 		html += '</option>';
 		 		
-		 		$("#choose-big").append(html);
+		 		$("#choose-frequency-big").append(html);
 		  	});
 		});
 	});
-	//frequency 큰 카테고리 선택 이벤트
+	//frequency 확인 버튼 이벤트
 	var index = 0;
 	$(document).on("click", ".frequencyResultBtn", function(){
-		var select = $("#choose-big").val();
+		var select = $("#choose-frequency-big").val();
 		
 		statisticsService.frequency(select, function(result){
-			console.log(result);
 			$(".frequencyResult").empty();
 			html = "";
 			html += '<img style="width:60%;" src="/display?fileName='+result+'&index='+(index++)+'">';
@@ -753,15 +806,108 @@ $(document).ready(function(){
 	
 	
 	
-	//다른 통계nav버튼 이벤트
-	$(document).on("click", ".otherStatic1", function(){
+	//게시물 키워드버튼 이벤트
+	$(document).on("click", ".wordcloud", function(){
 		$(".statistics-body").addClass("d-none");
-		$(".otherBody1").removeClass("d-none");
+		$(".wordcloudBody").removeClass("d-none");
+		categoryService.bigCall(function(result){
+			$("#choose-wordcloud-big").empty();
+			$("#choose-wordcloud-big").append('<option value="null">전체</option>')
+			$.each(result, function(index, item){
+				html ="";
+				html += '<option class="wordcloudBigOption" value="' + item + '">';
+		 		html += 	item;
+		 		html += '</option>';
+		 		
+		 		$("#choose-wordcloud-big").append(html);
+		  	});
+			$("#choose-wordcloud-small").html('<option value="null">전체</option>');
+		});
 	});
-	//다른 통계nav버튼 이벤트
-	$(document).on("click", ".otherStatic2", function(){
+	
+	//wordcloud 큰카테고리 선택 이벤트
+	$(document).on("change", "#choose-wordcloud-big", function(){
+		var selectBig = $("#choose-wordcloud-big").val();
+		if(selectBig == "null") $("#choose-wordcloud-small").html('<option value="null">전체</option>');
+		else{
+			categoryService.smallCall(selectBig, function(result){
+				$("#choose-wordcloud-small").empty();
+				$("#choose-wordcloud-small").append('<option value="null">전체</option>')
+				$.each(result, function(index, item){
+					html ="";
+					html += '<option class="wordcloudSmallOption" value="' + item.smallGroup + '">';
+			 		html += 	item.smallGroup;
+			 		html += '</option>';
+			 		
+			 		$("#choose-wordcloud-small").append(html);
+			  	});
+			});
+		}
+	});
+	
+	//wordcloud 확인 버튼 이벤트
+	$(document).on("click", ".wordcloudResultBtn", function(){
+		var selectBig = $("#choose-wordcloud-big").val();
+		var selectSmall = $("#choose-wordcloud-small").val();
+		
+		statisticsService.wordcloud(selectBig, selectSmall, function(result){
+			$(".wordcloudResult").empty();
+			html = "";
+			html += '<img style="width:60%;" src="/display?fileName='+result+'&index='+(index++)+'">';
+			$(".wordcloudResult").append(html);
+		});
+	});
+	
+	//일별 게시물 수 버튼 이벤트
+	$(document).on("click", ".timeseries", function(){
 		$(".statistics-body").addClass("d-none");
-		$(".otherBody2").removeClass("d-none");
+		$(".timeseriesBody").removeClass("d-none");
+		categoryService.bigCall(function(result){
+			$("#choose-timeseries-big").empty();
+			$("#choose-timeseries-big").append('<option value="null">전체</option>')
+			$.each(result, function(index, item){
+				html ="";
+				html += '<option class="timeseriesBigOption" value="' + item + '">';
+		 		html += 	item;
+		 		html += '</option>';
+		 		
+		 		$("#choose-timeseries-big").append(html);
+		  	});
+			$("#choose-timeseries-small").html('<option value="null">전체</option>');
+		});
+	});
+	
+	//timeseries 큰카테고리 선택 이벤트
+	$(document).on("change", "#choose-timeseries-big", function(){
+		var selectBig = $("#choose-timeseries-big").val();
+		if(selectBig == "null") $("#choose-timeseries-small").html('<option value="null">전체</option>');
+		else{
+			categoryService.smallCall(selectBig, function(result){
+				$("#choose-timeseries-small").empty();
+				$("#choose-timeseries-small").append('<option value="null">전체</option>')
+				$.each(result, function(index, item){
+					html ="";
+					html += '<option class="timeseriesSmallOption" value="' + item.smallGroup + '">';
+			 		html += 	item.smallGroup;
+			 		html += '</option>';
+			 		
+			 		$("#choose-timeseries-small").append(html);
+			  	});
+			});
+		}
+	});
+	
+	//timeseries 확인 버튼 이벤트
+	$(document).on("click", ".timeseriesResultBtn", function(){
+		var selectBig = $("#choose-timeseries-big").val();
+		var selectSmall = $("#choose-timeseries-small").val();
+		var selectPeriod = $("#choose-timeseries-period").val();
+		statisticsService.timeseries(selectPeriod, selectBig, selectSmall, function(result){
+			$(".timeseriesResult").empty();
+			html = "";
+			html += '<img style="width:60%;" src="/display?fileName='+result+'&index='+(index++)+'">';
+			$(".timeseriesResult").append(html);
+		});
 	});
 	
 });

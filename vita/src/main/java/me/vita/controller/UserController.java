@@ -40,17 +40,13 @@ public class UserController {
 	
 	@GetMapping("/rank")
 	public String rankview(){
-		return "ranking";
-	}
-	
-	@GetMapping("/homerank")
-	public String rankview2(){
 		return "home_ranking";
 	}
 	
-	@RequestMapping(value="/rank", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
+	
+	@RequestMapping(value="/ranking", method=RequestMethod.GET)
+	@ResponseBody
 	public List<String> rank(){
-		System.out.println("controller= "+mapper.selectSearchkeyword());
 		return service.getSearchkey();
 	}
 	

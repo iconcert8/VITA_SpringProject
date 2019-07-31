@@ -7,8 +7,10 @@ $(document).ready(function () {
 
     // reply variables
     var replyPageNo = 0;
+    var returnBtn = $("#ReturnBtn");
 
     var viewFeedListDiv = $('#viewFeedList');
+   
     var userInfoDiv = $('#userInfo');
     var categoryTypeDiv = $('#categoryType');
     var feedDetailModal = $('#feedDetailModal');
@@ -70,7 +72,7 @@ $(document).ready(function () {
         // 기존 유저바 내용 삭제
         viewService.userBarReset();
 
-         //  기존 내용 비우기
+         // 기존 내용 비우기
          viewFeedListDiv.empty();
 
         // 페이지 번호 초기화및 전송
@@ -120,8 +122,8 @@ $(document).ready(function () {
                 userInfoDiv.append(template.userInfo(result, true));
             });
 
-            leftUserBtnOn(this);    //버튼 활성화
-            viewUserPage('userfeed');   //피드 불러오기
+            leftUserBtnOn(this);    // 버튼 활성화
+            viewUserPage('userfeed');   // 피드 불러오기
 
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
@@ -139,8 +141,8 @@ $(document).ready(function () {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
 
-            leftUserBtnOn(this);        //버튼 활성화
-            viewUserPage('favorite');  //피드 불러오기
+            leftUserBtnOn(this);        // 버튼 활성화
+            viewUserPage('favorite');  // 피드 불러오기
 
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('즐겨찾기', '', '', true));
@@ -158,8 +160,8 @@ $(document).ready(function () {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
 
-            leftUserBtnOn(this);        //버튼 활성화
-            viewUserPage('newsfeed');  //피드 불러오기
+            leftUserBtnOn(this);        // 버튼 활성화
+            viewUserPage('newsfeed');  // 피드 불러오기
             
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('팔로우글', '', '', true));
@@ -208,6 +210,8 @@ $(document).ready(function () {
             replyService.getList(feedNo, replyPageNo, function (result) {
                 feedDetailModal.find('#replyModal').append(template.reply(result, authUserId));
             });
+            
+            
         });
     });
 
@@ -275,7 +279,7 @@ $(document).ready(function () {
         }
     });
  
-    
+    // 댓글 쓰기
     $(document).on('click', '#sendReplyBtn', function(){
     	console.log("reply.......");
      	var replyContent = $('#replyContent').val();
@@ -302,6 +306,7 @@ $(document).ready(function () {
          
     });
     
+    // 댓글 삭제
     $(document).on('click', 'button[data-target="#RemoveBtn"]', function (e){
 		var replyNo = $(this).data('replyno');
 		var feedNo = $(this).data('feedno');
@@ -317,11 +322,30 @@ $(document).ready(function () {
 
     // 피드삭제
     $(document).on('click', 'button[data-target="#deleteFeedBtn"]' , function(){
-    	
+    		
     	var feedNo = $(this).data('feedno');
     	feedService.remove(feedNo, function(result){
-    		//console.log("delete");
+    		$("#viewFeedDetailList").remove();
+    		alert("삭제성공");
+    		 /*
+				 * feedDetailModal.find('#replyModal').append(template.reply(result,
+				 * userId));
+				 */
+    		
     	});
     	
     });
+
+  
+       // 댓글 새로고침
+       // 댓글 뿌려주기
+    	
+	$(document).on("click", '#returnBtn', function(){
+		var feedNo = $(this).data('feedno');
+		replyPageNo = 0;
+		replyService.getList(feedNo, replyPageNo, function (result) {
+			feedDetailModal.find('#replyModal').empty();
+			feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
+		}) 
+	});
 });
