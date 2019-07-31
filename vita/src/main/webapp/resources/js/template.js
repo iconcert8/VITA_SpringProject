@@ -14,12 +14,19 @@ var template = {
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
-
-        var feedImages = `<div class="carousel-item active">`;
-        for (var i in feed.feedImages) {
-            feedImages += `<img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}" class="d-block w-100" alt="preview_${feed.userImgFileName}" style="height: 300px;">`;
+        var feedImages = "";
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += `</div>`;
+        	}
         }
-        feedImages += `</div>`;
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
         var replyBtn = feed.isReply == null ? 'btn-outline-primary' : 'btn-primary';
