@@ -64,17 +64,17 @@ var template = {
                         <input type="hidden" name="categoryNo" value=${feed.categoryNo}>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="carouselControl1" class="carousel slide"
+                        <div id="feedNo${feed.feedNo}" class="carousel slide"
                             data-interval="false" data-ride="carousel">
                             <div class="carousel-inner bg-dark text-white"
                                 data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
                                 ${feedImages}
                             </div>
-                            <a class="carousel-control-prev" href="#carouselControl1"
+                            <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                 role="button" data-slide="prev"> <span
                                 class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Previous</span>
-                            </a> <a class="carousel-control-next" href="#carouselControl1"
+                            </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                 role="button" data-slide="next"> <span
                                 class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                 class="sr-only">Next</span>
@@ -217,16 +217,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"><span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
@@ -413,16 +413,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"> <span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
@@ -581,16 +581,16 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="carouselControlDetail1" class="carousel slide"
+                            <div id="feedNo${feed.feedNo}" class="carousel slide"
                                 data-interval="false" data-ride="carousel">
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselControlDetail1"
+                                <a class="carousel-control-prev" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="prev"> <span
                                     class="carousel-control-prev-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselControlDetail1"
+                                </a> <a class="carousel-control-next" href="#feedNo${feed.feedNo}"
                                     role="button" data-slide="next"> <span
                                     class="carousel-control-next-icon" aria-hidden="true"></span> <span
                                     class="sr-only">Next</span>
