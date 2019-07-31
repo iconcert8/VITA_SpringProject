@@ -141,10 +141,15 @@ var template = {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded bg-secondary text-white">
                                     <h3>
-                                        <img src=${user.userImgUploadPath}/s_${user.userImgUuid}_${user.userImgFileName}/>
-                                    <h3>
-                                </div>
-                                <div class="d-inline-block ml-3">
+                                        <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:60px;">
+                                    <h3></div>`;
+        if(authUser){
+        	 template += `		<div class="custom-file d-inline rounded bg-secondary text-white" style="position relative; left:4px; top:10px; font-size:10px;">
+        		 							<input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
+											<label for="prof-img" style="height:10px; padding: 5px;">ProImg 바꾸기</label>
+        		 						</div>`;
+        }
+        template +=    `<div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>
                                 </div>`;
         if (!authUser) {
