@@ -22,6 +22,15 @@ public class StatisticsController {
 	StatisticsService service;
 	
 	
+	
+	@GetMapping("/frequency/{big}")
+	@Auth(Role.ADMIN)
+	@ResponseBody
+	public String frequency(@PathVariable("big")String big){
+		if(big.equals("null"))big = null;
+		return service.frequency(big);
+	}
+	
 	@GetMapping("/wordcloud/{big}/{small}")
 	@Auth(Role.ADMIN)
 	@ResponseBody
@@ -31,11 +40,13 @@ public class StatisticsController {
 		return service.wordcloud(big, small);
 	}
 	
-	@GetMapping("/frequency/{big}")
+	@GetMapping("/timeseries/{period}/{big}/{small}")
 	@Auth(Role.ADMIN)
 	@ResponseBody
-	public String frequency(@PathVariable("big")String big){
+	public String timeseries(@PathVariable("period")String period ,@PathVariable("big")String big, @PathVariable("small")String small){
+		if(period.equals("null"))period = null;
 		if(big.equals("null"))big = null;
-		return service.frequency(big);
+		if(small.equals("null"))small = null;
+		return service.timeseries(period, big, small);
 	}
 }

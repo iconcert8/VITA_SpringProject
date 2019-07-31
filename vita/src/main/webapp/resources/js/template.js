@@ -390,17 +390,17 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            }
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -557,18 +557,18 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-                feedImages += `</div>`;
-            }
 
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
