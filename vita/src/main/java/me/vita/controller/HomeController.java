@@ -20,7 +20,6 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home(@AuthUser UserVO user) {
-		
 		return "home";
 	}
 	

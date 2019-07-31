@@ -85,6 +85,16 @@ public class FeedController {
 	@Auth
 	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user,
 			@RequestBody CategoryFilterDTO filter) {
+		filter.setGoToUserId(user.getUserId());
+		return service.getListUserFeed(user, filter);
+	}
+
+	@PostMapping("/list/userfeed/{contactUser}")
+	@ResponseBody
+	@Auth
+	public List<FeedDTO> getListUserFeed(@SessionAttribute("authUser") UserVO user,
+			@RequestBody CategoryFilterDTO filter, @PathVariable("contactUser") String userId) {
+		filter.setGoToUserId(userId);
 		return service.getListUserFeed(user, filter);
 	}
 
@@ -101,25 +111,23 @@ public class FeedController {
 
 	@PostMapping("/copy/{feedNo}")
 	@Auth
-	public ResponseEntity<String> copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
-		
-	
-		
+	public ResponseEntity<String> copy(MultipartFile[] uploadFile, @PathVariable("feedNo") Integer feedNo) {
+
 		if (service.registerImg(uploadFile, feedNo)) {
-			
+
 			System.out.println("성공");
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
-			
+
 			System.out.println("실패");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@DeleteMapping("/{feedNo}")
 	@Auth
-	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo){
-		if(service.remove(feedNo)) {
+	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo) {
+		if (service.remove(feedNo)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

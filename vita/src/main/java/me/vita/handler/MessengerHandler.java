@@ -34,9 +34,6 @@ public class MessengerHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("MessengerHandler connect");
-		for (String key : userSessions.keySet()) {
-			System.out.println("user : " + key);
-		}
 		if (getUser(session) == null) {
 			session.close();
 			return;
@@ -59,7 +56,7 @@ public class MessengerHandler extends TextWebSocketHandler {
 		JsonParser jsonParse = new JsonParser();
 		JsonObject jobj = (JsonObject) jsonParse.parse(requestText);
 		
-		System.out.println(requestText);
+//		System.out.println(requestText);
 
 		// json객체에서 인스턴스 추출
 		String type = jobj.get("type").getAsString();
@@ -68,17 +65,9 @@ public class MessengerHandler extends TextWebSocketHandler {
 		case "message":
 			sendMessage(session, jobj);
 			break;
-		case "noti":
-
-			break;
 		case "check":
 			checkMessage(session, jobj);
 			break;
-		default:
-			break;
-		}
-		if (type.equals("message")) {
-
 		}
 	}
 
@@ -90,10 +79,11 @@ public class MessengerHandler extends TextWebSocketHandler {
 		WebSocketSession responseSession = (WebSocketSession) userSessions.get(reqId);
 		int re = service.modify(reqId, resId, msgNo);
 		if(re > 0) {
+			jobj.addProperty("count", re);
+			System.out.println(jobj);
+			session.sendMessage(new TextMessage(new Gson().toJson(jobj)));
 			if (responseSession != null) {
-				jobj.addProperty("count", re);
 				responseSession.sendMessage(new TextMessage(new Gson().toJson(jobj)));
-				session.sendMessage(new TextMessage(new Gson().toJson(jobj)));
 			}
 		}
 	}
@@ -111,13 +101,14 @@ public class MessengerHandler extends TextWebSocketHandler {
 
 		WebSocketSession responseSession = (WebSocketSession) userSessions.get(resId);
 		if (service.register(sendMsg)) { // 메시지 입력 성공
-			if (responseSession != null) {
+			if (responseSession != null) {	// 상대방 존재시
 				MessengerDTO responseDTO = service.get(sendMsg.getMsgNo());
 				JsonObject responseJobj = (JsonObject) new Gson().toJsonTree(responseDTO);
 				
 				responseJobj.addProperty("type", "message");
 				responseSession.sendMessage(new TextMessage(new Gson().toJson(responseJobj)));
 			}
+//			나에게 메시지 성공 전송
 			jobj.addProperty("msgNo", sendMsg.getMsgNo());
 			jobj.addProperty("msgDate", sendMsg.getMsgDate().getTime());
 			jobj.addProperty("msgChk", sendMsg.getMsgChk());

@@ -14,17 +14,17 @@ var template = {
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
         var feedImages = "";
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            }
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
@@ -36,18 +36,15 @@ var template = {
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`
         } else {
             warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
-            
+
         }
-        
-        
-        
 
         return `
             <div class="col-xl-6">
                 <div class="card bg-light mb-4">
                     <!-- 피드 헤더 -->
                     <div class="card-header">
-                        <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                        <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${feed.userId}"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                         <div class="d-inline-block">
                             <label>${feed.userNick}(${feed.userId})</label>
                         </div>
@@ -105,23 +102,29 @@ var template = {
                     </div>
                 </div>
             </div>
-        `; 
+        `;
     },
     filterAdd: function (filterName, big, categoryNo, btn) {
 
         var flag = false;
-        if(categoryNo) {
-            if(!categoryFilter.includes(categoryNo)) {
+        if (categoryNo) {
+            if (!categoryFilter.includes(categoryNo)) {
                 categoryFilter.push(categoryNo);
                 flag = true;
             }
         } else {
-            if(!searchFilter.includes(filterName) && !btn) {
+            if (filterName.charAt(0) === '#') {
+                filterName = filterName.substring(1)
+            }
+            if (!searchFilter.includes(filterName) && !btn) {
                 searchFilter.push(filterName);
+                filterName = '#' + filterName;
                 flag = true;
+                console.log(searchFilter);
+
             }
         }
-        if(flag) {
+        if (flag) {
             var bigCategory = '';
             if (big) bigCategory = '<br>(' + big + ')';
             return `<div class="d-inline-block text-center mx-1" data-categoryno="${categoryNo}" data-name="${filterName}">
@@ -174,21 +177,20 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
-        
-        var feedImages = "";
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-        		feedImages += `</div>`;
-        	}
-        }
 
+        var feedImages = "";
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+                feedImages += `</div>`;
+            }
+        }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary nofavor' : 'btn-primary favor';
@@ -196,14 +198,9 @@ var template = {
         if (authUser !== feed.userId) {
             warnBtn = ` <button class="btn btn-outline-danger" data-toggle="modal" data-target="#warnModal"
             data-feedno=${feed.feedNo} data-limitcontent='${feed.feedLimitContent}'>신고</button>`;
-           
         } else {
             warnBtn = `<button class="btn btn-outline-danger deleteBtn" data-target="#deleteFeedBtn" data-feedno=${feed.feedNo}>삭제</button>`
-             
-        
-     
-       }     
-       
+        }
 
         var template = `
             <div class="modal-dialog modal-xl" data-feedno=${feed.feedNo}>
@@ -244,7 +241,8 @@ var template = {
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                                    <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${feed.userId}">
+                                        <img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                                     <div class="d-inline-block">
                                         <label>${feed.userNick}(${feed.userId})</label>
                                     </div>
@@ -303,15 +301,15 @@ var template = {
                 + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
                 + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             var deleteBtn = '';
-            
-           if (authUser == item.isMyReply) {
+
+            if (authUser == item.isMyReply) {
                 deleteBtn = `<button type="button" data-target="#RemoveBtn" class="close float-right" aria-label="Close"  data-feedno=${item.feedNo} data-replyno=${item.replyNo}>
                             <span aria-hidden="true">&times;</span>
                         </button>`;
-           } 
-           
+            }
+
             templateLi += `<li class="list-group-item">
-            <div class="d-inline-block rounded bg-secondary"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
+            <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${item.userId}"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
             <div class="d-inline-block">
                 <label class="mb-0">${item.userNick}(${item.userId})</label>
             </div> <label class="d-inline ml-3">${item.replyContent}</label>
@@ -373,8 +371,8 @@ var template = {
             </div>
         </div>`;
     },
-    
-    warnfeedDetail: function(feed) {
+
+    warnfeedDetail: function (feed) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -383,19 +381,19 @@ var template = {
         for (var i = 0; i < feed.tags.length; i++) {
             tags += '#' + feed.tags[i] + ' ';
         }
-        
+
         var feedImages = "";
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            }
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -469,9 +467,9 @@ var template = {
         `;
         return warntemplate;
     },
-    
-    warnDelete: function(feedNo, feedLimitContent){
-    	var deletetemplate = `
+
+    warnDelete: function (feedNo, feedLimitContent) {
+        var deletetemplate = `
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
 						<!-- 삭제 모달창 헤더-->
@@ -518,11 +516,11 @@ var template = {
 						</div>
 					</div>
 				</div>`;
-    	return deletetemplate;
+        return deletetemplate;
     },
-    
-    categoryRequestDecisionAlertModal: function(text, btn){
-    	var decisionAlertModalTemplate = `
+
+    categoryRequestDecisionAlertModal: function (text, btn) {
+        var decisionAlertModalTemplate = `
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -538,10 +536,10 @@ var template = {
 				</div>
 		    </div>
     			`;
-    	return decisionAlertModalTemplate;
+        return decisionAlertModalTemplate;
     },
-    
-    deletedfeedDetail: function(feed, warnCategory) {
+
+    deletedfeedDetail: function (feed, warnCategory) {
         var date = new Date(feed.feedDate);
         var feedDate = date.getFullYear() + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '-'
             + (date.getDate() < 9 ? '0' : '') + date.getDate() + ' '
@@ -552,17 +550,17 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
-        		feedImages += `</div>`;
-        	}
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `</div>`;
+            }
 
         }
 
@@ -637,11 +635,20 @@ var template = {
         `;
         return deletedDetailTemplate;
     },
-    messengerList: function (last) {
-        var msg = last.msg
-        if(msg > 10) {
+    messengerList: function (last, count) {
+        var msg = last.msg;
+        var readlessHide;
+        if (msg > 10) {
             msg = msg.substring(0, 10) + '...';
         }
+        var readless = 0;
+        if (count) readless = count;
+        else readless = last.readless;
+
+        if (readless === 0) {
+            readlessHide = 'd-none';
+        }
+
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${last.userId}">
                     <div class="d-inline-block rounded bg-secondary float-left">
                     <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="width:50px; height:50px;">
@@ -651,51 +658,41 @@ var template = {
                         <label class="text-secondary lastMsg">${msg}</label>
                     </div>
                     <div class="d-inline-block float-right mt-3">
-                        <span class="badge badge-pill badge-danger">${last.readless}</span>
+                        <span class="badge badge-pill badge-danger ${readlessHide}" data-contact="${last.userId}">${readless}</span>
                     </div>
                 </a>`;
     },
-    notiMessengerList : function(last) {
+    notiMessengerList: function (last, count) {
         var msg = last.msg
-        var readless;
-        if(msg > 7) {
+        var readlessHide;
+        if (msg > 7) {
             msg = msg.substring(0, 7) + '...';
         }
-        if(last.readless > 0) {
-            readless = `<span class="d-block badge badge-pill badge-danger float-right ml-2 mt-4">${last.readless}</span>`;
+        var readless = 0;
+        if (count) readless = count;
+        else readless = last.readless;
+
+        if (readless === 0) {
+            readlessHide = 'd-none';
         }
-        return `<a href="#" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
+        return `<a href="/messenger/${last.userId}" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
                     <div class="d-inline-block rounded bg-secondary">
                     <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="${last.userImgFileName}" style="width:20px; height:20px;">
                     </div>
-                    ${readless}
+                    <span class="badge badge-pill badge-danger float-right ml-2 mt-4 ${readlessHide}" data-contact="${last.userId}">${readless}</span>
                     <div class="d-inline-block mr-5">
                         <label class="font-weight-bolder" style="font-size: 15px;">${last.userNick}(${last.userId})</label><br>
                         <label class="text-secondary lastMsg" style="font-size: 14px;">${msg}</label>
                     </div>
 				</a>`;
     },
-    message: function (msg, contactUser, temp) {
-        // if(temp === 'temp') {
-        //     return `<!-- 내 채팅 -->
-        //     <div class="mt-1 myMsg" data-temp="${msg.msg}">
-        //         <div class="clearfix"></div>
-        //         <div class="text-right mx-2">
-        //             <label class="readless pr-1 text-muted" style="font-size: 8px;" data-read=""></label>
-        //             <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime=""></label>
-        //             ${msg.msg}
-        //         </div>
-        //     </div>`
-        // }if(temp === 'success') {
-        //     $(`div.myMsg[data-temp="${msg.msg}"`).empty().data('temp', '');
-        // }
-
+    message: function (msg, contactUser) {
         var date = new Date(msg.msgDate);
         var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
 
         if (!msgDays.includes(dateDay)) {
             msgDays.push(dateDay);
-            $('<div class="text-center bg-info font-weight-bolder clearfix"></div>').text(dateDay).appendTo('#messageView');
+            $('<div class="text-center font-weight-bolder msgDays"></div>').text(dateDay).appendTo('#messageView');
         }
 
         var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
@@ -721,7 +718,7 @@ var template = {
         } else {
             $(`label[data-mytime="${dateTime}"]`).hide();
             var readless = '';
-            if(msg.msgChk === 'F') {
+            if (msg.msgChk === 'F') {
                 readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
             }
             template = `
@@ -732,11 +729,7 @@ var template = {
                     <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
                     ${msg.msg}
                 </div>
-            </div>
-            `;
-            // if(!temp) {
-            //     template = $(`<div class="mt-1 myMsg"></div>`).append(template);
-            // }
+            </div>`;
         }
         return template;
     },

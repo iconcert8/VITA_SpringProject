@@ -1,42 +1,29 @@
 
-var messengerWs;
-var messengerAnalyzer;
-var notiSelect;
 var messengerWebSocket = function () {
-    messengerws = new WebSocket("ws://localhost:8081/messenger/websocket");
+    messengerws = new WebSocket("ws://localhost:8081/messenger/websocket/connect");
 
     var authUserId = $('#authUserId').val();
     messengerws.onopen = function () {
         console.log("[!]info: messenger connection opened");
 
-        if(authUserId) {
+        if (authUserId) {
             $('#messengerNotiList').empty();
-            $('#messengerNotiList').append(`<button class="dropdown-item" onclick="location.href='/messenger'">메신저창으로 이동</button>`);
-            var count = 0;
+            $('#messengerNotiList').append(`<button class="dropdown-item" onclick="location.href='/messenger'" id='goToMessengerBtn'>메신저창으로 이동</button>`);
             messengerService.getList(function (result) {
-                $.each(result, function (i, item) {
-                    $('#messengerNotiList').append(template.notiMessengerList(item));
-                    count += item.readless;
-                    console.log(count);
-                });
-                $('#messengerToalCnt').text(count);
+                messengerService.viewMessengerNoti(result);
             });
-            
         }
     }
 
     messengerws.onmessage = function (event) {
         var responseData = event.data;
         var data = JSON.parse(responseData);
-
-        if(data.type === 'noti') {
-
-        } if(messengerAnalyzer) {
-        	messengerAnalyzer(data);
-        } else {
-        	
-        }
-       
+        // if (messengerAnalyzer) {
+            messengerAnalyzer(data);
+        // }
+        // if (data.type === 'message') {
+        //     viewMessengerNoti(data);
+        // }
     }
 
     messengerws.onclose = function (event) {
@@ -48,3 +35,9 @@ var messengerWebSocket = function () {
     }
 }
 messengerWebSocket();
+
+$(document).ready(function () {
+    $('#messengerNotiList').on('click', 'a', function(e) {
+
+    })
+});
