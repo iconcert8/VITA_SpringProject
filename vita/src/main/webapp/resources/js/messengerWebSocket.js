@@ -1,7 +1,9 @@
 
-var messengerWs;
-var messengerAnalyzer;
-var notiSelect;
+var messengerWs;    // websocket
+var messengerAnalyzer;  //messenger창 패킷해석기
+
+var messengerNotiCount; //전체알림 숫자표시변수
+var messengerNotiListDiv = $('#messengerNotiList'); //알림바 메시지 알림 목록영역
 var messengerWebSocket = function () {
     messengerws = new WebSocket("ws://localhost:8081/messenger/websocket");
 
@@ -12,16 +14,9 @@ var messengerWebSocket = function () {
         if(authUserId) {
             $('#messengerNotiList').empty();
             $('#messengerNotiList').append(`<button class="dropdown-item" onclick="location.href='/messenger'">메신저창으로 이동</button>`);
-            var count = 0;
             messengerService.getList(function (result) {
-                $.each(result, function (i, item) {
-                    $('#messengerNotiList').append(template.notiMessengerList(item));
-                    count += item.readless;
-                    console.log(count);
-                });
-                $('#messengerToalCnt').text(count);
+                viewMessengerNoti(result);
             });
-            
         }
     }
 
@@ -34,9 +29,10 @@ var messengerWebSocket = function () {
         } if(messengerAnalyzer) {
         	messengerAnalyzer(data);
         } else {
-        	
+        	if(data.type === 'message') {
+                viewMessengerNoti(data);
+            }
         }
-       
     }
 
     messengerws.onclose = function (event) {
@@ -48,3 +44,23 @@ var messengerWebSocket = function () {
     }
 }
 messengerWebSocket();
+
+function viewMessengerNoti(data) {
+    var authUserId = $('#authUserId').val();
+    if(Array.isArray(data)) {
+        $.each(data, function (i, item) {
+            messengerNotiListDiv.append(template.notiMessengerList(item));
+            messengerNotiCount += item.readless;
+        });
+        displayMessengerNotiCount();
+    } else {
+        messengerNotiListDiv.find('')
+    }
+                
+}
+
+// 상단바 알림 갯수 표시
+function displayMessengerNotiCount() {
+    var display = messengerNotiCount > 300 ? '300+' : messengerNotiCount;
+    $('#messengerToalCnt').text(display);
+}

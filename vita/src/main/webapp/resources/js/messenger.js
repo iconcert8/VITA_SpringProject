@@ -78,8 +78,6 @@ messengerAnalyzer = function (data) {
     switch (data.type) {
         case 'message':
             // 상대방 메세지 표시및 확인 전송
-            console.log(data);
-            console.log(contactUser === data.userId);
             if (contactUser === data.userId) {
                 $('#messageView').append(template.message(data, contactUser));
                 messengerService.check(data.msgNo);

@@ -644,21 +644,7 @@ var template = {
                     </div>
 				</a>`;
     },
-    message: function (msg, contactUser, temp) {
-        // if(temp === 'temp') {
-        //     return `<!-- 내 채팅 -->
-        //     <div class="mt-1 myMsg" data-temp="${msg.msg}">
-        //         <div class="clearfix"></div>
-        //         <div class="text-right mx-2">
-        //             <label class="readless pr-1 text-muted" style="font-size: 8px;" data-read=""></label>
-        //             <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime=""></label>
-        //             ${msg.msg}
-        //         </div>
-        //     </div>`
-        // }if(temp === 'success') {
-        //     $(`div.myMsg[data-temp="${msg.msg}"`).empty().data('temp', '');
-        // }
-
+    message: function (msg, contactUser) {
         var date = new Date(msg.msgDate);
         var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
 
@@ -701,11 +687,7 @@ var template = {
                     <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
                     ${msg.msg}
                 </div>
-            </div>
-            `;
-            // if(!temp) {
-            //     template = $(`<div class="mt-1 myMsg"></div>`).append(template);
-            // }
+            </div>`;
         }
         return template;
     },

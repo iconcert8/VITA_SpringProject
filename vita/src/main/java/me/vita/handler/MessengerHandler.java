@@ -68,13 +68,8 @@ public class MessengerHandler extends TextWebSocketHandler {
 		case "message":
 			sendMessage(session, jobj);
 			break;
-		case "noti":
-
-			break;
 		case "check":
 			checkMessage(session, jobj);
-			break;
-		default:
 			break;
 		}
 		if (type.equals("message")) {
@@ -111,13 +106,14 @@ public class MessengerHandler extends TextWebSocketHandler {
 
 		WebSocketSession responseSession = (WebSocketSession) userSessions.get(resId);
 		if (service.register(sendMsg)) { // 메시지 입력 성공
-			if (responseSession != null) {
+			if (responseSession != null) {	// 상대방 존재시
 				MessengerDTO responseDTO = service.get(sendMsg.getMsgNo());
 				JsonObject responseJobj = (JsonObject) new Gson().toJsonTree(responseDTO);
 				
 				responseJobj.addProperty("type", "message");
 				responseSession.sendMessage(new TextMessage(new Gson().toJson(responseJobj)));
 			}
+//			나에게 메시지 성공 전송
 			jobj.addProperty("msgNo", sendMsg.getMsgNo());
 			jobj.addProperty("msgDate", sendMsg.getMsgDate().getTime());
 			jobj.addProperty("msgChk", sendMsg.getMsgChk());
