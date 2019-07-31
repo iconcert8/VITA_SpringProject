@@ -389,11 +389,11 @@ var template = {
         	var feedImage = feed.feedImages[i];
         	if(i == 0){
         		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
         		feedImages += `</div>`;
         	}else{
         		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
         		feedImages += `</div>`;
         	}
         }
@@ -556,11 +556,11 @@ var template = {
         	var feedImage = feed.feedImages[i];
         	if(i == 0){
         		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
         		feedImages += `</div>`;
         	}else{
         		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
         		feedImages += `</div>`;
         	}
 

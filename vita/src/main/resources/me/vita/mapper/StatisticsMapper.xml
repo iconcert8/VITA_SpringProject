@@ -29,4 +29,20 @@
 		</if>
 	</select>
 
+	<select id="timeseries" resultType="me.vita.dto.StatisticsTimeseriesDTO">
+		select TO_CHAR(f.feedDate, 'yyyyMMdd') as feedDate, count(*) as feedCount
+		from feed f, category c
+		where f.categoryNo = c.categoryNo
+			<if test="period != null">
+			   <![CDATA[and f.feedDate > sysdate]]>-#{period}
+			</if>
+			<if test="big != null">
+				and c.biggroup = #{big}
+				<if test="small != null">
+				and c.smallGroup = #{small}
+				</if>
+			</if>
+		group by TO_CHAR(f.feedDate, 'yyyyMMdd')
+		order by TO_CHAR(f.feedDate, 'yyyyMMdd') asc
+	</select>
 </mapper>

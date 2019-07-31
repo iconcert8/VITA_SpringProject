@@ -10,9 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/login.js"></script>
-<style>
 
-</style>
 </head>
 <body>
 	<div class="container mt-5">
@@ -36,7 +34,7 @@
 						<form action="/user/login" method="post" class="card-body">
 							<div class="form-group">
 								<label for="id">ID</label>
-								<input type="text" class="form-control" name="id" id="id" aria-describedby="emailHelp" placeholder="Id">
+								<input type="text" class="form-control" name="id" id="id" placeholder="Id">
 							</div>
 							<div class="form-group">
 								<label for="pw">PASSWORD</label>
