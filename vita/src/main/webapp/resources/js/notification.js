@@ -147,6 +147,9 @@ var notificationService = (function(){
 				$(".notification-list-block").prepend(notifyOff);
 			}
 			
+			if(data == null || data == ""){
+				return;
+			}
 			//리스트 불러올 때
 			if(data[0].notifyChkCount != null && data[0].notifyChkCount != ""){
 				notifyCnt = data[0].notifyChkCount;

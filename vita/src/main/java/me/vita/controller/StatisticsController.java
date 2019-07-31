@@ -1,6 +1,9 @@
 package me.vita.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +35,6 @@ public class StatisticsController {
 	@Auth(Role.ADMIN)
 	@ResponseBody
 	public String frequency(@PathVariable("big")String big){
-		System.out.println(big);
 		if(big.equals("null"))big = null;
 		return service.frequency(big);
 	}

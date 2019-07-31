@@ -213,7 +213,7 @@
 								<button class="btn btn-primary frequencyResultBtn">확인하기</button>
 							</div>
 						</div>
-						<div class="frequencyResult">
+						<div class="frequencyResult text-center">
 							
 						</div>
 						
@@ -738,13 +738,20 @@ $(document).ready(function(){
 		});
 	});
 	//frequency 큰 카테고리 선택 이벤트
+	var index = 0;
 	$(document).on("click", ".frequencyResultBtn", function(){
 		var select = $("#choose-big").val();
 		
 		statisticsService.frequency(select, function(result){
 			console.log(result);
+			$(".frequencyResult").empty();
+			html = "";
+			html += '<img style="width:60%;" src="/display?fileName='+result+'&index='+(index++)+'">';
+			$(".frequencyResult").append(html);
 		});
 	});
+	
+	
 	
 	//다른 통계nav버튼 이벤트
 	$(document).on("click", ".otherStatic1", function(){
