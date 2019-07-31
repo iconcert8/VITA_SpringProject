@@ -38,13 +38,13 @@
 		    from notification, userinfo
 		    where notification.reqId = userinfo.userId and resId = #{userId}
 		    )
-		where rn < (#{page}*10)+10
+		where rn <= (#{page}*10)+10
 		]]>
 	</select>
 	
 	<select id="selectNotifyChkCount" resultType="int">
 		select count(*) from notification
-		where resId = #{userId}
+		where resId = #{userId} and notifyChk = 'F'
 	</select>
 	
 </mapper>

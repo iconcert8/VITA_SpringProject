@@ -11,6 +11,7 @@ import me.vita.domain.DeletedFeedVO;
 import me.vita.dto.DeletedFeedDTO;
 import me.vita.mapper.DeletedFeedMapper;
 import me.vita.mapper.FeedMapper;
+import me.vita.mapper.WarnMapper;
 
 @Service
 public class DeletedFeedServiceImpl implements DeletedFeedService{
@@ -19,6 +20,8 @@ public class DeletedFeedServiceImpl implements DeletedFeedService{
 	private DeletedFeedMapper mapper;
 	@Autowired
 	private FeedMapper feedMapper;
+	@Autowired
+	private WarnMapper warnMapper;
 
 	@Override
 	public List<DeletedFeedVO> getList(Integer page) {
@@ -37,7 +40,8 @@ public class DeletedFeedServiceImpl implements DeletedFeedService{
 	@Override
 	@Transactional
 	public boolean modify(Integer feedNo) {
-		feedMapper.updateFeedDel(feedNo);
+		feedMapper.updateFeedDel(feedNo, "F");
+		warnMapper.delete(feedNo);
 		return mapper.delete(feedNo) == 1;
 	}
 

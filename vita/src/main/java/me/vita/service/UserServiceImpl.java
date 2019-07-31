@@ -1,5 +1,7 @@
 package me.vita.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -7,47 +9,41 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import me.vita.domain.MailUtils;
 import me.vita.domain.TempKey;
-import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 import me.vita.mapper.UserMapper;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper mapper;
 	private JavaMailSender mailSender;
 
-	
 	@Override
 	public UserDTO get(String myId, String userId) {
 		return mapper.select(myId, userId);
 	}
-	
+
 	@Override
 	public String getPw(String userId) {
 		return mapper.selectPw(userId);
 	}
 
 	@Override
-	public void register(UserVO userVO) throws Exception {
+	public void register(String id, String pw, String nick, String email) throws Exception {
 		String authkey = new TempKey().getkey(10, false);
-		
+
 		MailUtils sendMail = new MailUtils(mailSender);
-		
+
 		sendMail.setSubject("[VITA]sign-up authKey");
-		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ")
-				.append(authkey).append("  </b></p>").toString());
+		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ").append(authkey)
+				.append("  </b></p>").toString());
 		sendMail.setFrom("Administer ", "Juan");
-		sendMail.setTo(userVO.getUserEmail());
+		sendMail.setTo(email);
 		sendMail.send();
-		
-		
-		userVO.setAuthKey(authkey);
-		userVO.setAuthStatus("F");
-		
-		mapper.insert(userVO);
+
+		mapper.insert(id,pw,nick,email,authkey,"F");
 	}
 
 	@Override
@@ -70,8 +66,16 @@ public class UserServiceImpl implements UserService {
 		mapper.updateAuthstatus(userId);
 	}
 
-	@Override
+	/*@Override
 	public boolean login(UserVO userVO) {
 		return mapper.login(userVO) == 1;
+	}*/
+
+	@Override
+	public List<String> getSearchkey() {
+		// TODO Auto-generated method stub
+		System.out.println("getsearchkey()=" + mapper.selectSearchkeyword());
+		return mapper.selectSearchkeyword();
 	}
+
 }

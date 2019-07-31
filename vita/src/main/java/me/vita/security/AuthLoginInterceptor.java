@@ -32,14 +32,14 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 			vo.setUserId(id);
 			vo.setUserPass(pass);
 			
-//			로그인 확인
+/*//			로그인 확인
 			if(service.login(vo)) {
 				request.getSession().setAttribute("authUser", vo);
 				response.sendRedirect("/");
 			}else {
 //				로그인 실패시
 				return true;
-			}
+			}*/
 		}
 		return false;
 	}

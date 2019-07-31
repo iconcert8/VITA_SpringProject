@@ -5,9 +5,10 @@
 <head>
 <title>Real-time Rank</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<script src="/resources/js/ranking.js"></script>
-<link href="/resources/css/ranking.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/resources/js/ranking.js" type="text/javascript"></script>
+<link href="/resources/css/ranking.css" rel="stylesheet" type="text/css" media="screen" />
+
 </head>
 <body>
 	<div id="rank">

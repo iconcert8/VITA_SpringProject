@@ -4,7 +4,7 @@
 
 	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
@@ -16,17 +16,19 @@
 				AND (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO)
 				AND f.userId = #{filter.goToUserId}
 				AND f.feedDel = 'F'
-				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
 			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
-		order by f.feedno desc
+		<![CDATA[
+			AND rownum <= 10
+			ORDER BY f.feedno DESC
+		]]>
 	</select>
 	
 	<select id="selectListFavorite" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
@@ -39,17 +41,19 @@
 			AND fv.userId = #{user.userId}
 			AND fv.FEEDNO = f.FEEDNO
 			AND f.feedDel = 'F'
-			AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
 			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
-		order by f.feedno desc
+		<![CDATA[
+			AND rownum <= 10
+			ORDER BY f.feedno DESC
+		]]>
 	</select>
 	
 	<select id="selectListNewsFeed" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		select f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		select distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
@@ -62,12 +66,14 @@
 				AND fl.REQID =#{user.userId}
 				AND fl.resid = f.userid
 				AND f.feedDel = 'F'
-				AND rownum <= 10
 		]]>
 		<if test="filter.page != 0">
 			<![CDATA[and f.feedNo < #{filter.page}]]>
 		</if>
-		order by f.feedno desc
+		<![CDATA[
+			AND rownum <= 10
+			ORDER BY f.feedno DESC
+		]]>
 	</select>
 	
 	<select id="selectDetail" resultType="me.vita.dto.FeedDTO">
@@ -85,20 +91,19 @@
 	
 	<select id="selectListPopular" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		SELECT distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
 		from feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
-		where f.FEEDDATE > sysdate - 7
-				AND f.categoryNo = c.categoryNo
+		where f.categoryNo = c.categoryNo
 				AND f.userId = u.userId
 				AND f.feedno = t.feedno
 				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
 				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
 				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
 				AND f.feedDel = 'F'
-				AND rownum <= 10
+				AND (f.feedGoodCnt >= 3 OR f.FEEDREPLYCNT >= 5)
 		]]>
 		<if test="filter.filter != null">
 			<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
@@ -115,25 +120,27 @@
 				AND f.feedNo < #{filter.page}
 			]]>
 		</if>
-		ORDER BY feedgoodcnt DESC, feedreplycnt DESC
+		<![CDATA[
+			AND rownum <= 10
+			ORDER BY f.feeddate DESC
+		]]>
+		
 	</select>
 	
 	<select id="selectListRecent" resultType="me.vita.dto.FeedDTO">
 		<![CDATA[
-		SELECT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+		SELECT distinct f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
 			c.categoryNo, c.bigGroup, c.smallGroup,
 			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
 			g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
 		from feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
-		where f.FEEDDATE > sysdate - 7 
-				AND f.categoryNo = c.categoryNo
+		where f.categoryNo = c.categoryNo
 				AND f.userId = u.userId
 				AND f.feedno = t.feedno
 				AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
 				AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
 				AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
 				AND f.feedDel = 'F'
-				AND rownum <= 10
 		]]>
 		
 		<if test="filter.filter != null">
@@ -151,11 +158,15 @@
 				AND f.feedNo < #{filter.page}
 			]]>
 		</if>
-		ORDER BY feeddate DESC
+		<![CDATA[
+			AND rownum <= 10
+			ORDER BY f.feeddate DESC
+		]]>
+		
 	</select>
 	
 	<update id="updateFeedDel">
-		update feed set feedDel = 'T' where feedNo = #{feedNo}
+		update feed set feedDel = #{feedDel} where feedNo = #{feedNo}
 	</update>
 	
 	<select id="select" resultType="me.vita.domain.FeedVO">
@@ -168,7 +179,7 @@
 		</selectKey>
 		
 		INSERT INTO feed(feedNo, categoryNo, userId, feedContent, feedLimitContent, feedGoodCnt, feedReplyCnt, feedDate, feedUpdate, feedLock, categoryTemp, feedDel)
-		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, sysdate, sysdate, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
+		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, systimestamp, systimestamp, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
 	</insert>
 	
 	<update id="updateCategory">

@@ -39,13 +39,14 @@ public class WarnServiceImpl implements WarnService {
 	@Transactional
 	public boolean remove(Integer feedNo, DeletedFeedVO deletedFeedVO) {
 		mapper.update(feedNo);
-		feedMapper.updateFeedDel(feedNo);
+		feedMapper.updateFeedDel(feedNo, "T");
 		return deletedFeedMapper.insert(deletedFeedVO) > 0;
 	}
 	
+	//신고 취소시 삭제
 	@Override
 	public boolean modify(Integer feedNo) {
-		return mapper.update(feedNo) > 0;
+		return mapper.delete(feedNo) > 0;
 	}
 	
 	@Override

@@ -34,7 +34,7 @@ public class DeletedFeedController {
 		return service.getList(page);
 	}
 	
-	@GetMapping("/{feedNo}")	
+	@GetMapping("/{feedNo}")
 	@ResponseBody
 	public DeletedFeedDTO get(@PathVariable("feedNo") Integer feedNo) {
 		return service.get(feedNo);

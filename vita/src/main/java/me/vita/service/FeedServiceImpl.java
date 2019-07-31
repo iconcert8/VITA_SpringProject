@@ -172,7 +172,7 @@ public class FeedServiceImpl implements FeedService {
 			FeedImageVO re = feedImageMapper.getData(data);
 			
 			File uploadPath = new File(re.getFeedImgUploadPath());
-			
+
 			String uploadFileName = re.getFeedImgUuid() + "_" + re.getFeedImgFileName();
 			
 			File saveFile = new File(uploadPath, uploadFileName);

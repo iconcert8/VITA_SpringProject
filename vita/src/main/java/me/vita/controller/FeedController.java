@@ -68,8 +68,6 @@ public class FeedController {
 	@Auth
 	public List<FeedDTO> getListNewsFeed(@SessionAttribute("authUser") UserVO user,
 			@RequestBody CategoryFilterDTO filter) {
-		// System.out.println(".......................................................newsFeed"
-		// + filter);
 		return service.getListNewsFeed(user, filter);
 	}
 
@@ -86,15 +84,12 @@ public class FeedController {
 	@Auth
 	public List<FeedDTO> getListMyFeed(@SessionAttribute("authUser") UserVO user,
 			@RequestBody CategoryFilterDTO filter) {
-		// List<FeedDTO> list = service.getListUserFeed(user, filter);
-		// log.info(list);
-		// return list;
 		return service.getListUserFeed(user, filter);
 	}
 
 	@PostMapping("/new")
 	@Auth
-	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody FeedDTO feedDTO) {
+	public ResponseEntity<String> register(@RequestBody FeedDTO feedDTO) {
 		int feedNo = service.register(feedDTO);
 		if (feedNo != 0) {
 			return new ResponseEntity<String>("" + feedNo, HttpStatus.OK);
@@ -106,6 +101,8 @@ public class FeedController {
 	@PostMapping("/copy/{feedNo}")
 	@Auth
 	public ResponseEntity<String> copy(MultipartFile[] uploadFile,@PathVariable("feedNo") Integer feedNo) {
+		
+	
 		
 		if (service.registerImg(uploadFile, feedNo)) {
 			

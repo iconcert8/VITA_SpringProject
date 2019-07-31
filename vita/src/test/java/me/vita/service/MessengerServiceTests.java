@@ -1,4 +1,4 @@
-package me.vita.mapper;
+package me.vita.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,31 +7,27 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lombok.extern.log4j.Log4j;
-import me.vita.domain.GoodVO;
+import me.vita.domain.UserVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
-public class GoodMapeprTests {
-
+public class MessengerServiceTests {
+	
 	@Autowired
-	GoodMapper mapper;
+	private MessengerService service;
 	
-	
-	//@Test
-	public void insertTest(){
-		GoodVO goodVO = new GoodVO();
-		goodVO.setUserId("userId1");
-		goodVO.setFeedNo(1);
-		mapper.insert(goodVO);
+//	@Test
+	public void mapToList() {
+		UserVO user = new UserVO();
+		user.setUserId("userId4");
+		
+		log.info(service.getList(user));
 	}
+	
 	@Test
-	public void deleteTest(){
-		GoodVO goodVO = new GoodVO();
-		goodVO.setUserId("userId1");
-		goodVO.setFeedNo(1);
-		mapper.delete(goodVO);
+	public void getTest() {
+		log.info(service.get(33));
 	}
-	
-	
+
 }

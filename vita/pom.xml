@@ -214,6 +214,22 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<!-- r library -->
+		<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/Rserve -->
+		<dependency>
+		    <groupId>org.rosuda.REngine</groupId>
+		    <artifactId>Rserve</artifactId>
+		    <version>1.8.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/REngine -->
+		<dependency>
+		    <groupId>org.rosuda.REngine</groupId>
+		    <artifactId>REngine</artifactId>
+		    <version>2.1.0</version>
+		</dependency>
+		
 
 	</dependencies>
 	<build>

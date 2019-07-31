@@ -1,23 +1,24 @@
 package me.vita.service;
 
-import me.vita.domain.UserVO;
+import java.util.List;
 import me.vita.dto.UserDTO;
 
 public interface UserService {
-	
+
+	public void register(String id, String pw, String nick, String email) throws Exception;
+
 	public String getPw(String userId);
-	
-	public void register(UserVO userVO)throws Exception;
-	
+
 	public int getUserIdcnt(String userId);
-	
+
 	public String getAuthstatus(String userId);
-	
+
 	public String getAuthkey(String userId);
-	
+
 	public void modifyAuthstatus(String userId);
-	
+
 	public UserDTO get(String myId, String userId);
-	
-	boolean login(UserVO userVO);
+
+	public List<String> getSearchkey();
+
 }

@@ -24,4 +24,8 @@
 		update warn set warnChk = 'T' where feedNo=#{feedNo}
 	</update>
 	
+	<delete id="delete">
+		delete from warn where feedNo=#{feedNo}
+	</delete>
+	
 </mapper>

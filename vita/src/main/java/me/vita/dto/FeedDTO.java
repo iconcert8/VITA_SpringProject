@@ -42,5 +42,4 @@ public class FeedDTO {
 	
 	private List<FeedImageVO> feedImages;
 	private List<String> tags;
-	
 }
