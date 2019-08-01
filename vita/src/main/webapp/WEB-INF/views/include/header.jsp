@@ -424,7 +424,6 @@
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
 
-<script src="/resources/js/header.js"></script>
 <script src="/resources/js/feedUploadFile.js"></script>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>

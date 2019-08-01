@@ -1,7 +1,5 @@
 package me.vita.controller;
 
-import static org.hamcrest.CoreMatchers.describedAs;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import me.vita.domain.UserVO;
@@ -127,16 +122,15 @@ public class UserController {
 			return "redirect:/user/login/emailAuth";
 		}
 	}
-	
-	
 
 	@GetMapping("/{userId}")
 	@ResponseBody
 	public UserDTO get(@AuthUser UserVO user, @PathVariable("userId") String userId) {
 		UserDTO userDTO = service.get(user.getUserId(), userId);
-		if(user.getUserId().equals(userId)) {
-			userDTO.setIsFollow("me");
-		}
+		System.out.println(userDTO);
+//		if(user.getUserId().equals(userId)) {
+//			userDTO.setIsFollow("me");
+//		}
 		return userDTO;
 	}
 	
