@@ -155,18 +155,19 @@ var template = {
         if (!authUser) {
             var isFollow = '';
             if (user.reqId == null && user.isFollow == null) {
-                isFollow = '<button class="btn btn-outline-primary col col-sm-4 offset-sm-2">팔로우</button>'
+                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" data-userid="${user.userId}">팔로우</button>'
             } else if (user.reqId == null && user.isFollow != null) {
-                isFollow = '<button class="btn btn-primary col col-sm-4 offset-sm-2">팔로잉</button>'
+                isFollow = '<button class="btn btn-primary col col-sm-3 fln" data-userid="${user.userId}">팔로잉</button>'
             } else if (user.reqId != null && user.isFollow == null) {
-                isFollow = '<button class="btn btn-outline-primary col col-sm-4 offset-sm-2">팔로워</button>'
+                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" data-userid="${user.userId}">팔로워</button>'
             } else if (user.reqId != null && user.isFollow != null) {
-                isFollow = '<button class="btn btn-primary col col-sm-4 offset-sm-2">맞 팔로우</button>'
+                isFollow = '<button class="btn btn-primary col col-sm-3 fln" data-userid="${user.userId}">맞 팔로우</button>'
             }
             template += `
-            <div class="row mt-5">
+            <div class="row mt-5 justify-content-center">
                     ${isFollow}
-                    <button class="btn btn-outline-primary col col-sm-4 ml-1">메세지</button>
+                    <button class="btn btn-outline-primary col col-sm-3 ml-1" onclick="location.href='/messenger/${user.userId}'">메세지</button>
+                    <button class="btn btn-outline-primary col col-sm-3 ml-1" id="userFeedHomeBtn">Home</button>
             </div>
             `;
         }
@@ -643,14 +644,17 @@ var template = {
         return deletedDetailTemplate;
     },
     messengerList: function (last, count) {
-        var msg = last.msg;
+        var msg = '';
+        if(last.msg) msg = last.msg;
+        if (msg > 10)  msg = msg.substring(0, 10) + '...';
+
         var readlessHide;
-        if (msg > 10) {
-            msg = msg.substring(0, 10) + '...';
-        }
         var readless = 0;
-        if (count) readless = count;
-        else readless = last.readless;
+        if (count) {
+            readless = count;
+        } else if(readless) {
+            readless = last.readless;
+        } 
 
         if (readless === 0) {
             readlessHide = 'd-none';
@@ -747,5 +751,13 @@ var template = {
         <div class="d-inline-block">
             <label>${user.userNick}(${user.userId})</label>
         </div>`;
+    },
+    messengerSearch : function(user) {
+        return `<a href="#" class="list-group-item list-group-item-action" data-contact="${user.userId}">
+                    <div class="d-inline-block rounded bg-secondary"><img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>
+                    <div class="d-inline-block">
+                        <label>${user.userNick}(${user.userId})</label>
+                     </div>
+                </a>`;
     }
 }

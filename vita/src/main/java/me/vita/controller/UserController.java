@@ -22,6 +22,7 @@ import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 import me.vita.mapper.UserMapper;
 import me.vita.security.Auth;
+import me.vita.security.AuthUser;
 import me.vita.service.UserService;
 
 @Controller
@@ -105,15 +106,13 @@ public class UserController {
 
 	@GetMapping("/{userId}")
 	@ResponseBody
-	@Auth
-	public UserDTO get(@SessionAttribute("authUser") UserVO user, @PathVariable("userId") String userId) {
+	public UserDTO get(@AuthUser UserVO user, @PathVariable("userId") String userId) {
 		UserDTO userDTO = service.get(user.getUserId(), userId);
+		System.out.println(userDTO);
 		if(user.getUserId().equals(userId)) {
 			userDTO.setIsFollow("me");
 		}
 		return userDTO;
 	}
-	
-	
 	
 }

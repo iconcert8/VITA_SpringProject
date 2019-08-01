@@ -416,9 +416,10 @@
 </div>
 
 <input type="hidden" id="authUserId" value='<c:out value="${authUser.userId }"/>'>
+<input type="hidden" id="gotoUser" value='<c:out value="${gotoUser }"/>'>
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
-
+<script src="/resources/js/follow.js"></script>
 <script src="/resources/js/notification.js"></script>
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
