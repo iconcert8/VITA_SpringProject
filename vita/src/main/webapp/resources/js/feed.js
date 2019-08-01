@@ -54,6 +54,9 @@ $(document).ready(function () {
                 }
             });
         });
+
+        // 스크롤 상단 이동
+        document.documentElement.scrollTop = 0;
     }
 
     var viewUserPage = function (module, gotoUserId) {
@@ -81,9 +84,12 @@ $(document).ready(function () {
                 alert('get list error');
             });
         });
+
+        // 스크롤 상단 이동
+        document.documentElement.scrollTop = 0;
     }
 
-    var gotoUserPageInit = function(gotoUserId) {
+    var gotoUserPageInit = function (gotoUserId) {
         // 회원정보 표시
         userService.get(gotoUserId, function (result) {
             categoryTypeDiv.addClass('d-none');
@@ -129,12 +135,13 @@ $(document).ready(function () {
     mainType = 'popular';
     categoryFilter = [];
     serachFilter = [];
-    if(gotoUser) {
+    if (gotoUser) {
         gotoUserPageInit(gotoUser);
+        gotoUser = '';
     } else {
         viewMainPage();
     }
-    
+
     // 내글버튼
     $('#myFeed').on('click', function () {
         console.log('myFeedBtn........');

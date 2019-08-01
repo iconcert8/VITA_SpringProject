@@ -91,6 +91,10 @@ public class MessengerHandler extends TextWebSocketHandler {
 		String msg = jobj.get("msg").getAsString();
 		String reqId = getUser(session).getUserId();
 		String resId = jobj.get("resId").getAsString();
+		
+		if(resId == null) {	//사용자 선택 안할시의 예외처리
+			return;
+		}
 
 		MessengerVO sendMsg = new MessengerVO();
 		sendMsg.setMsg(msg);
