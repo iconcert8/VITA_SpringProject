@@ -209,7 +209,7 @@ public class FeedServiceImpl implements FeedService {
 		if(userId.equals("guest") || userId.equals("")){
 			userId = null;
 		}
-		if(filter.getSearch().size() > 0){
+		if(filter.getSearch() != null && filter.getSearch().size() > 0){
 			for(String searchKeyword : filter.getSearch()){
 				SearchVO searchVO = new SearchVO();
 				searchVO.setSearchKeyword(searchKeyword);
