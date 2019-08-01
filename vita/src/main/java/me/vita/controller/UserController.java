@@ -37,12 +37,6 @@ public class UserController {
 		return "signup";
 	}
 	
-	@GetMapping("/ranking")
-	@ResponseBody
-	public List<String> rank(){
-		return service.getSearchkey();
-	}
-	
 	@PostMapping("/new")
 	public String register(UserVO userVO, RedirectAttributes rttr)throws Exception {
 		if(service.register(userVO)){
@@ -88,6 +82,9 @@ public class UserController {
 					UserVO authUser = service.getUserInfo(userId);
 					request.getSession().removeAttribute("guest");
 					request.getSession().setAttribute("authUser", authUser);
+					if(userId.equals("root")){
+						return "redirect:/admin";
+					}
 					return "redirect:/";
 				}else{
 					//이메일 인증 미완료

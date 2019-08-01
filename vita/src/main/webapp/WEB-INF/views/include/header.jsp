@@ -11,12 +11,12 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/img-size.css">
 
- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
+<link rel="stylesheet" href="/resources/css/ranking.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="/resources/css/upload.css">
 
 <style>
@@ -55,8 +55,20 @@
 						<button class="btn btn-outline-primary" id="searchBtn"><i class="fas fa-search" style="font-size:20px;"></i></button>
 					</div>
 				</div>
-				<div class="mt-2">
-					-<b>실시간 인기검색어</b>-
+				
+				<div class="mt-3 text-center">
+					<div id="rankLabel">
+						<label >인기검색어 : </label>
+					</div>
+					<div id="rank">
+						<dl id="rank-list">
+							<dd>
+								<ol id="rankBox">
+								
+								</ol>
+							</dd>
+						</dl>
+					</div>
 				</div>
 			</div>
 		
@@ -422,12 +434,13 @@
 <input type="hidden" id="gotoUser" value='<c:out value="${gotoUser }"/>'>
 <input type="hidden" id="guest" value='<c:out value="${guest.userId }"/>'>
 
+<script src="/resources/js/ranking.js"></script>
 <script src="/resources/js/follow.js"></script>
 <script src="/resources/js/notification.js"></script>
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
 
-<script src="/resources/js/feedUploadFile.js"></script>
+<script src="/resources/js/img.js"></script>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>

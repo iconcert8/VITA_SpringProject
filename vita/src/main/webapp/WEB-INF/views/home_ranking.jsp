@@ -40,12 +40,8 @@
 						<dl id="rank-list">
 							<dt></dt>
 							<dd>
-								<ol>
-									<li>1.&nbsp;<a href="#" id="rank_1">1</a></li>
-									<li>2.&nbsp;<a href="#" id="rank_2">2</a></li>
-									<li>3.&nbsp;<a href="#" id="rank_3">3</a></li>
-									<li>4.&nbsp;<a href="#" id="rank_4">4</a></li>
-									<li>5.&nbsp;<a href="#" id="rank_5">5</a></li>
+								<ol id="rankBox">
+								
 								</ol>
 							</dd>
 						</dl>

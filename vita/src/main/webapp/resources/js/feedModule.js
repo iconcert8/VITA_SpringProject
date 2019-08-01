@@ -61,33 +61,37 @@ var feedService = {
             }
         });
     },
-
-    remove: function (feedNo, success, error, complete) {
-
-        $.ajax({
-            type: 'delete',
-            url: "/feed/" + feedNo,
-            success: function (response) {
-                if (success) success(response);
-            },
-            error: function (xhr, status, err) {
-                if (error) error(err);
-            },
-            complete: function () {
-                if (complete) complete();
-            }
-        });
+    
+    remove: function(feedNo, success, error, complete ) {
+    	
+    	$. ajax({
+    		type : 'delete',
+    		url : "/feed/"+feedNo,
+    		success : function (response){
+    			if(success) success(response);
+    		},
+    		error: function (xhr, status, err){
+    			if(error) error(err);
+    		},
+    		complete: function () {
+    			if(complete) complete();
+    		}
+    	});
     },
-    insertFeed : function add(feed) {
-        $.ajax({
-            type: "post",
-            url: "/feed/new",
-            data: JSON.stringify(feed),
-            contentType: "application/json; charset=UTF-8",
-            success: function (result) {
-                copyImg(result);
-            }
-        })
+    
+    insert: function add(feed){
+    	console.log("js : feed data : ------ " + JSON.stringify(feed));
+    	
+    	$.ajax({
+    		type : "post",
+    		url : "/feed/new",
+    		data : JSON.stringify(feed),
+    		contentType: "application/json; charset=UTF-8",
+    		success : function(result){
+    			console.log(result);
+    			copyImg(result);
+    		}
+    	});
     }
 }
 
@@ -144,45 +148,5 @@ var viewService = {
     //     // 카테고리바(필터) 초기화
     //     $('#categoryBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
     // },
+
 }
-
-
-var copyImg = function (feedNo) {
-    var copyForm = new FormData();
-    var copyInput = $("input[name='uploadFile']");
-    var copyFiles = copyInput[0].files;
-
-    for (var i = 0; i < copyFiles.length; i++) {
-        copyForm.append("uploadFile", copyFiles[i]);
-    }
-
-    console.log(feedNo);
-
-
-
-    $.ajax({
-        url: '/feed/copy/' + feedNo,
-        processData: false,
-        contentType: false,
-        data: copyForm,
-        type: 'post',
-        success: function (result) {
-            alert("Uploaded");
-            $("#write-image").val('');
-            $("#tag-write-input").val('');
-            $("#content-write-textarea").val('');
-            $("#category-request").val('');
-            $("#image-block").empty();
-
-            //			$(".modal-open").removeClass("modal-open");
-            //			$("#writeModal").addClass();
-            //			$("#writeModal").removeClass("show");
-            //			$("#writeModal").removeAttr("style");
-            //			$("#writeModal").removeAttr("aria-modal");
-            //			$("#writeModal").attr("aria-hidden", "true");
-            //			$(".modal-backdrop fade show").removeAttr("class");
-            $("#writeModal").modal("hide");
-
-        }
-    });
-};

@@ -79,9 +79,4 @@ public class UserServiceImpl implements UserService {
 		mapper.updateAuthstatus(userId);
 	}
 
-	@Override
-	public List<String> getSearchkey() {
-		return mapper.selectSearchkeyword();
-	}
-
 }

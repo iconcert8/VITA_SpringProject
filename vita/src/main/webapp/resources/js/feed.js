@@ -432,7 +432,7 @@ $(document).ready(function () {
             limitContent += '...더보기'
         }
 
-        feedService.insertFeed(
+        feedService.insert(
             {
                 categoryNo: smallElement.substr(0, smallElement.indexOf("&")),
                 userId: $("#authUserId").val(),
@@ -450,4 +450,5 @@ $(document).ready(function () {
             else $('#myFeed').trigger('click');
         }, 1000);
     });
+
 });
