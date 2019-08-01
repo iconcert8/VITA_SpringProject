@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
         feedService.getList('', sendData, function (result) {
             $.each(result, function (i, item) {
-                viewFeedListDiv.append(template.feedSimple(item, authUserId));
+                viewFeedListDiv.append(template.feedSimple(item, authUserId));               
                 if (result.length - 1 === i) {
                     pageNo = item.feedNo;
                 }
@@ -60,8 +60,12 @@ $(document).ready(function () {
     }
 
     var viewUserPage = function (module, gotoUserId) {
+
         if (module) {
             userModule = module;
+        } else {
+            pageNo = 0;   // 페이지 초기화
+            viewFeedListDiv.empty();
         }
         var v_module = userModule;
 
@@ -72,13 +76,13 @@ $(document).ready(function () {
         var sendData = {
             "page": pageNo,
             "goToUserId": gotoUserId
-        }
+        }   
 
         feedService.getList(v_module, sendData, function (result) {
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, authUserId));
                 if (result.length - 1 === i) {
-                    pageNo = item.feedno;
+                    pageNo = item.feedNo;
                 }
             }, function () {
                 alert('get list error');
@@ -253,6 +257,7 @@ $(document).ready(function () {
             var event = document.createEvent("MouseEvents");
             event.initEvent("click", false, true);
             profile.dispatchEvent(event);
+            // $('#myFeed').trigger('click');
         } else {
             gotoUserPageInit(contactUserId);
         }
@@ -266,7 +271,7 @@ $(document).ready(function () {
             warnModal.find('#warnActionBtn').data('feedno', $(this).data('feedno'));
             warnModal.find('#warnActionBtn').data('limitcontent', $(this).data('limitcontent'));
         } else {
-            location.href = '/testlogin';
+            location.href = '/user/login';
         }
     });
 
@@ -301,7 +306,7 @@ $(document).ready(function () {
         }
     });
 
-
+    //유저 페이지의 home버튼 이벤트
     $('#userInfo').on('click', '#userFeedHomeBtn', function () {
         viewMainPage();
     });
@@ -372,5 +377,77 @@ $(document).ready(function () {
             feedDetailModal.find('#replyModal').empty();
             feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
         })
+    });
+
+    // 피드 입력 이벤트
+    $("#insertFeedBtn").on("click", function (e) {
+        e.preventDefault();
+        if ($("#write-image").val().trim() === '') {
+            alert("Please include at least one image");
+            return false;
+        }
+        if ($("#tag-write-input").val().trim() === '') {
+            alert("Please include at least one tag");
+            return false;
+        }
+        if ($("#content-write-textarea").val().trim() === '') {
+            alert("Please write feed content");
+            return false;
+        }
+
+        // var tags = $("#tag-write-input").val().split("#");
+        // tags.splice(0, 1);
+
+        var smallElement = $("#category-choose-small").val();
+        var inputFile = $("input[name='uploadFile']");
+        var imgs = inputFile[0].files;
+        var imgData = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+            imgData.push({ feedImgFileName: imgs[i].name });
+        }
+
+        // feedLimitContent 생성
+        var tempTagText = $("#tag-write-input").val().trim();
+        var tags = [];
+        tempTagText.replace(/[^#\s,;]+/gm, function (tag) {
+            tags.push(tag);
+        });
+
+        var limitContent = '';
+        for (var i = 0; i < tags.length; i++) {
+            if(i >= 5) break;
+            limitContent += '#' + tags[i] + ' ';
+        }
+
+        if (limitContent.length <= 100) {
+            if (tags.length > 5) limitContent += '.../';
+            else limitContent += '/';
+            limitContent += $("#content-write-textarea").val();
+            if (limitContent.length > 100) {
+                limitContent = limitContent.substring(0, 100);
+                limitContent += '...더보기';
+            }
+        } else {
+            limitContent += '...더보기'
+        }
+
+        feedService.insertFeed(
+            {
+                categoryNo: smallElement.substr(0, smallElement.indexOf("&")),
+                userId: $("#authUserId").val(),
+                feedContent: $("#content-write-textarea").val(),
+                // feedLimitContent : ($("#tag-write-input").val()+ "&"+$("#content-write-textarea").val()).substr(0,50),
+                feedLimitContent: limitContent,
+                categoryTemp: $("#category-request").val(),
+                // 태그 string 배열
+                tags: tags,
+                // FeedImageVO 배열
+                feedImages: imgData
+            });
+        setTimeout(() => {
+            if (myBtn === 'myFeed') viewUserPage();
+            else $('#myFeed').trigger('click');
+        }, 1000);
     });
 });

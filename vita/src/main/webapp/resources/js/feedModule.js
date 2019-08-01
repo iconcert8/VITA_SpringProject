@@ -61,25 +61,34 @@ var feedService = {
             }
         });
     },
-    
-    remove: function(feedNo, success, error, complete ) {
-    	
-    	$. ajax({
-    		type : 'delete',
-    		url : "/feed/"+feedNo,
-    		success : function (response){
-    			if(success) success(response);
-    		},
-    		error: function (xhr, status, err){
-    			if(error) error(err);
-    		},
-    		complete: function () {
-    			if(complete) complete();
-    		}
-    	});
-    	
+
+    remove: function (feedNo, success, error, complete) {
+
+        $.ajax({
+            type: 'delete',
+            url: "/feed/" + feedNo,
+            success: function (response) {
+                if (success) success(response);
+            },
+            error: function (xhr, status, err) {
+                if (error) error(err);
+            },
+            complete: function () {
+                if (complete) complete();
+            }
+        });
+    },
+    insertFeed : function add(feed) {
+        $.ajax({
+            type: "post",
+            url: "/feed/new",
+            data: JSON.stringify(feed),
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                copyImg(result);
+            }
+        })
     }
-    
 }
 
 var userService = {
@@ -87,7 +96,7 @@ var userService = {
         console.log('get user........');
         $.ajax({
             type: "get",
-            url: '/user/'+userId,
+            url: '/user/' + userId,
             dataType: 'json',
             success: function (response) {
                 if (success) success(response);
@@ -116,7 +125,7 @@ var viewService = {
         $('#categoryBar').removeClass('d-none');
         $('#userBar').addClass('d-none');
         $('#userInfo').addClass('d-none');
-        if(searchFilter.length == 0) {
+        if (searchFilter.length == 0) {
             $('#searchBar').addClass('d-none');
         } else {
             $('#searchBar').removeClass('d-none');
@@ -124,7 +133,7 @@ var viewService = {
         // 피드 삭제
         $('#viewFeedList').empty();
     },
-    userBarReset : function () {
+    userBarReset: function () {
         $('#userBar > div').find('div').remove();
     }
     // firstMainPageInit: function () {
@@ -138,102 +147,42 @@ var viewService = {
 }
 
 
-var copyImg = function(feedNo){
-	var copyForm = new FormData();
-	var copyInput = $("input[name='uploadFile']");
-	var copyFiles = copyInput[0].files;
+var copyImg = function (feedNo) {
+    var copyForm = new FormData();
+    var copyInput = $("input[name='uploadFile']");
+    var copyFiles = copyInput[0].files;
 
-	for (var i = 0; i < copyFiles.length; i++) {
-		copyForm.append("uploadFile", copyFiles[i]);
-	}
-	
-	console.log(feedNo);
-	
+    for (var i = 0; i < copyFiles.length; i++) {
+        copyForm.append("uploadFile", copyFiles[i]);
+    }
 
-	
-	$.ajax({
-		url : '/feed/copy/'+feedNo,
-		processData : false,
-		contentType : false,
-		data : copyForm,
-		type : 'post',
-		success : function(result) {
-			alert("Uploaded");
-			$("#write-image").val('');
-			$("#tag-write-input").val('');
-			$("#content-write-textarea").val('');
-			$("#category-request").val('');
-			$("#image-block").empty();
-			
-//			$(".modal-open").removeClass("modal-open");
-//			$("#writeModal").addClass();
-//			$("#writeModal").removeClass("show");
-//			$("#writeModal").removeAttr("style");
-//			$("#writeModal").removeAttr("aria-modal");
-//			$("#writeModal").attr("aria-hidden", "true");
-//			$(".modal-backdrop fade show").removeAttr("class");
-			$("#writeModal").modal("hide");
-			
-		}
-	});
+    console.log(feedNo);
+
+
+
+    $.ajax({
+        url: '/feed/copy/' + feedNo,
+        processData: false,
+        contentType: false,
+        data: copyForm,
+        type: 'post',
+        success: function (result) {
+            alert("Uploaded");
+            $("#write-image").val('');
+            $("#tag-write-input").val('');
+            $("#content-write-textarea").val('');
+            $("#category-request").val('');
+            $("#image-block").empty();
+
+            //			$(".modal-open").removeClass("modal-open");
+            //			$("#writeModal").addClass();
+            //			$("#writeModal").removeClass("show");
+            //			$("#writeModal").removeAttr("style");
+            //			$("#writeModal").removeAttr("aria-modal");
+            //			$("#writeModal").attr("aria-hidden", "true");
+            //			$(".modal-backdrop fade show").removeAttr("class");
+            $("#writeModal").modal("hide");
+
+        }
+    });
 };
-
-
-var insertFeed = function add(feed){
-	$.ajax({
-		type : "post",
-		url : "/feed/new",
-		data : JSON.stringify(feed),
-		contentType: "application/json; charset=UTF-8",
-		success : function(result){
-			console.log(result);
-			copyImg(result);
-		}
-	})
-};
-
-
-// 피드 입력 이벤트
-$("#insertFeedBtn").on("click", function(e){
-	e.preventDefault();
-	// 소분류 카테고리 console.log(smallElement.substr(smallElement.indexOf("&")+1));
-	// 카테고리 번호 console.log(smallElement.substr(0, smallElement.indexOf("&")));
-	// 요청카테고리 console.log($("#category-request").val());
-	// 피드 내용 console.log($("#content-write-textarea").val());
-	// userId console.log($("#authUserId").val());
-	// 태그+피드 리미트
-	// console.log(($("#tag-write-input").val()+"&"+$("#content-write-textarea").val()).substr(0,50));
-
-	if ($("#write-image").val().trim() === '') {
-		alert("이미지 업로드해라");
-		return false; }
-	if ($("#tag-write-input").val().trim() === '') {
-		alert("태그내용 작성해라");
-		return false; }
-	if ($("#content-write-textarea").val().trim() === '') {
-		alert("피드내용 작성해라");
-		return false; }
-
-	var tags = $("#tag-write-input").val().split("#");
-	tags.splice(0, 1);
-	var smallElement = $("#category-choose-small").val();
-	var inputFile = $("input[name='uploadFile']");
-	var imgs = inputFile[0].files;
-	var imgData = [];
-	
-	for(var i = 0; i < imgs.length; i++){
-		imgData.push({feedImgFileName : imgs[i].name});
-	}
-
-	insertFeed(
-			{categoryNo : smallElement.substr(0, smallElement.indexOf("&")), 
-			userId : $("#authUserId").val(),
-			feedContent : $("#content-write-textarea").val(),
-			feedLimitContent : ($("#tag-write-input").val()+ "&"+$("#content-write-textarea").val()).substr(0,50),
-			categoryTemp : $("#category-request").val(),
-			// 태그 string 배열
-			tags : tags,		
-			// FeedImageVO 배열
-			feedImages : imgData
-			});
-})

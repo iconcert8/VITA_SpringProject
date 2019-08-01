@@ -14,6 +14,12 @@ var template = {
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
         var limitContent = feed.feedLimitContent.replace('/', '<br>');
+        limitContent = limitContent.replace(/#[^#\s,;]+/gm, function (tag) {
+            return `<a class="tagSearch">${tag}</a>`;
+        });
+        // var tempTags;
+
+
         var feedImages = "";
         for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
             var feedImage = feed.feedImages[i];
@@ -181,7 +187,7 @@ var template = {
             + (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         var tags = '';
         for (var i = 0; i < feed.tags.length; i++) {
-            tags += '#' + feed.tags[i] + ' ';
+            tags += `<a class="tagSearch" data-feedno=${feed.feedNo}>#${feed.tags[i]}</a>`;
         }
 
         var feedImages = "";
