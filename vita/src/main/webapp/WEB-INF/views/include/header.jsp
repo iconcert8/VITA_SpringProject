@@ -437,7 +437,7 @@
 <script src="/resources/js/messengerModule.js"></script>
 <script src="/resources/js/messengerWebSocket.js"></script>
 
-<script src="/resources/js/feedUploadFile.js"></script>
+<script src="/resources/js/img.js"></script>
 <script src="/resources/js/template.js"></script>
 <script src="/resources/js/feedModule.js"></script>
 <script src="/resources/js/replyModule.js"></script>
