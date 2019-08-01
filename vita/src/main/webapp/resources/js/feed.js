@@ -133,23 +133,7 @@ $(document).ready(function () {
         pageNo = 0;
     }
 
-    //---------------------------------------------------------------------------
-
-    // 첫 메인 페이지 동작
-    mainType = 'popular';
-    categoryFilter = [];
-    serachFilter = [];
-    if (gotoUser) {
-        if(gotoUser === authUserId) {
-            $('#myFeed').trigger('click');
-        } else {
-            gotoUserPageInit(gotoUser);
-            gotoUser = '';
-        }
-    } else {
-        viewMainPage();
-    }
-
+    // 이벤트 설정-----------------------------------------------
     // 내글버튼
     $('#myFeed').on('click', function () {
         console.log('myFeedBtn........');
@@ -215,7 +199,6 @@ $(document).ready(function () {
     $('#userBar').on('click', '#goToMainBtn, .close', function () {
         leftUserBtnOff();
     });
-
 
     // 인기 최신버튼 이벤트
     popularBtn.on('click', function () {
@@ -450,5 +433,22 @@ $(document).ready(function () {
             else $('#myFeed').trigger('click');
         }, 500);
     });
+
+    //----------------------------------------------------------------------------
+
+    // 첫 메인 페이지 동작
+    mainType = 'popular';
+    categoryFilter = [];
+    serachFilter = [];
+    if (gotoUser) {
+        if (gotoUser === authUserId) {
+            $('#myFeed').trigger('click');
+        } else {
+            gotoUserPageInit(gotoUser);
+            gotoUser = '';
+        }
+    } else {
+        viewMainPage();
+    }
 
 });
