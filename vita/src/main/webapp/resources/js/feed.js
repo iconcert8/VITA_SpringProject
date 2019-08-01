@@ -300,9 +300,13 @@ $(document).ready(function () {
 
     // 댓글 쓰기
     $(document).on('click', '#sendReplyBtn', function () {
-        console.log("reply.......");
-        var replyContent = $('#replyContent').val();
-        var userId = $('#authUserId').val();
+    	
+    	var replyContent = $('#replyContent').val();
+        if(replyContent.trim() ===''){
+        	return false;
+        }
+    	
+    	var userId = $('#authUserId').val();
         var feedNo = $(this).data('feedno');
         var replyNo = $(this).data('replyno');
         replyPageNo = 0;
@@ -318,6 +322,7 @@ $(document).ready(function () {
             replyService.getList(feedNo, replyPageNo, function (result) {
                 feedDetailModal.find('#replyModal').empty();
                 feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
+                $('#replyContent').val("");
             });
         });
 
