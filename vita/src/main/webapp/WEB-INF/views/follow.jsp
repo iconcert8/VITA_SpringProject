@@ -192,7 +192,7 @@ function getListFollowingCallback(result){
 		html += '<li class="list-group-item text-center">';
 		html +=		'<div class="row">';
 		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded"><img class="goMsg img-2" src="/display?fileName='+fileCallPath+'"></div>';
+		html +=				'<div class="d-inline-block rounded"><img class="goMsg img-2" data-userid="'+item.userId+'" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
 		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';

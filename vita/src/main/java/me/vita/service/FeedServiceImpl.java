@@ -140,17 +140,20 @@ public class FeedServiceImpl implements FeedService {
 		}
 		
 		// 카테고리 요청 등록
-		CategoryRequestVO categoryRequestVO = new CategoryRequestVO();
 		
-		String bigGroup = categoryMapper.getBigGroup(feedDTO.getCategoryNo());
-		String categoryRequestSamllGroup = feedDTO.getCategoryTemp();
-		
-		categoryRequestVO.setBigGroup(bigGroup);
-		categoryRequestVO.setCategoryRequestSmallGroup(categoryRequestSamllGroup);
-		categoryRequestVO.setFeedNo(feedNo);
-		
-		categoryRequestMapper.request(categoryRequestVO);
-		
+		if(feedDTO.getCategoryTemp() != null && feedDTO.getCategoryTemp() != ""){
+			
+			CategoryRequestVO categoryRequestVO = new CategoryRequestVO();
+			
+			String bigGroup = categoryMapper.getBigGroup(feedDTO.getCategoryNo());
+			String categoryRequestSamllGroup = feedDTO.getCategoryTemp();
+			
+			categoryRequestVO.setBigGroup(bigGroup);
+			categoryRequestVO.setCategoryRequestSmallGroup(categoryRequestSamllGroup);
+			categoryRequestVO.setFeedNo(feedNo);
+			
+			categoryRequestMapper.request(categoryRequestVO);
+		}
 		// 파일 업로드 ---------------------------------------------
 		// String feedImgUploadPath = ser.getRealPath("/resources");
 		String feedImgUploadPath = "C:\\upload";
