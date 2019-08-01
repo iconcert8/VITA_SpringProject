@@ -140,7 +140,6 @@ $(document).ready(function () {
     categoryFilter = [];
     serachFilter = [];
     if (gotoUser) {
-        alert(gotoUser);
         gotoUserPageInit(gotoUser);
         gotoUser = '';
     } else {

@@ -1,8 +1,6 @@
 package me.vita.mapper;
 
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 import me.vita.domain.UserVO;
@@ -25,4 +23,9 @@ public interface UserMapper {
 	String selectAuthkey(@Param("userId") String userId);
 
 	void updateAuthstatus(@Param("userId") String userId);
+
+	UserVO originalImgFile(UserVO userInfo);
+
+	int updateUserImg(UserVO userInfo);
+	
 }
