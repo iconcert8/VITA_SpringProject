@@ -1,8 +1,12 @@
 package me.vita.controller;
 
+import static org.hamcrest.CoreMatchers.describedAs;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,77 +42,98 @@ public class UserController {
 		return "signup";
 	}
 	
-	
-	@GetMapping("/rank")
-	public String rankview(){
-		return "home_ranking";
-	}
-	
-	
-	@RequestMapping(value="/ranking", method=RequestMethod.GET)
+	@GetMapping("/ranking")
 	@ResponseBody
 	public List<String> rank(){
 		return service.getSearchkey();
 	}
 	
-	@RequestMapping(value="/new", method=RequestMethod.POST)
-	public String register(UserVO userVO, @RequestParam("id") String id, @RequestParam("password") String pw, @RequestParam("nickname") String nick, @RequestParam("email") String email, RedirectAttributes rttr)throws Exception {
-		service.register(id,pw,nick,email);
-		return "redirect:login";
+	@PostMapping("/new")
+	public String register(UserVO userVO, RedirectAttributes rttr)throws Exception {
+		if(service.register(userVO)){
+			rttr.addFlashAttribute("response", "로그인 시도 후 이메일 인증을 해주십시오");
+			return "redirect:/user/login";
+		}else{
+			rttr.addFlashAttribute("response", "실패하였습니다. 다시 시도해 주십시오");
+			return "redirect:/user/new";
+		}
 	}
 	
-	@PostMapping(value="/idcheck", produces ="application/json; charset=UTF-8")
+	@PostMapping("/idcheck")
 	@ResponseBody
 	public Map<Object, Object> idcheck(@RequestBody String userId){
+		System.out.println(userId);
 		int count = service.getUserIdcnt(userId);
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("cnt", count);
-		
 		return map;
-
+	}
+	
+	@GetMapping("/logout")
+	public String testlogout(HttpServletRequest request) {
+		request.getSession().removeAttribute("authUser");
+		return "redirect:/";
 	}
 	
 	@GetMapping("/login")
-	public String view() {
-		return "login";
-	}
+	public String view() {return "login";}
 	
-	//로그인
 	@PostMapping("/login")
-	public ModelAndView login(@RequestParam("id") String id, @RequestParam("pw") String pw, ModelAndView mav) {
-		String password = service.getPw(id);
+	public String login(HttpServletRequest request, @RequestParam("userId") String userId, @RequestParam("userPass") String userPass, RedirectAttributes rttr) {
+		String password = service.getPw(userId);
 		if(password==null){
 			//입력한 id에 해당하는 pw가 db에 없을때
-			mav.setViewName("loginfail");
-			mav.addObject("response", "id가 존재하지 않음");
+			rttr.addFlashAttribute("response", "id가 존재하지 않음");
+			return "redirect:/user/login";
 		}else{
-			if(password.equals(pw)){
-				//id와 pw가 모두 db에 존재할때
-				if(service.getAuthstatus(id).equals("T")){
+			//id와 pw가 모두 db에 존재할때
+			if(password.equals(userPass)){
+				if(service.getAuthstatus(userId).equals("T")){
 					//이메일 인증 완료시
-					mav.setViewName("loginsuccess");
-					mav.addObject("response", "id,pw 일치, email인증 완료");
+					UserVO authUser = service.getUserInfo(userId);
+					request.getSession().removeAttribute("guest");
+					request.getSession().setAttribute("authUser", authUser);
+					return "redirect:/";
 				}else{
 					//이메일 인증 미완료
-					mav.setViewName("emailAuth");
-					mav.addObject("id", id);
-					mav.addObject("response", "id,pw 일치, email인증 필요");
+					rttr.addFlashAttribute("response", "email인증 필요");
+					rttr.addFlashAttribute("userId", userId);
+					return "redirect:/user/login/emailAuth";
 				}
 			}else{
-				//id는 DB에 있지만 pw가 다를때
-				mav.setViewName("loginfail");
-				mav.addObject("response", "id존재 pw불일치");
+				rttr.addFlashAttribute("response", "password 불일치");
+				rttr.addFlashAttribute("userId", userId);
+				return "redirect:/user/login";
 			}
 		}
-		return mav;
 	}
+	
+	
+	@GetMapping("/login/emailAuth")
+	public String emailAuth(){return "emailAuth";}
+	
+	@PostMapping("/login/emailAuth")
+	public String emailAuth(HttpServletRequest request, @RequestParam("userId") String userId, @RequestParam("authKey")String authKey, RedirectAttributes rttr){
+		String dbAuthKey = service.getAuthkey(userId);
+		if(dbAuthKey.equals(authKey)){
+			UserVO authUser = service.getUserInfo(userId);
+			request.getSession().removeAttribute("guest");
+			request.getSession().setAttribute("authUser", authUser);
+			service.modifyAuthstatus(userId);
+			return "redirect:/";
+		}else{
+			rttr.addFlashAttribute("response", "인증키가 불일치 합니다");
+			rttr.addFlashAttribute("userId", userId);
+			return "redirect:/user/login/emailAuth";
+		}
+	}
+	
 	
 
 	@GetMapping("/{userId}")
 	@ResponseBody
 	public UserDTO get(@AuthUser UserVO user, @PathVariable("userId") String userId) {
 		UserDTO userDTO = service.get(user.getUserId(), userId);
-		System.out.println(userDTO);
 		if(user.getUserId().equals(userId)) {
 			userDTO.setIsFollow("me");
 		}

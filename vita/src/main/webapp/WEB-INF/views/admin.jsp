@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<link rel="stylesheet" href="/resources/css/img-size.css">
 <style type="text/css"> 
 
 .hover:HOVER {
@@ -767,6 +768,9 @@ $(document).ready(function(){
 	}
 	
 	/* statistics 콜백함수 */
+	
+	//로딩 html
+	var loadingHtml = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
 	/* statistics 이벤트 등록 */
 	//nav버튼 이벤트
 	$(document).on("click", ".statistics-nav-btn", function(){
@@ -796,6 +800,7 @@ $(document).ready(function(){
 	$(document).on("click", ".frequencyResultBtn", function(){
 		var select = $("#choose-frequency-big").val();
 		
+		$(".frequencyResult").html(loadingHtml);
 		statisticsService.frequency(select, function(result){
 			$(".frequencyResult").empty();
 			html = "";
@@ -850,6 +855,8 @@ $(document).ready(function(){
 		var selectBig = $("#choose-wordcloud-big").val();
 		var selectSmall = $("#choose-wordcloud-small").val();
 		
+		$(".wordcloudResult").html(loadingHtml);
+		
 		statisticsService.wordcloud(selectBig, selectSmall, function(result){
 			$(".wordcloudResult").empty();
 			html = "";
@@ -902,6 +909,9 @@ $(document).ready(function(){
 		var selectBig = $("#choose-timeseries-big").val();
 		var selectSmall = $("#choose-timeseries-small").val();
 		var selectPeriod = $("#choose-timeseries-period").val();
+		
+		$(".timeseriesResult").html(loadingHtml);
+		
 		statisticsService.timeseries(selectPeriod, selectBig, selectSmall, function(result){
 			$(".timeseriesResult").empty();
 			html = "";

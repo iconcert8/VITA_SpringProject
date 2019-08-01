@@ -88,7 +88,6 @@ $(document).ready(function(){
 	var page = 0;
 	var type = "follower";
 	followService.getListFollower("null", page, getListFollowerCallback);
-	followService.registerBtnEvent();
 	
 	$(document).keydown(function(event){
 		if (event.keyCode == 13) {

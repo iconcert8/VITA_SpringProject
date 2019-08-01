@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -14,6 +18,7 @@
 
 </head>
 <body>
+
 	<div class="container mt-5">
 		<div class="row">
 			<div class="offset-lg-3 col-lg-6 offset-md-2 col-md-8">
@@ -32,15 +37,15 @@
 
 		
 					<div class="card-body">
-						<form action="/user/login" method="post" class="card-body">
+						<form action="/user/new" method="post" class="card-body">
 							<div class="form-group">
 								<label for="id">ID</label>
-								<input type="text" class="form-control" id="id" name="id" onkeyup="chkid(this,6)" pattern=".{6,}" required title="6자 이상 입력하여 주십시오" />
+								<input type="text" class="form-control" id="id" name="userId" onkeyup="chkid(this,6)" pattern=".{6,}" required title="6자 이상 입력하여 주십시오" />
 								<p id="here1"></p>
 							</div>
 							<div class="form-group">
 								<label for="password">PASSWORD</label>
-								<input type="password" class="form-control" id="password" name="password" onkeyup="chkpassword(this,8)" pattern=".{8,}" required title="8자 이상 입력하여 주십시오" />
+								<input type="password" class="form-control" id="password" name="userPass" onkeyup="chkpassword(this,8)" pattern=".{8,}" required title="8자 이상 입력하여 주십시오" />
 								<p id="here2"></p>
 							</div>
 							<div class="form-group">
@@ -50,12 +55,12 @@
 							</div>
 							<div class="form-group">
 								<label for="nickname">NICKNAME</label>
-								<input type="text" class="form-control" id="nickname" name="nickname" onkeyup="chknickname(this,5)" pattern=".{5,}" required title="5자 이상 입력하여 주십시오" />
+								<input type="text" class="form-control" id="nickname" name="userNick" onkeyup="chknickname(this,5)" pattern=".{5,}" required title="5자 이상 입력하여 주십시오"/>
 								<p id="here4"></p>
 							</div>
 							<div class="form-group">
 								<label for="email">EMAIL</label>
-								<input type="email" class="form-control" id="email" name="email" />
+								<input type="email" class="form-control" id="email" name="userEmail" />
 								<p id="here5"></p> 
 							</div>
 							<div>
@@ -74,6 +79,18 @@
 		</div>
 	</div>
 	
+<input id="response" type="hidden" value="${response}">
+	
+<script type="text/javascript">
+
+$(document).ready(function(){
+	var response = $("#response").val();
+	if(response != null && response != "" && response != "undefined"){
+		alert(response);
+		$("#response").val("");
+	}
+});
+</script>
 	
 </body>
 </html>

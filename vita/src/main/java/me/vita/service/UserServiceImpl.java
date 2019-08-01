@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import me.vita.domain.MailUtils;
 import me.vita.domain.TempKey;
+import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 import me.vita.mapper.UserMapper;
 
@@ -31,19 +32,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void register(String id, String pw, String nick, String email) throws Exception {
-		String authkey = new TempKey().getkey(10, false);
+	public boolean register(UserVO userVO) throws Exception {
+		
+		String authKey = new TempKey().getkey(10, false);
 
 		MailUtils sendMail = new MailUtils(mailSender);
 
 		sendMail.setSubject("[VITA]sign-up authKey");
-		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ").append(authkey)
-				.append("  </b></p>").toString());
+		sendMail.setText(new StringBuffer().append("<h1>AuthKey</h1>").append("<p>AuthKey: <b> ").append(authKey).append("  </b></p>").toString());
 		sendMail.setFrom("Administer ", "Juan");
-		sendMail.setTo(email);
+		sendMail.setTo(userVO.getUserEmail());
 		sendMail.send();
 
-		mapper.insert(id,pw,nick,email,authkey,"F");
+		userVO.setUserLock("A");
+		userVO.setUserImgUuid("e9fj50f4-ry53-rj48-eh4h-12ys8225d9gk");
+		userVO.setUserImgUploadPath("c:\\upload\\userProImg");
+		userVO.setUserImgFileName("defaultProImg.png");
+		userVO.setAuthKey(authKey);
+		userVO.setAuthStatus("F");
+
+		return mapper.insert(userVO) == 1;
+	}
+	
+	@Override
+	public UserVO getUserInfo(String userId) {
+		return mapper.selectUserInfo(userId);
 	}
 
 	@Override
@@ -66,14 +79,8 @@ public class UserServiceImpl implements UserService {
 		mapper.updateAuthstatus(userId);
 	}
 
-	/*@Override
-	public boolean login(UserVO userVO) {
-		return mapper.login(userVO) == 1;
-	}*/
-
 	@Override
 	public List<String> getSearchkey() {
-		// TODO Auto-generated method stub
 		return mapper.selectSearchkeyword();
 	}
 

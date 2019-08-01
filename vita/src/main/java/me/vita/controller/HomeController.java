@@ -35,7 +35,7 @@ public class HomeController {
 	public String testlogin(@RequestParam("userId") String userId, HttpServletRequest request){
 		
 		String go = "home";
-		UserVO authUser = mapper.testGet(userId);
+		UserVO authUser = mapper.selectUserInfo(userId);
 		if(authUser == null){
 			go = "testlogin";
 		} else {
@@ -48,10 +48,5 @@ public class HomeController {
 		return go;
 	}
 	
-	@GetMapping("/testlogout")
-	public String testlogout(HttpServletRequest request) {
-		request.getSession().removeAttribute("authUser");
-		return "redirect:/";
-	}
 	
 }
