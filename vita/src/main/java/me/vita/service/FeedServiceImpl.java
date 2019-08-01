@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import me.vita.domain.CategoryRequestVO;
 import me.vita.domain.FeedImageVO;
 import me.vita.domain.SearchVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
 import me.vita.dto.FeedDTO;
+import me.vita.mapper.CategoryMapper;
+import me.vita.mapper.CategoryRequestMapper;
 import me.vita.mapper.FeedImageMapper;
 import me.vita.mapper.FeedMapper;
 import me.vita.mapper.SearchMapper;
@@ -41,6 +44,12 @@ public class FeedServiceImpl implements FeedService {
 	@Autowired
 	private SearchMapper searchMapper;
 
+	@Autowired
+	private CategoryMapper categoryMapper;
+	
+	@Autowired
+	private CategoryRequestMapper categoryRequestMapper;
+	
 	@Autowired
 	private ServletContext ser;
 	
@@ -122,18 +131,30 @@ public class FeedServiceImpl implements FeedService {
 	@Transactional
 	public int register(FeedDTO feedDTO) {
 		int result = mapper.insert(feedDTO);
+		int feedNo = feedDTO.getFeedNo();
 
 		List<String> tags = feedDTO.getTags();
 
 		for (String tag : tags) {
 			tagMapper.insert(feedDTO.getFeedNo(), tag);
 		}
-
+		
+		// 카테고리 요청 등록
+		CategoryRequestVO categoryRequestVO = new CategoryRequestVO();
+		
+		String bigGroup = categoryMapper.getBigGroup(feedDTO.getCategoryNo());
+		String categoryRequestSamllGroup = feedDTO.getCategoryTemp();
+		
+		categoryRequestVO.setBigGroup(bigGroup);
+		categoryRequestVO.setCategoryRequestSmallGroup(categoryRequestSamllGroup);
+		categoryRequestVO.setFeedNo(feedNo);
+		
+		categoryRequestMapper.request(categoryRequestVO);
+		
 		// 파일 업로드 ---------------------------------------------
 		// String feedImgUploadPath = ser.getRealPath("/resources");
 		String feedImgUploadPath = "C:\\upload";
 		
-		int feedNo = feedDTO.getFeedNo();
 		
 		File uploadPath = new File(feedImgUploadPath, getFolder());
 		
@@ -161,6 +182,9 @@ public class FeedServiceImpl implements FeedService {
 		return feedNo;
 	}
 
+	
+	
+	
 	private String getFolder() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
 

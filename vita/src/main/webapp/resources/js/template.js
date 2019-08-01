@@ -542,7 +542,7 @@ var template = {
         return deletetemplate;
     },
 
-    categoryRequestDecisionAlertModal: function (text, btn) {
+    decisionAlertModal: function (text, btn) {
         var decisionAlertModalTemplate = `
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">

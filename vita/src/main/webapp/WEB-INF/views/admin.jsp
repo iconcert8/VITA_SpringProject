@@ -43,7 +43,7 @@
 					<li class="list-group-item py-4 adminList hover" data-adminlist="categorylist">카테고리관리</li>
 					<li class="list-group-item py-4 adminList hover" data-adminlist="deletelist">삭제목록</li>
 					<li class="list-group-item py-4 adminList hover" data-adminlist="statistics">통계보기</li>
-					<li class="list-group-item pt-5"><a href="/testlogin">로그아웃</a></li>
+					<li class="list-group-item pt-5"><a href="/user/logout">로그아웃</a></li>
 				</ul>
 
 			</div>
