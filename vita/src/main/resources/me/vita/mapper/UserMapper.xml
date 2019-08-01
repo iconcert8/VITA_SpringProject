@@ -43,10 +43,5 @@
 	<update id="updateAuthstatus">
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
-	
-	<select id="selectSearchkeyword" resultType="String">
-		select searchKeyword from search 
-		WHERE searchdate BETWEEN (sysdate-10) AND sysdate group by searchKeyword ORDER BY count(*) DESC
-	</select>
 
 </mapper>

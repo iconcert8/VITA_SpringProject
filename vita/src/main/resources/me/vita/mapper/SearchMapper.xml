@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.vita.mapper.SearchMapper">
+	
+	<select id="selectRank" resultType="String">
+		select searchKeyword from search 
+		WHERE searchdate BETWEEN (sysdate-10) AND sysdate group by searchKeyword ORDER BY count(*) DESC
+	</select>
+	
+	<insert id="insert">
+		insert into search(searchNo, searchKeyword, searchDate, userId)
+		values(seq_searchNo.nextval, #{searchKeyword}, sysdate, #{userId, jdbcType=VARCHAR})
+	</insert>
+</mapper>

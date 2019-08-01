@@ -1,5 +1,7 @@
 package me.vita.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import me.vita.domain.UserVO;
+import me.vita.mapper.SearchMapper;
 import me.vita.mapper.UserMapper;
 import me.vita.security.Auth;
 import me.vita.security.AuthUser;
@@ -19,34 +23,17 @@ import me.vita.security.AuthUser;
 public class HomeController {
 	
 	@Autowired
-	UserMapper mapper;
+	SearchMapper searhMapper;
 	
 	@GetMapping("/")
 	public String home(@AuthUser UserVO user) {
 		return "home";
 	}
 	
-	@GetMapping("/testlogin")
-	public String testlogin() {
-		return "testlogin";
-	}
-	
-	@PostMapping("/testlogin")
-	public String testlogin(@RequestParam("userId") String userId, HttpServletRequest request){
-		
-		String go = "home";
-		UserVO authUser = mapper.selectUserInfo(userId);
-		if(authUser == null){
-			go = "testlogin";
-		} else {
-			request.getSession().removeAttribute("guest");
-			request.getSession().setAttribute("authUser", authUser);
-			if(userId.equals("root")){
-				go = "admin";
-			}
-		}
-		return go;
-	}
-	
+	@GetMapping("/rank")
+	@ResponseBody
+	public List<String> rank(){
+		return searhMapper.selectRank();
+	};
 	
 }
