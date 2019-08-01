@@ -2,6 +2,8 @@ package me.vita.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import me.vita.domain.UserVO;
 import me.vita.dto.UserDTO;
 
@@ -24,5 +26,7 @@ public interface UserService {
 	public List<String> getSearchkey();
 	
 	public UserVO getUserInfo(String userId);
+
+	public String updateUserImg(String userId, MultipartFile userImgFileName);
 
 }

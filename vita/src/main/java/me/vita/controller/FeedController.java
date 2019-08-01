@@ -113,11 +113,11 @@ public class FeedController {
 
 		if (service.registerImg(uploadFile, feedNo)) {
 
-			System.out.println("성공");
+			System.out.println("feed controller 성공");
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 
-			System.out.println("실패");
+			System.out.println("feed controller 실패");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

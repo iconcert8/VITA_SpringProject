@@ -140,7 +140,7 @@ var template = {
     userInfo: function (user, authUser) {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded" >
-                                    <h3>
+                                    <h3 id="userImg">
                                         <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
                                     <h3></div>`;
         if(authUser){

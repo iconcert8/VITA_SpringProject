@@ -49,4 +49,16 @@
 		WHERE searchdate BETWEEN (sysdate-10) AND sysdate group by searchKeyword ORDER BY count(*) DESC
 	</select>
 
+	<select id="originalImgFile" parameterType="me.vita.domain.UserVO" resultType="me.vita.domain.UserVO">
+		SELECT *
+		FROM userInfo
+		WHERE userId = #{userId}
+	</select>
+
+	<update id="updateUserImg" parameterType="me.vita.domain.UserVO">
+		UPDATE userInfo 
+		SET userImgUuid = #{userImgUuid}, userImgFileName = #{userImgFileName}
+		WHERE userId = #{userId}
+	</update>
+
 </mapper>

@@ -27,4 +27,9 @@ public interface UserMapper {
 	void updateAuthstatus(@Param("userId") String userId);
 
 	List<String> selectSearchkeyword();
+
+	UserVO originalImgFile(UserVO userInfo);
+
+	int updateUserImg(UserVO userInfo);
+	
 }
