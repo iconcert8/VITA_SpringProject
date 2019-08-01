@@ -51,15 +51,25 @@ var followService = (function(){
 	//<button class="btn-primary fln" data-userid="해당userId"></button>
 	//<button class="btn-outline-primary nofln" data-userid="해당userId"></button>
 	function registerBtnEvent(){
-		$(document).on('click', '.fln', function(){
-			var resId = $(this).data("userid");
-			remove(resId, switchColorBtn($(this)));
-		});
-		$(document).on('click', '.nofln', function(){
-			var resId = $(this).data("userid");
-			register(resId, switchColorBtn($(this)));
-		});
+		if($('#authUserId').val() != null && $('#authUserId').val() != ""){
+			$(document).on('click', '.fln', function(){
+				var resId = $(this).data("userid");
+				remove(resId, switchColorBtn($(this)));
+			});
+			$(document).on('click', '.nofln', function(){
+				var resId = $(this).data("userid");
+				register(resId, switchColorBtn($(this)));
+			});
+		}else{
+			$(document).on('click', '.fln', function(){
+				alert("로그인 후 이용가능 합니다");
+			});
+			$(document).on('click', '.nofln', function(){
+				alert("로그인 후 이용가능 합니다");
+			});
+		}
 	}
+	
 	
 	function register(resId, callback){
 		$.ajax({

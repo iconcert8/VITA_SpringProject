@@ -159,10 +159,7 @@ var notificationService = (function(){
 		}
 		
 		function printNotification(index, item){
-			var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
-			
-			//임시 이미지
-			fileCallPath = 'test.gif';
+			var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/"+item.userImgUuid+"_"+item.userImgFileName);
 			
 			html="";
 			

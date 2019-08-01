@@ -80,6 +80,7 @@
 	</div>
 </div>
 
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -125,7 +126,6 @@ $(document).ready(function(){
 		if($(".flw-list").scrollTop() == $(".flw-list").prop("scrollHeight") - $(".flw-list").height()){
 			var searchWord = $("#flw-search-input").val();
 			page++;
-			console.log("page: "+page);
 			searchAction(searchWord, page);
 		}
 	});
@@ -140,6 +140,10 @@ $(document).ready(function(){
 		}
 	}
 	
+	$(document).on("click", ".goMsg", function(){
+		var gotoUser = $(this).data("userid");
+		location.href = "/user/gotoUser/"+gotoUser;
+	});
 });
 	
 </script>
@@ -151,16 +155,13 @@ function getListFollowerCallback(result){
 	
 	$.each(result, function(index, item){
 		
-		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
-		
-		//임시 이미지
-		fileCallPath = 'test.gif';
+		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/"+item.userImgUuid+"_"+item.userImgFileName);
 		
 		var html = "";
 		html += '<li class="list-group-item text-center">';
 		html +=		'<div class="row">';
 		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="img-2" src="/display?fileName='+fileCallPath+'"></div>';
+		html +=				'<div class="d-inline-block rounded"><img class="goMsg img-2" data-userid="'+item.userId+'" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
 		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';
@@ -185,16 +186,14 @@ function getListFollowingCallback(result){
 	
 	$.each(result, function(index, item){
 		
-		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/s_"+item.userImgUuid+"_"+item.userImgFileName);
+		var fileCallPath = encodeURIComponent(item.userImgUploadPath+"/"+item.userImgUuid+"_"+item.userImgFileName);
 		
-		//임시 이미지
-		fileCallPath = 'test.gif';
 		
 		var html = "";
 		html += '<li class="list-group-item text-center">';
 		html +=		'<div class="row">';
 		html +=			'<div class="col-7" style="font-size: 20px;">';
-		html +=				'<div class="d-inline-block rounded bg-secondary"><img class="img-2" src="/display?fileName='+fileCallPath+'"></div>';
+		html +=				'<div class="d-inline-block rounded"><img class="goMsg img-2" src="/display?fileName='+fileCallPath+'"></div>';
 		html +=				'<div class="d-inline-block">';
 		html +=					'<label class="mb-0">'+item.userNick+'('+item.userId+')'+'</label>';
 		html +=				'</div>';
@@ -212,6 +211,8 @@ function getListFollowingCallback(result){
 function getListCallback(result){
 	getListFollowerCallback(result);
 }
+
+
 	
 </script>
 

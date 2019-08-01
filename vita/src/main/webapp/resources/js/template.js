@@ -44,7 +44,7 @@ var template = {
                 <div class="card bg-light mb-4" >
                     <!-- 피드 헤더 -->
                     <div class="card-header">
-                        <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${feed.userId}"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                        <div class="d-inline-block rounded goToUserFeed" data-contact="${feed.userId}"><img class="img-1" src="/display?fileName=${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                         <div class="d-inline-block">
                             <label>${feed.userNick}(${feed.userId})</label>
                         </div>
@@ -247,8 +247,8 @@ var template = {
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${feed.userId}">
-                                        <img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                                    <div class="d-inline-block rounded goToUserFeed" data-contact="${feed.userId}">
+                                        <img class="img-1" src="/display?fileName=${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                                     <div class="d-inline-block">
                                         <label>${feed.userNick}(${feed.userId})</label>
                                     </div>
@@ -317,7 +317,7 @@ var template = {
             }
 
             templateLi += `<li class="list-group-item">
-            <div class="d-inline-block rounded bg-secondary goToUserFeed" data-contact="${item.userId}"><img src=${item.userImgUploadPath}/s_${item.userImgUuid}_${item.userImgFileName}/></div>
+            <div class="d-inline-block rounded goToUserFeed" data-contact="${item.userId}"><img class="img-0" src="/display?fileName=${item.userImgUploadPath}/${item.userImgUuid}_${item.userImgFileName}"/></div>
             <div class="d-inline-block">
                 <label class="mb-0">${item.userNick}(${item.userId})</label>
             </div> <label class="d-inline ml-3">${item.replyContent}</label>
@@ -443,7 +443,7 @@ var template = {
                                         class="text-white bg-secondary rounded">${feed.smallGroup}</label>
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                                    <div class="d-inline-block rounded"><img class="img-1" src="/display?fileName=${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                                     <div class="d-inline-block">
                                         <label>${feed.userNick}(${feed.userId})</label>
                                     </div>
@@ -611,7 +611,7 @@ var template = {
                                         class="text-white bg-secondary rounded">${feed.smallGroup}</label>
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-inline-block rounded bg-secondary"><img src="${feed.userImgUploadPath}/s_${feed.userImgUuid}_${feed.userImgFileName}"/></div>
+                                    <div class="d-inline-block rounded"><img class="img-1" src="/display?fileName=${feed.userImgUploadPath}/${feed.userImgUuid}_${feed.userImgFileName}"/></div>
                                     <div class="d-inline-block">
                                         <label>${feed.userNick}(${feed.userId})</label>
                                     </div>
@@ -661,8 +661,8 @@ var template = {
         }
 
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${last.userId}">
-                    <div class="d-inline-block rounded bg-secondary float-left">
-                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="width:50px; height:50px;">
+                    <div class="d-inline-block rounded float-left">
+                    <img class="img-1" src="/display?fileName=${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="width:50px; height:50px;">
                     </div>
                     <div class="d-inline-block float-left mx-2">
                         <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
@@ -687,8 +687,8 @@ var template = {
             readlessHide = 'd-none';
         }
         return `<a href="/messenger/${last.userId}" class="list-group-item list-group-item-action dropdown-item" data-contact="${last.userId}">
-                    <div class="d-inline-block rounded bg-secondary">
-                    <img src="${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="${last.userImgFileName}" style="width:20px; height:20px;">
+                    <div class="d-inline-block rounded">
+                    <img class="img-1" src="/display?fileName=${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="${last.userImgFileName}" style="width:20px; height:20px;">
                     </div>
                     <span class="badge badge-pill badge-danger float-right ml-2 mt-4 ${readlessHide}" data-contact="${last.userId}">${readless}</span>
                     <div class="d-inline-block mr-5">
@@ -715,8 +715,8 @@ var template = {
             template = `<!-- 상대방 채팅 -->
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
-                <div class="d-inline-block rounded bg-secondary float-left">
-                    <img src="${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
+                <div class="d-inline-block rounded float-left">
+                    <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
                 </div>
                 <div class="d-inline-block float-left mx-2">
                     <label class="text-dark" style="font-size: 12px;">${msg.userNick}(${msg.userId})</label>
@@ -745,8 +745,8 @@ var template = {
         return template;
     },
     messengerContactInfo: function (user) {
-        return `<div class="d-inline-block rounded bg-secondary">
-            <img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}">
+        return `<div class="d-inline-block rounded">
+            <img class="img-1" src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}">
         </div>
         <div class="d-inline-block">
             <label>${user.userNick}(${user.userId})</label>

@@ -115,4 +115,11 @@ public class UserController {
 		return userDTO;
 	}
 	
+	@GetMapping("/gotoUser/{gotoUser}")
+	@Auth
+	public String viewContactUser(@PathVariable("gotoUser") String gotoUser, RedirectAttributes rttr) {
+		rttr.addFlashAttribute("gotoUser", gotoUser);
+		return "redirect:/";
+	}
+	
 }
