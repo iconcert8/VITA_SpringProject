@@ -109,9 +109,9 @@ public class UserController {
 	public UserDTO get(@AuthUser UserVO user, @PathVariable("userId") String userId) {
 		UserDTO userDTO = service.get(user.getUserId(), userId);
 		System.out.println(userDTO);
-		if(user.getUserId().equals(userId)) {
-			userDTO.setIsFollow("me");
-		}
+//		if(user.getUserId().equals(userId)) {
+//			userDTO.setIsFollow("me");
+//		}
 		return userDTO;
 	}
 	
