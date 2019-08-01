@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
         feedService.getList('', sendData, function (result) {
             $.each(result, function (i, item) {
-                viewFeedListDiv.append(template.feedSimple(item, authUserId));               
+                viewFeedListDiv.append(template.feedSimple(item, authUserId));
                 if (result.length - 1 === i) {
                     pageNo = item.feedNo;
                 }
@@ -76,7 +76,7 @@ $(document).ready(function () {
         var sendData = {
             "page": pageNo,
             "goToUserId": gotoUserId
-        }   
+        }
 
         feedService.getList(v_module, sendData, function (result) {
             $.each(result, function (i, item) {
@@ -140,9 +140,12 @@ $(document).ready(function () {
     categoryFilter = [];
     serachFilter = [];
     if (gotoUser) {
-        alert(gotoUser);
-        gotoUserPageInit(gotoUser);
-        gotoUser = '';
+        if(gotoUser === authUserId) {
+            $('#myFeed').trigger('click');
+        } else {
+            gotoUserPageInit(gotoUser);
+            gotoUser = '';
+        }
     } else {
         viewMainPage();
     }
@@ -297,7 +300,6 @@ $(document).ready(function () {
 
             feedService.warn(sendData, function (result) {
                 if (result === 'success') {
-
                     alertModal.find('.alertMsg').text(`피드를 신고하였습니다.`);
                     alertModal.modal('show');
                 }
@@ -353,17 +355,15 @@ $(document).ready(function () {
     // 피드삭제
     $(document).on('click', 'button[data-target="#deleteFeedBtn"]', function () {
 
-        var feedNo = $(this).data('feedno');
-        feedService.remove(feedNo, function (result) {
-            $("#viewFeedDetailList").remove();
-            alert("삭제성공");
-            /*
-                * feedDetailModal.find('#replyModal').append(template.reply(result,
-                * userId));
-                */
-
-        });
-
+        if (confirm("피드를 삭제 하시겠습니까?")) {
+            var feedNo = $(this).data('feedno');
+            feedService.remove(feedNo, function (result) {
+                $("#viewFeedDetailList").remove();
+                // alert("삭제성공");
+                alertModal.find('.alertMsg').text('피드를 삭제하였습니다.');
+                alertModal.modal('show');
+            });
+        }
     });
 
 
@@ -416,7 +416,7 @@ $(document).ready(function () {
 
         var limitContent = '';
         for (var i = 0; i < tags.length; i++) {
-            if(i >= 5) break;
+            if (i >= 5) break;
             limitContent += '#' + tags[i] + ' ';
         }
 
@@ -448,7 +448,7 @@ $(document).ready(function () {
         setTimeout(() => {
             if (myBtn === 'myFeed') viewUserPage();
             else $('#myFeed').trigger('click');
-        }, 1000);
+        }, 500);
     });
 
 });

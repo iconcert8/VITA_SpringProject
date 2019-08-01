@@ -30,9 +30,13 @@
 
 #returnBtn:HOVER {background-color: gray;}
 
- a {
-	 cursor : default;
- }
+ a { cursor : default; }
+
+.carousel-indicators li {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
 </style>
 
 <title>VITA</title>
