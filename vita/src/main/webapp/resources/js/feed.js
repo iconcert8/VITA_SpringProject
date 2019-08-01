@@ -292,19 +292,20 @@ $(document).ready(function () {
         }
     });
 
-    // userFeed Button Event
-    $('#userInfo').on('click', '#userFeedFollowBtn', function () {
-        if (authUserId === null || authUserId === '') {
-            alert('로그인 후 이용가능 합니다.');
-        } else {
-            // 유저페이지 팔로우------------------------------------------
+    // // userFeed Button Event
+    // $('#userInfo').on('click', '#userFeedFollowBtn', function () {
+    //     if (authUserId === null || authUserId === '') {
+    //         alert('로그인 후 이용가능 합니다.');
+    //     } else {
+    //         // 유저페이지 팔로우------------------------------------------
 
 
 
 
 
-        }
-    });
+    //     }
+    // });
+
     $('#userInfo').on('click', '#userFeedHomeBtn', function () {
         viewMainPage();
     });

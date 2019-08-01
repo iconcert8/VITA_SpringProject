@@ -155,13 +155,13 @@ var template = {
         if (!authUser) {
             var isFollow = '';
             if (user.reqId == null && user.isFollow == null) {
-                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" id="userFeedFollowBtn" data-userid="${user.userId}">팔로우</button>'
+                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" data-userid="${user.userId}">팔로우</button>'
             } else if (user.reqId == null && user.isFollow != null) {
-                isFollow = '<button class="btn btn-primary col col-sm-3 fln" id="userFeedFollowBtn" data-userid="${user.userId}">팔로잉</button>'
+                isFollow = '<button class="btn btn-primary col col-sm-3 fln" data-userid="${user.userId}">팔로잉</button>'
             } else if (user.reqId != null && user.isFollow == null) {
-                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" id="userFeedFollowBtn" data-userid="${user.userId}">팔로워</button>'
+                isFollow = '<button class="btn btn-outline-primary col col-sm-3 nofln" data-userid="${user.userId}">팔로워</button>'
             } else if (user.reqId != null && user.isFollow != null) {
-                isFollow = '<button class="btn btn-primary col col-sm-3 fln" id="userFeedFollowBtn" data-userid="${user.userId}">맞 팔로우</button>'
+                isFollow = '<button class="btn btn-primary col col-sm-3 fln" data-userid="${user.userId}">맞 팔로우</button>'
             }
             template += `
             <div class="row mt-5 justify-content-center">
