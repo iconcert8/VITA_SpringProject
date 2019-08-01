@@ -757,7 +757,8 @@ var template = {
     },
     messengerSearch : function(user) {
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${user.userId}">
-                    <div class="d-inline-block rounded bg-secondary"><img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>
+                    <div class="d-inline-block rounded bg-secondary">
+                    <img class="img-1" src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>
                     <div class="d-inline-block">
                         <label>${user.userNick}(${user.userId})</label>
                      </div>

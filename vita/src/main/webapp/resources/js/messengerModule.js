@@ -214,6 +214,7 @@ var messengerService = {
         msgDays = [];
         // $(element).addClass('active');
         // contactUser = $(element).data('contact');
+        contactUser = contactUserId;
 
         // 유저 정보 불러오기
         userService.get(contactUserId, function (result) {

@@ -18,18 +18,21 @@
 
 
 <link rel="stylesheet" href="/resources/css/upload.css">
-<style>
- 
-</style>
+
 <style>
 @media ( min-width : 1600px) {
 	.modal-xl {
 		max-width: 1500px;
 	} 
 }
+
 .toolbar-icon a{margin-right:5px;}
 
 #returnBtn:HOVER {background-color: gray;}
+
+ a {
+	 cursor : default;
+ }
 </style>
 
 <title>VITA</title>
