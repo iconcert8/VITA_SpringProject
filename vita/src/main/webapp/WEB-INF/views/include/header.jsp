@@ -94,15 +94,15 @@
 								<button class="dropdown-item notification-ChkAll">전체알림 끄기</button>
 						</div>
 					</div>
-					<a href="/testlogout"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
+					<a href="/user/logout"><i class="fas fa-sign-out-alt" style="font-size:34px;"></i></a>
 				</div>
 			</c:if>
 
 			<c:if test="${sessionScope.authUser == null}">
 				<!-- 비 로그인시 메뉴 -->
 				<div class="col-md-4 toolbar-icon mt-3">
-					<a href="/testlogin"><i class="fas fa-sign-in-alt" style="font-size:34px;"></i></a>
-					<a href="#"><i class="fas fa-user-plus" style="font-size:34px;"></i></a>
+					<a href="/user/login"><i class="fas fa-sign-in-alt" style="font-size:34px;"></i></a>
+					<a href="/user/new"><i class="fas fa-user-plus" style="font-size:34px;"></i></a>
 				</div>
 			</c:if>	
 		</div>

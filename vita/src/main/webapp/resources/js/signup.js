@@ -1,35 +1,34 @@
-//빈칸 검사 함수
+
 function checkfield(){
-	if($('#id').val()==""){
+	if($('#id').val().trim()==""){
 		alert("아이디 미입력");
 		$('#id').focus();
-		exit;
-	}else if($('#password').val()==""){
+		return false;
+	}else if($('#password').val().trim()==""){
 		alert("패스워드 미입력");
 		$('#password').focus();
-		exit;
-	}else if($('#password_chk').val()==""){
+		return false;
+		}else if($('#password_chk').val().trim()==""){
 		alert("패스워드 확인 미입력");
 		$('#password_chk').focus();
-		exit;
-	}else if($('#nickname').val()==""){
+		return false;
+	}else if($('#nickname').val().trim()==""){
 		alert("닉네임 미입력");
 		$('#nickname').focus();
-		exit;
-	}else if($('#email').val()==""){
+		return false;
+	}else if($('#email').val().trim()==""){
 		alert("이메일 미입력");
 		$('#email').focus();
-		exit;
-	}else if($('#password').val()!=$('#password_chk').val()){
+		return false;
+	}else if($('#password').val().trim()!=$('#password_chk').val().trim()){
 		alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 		$('#password_chk').focus();
-		exit;
-	}else if($('#idcheck').val()=="0"){
+		return false;
+	}else if($('#idcheck').val().trim()=="0"){
 		alert("다른 아이디를 입력해주세요.");
 		$('#idcheck').focus();
-		exit;
+		return false;
 	}
-	
 }
 
 
@@ -82,23 +81,22 @@ function chknickname(obj, minByte){
 //id검사함수
 function chkid(obj,minByte){
 	var userId= $('#id').val();
-	if(userId==''){
-		$('#here1').append().removeClass().html('');
-	}
-	
+	userId = String(userId);
+	if(userId == null || userId == "") return;
 	
 	$.ajax({
 		type: 'post',
 		data: userId,
-		url: "idcheck",
+		url: "/user/idcheck",
 		dataType: "json",
 		contentType: "application/json; charset=UTF-8",
 		success: function(data){
+			console.log(data);
 			var strValue = obj.value;
 			var strLen = strValue.length;
 			var totalByte = 0;
 			var oneChar = "";
-			if(data.cnt>0 || $('#id').val()==""){
+			if(data.cnt>0 || $('#id').val().trim()==""){
 				//아이디가 중복될 경우
 				$('#here1').append().removeClass().html('').html('사용 불가능한 아이디입니다.').addClass('warn');
 				$('#idcheck').val("0");

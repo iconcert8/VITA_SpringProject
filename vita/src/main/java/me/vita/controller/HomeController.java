@@ -5,14 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import me.vita.domain.UserVO;
 import me.vita.mapper.UserMapper;
-import me.vita.security.Auth;
 import me.vita.security.AuthUser;
 
 @Controller
@@ -35,7 +32,7 @@ public class HomeController {
 	public String testlogin(@RequestParam("userId") String userId, HttpServletRequest request){
 		
 		String go = "home";
-		UserVO authUser = mapper.testGet(userId);
+		UserVO authUser = mapper.selectUserInfo(userId);
 		if(authUser == null){
 			go = "testlogin";
 		} else {
@@ -48,10 +45,5 @@ public class HomeController {
 		return go;
 	}
 	
-	@GetMapping("/testlogout")
-	public String testlogout(HttpServletRequest request) {
-		request.getSession().removeAttribute("authUser");
-		return "redirect:/";
-	}
 	
 }

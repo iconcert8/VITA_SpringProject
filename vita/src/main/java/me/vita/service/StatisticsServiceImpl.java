@@ -68,7 +68,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 			c.eval("library(RColorBrewer)");
 			
 			c.eval("text = '"+contents+"'");
-			c.eval("notword = c('내', '것', '때문', '때', '한', '도', '을', '를', '이', '가', '은', '는', '에', '에게', '께', '의', 'ㅋ', 'ㄷ')");
+			c.eval("notword = c('내', '것', '때문', '때', '한', '도', '을', '를', '이', '가', '은', '는', '에', '에게', '께', '의', 'ㅋ', 'ㄷ', '리')");
 			
 			c.eval("words = unlist(sapply(text, extractNoun, USE.NAMES = FALSE))");
 			
