@@ -10,9 +10,9 @@ import me.vita.dto.UserDTO;
 
 public interface UserMapper {
 
-	void insert(@Param("userId") String id,@Param("userPass") String pw,@Param("userNick") String nick,@Param("userEmail") String email,@Param("authkey") String authkey,@Param("authstatus") String authstatus);
+	int insert(UserVO userVO);
 
-	UserVO testGet(@Param("userId") String userId);
+	UserVO selectUserInfo(@Param("userId") String userId);
 	
 	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
 

@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -9,10 +13,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/resources/js/login.js"></script>
 
 </head>
 <body>
+
+	
 	<div class="container mt-5">
 		<div class="row">
 			<div class="offset-lg-3 col-lg-6 offset-md-2 col-md-8">
@@ -33,14 +38,14 @@
 						<form action="/user/login" method="post" class="card-body">
 							<div class="form-group">
 								<label for="id">ID</label>
-								<input type="text" class="form-control" name="id" id="id" placeholder="Id">
+								<input type="text" id="inputId" class="form-control" name="userId" placeholder="Id">
 							</div>
 							<div class="form-group">
 								<label for="pw">PASSWORD</label>
-								<input type="password" class="form-control" name="pw" id="pw" placeholder="Password">
+								<input type="password" class="form-control" name="userPass" placeholder="Password">
 							</div>
 							<div>
-								<input type="button" value="signup" id="sign_up" class="btn btn-primary" />
+								<input type="button" value="signup" class="btn btn-primary" onclick="location.href='/user/new'"/>
 								<input type="submit" value="Login" id="log_in" class="btn btn-success" />
 							</div>
 						</form>
@@ -55,6 +60,25 @@
 		</div>
 	</div>
 	
+<input id="response" type="hidden" value="${response}">
+<input id="userId" type="hidden" value="${userId}">
+	
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	var response = $("#response").val();
+	var userId =$("#userId").val();
+	if(response != null && response != "" && response != "undefined"){
+		alert(response);
+		$("#response").val("");
+	}
+	if(userId != null && userId != "" && userId != "undefined"){
+		$("#inputId").val(userId);
+		$("userId").val("");
+	}
+	
+});
+</script>
 </body>
 
 </html>
