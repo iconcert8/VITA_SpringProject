@@ -20,7 +20,7 @@
 		<![CDATA[
 		SELECT usr.* , usr.userid isMyReply
 	    FROM (SELECT r.replyno, r.feedno, r.replyContent, r.replyDate,
-	             u.userid, u.userNick
+	             u.userid, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName
 	            FROM reply r, userInfo u
 	            WHERE r.userid = u.userid(+) and r.feedno = #{feedNo}) usr
 	    order by usr.replyno desc
