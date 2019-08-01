@@ -144,10 +144,10 @@ var template = {
                                         <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
                                     <h3></div>`;
         if(authUser){
-        	 template += `		<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;"">
-        		 							<input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
-											<label class="btn btn-outline-primary" for="prof-img" style="width:150px;">ProImg 바꾸기</label>
-        		 						</div>`;
+        	 template += `<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;">
+                            <input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
+                            <label class="btn btn-outline-primary" for="prof-img" style="width:150px;">ProImg 바꾸기</label>
+                        </div>`;		
         }
         template +=    `<div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>

@@ -130,6 +130,7 @@ $(document).ready(function () {
     serachFilter = [];
     if(gotoUser) {
         gotoUserPageInit(gotoUser);
+        gotoUser = '';
     } else {
         viewMainPage();
     }

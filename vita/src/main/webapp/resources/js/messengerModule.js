@@ -2,6 +2,8 @@
 var contactUser;
 var messengerWs;    // websocket
 var messengerNotiCount = 0; //전체알림 숫자표시변수
+
+var messengerOpenFlag = false;
 var messengerService = {
     sendMsg: function (msg) {
         var sendMsg = {
@@ -79,7 +81,7 @@ var messengerService = {
         }
         messengerws.send(JSON.stringify(check));
     },
-    viewMessengerList: function (data) {
+    viewMessengerList: function (data, success) {
         var messengerListDiv = $('#messengerList');
         var authUserId = $('#authUserId').val();
         if (Array.isArray(data)) {
@@ -214,15 +216,19 @@ var messengerAnalyzer = function (data) {
                 $('#messageView').append(template.message(data, contactUser));
                 messengerService.check(data.msgNo);
                 messengerService.scrollBottom();
+
+                messengerService.viewMessengerNoti(data);
+                messengerService.viewMessengerList(data);
             } else {    // 다른창을 보고있을때 상대방 메세지가 도착하여 메시지 알림 갱신
-                messengerService.viewMessengerNoti(data);    //상단바 알림
-                messengerService.viewMessengerList(data);   //메신저창 리스트
+                messengerService.viewMessengerNoti(data);                         //상단바 알림
+                if(messengerOpenFlag) messengerService.viewMessengerList(data);   //메신저창 리스트
             }
             break;
         case 'success':
             if (contactUser === data.resId) { // 내가 보낸 메시지 표시
                 $('#messageView').append(template.message(data, contactUser));
-                
+                messengerService.viewMessengerNoti(data);
+                messengerService.viewMessengerList(data);
                 messengerService.scrollBottom();
             }
             break;

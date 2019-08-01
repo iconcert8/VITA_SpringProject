@@ -9,6 +9,7 @@ $(document).ready(function () {
     var messengerListBtn = $('#msgListBtn');
 
     contactUser = $('#contactUser').val();
+    messengerOpenFlag = true;   // 메신저 창 실행 여부
 
     messengerListDiv.empty();
     messengerService.getList(function (result) {
