@@ -52,17 +52,17 @@ var messengerService = {
             });
         } else {
             messengerService.displayMessengerNotiCount(-data.count); //totalCount
-            
+
             var leftTarget = $('#messengerList').find(`span[data-contact="${data.contactUser}"]`);
             var topTarget = $('#messengerNotiList').find(`span[data-contact="${data.contactUser}"]`);
-            
+
             leftCount = parseInt(leftTarget.text());
             topCount = parseInt(topTarget.text());
 
-            console.log('readMsg ' + leftCount+','+topCount);
-            if(leftCount === 0 && topCount === 0) return;
+            console.log('readMsg ' + leftCount + ',' + topCount);
+            if (leftCount === 0 && topCount === 0) return;
             leftCount = topCount = leftCount - data.count;
-            if(leftCount === 0) {
+            if (leftCount === 0) {
                 leftTarget.addClass('d-none');
                 topTarget.addClass('d-none');
             } else {
@@ -79,7 +79,7 @@ var messengerService = {
         }
         messengerws.send(JSON.stringify(check));
     },
-    viewMessengerList : function (data) {
+    viewMessengerList: function (data) {
         var messengerListDiv = $('#messengerList');
         var authUserId = $('#authUserId').val();
         if (Array.isArray(data)) {
@@ -94,7 +94,7 @@ var messengerService = {
             }
         }
     },
-    selectContactUser : function (element) {
+    selectContactUser: function (element) {
         var messengerListDiv = $('#messengerList');
         var messageViewDiv = $('#messageView');
         var messengerContactInfoH5 = $('#messengerContactInfo');
@@ -104,7 +104,8 @@ var messengerService = {
         $(element).addClass('active');
         contactUser = $(element).data('contact');
 
-        userService.get(contactUser, function(result) {
+        // 유저 정보 불러오기
+        userService.get(contactUser, function (result) {
             messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
         });
 
@@ -116,7 +117,7 @@ var messengerService = {
                 // if (i === 0) {
                 //     messengerContactInfoH5.empty().append(template.messengerContactInfo(item));
                 // } else
-                if(i === result.length - 1) {
+                if (i === result.length - 1) {
                     msgNo = item.msgNo;
                 }
                 messageViewDiv.append(template.message(item, contactUser));
@@ -132,7 +133,7 @@ var messengerService = {
         var element = document.getElementById('messageView');
         element.scrollTop = element.scrollHeight;
     },
-    viewMessengerNoti : function (data) {
+    viewMessengerNoti: function (data) {
         var messengerNotiListDiv = $('#messengerNotiList'); //알림바 메시지 알림 목록영역
         var authUserId = $('#authUserId').val();
         if (Array.isArray(data)) {
@@ -151,23 +152,62 @@ var messengerService = {
             }
         }
     },
-    displayMessengerNotiCount : function (addCount) {
+    displayMessengerNotiCount: function (addCount) {
         messengerNotiCount += addCount;
         var display = messengerNotiCount;
-        if(messengerNotiCount > 300) display = '300+';
-        if(messengerNotiCount < 0) {
+        if (messengerNotiCount > 300) display = '300+';
+        if (messengerNotiCount < 0) {
             messengerNotiCount = 0;
             display = 0;
         }
 
         $('#messengerToalCnt').text(display);
+    },
+    search: function (searchId) {
+        followService.getListFollowing(searchId, '', function (result) {
+            $('#messengerSearchList').empty();
+            $.each(result, function (i, item) {
+                $('#messengerSearchList').append(template.messengerSearch(item));
+            });
+        });
+    },
+    addMessenger: function (element) {
+        var messengerListDiv = $('#messengerList');
+        var messageViewDiv = $('#messageView');
+        var messengerContactInfoH5 = $('#messengerContactInfo');
+        // 초기화
+        msgDays = [];
+        $(element).addClass('active');
+        contactUser = $(element).data('contact');
+
+        // 유저 정보 불러오기
+        userService.get(contactUser, function (result) {
+            messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
+            messengerListDiv.append(template.messengerList(result));
+            messengerService.listAndSearchToggle();
+        });
+        messageViewDiv.empty();
+    },
+    listAndSearchToggle: function () {
+        var messengerListDiv = $('#messengerList');
+        var messengerSearchListDiv = $('#messengerSearchList');
+        var messengerListBtn = $('#msgListBtn');
+        if (messengerListDiv.hasClass('d-none')) {
+            messengerListBtn.addClass('active');
+            messengerListDiv.removeClass('d-none');
+            messengerSearchListDiv.addClass('d-none');
+        } else {
+            messengerListBtn.removeClass('active');
+            messengerListDiv.addClass('d-none');
+            messengerSearchListDiv.removeClass('d-none');
+        }
     }
 }
 
 var messengerAnalyzer = function (data) {
     var authUserId = $('#authUserId').val();
     console.log(data);
-    
+
     switch (data.type) {
         case 'message':
             if (contactUser === data.userId) {// 메세지 도착시 상대방 창을 보고있어, 상대방 메세지 표시및 메시지 확인 전송
@@ -180,15 +220,15 @@ var messengerAnalyzer = function (data) {
             }
             break;
         case 'success':
-            if(contactUser === data.resId) { // 내가 보낸 메시지 표시
+            if (contactUser === data.resId) { // 내가 보낸 메시지 표시
                 $('#messageView').append(template.message(data, contactUser));
                 messengerService.scrollBottom();
             }
             break;
         case 'check':
-            if(authUserId === data.contactUser) { // 상대방이 내 메시지를 확인했을 때
+            if (authUserId === data.contactUser) { // 상대방이 내 메시지를 확인했을 때
                 messengerService.readMsg(data);
-            } else if(contactUser === data.contactUser) { //내가 상대방 메세지를 확인하여 알림 개수를 지우기
+            } else if (contactUser === data.contactUser) { //내가 상대방 메세지를 확인하여 알림 개수를 지우기
                 messengerService.readMsg(data, true);
             }
             break;

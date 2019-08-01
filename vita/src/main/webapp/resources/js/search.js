@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     // enter키
     searchForm.on('keyup', function(event) {
-    	var keyword = $(this).val();
+    	var keyword = $(this).val().trim();
         if (event.keyCode == 13 && keyword) {
             searchAdd($(this).val());
         }
@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     // 검색버튼
     $('#searchBtn').on('click', function(event) {
-        if(searchForm.val()) {
+        if(searchForm.val().trim()) {
             searchAdd(searchForm.val());
         }
     });
@@ -36,7 +36,7 @@ $(document).ready(function () {
         viewMainPage();
     });
 
-
+    // 검색 실행
     function searchAdd(keyword) {
         searchBarDiv.removeClass('d-none');
         $('#searchBar > div').append(template.filterAdd(keyword));

@@ -91,12 +91,8 @@ public class FeedController {
 
 	@PostMapping("/list/userfeed/{contactUser}")
 	@ResponseBody
-	@Auth
-	public List<FeedDTO> getListUserFeed(@SessionAttribute("authUser") UserVO user,
-			@RequestBody CategoryFilterDTO filter, @PathVariable("contactUser") String userId) {
+	public List<FeedDTO> getListUserFeed(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
 		System.out.println("......................................" + filter);
-		System.out.println("......................................" + userId);
-		filter.setGoToUserId(userId);
 		return service.getListUserFeed(user, filter);
 	}
 

@@ -15,17 +15,17 @@
 <div class="container">
 
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-4 order-2">
 			<!-- 검색 쪽 -->
 			<div class="card mb-3">
 				<!-- 검색어 input 구간 -->
 				<div class="card-header">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="ID..."
-							aria-describedby="msgSearchBtn">
+						<input type="text" class="form-control" placeholder="ID..." id="msgSeachForm"
+							aria-describedby="msgListBtn">
 						<div class="input-group-append">
-							<button class="btn btn-outline-primary" id="msgSeachBtn">
-								<i class="fas fa-search" style="font-size: 20px;"></i>
+							<button class="btn btn-outline-primary active" id="msgListBtn">
+								<i class="fas fa-list" style="font-size: 20px;"></i>
 							</button>
 							<button class="btn btn-outline-primary d-none"
 								id="msgSearchDownBtn">
@@ -55,10 +55,18 @@
 							</div>
 						</a>
 					</div>
+					<div class="list-group d-none" id="messengerSearchList">
+						<a href="#" class="list-group-item list-group-item-action">
+							<div class="d-inline-block rounded bg-secondary">프로필</div>
+							<div class="d-inline-block">
+								<label>닉네임(ID)</label>
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-8">
+		<div class="col-lg-8 order-1">
 			<!-- 채팅창 쪽 -->
 			<div class="card">
 				<div class="card-header">
