@@ -68,7 +68,7 @@ var messengerService = {
                 leftTarget.addClass('d-none');
                 topTarget.addClass('d-none');
             } else {
-                leftTartget.text(leftCount);
+                leftTarget.text(leftCount);
                 topTarget.text(topCount);
             }
         }
@@ -81,16 +81,66 @@ var messengerService = {
         }
         messengerws.send(JSON.stringify(check));
     },
+    viewMessengerNoti: function (data, success) {
+        var messengerNotiListDiv = $('#messengerNotiList'); //알림바 메시지 알림 목록영역
+        var authUserId = $('#authUserId').val();
+
+        if (success) {
+            var successRefreshTemp = messengerNotiListDiv.find(`a[data-contact="${data.resId}"]`).clone();
+            successRefreshTemp.addClass('active').find('.lastMsg').text(data.msg);
+            messengerNotiListDiv.find(`a[data-contact="${data.resId}"]`).remove();
+            messengerNotiListDiv.prepend(successRefreshTemp);
+            return;
+        }
+        if (Array.isArray(data)) {
+            var tempCount = 0;
+            $.each(data, function (i, item) {
+                if (item.userId === '목록이 존재 하지 않아요') {
+                    messengerNotiListDiv.append(`<div class="font-weight-bolder dropdown-item noShowList">목록이 존재 하지 않아요</div>`);
+                    return;
+                }
+                messengerNotiListDiv.append(template.notiMessengerList(item));
+                tempCount += item.readless;
+            });
+            messengerService.displayMessengerNotiCount(tempCount);
+        } else {
+            if (authUserId === data.resId) {
+                // console.log(data.userId +', ' + )
+                var tempCount = parseInt(messengerNotiListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
+                if(!tempCount) tempCount = 1;
+                console.log('noti tempcount: ' + tempCount);
+                
+
+                messengerNotiListDiv.find(`a[data-contact='${data.userId}']`).remove();
+                $('#goToMessengerBtn').after(template.notiMessengerList(data, tempCount));
+                messengerService.displayMessengerNotiCount(1);
+            }
+        }
+    },
     viewMessengerList: function (data, success) {
         var messengerListDiv = $('#messengerList');
         var authUserId = $('#authUserId').val();
+        if (success) {
+            var successRefreshTemp = messengerListDiv.find(`a[data-contact="${contactUser}"]`).clone();
+            successRefreshTemp.addClass('active').find('.lastMsg').text(data.msg);
+            messengerListDiv.find(`a[data-contact="${contactUser}"]`).remove();
+            messengerListDiv.prepend(successRefreshTemp);
+            return;
+        }
         if (Array.isArray(data)) {
             $.each(data, function (i, item) {
+                if (item.userId === '목록이 존재 하지 않아요') {
+                    messengerListDiv.append(`<div class="font-weight-bolder dropdown-item noShowList">목록이 존재 하지 않아요</div>`);
+                    return;
+                }
                 messengerListDiv.append(template.messengerList(item));
             });
         } else {
             if (authUserId === data.resId) {
                 var tempCount = parseInt(messengerListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
+                if(!tempCount) tempCount = 1;
+                console.log('noti tempcount: ' + tempCount);
+
                 messengerListDiv.find(`a[data-contact='${data.userId}']`).remove();
                 messengerListDiv.prepend(template.messengerList(data, tempCount));
             }
@@ -102,6 +152,8 @@ var messengerService = {
         var messengerContactInfoH5 = $('#messengerContactInfo');
         // 초기화
         msgDays = [];
+
+        // active이동
         messengerListDiv.find('a[data-contact]').removeClass('active');
         $(element).addClass('active');
         contactUser = $(element).data('contact');
@@ -135,25 +187,6 @@ var messengerService = {
         var element = document.getElementById('messageView');
         element.scrollTop = element.scrollHeight;
     },
-    viewMessengerNoti: function (data) {
-        var messengerNotiListDiv = $('#messengerNotiList'); //알림바 메시지 알림 목록영역
-        var authUserId = $('#authUserId').val();
-        if (Array.isArray(data)) {
-            var tempCount = 0;
-            $.each(data, function (i, item) {
-                messengerNotiListDiv.append(template.notiMessengerList(item));
-                tempCount += item.readless;
-            });
-            messengerService.displayMessengerNotiCount(tempCount);
-        } else {
-            if (authUserId === data.resId) {
-                var tempCount = parseInt(messengerNotiListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
-                messengerNotiListDiv.find(`a[data-contact='${data.userId}']`).remove();
-                $('#goToMessengerBtn').after(template.notiMessengerList(data, tempCount));
-                messengerService.displayMessengerNotiCount(1);
-            }
-        }
-    },
     displayMessengerNotiCount: function (addCount) {
         messengerNotiCount += addCount;
         var display = messengerNotiCount;
@@ -173,28 +206,31 @@ var messengerService = {
             });
         });
     },
-    addMessenger: function (element) {
+    addMessenger: function (contactUserId) {
         var messengerListDiv = $('#messengerList');
         var messageViewDiv = $('#messageView');
         var messengerContactInfoH5 = $('#messengerContactInfo');
         // 초기화
         msgDays = [];
-        $(element).addClass('active');
-        contactUser = $(element).data('contact');
+        // $(element).addClass('active');
+        // contactUser = $(element).data('contact');
 
         // 유저 정보 불러오기
-        userService.get(contactUser, function (result) {
+        userService.get(contactUserId, function (result) {
+            $('.noShowList').remove();
             messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
             messengerListDiv.prepend(template.messengerList(result));
-            messengerService.listAndSearchToggle();
+            // active이동
+            messengerListDiv.find('a[data-contact]').removeClass('active');
+            messengerListDiv.find(`a[data-contact="${contactUserId}"]`).addClass('active');
         });
         messageViewDiv.empty();
     },
-    listAndSearchToggle: function () {
+    listAndSearchToggle: function (searchFlag) {
         var messengerListDiv = $('#messengerList');
         var messengerSearchListDiv = $('#messengerSearchList');
         var messengerListBtn = $('#msgListBtn');
-        if (messengerListDiv.hasClass('d-none')) {
+        if (messengerListDiv.hasClass('d-none') && !searchFlag) {
             messengerListBtn.addClass('active');
             messengerListDiv.removeClass('d-none');
             messengerSearchListDiv.addClass('d-none');
@@ -221,14 +257,14 @@ var messengerAnalyzer = function (data) {
                 messengerService.viewMessengerList(data);
             } else {    // 다른창을 보고있을때 상대방 메세지가 도착하여 메시지 알림 갱신
                 messengerService.viewMessengerNoti(data);                         //상단바 알림
-                if(messengerOpenFlag) messengerService.viewMessengerList(data);   //메신저창 리스트
+                if (messengerOpenFlag) messengerService.viewMessengerList(data);   //메신저창 리스트
             }
             break;
         case 'success':
             if (contactUser === data.resId) { // 내가 보낸 메시지 표시
                 $('#messageView').append(template.message(data, contactUser));
-                messengerService.viewMessengerNoti(data);
-                messengerService.viewMessengerList(data);
+                messengerService.viewMessengerNoti(data, true);
+                messengerService.viewMessengerList(data, true);
                 messengerService.scrollBottom();
             }
             break;

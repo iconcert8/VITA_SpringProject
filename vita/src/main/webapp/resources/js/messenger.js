@@ -5,18 +5,27 @@ $(document).ready(function () {
     var sendMsgForm = $('#sendMsgForm');
     var messengerListDiv = $('#messengerList');
     var messengerSearchListDiv = $('#messengerSearchList');
-    var messengerSearchFrom = $('#msgSeachForm');
+    var messengerSearchForm = $('#msgSeachForm');
     var messengerListBtn = $('#msgListBtn');
 
     contactUser = $('#contactUser').val();
+
     messengerOpenFlag = true;   // 메신저 창 실행 여부
 
     messengerListDiv.empty();
     messengerService.getList(function (result) {
         messengerService.viewMessengerList(result);
+        
         if (contactUser) {
-            var select = messengerListDiv.find(`a[data-contact='${contactUser}']`);
-            messengerService.selectContactUser(select);
+            var select = messengerListDiv.find(`a[data-contact='${contactUser}']`).data('contact');
+            // 기존 대화에 있는 유저인지 검사
+            if(select) {
+                select = messengerListDiv.find(`a[data-contact='${contactUser}']`);
+                messengerService.selectContactUser(select);
+            } else {
+                messengerService.addMessenger(contactUser)
+            }
+            contactUser = '';
         }
     });
 
@@ -24,6 +33,8 @@ $(document).ready(function () {
     // 목록 선택
     messengerListDiv.on('click', 'a', function (event) {
         messengerService.selectContactUser(this);
+        sendMsgForm.val('');
+        messengerSearchForm.val('');
     });
 
 
@@ -47,15 +58,15 @@ $(document).ready(function () {
 
 
     //-------사용자 검색
-    messengerSearchFrom.on('keyup', function (event) {
+    messengerSearchForm.on('keyup', function (event) {
         var search = $(this).val().trim();
         if (search) {
-            messengerService.listAndSearchToggle();
+            messengerService.listAndSearchToggle(true);
             messengerService.search(search);
         } else {
             $(this).val('');
             messengerSearchListDiv.empty();
-            messengerService.listAndSearchToggle();
+            messengerService.listAndSearchToggle(true);
         }
     });
 
@@ -66,7 +77,10 @@ $(document).ready(function () {
 
     // 메신저 유저 추가
     messengerSearchListDiv.on('click', 'a', function (event) {
-        messengerService.addMessenger(this);
+        messengerService.addMessenger($(this).data('contact'));
+        messengerService.listAndSearchToggle();
+        sendMsgForm.val('');
+        messengerSearchForm.val('');
     });
 
 });

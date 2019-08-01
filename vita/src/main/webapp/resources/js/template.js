@@ -650,11 +650,8 @@ var template = {
 
         var readlessHide;
         var readless = 0;
-        if (count) {
-            readless = count;
-        } else if(readless) {
-            readless = last.readless;
-        } 
+        if (count) readless = count;
+        else if(last.readless) readless = last.readless;
 
         if (readless === 0) {
             readlessHide = 'd-none';
@@ -681,7 +678,7 @@ var template = {
         }
         var readless = 0;
         if (count) readless = count;
-        else readless = last.readless;
+        else if(last.readless) readless = last.readless;
 
         if (readless === 0) {
             readlessHide = 'd-none';
