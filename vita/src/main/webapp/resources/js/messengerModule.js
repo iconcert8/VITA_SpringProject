@@ -162,7 +162,6 @@ var messengerService = {
         userService.get(contactUser, function (result) {
             messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
         });
-
         messengerService.get(contactUser, function (result) {
             messageViewDiv.empty();
             var msgNo;

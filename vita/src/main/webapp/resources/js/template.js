@@ -23,8 +23,8 @@ var template = {
         for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
             var feedImage = feed.feedImages[i];
             if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `<div class="carousel-item active" style="height: 300px;">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="width:100%; height: 100%;">`;
                 feedImages += `</div>`;
                 feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}" class="active"></li>`;
             } else {
@@ -720,7 +720,6 @@ var template = {
 
         var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
             + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-
         var template;
         if (msg.reqId === contactUser) {
             $(`label[data-usertime="${dateTime}"]`).hide();
