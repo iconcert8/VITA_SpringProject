@@ -372,4 +372,51 @@ $(document).ready(function () {
             feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
         })
     });
+    
+    
+    // 피드 입력 이벤트
+	$("#insertFeedBtn").on("click", function(e){
+		e.preventDefault();
+		// 소분류 카테고리 console.log(smallElement.substr(smallElement.indexOf("&")+1));
+		// 카테고리 번호 console.log(smallElement.substr(0, smallElement.indexOf("&")));
+		// 요청카테고리 console.log($("#category-request").val());
+		// 피드 내용 console.log($("#content-write-textarea").val());
+		// userId console.log($("#authUserId").val());
+		// 태그+피드 리미트
+		// console.log(($("#tag-write-input").val()+"&"+$("#content-write-textarea").val()).substr(0,50));
+
+		if ($("#write-image").val().trim() === '') {
+			alert("이미지 업로드해라");
+			return false; }
+		if ($("#tag-write-input").val().trim() === '') {
+			alert("태그내용 작성해라");
+			return false; }
+		if ($("#content-write-textarea").val().trim() === '') {
+			alert("피드내용 작성해라");
+			return false; }
+
+		var tags = $("#tag-write-input").val().split("#");
+		tags.splice(0, 1);
+		var smallElement = $("#category-choose-small").val();
+		var inputFile = $("input[name='uploadFile']");
+		var imgs = inputFile[0].files;
+		var imgData = [];
+		
+		for(var i = 0; i < imgs.length; i++){
+			imgData.push({feedImgFileName : imgs[i].name});
+		}
+
+		feedService.insert(
+				{categoryNo : smallElement.substr(0, smallElement.indexOf("&")), 
+				userId : $("#authUserId").val(),
+				feedContent : $("#content-write-textarea").val(),
+				feedLimitContent : ($("#tag-write-input").val()+ "&"+$("#content-write-textarea").val()).substr(0,50),
+				categoryTemp : $("#category-request").val(),
+				// 태그 string 배열
+				tags : tags,		
+				// FeedImageVO 배열
+				feedImages : imgData
+				});
+	});
+	
 });

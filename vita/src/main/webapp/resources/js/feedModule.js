@@ -77,9 +77,23 @@ var feedService = {
     			if(complete) complete();
     		}
     	});
-    	
-    }
+    },
     
+    insert: function add(feed){
+    	console.log("js : feed data : ------ " + JSON.stringify(feed));
+    	
+    	$.ajax({
+    		type : "post",
+    		url : "/feed/new",
+    		data : JSON.stringify(feed),
+    		contentType: "application/json; charset=UTF-8",
+    		success : function(result){
+    			console.log(result);
+    			copyImg(result);
+    		}
+    	});
+    }
+
 }
 
 var userService = {
@@ -136,104 +150,3 @@ var viewService = {
     //     $('#categoryBar > div').empty().prepend(`<button class="btn btn-outline-secondary float-right" id="resetFilter">초기화</button>`);
     // },
 }
-
-
-var copyImg = function(feedNo){
-	var copyForm = new FormData();
-	var copyInput = $("input[name='uploadFile']");
-	var copyFiles = copyInput[0].files;
-
-	for (var i = 0; i < copyFiles.length; i++) {
-		copyForm.append("uploadFile", copyFiles[i]);
-	}
-	
-	console.log(feedNo);
-	
-
-	
-	$.ajax({
-		url : '/feed/copy/'+feedNo,
-		processData : false,
-		contentType : false,
-		data : copyForm,
-		type : 'post',
-		success : function(result) {
-			alert("Uploaded");
-			$("#write-image").val('');
-			$("#tag-write-input").val('');
-			$("#content-write-textarea").val('');
-			$("#category-request").val('');
-			$("#image-block").empty();
-			
-//			$(".modal-open").removeClass("modal-open");
-//			$("#writeModal").addClass();
-//			$("#writeModal").removeClass("show");
-//			$("#writeModal").removeAttr("style");
-//			$("#writeModal").removeAttr("aria-modal");
-//			$("#writeModal").attr("aria-hidden", "true");
-//			$(".modal-backdrop fade show").removeAttr("class");
-			$("#writeModal").modal("hide");
-			
-		}
-	});
-};
-
-
-var insertFeed = function add(feed){
-	$.ajax({
-		type : "post",
-		url : "/feed/new",
-		data : JSON.stringify(feed),
-		contentType: "application/json; charset=UTF-8",
-		success : function(result){
-			console.log(result);
-			copyImg(result);
-		}
-	})
-};
-
-
-// 피드 입력 이벤트
-$("#insertFeedBtn").on("click", function(e){
-	e.preventDefault();
-	// 소분류 카테고리 console.log(smallElement.substr(smallElement.indexOf("&")+1));
-	// 카테고리 번호 console.log(smallElement.substr(0, smallElement.indexOf("&")));
-	// 요청카테고리 console.log($("#category-request").val());
-	// 피드 내용 console.log($("#content-write-textarea").val());
-	// userId console.log($("#authUserId").val());
-	// 태그+피드 리미트
-	// console.log(($("#tag-write-input").val()+"&"+$("#content-write-textarea").val()).substr(0,50));
-
-	if ($("#write-image").val().trim() === '') {
-		alert("이미지 업로드해라");
-		return false; }
-	if ($("#tag-write-input").val().trim() === '') {
-		alert("태그내용 작성해라");
-		return false; }
-	if ($("#content-write-textarea").val().trim() === '') {
-		alert("피드내용 작성해라");
-		return false; }
-
-	var tags = $("#tag-write-input").val().split("#");
-	tags.splice(0, 1);
-	var smallElement = $("#category-choose-small").val();
-	var inputFile = $("input[name='uploadFile']");
-	var imgs = inputFile[0].files;
-	var imgData = [];
-	
-	for(var i = 0; i < imgs.length; i++){
-		imgData.push({feedImgFileName : imgs[i].name});
-	}
-
-	insertFeed(
-			{categoryNo : smallElement.substr(0, smallElement.indexOf("&")), 
-			userId : $("#authUserId").val(),
-			feedContent : $("#content-write-textarea").val(),
-			feedLimitContent : ($("#tag-write-input").val()+ "&"+$("#content-write-textarea").val()).substr(0,50),
-			categoryTemp : $("#category-request").val(),
-			// 태그 string 배열
-			tags : tags,		
-			// FeedImageVO 배열
-			feedImages : imgData
-			});
-})
