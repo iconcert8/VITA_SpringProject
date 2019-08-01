@@ -183,7 +183,7 @@ var messengerService = {
         // 유저 정보 불러오기
         userService.get(contactUser, function (result) {
             messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
-            messengerListDiv.append(template.messengerList(result));
+            messengerListDiv.prepend(template.messengerList(result));
             messengerService.listAndSearchToggle();
         });
         messageViewDiv.empty();
@@ -222,6 +222,7 @@ var messengerAnalyzer = function (data) {
         case 'success':
             if (contactUser === data.resId) { // 내가 보낸 메시지 표시
                 $('#messageView').append(template.message(data, contactUser));
+                
                 messengerService.scrollBottom();
             }
             break;

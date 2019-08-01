@@ -60,7 +60,6 @@ public class MessengerHandler extends TextWebSocketHandler {
 
 		// json객체에서 인스턴스 추출
 		String type = jobj.get("type").getAsString();
-
 		switch (type) {
 		case "message":
 			sendMessage(session, jobj);
