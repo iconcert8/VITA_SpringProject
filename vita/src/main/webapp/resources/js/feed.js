@@ -95,6 +95,7 @@ $(document).ready(function () {
             alert('error');
         });
         viewFeedListDiv.empty();
+        $('#gotoUser').val("");
         viewUserPage('userfeed', gotoUserId);
     }
 

@@ -190,7 +190,7 @@ var notificationService = (function(){
 				}
 			}
 			
-			html += 		'<img class="img-0" style="vertical-align:top" src="/display?fileName='+fileCallPath+'">';
+			html += 		'<img class="img-1" style="vertical-align:top" src="/display?fileName='+fileCallPath+'">';
 			html += 	'<div class="d-inline-block m-0 p-0">'+item.notifyMsg+'<br>';
 			html += 		'<span style="font-size:10px; color:gray;">'+item.notifyDate.substring(0,16)+'</span>';
 			html += 	'</div>';
