@@ -17,20 +17,21 @@ var template = {
         limitContent = limitContent.replace(/#[^#\s,;]+/gm, function (tag) {
             return `<a class="tagSearch">${tag}</a>`;
         });
-        // var tempTags;
-
 
         var feedImages = "";
+        var feedImagesIndicator = '';
         for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
             var feedImage = feed.feedImages[i];
             if (i == 0) {
                 feedImages += `<div class="carousel-item active">`;
                 feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
                 feedImages += `</div>`;
+                feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}" class="active"></li>`;
             } else {
                 feedImages += `<div class="carousel-item">`;
                 feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
                 feedImages += `</div>`;
+                feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}"></li>`;
             }
         }
 
@@ -67,8 +68,10 @@ var template = {
                         <input type="hidden" name="categoryNo" value=${feed.categoryNo}>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="feedNo${feed.feedNo}" class="carousel slide"
-                            data-interval="false" data-ride="carousel">
+                        <div id="feedNo${feed.feedNo}" class="carousel slide" data-ride="carousel" data-interval="5000">
+                            <ol class="carousel-indicators">
+                                ${feedImagesIndicator}
+                            </ol>
                             <div class="carousel-inner bg-dark text-white"
                                 data-toggle="modal" data-target="#feedDetailModal" data-feedno=${feed.feedNo}>
                                 ${feedImages}
@@ -143,13 +146,13 @@ var template = {
         }
     },
 
-    userInfo: function (user, authUser) {
+    userInfo: function (user, authUserFlag) {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded" >
                                     <h3 id="userImg">
                                         <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
                                     <h3></div>`;
-        if(authUser){
+        if(authUserFlag){
         	 template += `<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;">
                             <input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
                             <label class="btn btn-outline-primary" for="prof-img" style="width:150px;">ProImg 바꾸기</label>
@@ -158,7 +161,7 @@ var template = {
         template +=    `<div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>
                                 </div>`;
-        if (!authUser) {
+        if (!authUserFlag) {
             var isFollow = '';
             if (user.reqId == null && user.isFollow == null) {
                 isFollow = `<button class="btn btn-outline-primary col col-sm-3 nofln" data-userid="${user.userId}">팔로우</button>`;
@@ -191,18 +194,22 @@ var template = {
         }
 
         var feedImages = "";
+        var feedImagesIndicator = '';
         for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
             var feedImage = feed.feedImages[i];
             if (i == 0) {
                 feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
                 feedImages += `</div>`;
+                feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}" class="active"></li>`;
             } else {
                 feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
                 feedImages += `</div>`;
+                feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}"></li>`;
             }
         }
+        // style="height: 800px;
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary nogood' : 'btn-primary good';
         var favoriteBtn = feed.isFavorite == null ? 'btn-outline-primary nofavor' : 'btn-primary favor';
@@ -226,8 +233,10 @@ var template = {
                     <div class="modal-body row">
                         <!-- 피드 상세보기 이미지 부분 -->
                         <div class="col-xl-8">
-                            <div id="feedNo${feed.feedNo}" class="carousel slide"
-                                data-interval="false" data-ride="carousel">
+                            <div id="feedNo${feed.feedNo}" class="carousel slide" data-ride="carousel" data-interval="5000">
+                                <ol class="carousel-indicators">
+                                    ${feedImagesIndicator}
+                                </ol>
                                 <div class="carousel-inner bg-dark text-white">
                                     ${feedImages}
                                 </div>
@@ -401,11 +410,11 @@ var template = {
         	var feedImage = feed.feedImages[i];
         	if(i == 0){
         		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
         		feedImages += `</div>`;
         	}else{
         		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
         		feedImages += `</div>`;
         	}
         }
@@ -569,11 +578,11 @@ var template = {
         	var feedImage = feed.feedImages[i];
         	if(i == 0){
         		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
         		feedImages += `</div>`;
         	}else{
         		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
         		feedImages += `</div>`;
         	}
         }
@@ -757,7 +766,8 @@ var template = {
     },
     messengerSearch : function(user) {
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${user.userId}">
-                    <div class="d-inline-block rounded bg-secondary"><img src="${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>
+                    <div class="d-inline-block rounded bg-secondary">
+                    <img class="img-1" src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>
                     <div class="d-inline-block">
                         <label>${user.userNick}(${user.userId})</label>
                      </div>

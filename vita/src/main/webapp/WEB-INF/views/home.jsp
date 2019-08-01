@@ -172,5 +172,4 @@
 </div>
 <!-- end 중간 (카테고리 선택 부분, 피드 부분)-->
 
-
 <%@ include file="./include/footer.jsp"%>
