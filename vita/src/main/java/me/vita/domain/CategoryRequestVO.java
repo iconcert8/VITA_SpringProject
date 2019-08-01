@@ -13,7 +13,7 @@ public class CategoryRequestVO {
 	
 	private Integer categoryRequestNo;
 	private String bigGroup;
-	private String categoryRequestSamllGroup;
+	private String categoryRequestSmallGroup;
 	private Date categoryRequestDate;
 	private Integer feedNo;
 

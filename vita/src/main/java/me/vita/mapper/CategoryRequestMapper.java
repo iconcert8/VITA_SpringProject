@@ -16,5 +16,7 @@ public interface CategoryRequestMapper {
 	List<Integer> selectListFeedNo(CategoryRequestDTO dto);
 	
 	int delete(CategoryRequestDTO dto);
+
+	int request(CategoryRequestVO categoryRequestVO);
 	
 }

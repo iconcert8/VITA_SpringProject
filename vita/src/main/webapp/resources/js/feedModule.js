@@ -88,6 +88,7 @@ var feedService = {
     		data : JSON.stringify(feed),
     		contentType: "application/json; charset=UTF-8",
     		success : function(result){
+    			// feedNo = result
     			console.log(result);
     			copyImg(result);
     		}

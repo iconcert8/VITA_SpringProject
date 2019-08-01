@@ -21,4 +21,9 @@
 		delete from categoryRequest
 		where bigGroup = #{bigGroup} and categoryRequestSmallGroup=#{categoryRequestSmallGroup}
 	</delete>
+	
+	<insert id="request" parameterType="me.vita.domain.CategoryRequestVO">
+		INSERT INTO categoryRequest(categoryRequestNo, bigGroup, categoryRequestSmallGroup, categoryRequestDate, feedNo)
+		VALUES(seq_categoryRequestNo.nextval, #{bigGroup}, #{categoryRequestSmallGroup}, sysdate, #{feedNo})
+	</insert>
 </mapper>

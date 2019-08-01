@@ -394,10 +394,13 @@ $(document).ready(function () {
 		if ($("#content-write-textarea").val().trim() === '') {
 			alert("피드내용 작성해라");
 			return false; }
-
+		
 		var tags = $("#tag-write-input").val().split("#");
 		tags.splice(0, 1);
 		var smallElement = $("#category-choose-small").val();
+		var bigGroupName = $("#category-choose-big").val();
+		console.log("대분류"  + bigGroupName);
+		
 		var inputFile = $("input[name='uploadFile']");
 		var imgs = inputFile[0].files;
 		var imgData = [];
@@ -418,5 +421,4 @@ $(document).ready(function () {
 				feedImages : imgData
 				});
 	});
-	
 });

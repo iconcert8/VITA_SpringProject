@@ -23,5 +23,10 @@
 		values (#{categoryNo}, #{bigGroup}, #{smallGroup})
 	</insert>
 
+	<select id="getBigGroup" resultType="String">
+		SELECT bigGroup
+		FROM category
+		WHERE categoryNo = #{categoryNo}
+	</select>
 
 </mapper>
