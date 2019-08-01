@@ -16,11 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
 import me.vita.domain.FeedImageVO;
+import me.vita.domain.SearchVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
 import me.vita.dto.FeedDTO;
 import me.vita.mapper.FeedImageMapper;
 import me.vita.mapper.FeedMapper;
+import me.vita.mapper.SearchMapper;
 import me.vita.mapper.TagMapper;
 
 @Service
@@ -35,9 +37,14 @@ public class FeedServiceImpl implements FeedService {
 
 	@Autowired
 	private TagMapper tagMapper;
+	
+	@Autowired
+	private SearchMapper searchMapper;
 
 	@Autowired
 	private ServletContext ser;
+	
+	
 
 	// @Autowired
 	// MultipartFile m;
@@ -53,6 +60,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<FeedDTO> getListPopular(UserVO user, CategoryFilterDTO filter) {
+		insertSearchKeyword(user, filter);
 		List<FeedDTO> feedDTOs = mapper.selectListPopular(user, filter);
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
@@ -64,6 +72,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<FeedDTO> getListRecent(UserVO user, CategoryFilterDTO filter) {
+		insertSearchKeyword(user, filter);
 		List<FeedDTO> feedDTOs = mapper.selectListRecent(user, filter);
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
@@ -75,6 +84,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<FeedDTO> getListNewsFeed(UserVO user, CategoryFilterDTO filter) {
+		insertSearchKeyword(user, filter);
 		List<FeedDTO> feedDTOs = mapper.selectListNewsFeed(user, filter);
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
@@ -86,6 +96,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<FeedDTO> getListFavorite(UserVO user, CategoryFilterDTO filter) {
+		insertSearchKeyword(user, filter);
 		List<FeedDTO> feedDTOs = mapper.selectListFavorite(user, filter);
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
@@ -97,6 +108,7 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public List<FeedDTO> getListUserFeed(UserVO user, CategoryFilterDTO filter) {
+		insertSearchKeyword(user, filter);
 		List<FeedDTO> feedDTOs = mapper.selectListUserFeed(user, filter);
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
@@ -191,4 +203,20 @@ public class FeedServiceImpl implements FeedService {
 	public boolean remove(Integer feedNo) {
 		return mapper.delete(feedNo) == 1;
 	}
+	
+	public void insertSearchKeyword(UserVO user, CategoryFilterDTO filter){
+		String userId = user.getUserId();
+		if(userId.equals("guest") || userId.equals("")){
+			userId = null;
+		}
+		if(filter.getSearch().size() > 0){
+			for(String searchKeyword : filter.getSearch()){
+				SearchVO searchVO = new SearchVO();
+				searchVO.setSearchKeyword(searchKeyword);
+				searchVO.setUserId(userId);
+				searchMapper.insert(searchVO);
+			}
+		}
+	}
+	
 }

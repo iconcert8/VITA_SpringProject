@@ -1,33 +1,35 @@
 $(function() {
-    var count = $('#rank-list li').length;
-    var height = $('#rank-list li').height();
+    
 
-    function step(index) {
+    function step(index, count) {
+    	index = index % count;
         $('#rank-list ol').delay(2200).animate({
-            top: -height * index,
+            top: -30 * index,
         }, 300, function() {
-            step((index + 1) % count);
+        	step(index+1, count);
         });
     }
-
-    step(1);
-    
-    
     
     $.ajax({
     	type: 'get',
-    	url: "/user/ranking",
+    	url: "/rank",
     	dataType: "json",
     	success: function(data){
-    		$('#rank_1').html(data[0]);
-    		$('#rank_2').html(data[1]);
-    		$('#rank_3').html(data[2]);
-    		$('#rank_4').html(data[3]);
-    		$('#rank_5').html(data[4]);
+    		$("#rankBox").empty();
+    		var count = 0;
+    		$.each(data, function(index, item){
+    			count++;
+    			var html = "";
+    			html += '<li style="top:'+(index*30)+'">';
+    			html += 	(index+1)+'. <a href="#">'+item+'</a>';
+    			html += '</li>';
+    			
+    			$("#rankBox").append(html);
+    		});
+    		step(0, count);
     	},
     	error: function(request, status, error){
     		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
     	}
     });
     

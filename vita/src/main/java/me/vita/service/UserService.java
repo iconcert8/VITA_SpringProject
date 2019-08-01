@@ -20,8 +20,6 @@ public interface UserService {
 	public void modifyAuthstatus(String userId);
 
 	public UserDTO get(String myId, String userId);
-
-	public List<String> getSearchkey();
 	
 	public UserVO getUserInfo(String userId);
 

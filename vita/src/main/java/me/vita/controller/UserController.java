@@ -37,12 +37,6 @@ public class UserController {
 		return "signup";
 	}
 	
-	@GetMapping("/ranking")
-	@ResponseBody
-	public List<String> rank(){
-		return service.getSearchkey();
-	}
-	
 	@PostMapping("/new")
 	public String register(UserVO userVO, RedirectAttributes rttr)throws Exception {
 		if(service.register(userVO)){

@@ -25,6 +25,4 @@ public interface UserMapper {
 	String selectAuthkey(@Param("userId") String userId);
 
 	void updateAuthstatus(@Param("userId") String userId);
-
-	List<String> selectSearchkeyword();
 }
