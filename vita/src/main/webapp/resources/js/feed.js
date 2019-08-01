@@ -239,11 +239,13 @@ $(document).ready(function () {
         contactUserId = $(this).data('contact');
         if (contactUserId === authUserId) {
             // 내 글 버튼 클릭 발생
-            var profile = document.getElementById('myFeed');
-            var event = document.createEvent("MouseEvents");
-            event.initEvent("click", false, true);
-            profile.dispatchEvent(event);
-            // $('#myFeed').trigger('click');
+            if(userModule !== 'userfeed') {
+                // var profile = document.getElementById('myFeed');
+                // var event = document.createEvent("MouseEvents");
+                // event.initEvent("click", false, true);
+                // profile.dispatchEvent(event);
+                $('#myFeed').trigger('click');
+            }
         } else {
             gotoUserPageInit(contactUserId);
         }

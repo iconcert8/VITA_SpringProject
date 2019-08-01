@@ -10,6 +10,12 @@
 	text-shadow: 0 0 2px #000;
 	clear: both;
 }
+
+.msg {
+	border : 2px solid #8188b4;
+	border-radius: 10px;
+	padding : 2px 5px
+}
 </style>
 
 <div class="container">
