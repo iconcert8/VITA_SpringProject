@@ -11,4 +11,3 @@ public interface TagMapper {
 	int insert(@Param("feedNo") Integer feedNo, @Param("tag") String tag);
 
 }
-

@@ -13,11 +13,12 @@ public interface ReplyMapper {
 
 	int delete(Integer replyNo);
 
-	List<ReplyDTO> selectList(@Param("userId") String userId, @Param("feedNo") Integer feedNo,@Param("page") Integer page);
+	List<ReplyDTO> selectList(@Param("userId") String userId, @Param("feedNo") Integer feedNo,
+			@Param("page") Integer page);
 
 	Integer selectCount(Integer feedNo);
-	
-	//피드삭제 시 댓글 전체삭제
+
+	// 피드삭제 시 댓글 전체삭제
 	int deleteAll(Integer feedNo);
-	
+
 }

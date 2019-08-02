@@ -1,4 +1,3 @@
-console.log("start categoryModule.............");
 
 var categoryService = (function () {
 	//	url get타입으로 요청을 보내서 받은 값을 callback 함수가 존재하면 result를 안에 넣어서 보낸다

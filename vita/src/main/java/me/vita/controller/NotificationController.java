@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import me.vita.domain.NotificationVO;
 import me.vita.security.Auth;
 import me.vita.security.Auth.Role;
-import me.vita.service.FeedService;
 import me.vita.service.NotificationService;
 
 @Controller
@@ -20,17 +19,16 @@ public class NotificationController {
 
 	@Autowired
 	private NotificationService service;
-	
-	
+
 	@PostMapping("/new")
 	@Auth(Role.ADMIN)
-	public ResponseEntity<String> register(@RequestBody NotificationVO notificationVO){
-		
-		if(service.register(notificationVO)){
+	public ResponseEntity<String> register(@RequestBody NotificationVO notificationVO) {
+
+		if (service.register(notificationVO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else{
+		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 }

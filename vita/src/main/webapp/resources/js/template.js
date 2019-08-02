@@ -1,4 +1,3 @@
-console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
@@ -149,7 +148,7 @@ var template = {
     userInfo: function (user, authUserFlag) {
         var template = `<div class="card-header text-center">
                                 <div class="d-inline-block rounded" >
-                                    <h3>
+                                    <h3 id="userImg">
                                         <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
                                     <h3></div>`;
         if (authUserFlag) {
@@ -304,7 +303,7 @@ var template = {
                                        
                                     </div> 
                                     
-                                    <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
+                                    <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal" data-feedno="${feed.feedNo}">
         									
                                     </ul>
                                 </div>
@@ -406,17 +405,17 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-                feedImages += `</div>`;
-            }
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -542,7 +541,7 @@ var template = {
         return deletetemplate;
     },
 
-    categoryRequestDecisionAlertModal: function (text, btn) {
+    decisionAlertModal: function (text, btn) {
         var decisionAlertModalTemplate = `
 			<!-- 카테고리 추가시 확인 모달창 -->
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -574,17 +573,17 @@ var template = {
 
         var feedImages = "";
 
-        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
-            var feedImage = feed.feedImages[i];
-            if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-                feedImages += `</div>`;
-            } else {
-                feedImages += `<div class="carousel-item">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 800px;">`;
-                feedImages += `</div>`;
-            }
+        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
+        	var feedImage = feed.feedImages[i];
+        	if(i == 0){
+        		feedImages += `<div class="carousel-item active">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+        		feedImages += `</div>`;
+        	}else{
+        		feedImages += `<div class="carousel-item">`;
+        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+        		feedImages += `</div>`;
+        	}
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -726,26 +725,24 @@ var template = {
             var tempDate = $(`div[data-usertime="${dateTime}"]`).data('usertime');
 
             var showProfile = '';
-            var leftMargin = '';
+            // var leftMargin = '';
             if (tempDate === dateTime) {
                 showProfile = 'd-none';
-                leftMargin = 'ml-5'
+                // leftMargin = 'ml-5'
             } else {
-                showProfile = 'd-inline';
+                showProfile = 'd-block';
             }
             $(`label[data-usertime="${dateTime}"]`).hide();
             template = `<!-- 상대방 채팅 -->
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
-                <div class="rounded float-left ${showProfile}" data-usertime="${dateTime}">
-                    <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
+                <div class="rounded ${showProfile}" data-usertime="${dateTime}">
+                    <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="width: 45px; height : 100%">
+                    <div class="text-dark font-weight-bolder px-1 d-inline" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</div>
                 </div>
                 <div class="d-inline-block float-left my-2">
-                    <div class="text-dark px-1 ${showProfile}" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</div>
-                    <div>
-                    <span class="msg ${leftMargin}">${msg.msg}</span>
-                        <label class="msgTime pl-2 mb-0 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
-                    </div>
+                    <span class="msg ml-5">${msg.msg}</span>
+                    <label class="msgTime pl-2 mb-0 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
                 </div>
             </div>`;
 

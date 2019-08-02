@@ -211,7 +211,7 @@ var notificationService = (function(){
 	
 	//delete 피드 알림
 	//delete recover 피드 알림
-	function register(notification){
+	function register(notification, callback){
 		
 		$.ajax({
 			type:'post',

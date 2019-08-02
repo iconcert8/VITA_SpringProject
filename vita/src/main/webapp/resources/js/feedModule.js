@@ -1,11 +1,8 @@
-console.log('Feed Module.........');
 
 var feedService = {
     getList: function (module, sendData, success, error, complete) {
-        console.log('getList feed.......');
 
         var url = 'feed/list' + (!module ? '' : '/') + module;
-        console.log(url);
         $.ajax({
             type: "post",
             url: url,
@@ -24,7 +21,6 @@ var feedService = {
         });
     },
     get: function (feedNo, success, error, complete) {
-        console.log('get feed detail.........' + feedNo);
 
         var url = `feed/${feedNo}`;
         $.ajax({
@@ -61,42 +57,41 @@ var feedService = {
             }
         });
     },
-    
-    remove: function(feedNo, success, error, complete ) {
-    	
-    	$. ajax({
-    		type : 'delete',
-    		url : "/feed/"+feedNo,
-    		success : function (response){
-    			if(success) success(response);
-    		},
-    		error: function (xhr, status, err){
-    			if(error) error(err);
-    		},
-    		complete: function () {
-    			if(complete) complete();
-    		}
-    	});
+
+    remove: function (feedNo, success, error, complete) {
+
+        $.ajax({
+            type: 'delete',
+            url: "/feed/" + feedNo,
+            success: function (response) {
+                if (success) success(response);
+            },
+            error: function (xhr, status, err) {
+                if (error) error(err);
+            },
+            complete: function () {
+                if (complete) complete();
+            }
+        });
     },
-    
-    insert: function add(feed){
-    	// console.log("js : feed data : ------ " + JSON.stringify(feed));
-    	$.ajax({
-    		type : "post",
-    		url : "/feed/new",
-    		data : JSON.stringify(feed),
-    		contentType: "application/json; charset=UTF-8",
-    		success : function(result){
-    			// console.log(result);
-    			copyImg(result);
-    		}
-    	});
+
+    insert: function add(feed) {
+        // console.log("js : feed data : ------ " + JSON.stringify(feed));
+        $.ajax({
+            type: "post",
+            url: "/feed/new",
+            data: JSON.stringify(feed),
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                // console.log(result);
+                copyImg(result);
+            }
+        });
     }
 }
 
 var userService = {
     get: function (userId, success, error, complete) {
-        console.log('get user........');
         $.ajax({
             type: "get",
             url: '/user/' + userId,

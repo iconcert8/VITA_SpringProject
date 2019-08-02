@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.extern.log4j.Log4j;
 import me.vita.dto.CategoryRequestDTO;
 import me.vita.security.Auth;
 import me.vita.security.Auth.Role;
@@ -24,16 +23,15 @@ import me.vita.service.CategoryRequestService;
 
 @RequestMapping("/categoryRequest")
 @Controller
-@Log4j
 public class CategoryRequestController {
-	
+
 	@Autowired
 	private CategoryRequestService service;
-	
+
 	@GetMapping("/list/{big}/{page}")
 	@ResponseBody
 	@Auth(Role.ADMIN)
-	public List<CategoryRequestDTO> getList(@PathVariable("big")String big, @PathVariable("page") Integer page) {
+	public List<CategoryRequestDTO> getList(@PathVariable("big") String big, @PathVariable("page") Integer page) {
 		String decodeBig = "";
 		try {
 			decodeBig = URLDecoder.decode(big, "UTF-8");
@@ -42,21 +40,21 @@ public class CategoryRequestController {
 		}
 		return service.getList(decodeBig, page);
 	}
-	
-	@PostMapping("/new")	//관리자 카테고리 추가 메소드
+
+	@PostMapping("/new") // 관리자 카테고리 추가 메소드
 	@Auth(Role.ADMIN)
 	public ResponseEntity<String> register(@RequestBody CategoryRequestDTO dto) {
-		if(service.register(dto)) {
+		if (service.register(dto)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@DeleteMapping("")
 	@Auth(Role.ADMIN)
-	public ResponseEntity<String> remove(@RequestBody CategoryRequestDTO dto){
-		if(service.remove(dto)) {
+	public ResponseEntity<String> remove(@RequestBody CategoryRequestDTO dto) {
+		if (service.remove(dto)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -13,8 +13,8 @@ import me.vita.dto.MessengerDTO;
 import me.vita.mapper.MessengerMapper;
 
 @Service
-public class MessengerServiceImpl implements MessengerService{
-	
+public class MessengerServiceImpl implements MessengerService {
+
 	@Autowired
 	MessengerMapper mapper;
 
@@ -24,7 +24,7 @@ public class MessengerServiceImpl implements MessengerService{
 		map.put("userId", user.getUserId());
 		mapper.selectList(map);
 		List<MessengerDTO> list = (List<MessengerDTO>) map.get("list");
-		if(list.size() == 0) {
+		if (list.size() == 0) {
 			MessengerDTO noMsg = new MessengerDTO();
 			noMsg.setUserId((String) map.get("userId"));
 			list.add(noMsg);
@@ -51,7 +51,5 @@ public class MessengerServiceImpl implements MessengerService{
 	public int modify(String reqId, String resId, Integer msgNo) {
 		return mapper.update(reqId, resId, msgNo);
 	}
-	
-	
-	
+
 }

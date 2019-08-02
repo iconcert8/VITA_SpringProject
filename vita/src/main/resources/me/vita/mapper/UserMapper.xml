@@ -44,4 +44,16 @@
 		update userinfo set authstatus='T' where userid=#{userId}
 	</update>
 
+	<select id="originalImgFile" parameterType="me.vita.domain.UserVO" resultType="me.vita.domain.UserVO">
+		SELECT *
+		FROM userInfo
+		WHERE userId = #{userId}
+	</select>
+
+	<update id="updateUserImg" parameterType="me.vita.domain.UserVO">
+		UPDATE userInfo 
+		SET userImgUuid = #{userImgUuid}, userImgFileName = #{userImgFileName}
+		WHERE userId = #{userId}
+	</update>
+
 </mapper>

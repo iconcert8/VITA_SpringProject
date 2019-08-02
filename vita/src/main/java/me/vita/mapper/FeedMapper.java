@@ -11,8 +11,8 @@ import me.vita.dto.FeedDTO;
 
 public interface FeedMapper {
 
-	FeedVO select(@Param("feedNo")Integer feedNo);
-	
+	FeedVO select(@Param("feedNo") Integer feedNo);
+
 	FeedDTO selectDetail(@Param("user") UserVO user, @Param("feedNo") Integer feedNo);
 
 	List<FeedDTO> selectListPopular(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
@@ -25,16 +25,16 @@ public interface FeedMapper {
 
 	List<FeedDTO> selectListUserFeed(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 
-	int updateGoodCnt(@Param("feedNo")Integer feedNo,@Param("num")Integer num);
-	
-	int updateReplyCnt(@Param("feedNo")Integer feedNo, @Param("num")Integer num);
-	
-	int updateFeedDel(@Param("feedNo")Integer feedNo, @Param("feedDel")String feedDel);
-	
-	int updateCategory(@Param("feedNo")Integer feedNo, @Param("categoryNo")Integer categoryNo);
+	int updateGoodCnt(@Param("feedNo") Integer feedNo, @Param("num") Integer num);
+
+	int updateReplyCnt(@Param("feedNo") Integer feedNo, @Param("num") Integer num);
+
+	int updateFeedDel(@Param("feedNo") Integer feedNo, @Param("feedDel") String feedDel);
+
+	int updateCategory(@Param("feedNo") Integer feedNo, @Param("categoryNo") Integer categoryNo);
 
 	int insert(FeedDTO feedDTO);
-	
-	int delete(@Param("feedNo")Integer feedNo);
+
+	int delete(@Param("feedNo") Integer feedNo);
 
 }

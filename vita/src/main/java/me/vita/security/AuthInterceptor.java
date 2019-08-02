@@ -28,22 +28,22 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		HttpSession session = request.getSession();
-		
+
 		if (session.getAttribute("guest") != null) {
 			session.removeAttribute("guest");
-//			response.sendRedirect(request.getContextPath() + "/user/login");
+			// response.sendRedirect(request.getContextPath() + "/user/login");
 			response.sendRedirect(request.getContextPath() + "/testlogin");
-			return false;
-		}
-		
-		UserVO authUser = (UserVO) session.getAttribute("authUser");
-		if (authUser == null) {
-			response.sendRedirect(request.getContextPath() + "/testlogin");
-//			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
 
-		//관리자 권한	
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		if (authUser == null) {
+			response.sendRedirect(request.getContextPath() + "/testlogin");
+			// response.sendRedirect(request.getContextPath() + "/user/login");
+			return false;
+		}
+
+		// 관리자 권한
 		if (adminRole != null) { // ClassType Annotation
 			if (adminRole.value().equals("ADMIN")) {
 				if (authUser.getUserId().equals("root") == false) {
@@ -51,7 +51,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 					return false;
 				}
 			}
-		} else if (auth.value().toString().equals("ADMIN")) { // method Annotation
+		} else if (auth.value().toString().equals("ADMIN")) { // method
+																// Annotation
 			if (authUser.getUserId().equals("root") == false) {
 				response.sendRedirect(request.getContextPath() + "/user/login");
 				return false;

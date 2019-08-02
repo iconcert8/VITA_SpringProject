@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.log4j.Log4j;
 import me.vita.domain.UserVO;
 import me.vita.dto.CategoryFilterDTO;
 import me.vita.dto.FeedDTO;
@@ -26,7 +24,6 @@ import me.vita.security.AuthUser;
 import me.vita.service.FeedService;
 
 @Controller
-@Log4j
 @RequestMapping("/feed")
 /*
  * 메인페이지 리스트, 카테고리 리스트(검색포함) 피드 상세 - 원본 이미지가져오기, 피드내용, 좋아요갯수, 즐겨찾기유무, 작성자,
@@ -54,7 +51,6 @@ public class FeedController {
 	@PostMapping("/list")
 	@ResponseBody
 	public List<FeedDTO> getList(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
-		 System.out.println("......................................................." + filter);
 		if (filter.getType().equals("popular")) {
 			return service.getListPopular(user, filter);
 		} else if (filter.getType().equals("recent")) {
@@ -91,7 +87,6 @@ public class FeedController {
 	@PostMapping("/list/userfeed/{contactUser}")
 	@ResponseBody
 	public List<FeedDTO> getListUserFeed(@AuthUser UserVO user, @RequestBody CategoryFilterDTO filter) {
-//		System.out.println("......................................" + filter);
 		return service.getListUserFeed(user, filter);
 	}
 
@@ -111,12 +106,8 @@ public class FeedController {
 	public ResponseEntity<String> copy(MultipartFile[] uploadFile, @PathVariable("feedNo") Integer feedNo) {
 
 		if (service.registerImg(uploadFile, feedNo)) {
-
-			System.out.println("성공");
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
-
-			System.out.println("실패");
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

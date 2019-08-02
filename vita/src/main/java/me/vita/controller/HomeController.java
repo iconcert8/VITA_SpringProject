@@ -13,19 +13,19 @@ import me.vita.security.AuthUser;
 
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	SearchMapper searhMapper;
-	
+
 	@GetMapping("/")
 	public String home(@AuthUser UserVO user) {
 		return "home";
 	}
-	
+
 	@GetMapping("/rank")
 	@ResponseBody
-	public List<String> rank(){
+	public List<String> rank() {
 		return searhMapper.selectRank();
 	};
-	
+
 }

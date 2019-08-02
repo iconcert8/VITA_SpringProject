@@ -1,4 +1,4 @@
-//소분류 호출
+//소분류 호출 
 function startSmallCallback(resultSmall, index, big){
 	var htmlSmall = '';
 

@@ -2,7 +2,7 @@ $(document).ready(function () {
     var pageNo = 0;
     var userModule = '';
     var myBtn = '';
-    var mainType = 'popular';
+    var mainType = 'recent';
     var removeBtn = ("#RemoveBtn");
     var endFlag = false;
 
@@ -40,13 +40,15 @@ $(document).ready(function () {
         
         if(!endFlag || (type || page==0)) {
         endFlag = false;
+
+        if(type || page==0) {
+            viewFeedListDiv.empty();
+            leftUserBtnOff();
+        }
         if (type) {
-            viewFeedListDiv.empty();
-            leftUserBtnOff();
             mainType = type;
-        } else if (page == 0) {
-            viewFeedListDiv.empty();
-            leftUserBtnOff();
+        }
+        if (page == 0) {
             pageNo = page;
         }
         viewService.mainPageInit();
@@ -79,13 +81,25 @@ $(document).ready(function () {
     viewUserPage = function (module, gotoUserId) {
         if (!endFlag || (module || gotoUserId)) {
             endFlag = false;
+            var v_module;
 
             if (module) {
                 pageNo = 0;   // 페이지 초기화
                 viewFeedListDiv.empty();
+                v_module = module; 
+            } else {
+                v_module = userModule;
+            }
+
+            if (module && !gotoUserId) {
+                if(module==='userfeed') {
+                    userInfoDiv.removeClass('d-none').empty();
+                    userService.get(authUserId, function (result) {
+                        userInfoDiv.append(template.userInfo(result, true));
+                    });
+                }
                 userModule = module;
             }
-            var v_module = userModule;
 
             if (gotoUserId) {
                 viewFeedListDiv.empty();
@@ -160,17 +174,18 @@ $(document).ready(function () {
         pageNo = 0;
     }
 
+    //---------------------------------------------------------------------------
     // 이벤트 설정-----------------------------------------------
+
     // 내글버튼
     $('#myFeed').on('click', function () {
-        console.log('myFeedBtn........');
         if (myBtn !== 'myFeed') {
 
-            // 회원정보 표시
-            userInfoDiv.removeClass('d-none').empty();
-            userService.get(authUserId, function (result) {
-                userInfoDiv.append(template.userInfo(result, true));
-            });
+            // // 회원정보 표시
+            // userInfoDiv.removeClass('d-none').empty();
+            // userService.get(authUserId, function (result) {
+            //     userInfoDiv.append(template.userInfo(result, true));
+            // });
 
             leftUserBtnOn(this);    // 버튼 활성화
             viewUserPage('userfeed');   // 피드 불러오기
@@ -187,7 +202,6 @@ $(document).ready(function () {
 
     // 즐겨찾기
     $('#myFavorite').on('click', function () {
-        console.log('myFavoriteBtn........');
         if (myBtn !== 'myFavorite') {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
@@ -207,7 +221,6 @@ $(document).ready(function () {
 
     // 팔로우글
     $('#newsFeed').on('click', function () {
-        console.log('newsFeedBtn........');
         if (myBtn !== 'newsFeed') {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
@@ -331,9 +344,12 @@ $(document).ready(function () {
 
     // 댓글 쓰기
     $(document).on('click', '#sendReplyBtn', function () {
-        console.log("reply.......");
-        var replyContent = $('#replyContent').val();
-        var userId = $('#authUserId').val();
+    	var replyContent = $('#replyContent').val();
+        if(replyContent.trim() ===''){
+        	return false;
+        }
+    	
+    	var userId = $('#authUserId').val();
         var feedNo = $(this).data('feedno');
         var replyNo = $(this).data('replyno');
         replyPageNo = 0;
@@ -347,8 +363,10 @@ $(document).ready(function () {
 
             replyPageNo = 0;
             replyService.getList(feedNo, replyPageNo, function (result) {
+            	$("#replyModal").scrollTop(0);
                 feedDetailModal.find('#replyModal').empty();
-                feedDetailModal.find('#replyModal').prepend(template.reply(result, userId));
+                feedDetailModal.find('#replyModal').append(template.reply(result, userId));
+                $('#replyContent').val("");
             });
         });
 
@@ -361,7 +379,7 @@ $(document).ready(function () {
         replyService.remove(feedNo, replyNo, function (result) {
             replyService.getList(feedNo, replyPageNo, function (result) {
                 feedDetailModal.find('#replyModal').empty();
-                feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
+                feedDetailModal.find('#replyModal').append(template.reply(result, authUserId));
             });
         });
 
@@ -375,7 +393,6 @@ $(document).ready(function () {
             var feedNo = $(this).data('feedno');
             feedService.remove(feedNo, function (result) {
                 $("#viewFeedDetailList").remove();
-                // alert("삭제성공");
                 alertModal.find('.alertMsg').text('피드를 삭제하였습니다.');
                 alertModal.modal('show');
             });
@@ -386,14 +403,37 @@ $(document).ready(function () {
     // 댓글 새로고침
     // 댓글 뿌려주기
 
-    $(document).on("click", '#returnBtn', function () {
-        var feedNo = $(this).data('feedno');
-        replyPageNo = 0;
-        replyService.getList(feedNo, replyPageNo, function (result) {
-            feedDetailModal.find('#replyModal').empty();
-            feedDetailModal.find('#replyModal').prepend(template.reply(result, authUserId));
-        })
-    });
+    $(document).on("click", '#returnBtn', function(){
+		var feedNo = $(this).data('feedno');
+		replyPageNo = 0;
+		replyService.getList(feedNo, replyPageNo, function (result) {
+			$("#replyModal").scrollTop(0);
+			feedDetailModal.find('#replyModal').empty();
+			feedDetailModal.find('#replyModal').append(template.reply(result, authUserId));
+		}) 
+	});
+    
+    //댓글 스크롤 이벤트
+	$(document).on("mouseover", "#replyModal", function(){
+		$("#replyModal").scroll(function(){
+		var $replyModal = $(this);
+		var scrollTop = $replyModal.scrollTop();
+		var windowHeight = $replyModal.height();
+		var scrollHeight = $replyModal.prop("scrollHeight");
+		
+		if((scrollTop + windowHeight) ==  scrollHeight){
+				$("#replyModal").scrollTop(scrollTop-10);
+				var feedNo = $(this).data('feedno');
+				replyPageNo++;
+				replyService.getList(feedNo, replyPageNo, function (result) {
+					feedDetailModal.find('#replyModal').empty();
+					feedDetailModal.find('#replyModal').append(template.reply(result, authUserId));
+				})
+			}  
+		});
+	});
+	
+	
 
     // 피드 입력 이벤트
     $("#insertFeedBtn").on("click", function (e) {
@@ -470,7 +510,7 @@ $(document).ready(function () {
     //----------------------------------------------------------------------------
 
     // 첫 메인 페이지 동작
-    mainType = 'popular';
+    mainType = 'recent';
     pageNo = 0;
     categoryFilter = [];
     serachFilter = [];

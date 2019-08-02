@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.extern.log4j.Log4j;
 import me.vita.domain.CategoryVO;
 import me.vita.service.CategoryService;
 
 @Controller
-@Log4j
 @RequestMapping("/category")
 /*
  * 대분류 리스트, 소분류 리스트
@@ -43,7 +41,7 @@ public class CategoryController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
+
 		return service.getListSmall(decodeBig);
 	}
 }

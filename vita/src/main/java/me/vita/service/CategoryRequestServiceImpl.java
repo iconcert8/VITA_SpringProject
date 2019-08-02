@@ -13,8 +13,8 @@ import me.vita.mapper.CategoryRequestMapper;
 import me.vita.mapper.FeedMapper;
 
 @Service
-public class CategoryRequestServiceImpl implements CategoryRequestService{
-	
+public class CategoryRequestServiceImpl implements CategoryRequestService {
+
 	@Autowired
 	private CategoryRequestMapper mapper;
 	@Autowired
@@ -29,8 +29,8 @@ public class CategoryRequestServiceImpl implements CategoryRequestService{
 		categoryVO.setBigGroup(dto.getBigGroup());
 		categoryVO.setSmallGroup(dto.getCategoryRequestSmallGroup());
 		categoryMapper.insert(categoryVO);
-		
-		for(Integer feedNo : dto.getFeedNo()) {
+
+		for (Integer feedNo : dto.getFeedNo()) {
 			feedMapper.updateCategory(feedNo, categoryVO.getCategoryNo());
 		}
 		return mapper.delete(dto) > 0;
@@ -45,7 +45,7 @@ public class CategoryRequestServiceImpl implements CategoryRequestService{
 	@Transactional
 	public List<CategoryRequestDTO> getList(String big, Integer page) {
 		List<CategoryRequestDTO> list = mapper.selectList(big, page);
-		for(CategoryRequestDTO dto : list){
+		for (CategoryRequestDTO dto : list) {
 			dto.setFeedNo(mapper.selectListFeedNo(dto));
 		}
 		return list;

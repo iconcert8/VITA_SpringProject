@@ -16,10 +16,10 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Autowired
 	private ReplyMapper mapper;
-	
+
 	@Autowired
 	private FeedMapper feedMapper;
-	
+
 	@Override
 	@Transactional
 	public boolean register(ReplyVO replyVO) {
@@ -42,6 +42,5 @@ public class ReplyServiceImpl implements ReplyService {
 	public Integer getCount(Integer feedNo) {
 		return mapper.selectCount(feedNo);
 	}
-	
 
 }

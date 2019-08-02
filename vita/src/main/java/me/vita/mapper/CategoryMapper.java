@@ -12,4 +12,6 @@ public interface CategoryMapper {
 
 	List<CategoryVO> selectListSmall(String big);
 
+	String getBigGroup(Integer categoryNo);
+
 }
