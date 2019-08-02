@@ -87,16 +87,16 @@ var messengerService = {
 
         if (success) {
             var successRefreshTemp = messengerNotiListDiv.find(`a[data-contact="${data.resId}"]`).clone();
-            successRefreshTemp.addClass('active').find('.lastMsg').text(data.msg);
+            successRefreshTemp.find('.lastMsg').text(data.msg);
             messengerNotiListDiv.find(`a[data-contact="${data.resId}"]`).remove();
-            messengerNotiListDiv.prepend(successRefreshTemp);
+            $('#goToMessengerBtn').after(successRefreshTemp);
             return;
         }
         if (Array.isArray(data)) {
             var tempCount = 0;
             $.each(data, function (i, item) {
                 if (item.userId === '목록이 존재 하지 않아요') {
-                    messengerNotiListDiv.append(`<div class="font-weight-bolder dropdown-item noShowList">목록이 존재 하지 않아요</div>`);
+                    $('#goToMessengerBtn').after(`<div class="font-weight-bolder dropdown-item noShowList">목록이 존재 하지 않아요</div>`);
                     return;
                 }
                 messengerNotiListDiv.append(template.notiMessengerList(item));

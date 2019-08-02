@@ -2,7 +2,7 @@ $(document).ready(function () {
     var pageNo = 0;
     var userModule = '';
     var myBtn = '';
-    var mainType = 'popular';
+    var mainType = 'recent';
     var removeBtn = ("#RemoveBtn");
     var endFlag = false;
 
@@ -496,7 +496,7 @@ $(document).ready(function () {
     //----------------------------------------------------------------------------
 
     // 첫 메인 페이지 동작
-    mainType = 'popular';
+    mainType = 'recent';
     pageNo = 0;
     categoryFilter = [];
     serachFilter = [];
