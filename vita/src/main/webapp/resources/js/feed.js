@@ -40,13 +40,15 @@ $(document).ready(function () {
         
         if(!endFlag || (type || page==0)) {
         endFlag = false;
+
+        if(type || page==0) {
+            viewFeedListDiv.empty();
+            leftUserBtnOff();
+        }
         if (type) {
-            viewFeedListDiv.empty();
-            leftUserBtnOff();
             mainType = type;
-        } else if (page == 0) {
-            viewFeedListDiv.empty();
-            leftUserBtnOff();
+        }
+        if (page == 0) {
             pageNo = page;
         }
         viewService.mainPageInit();
