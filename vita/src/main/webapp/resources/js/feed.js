@@ -59,8 +59,7 @@ $(document).ready(function () {
         document.documentElement.scrollTop = 0;
     }
 
-    var viewUserPage = function (module, gotoUserId) {
-
+    viewUserPage = function (module, gotoUserId) {
         if (module) {
             userModule = module;
         } else {
@@ -96,17 +95,22 @@ $(document).ready(function () {
     var gotoUserPageInit = function (gotoUserId) {
         // 회원정보 표시
         userService.get(gotoUserId, function (result) {
+            if (userModule) {
+                viewService.myBtnUnActive();
+                viewService.userBarReset();
+                userBarDiv.addClass('d-none');
+            }
             categoryTypeDiv.addClass('d-none');
             categoryBarDiv.addClass('d-none');
             searchBarDiv.addClass('d-none');
             userInfoDiv.removeClass('d-none').empty();
             userInfoDiv.append(template.userInfo(result));
+            viewFeedListDiv.empty();
+            $('#gotoUser').val("");
+            viewUserPage('userfeed', gotoUserId);
         }, function () {
             alert('error');
         });
-        viewFeedListDiv.empty();
-        $('#gotoUser').val("");
-        viewUserPage('userfeed', gotoUserId);
     }
 
     // left Feed list button toggle off function
@@ -241,11 +245,13 @@ $(document).ready(function () {
         contactUserId = $(this).data('contact');
         if (contactUserId === authUserId) {
             // 내 글 버튼 클릭 발생
-            var profile = document.getElementById('myFeed');
-            var event = document.createEvent("MouseEvents");
-            event.initEvent("click", false, true);
-            profile.dispatchEvent(event);
-            // $('#myFeed').trigger('click');
+            if (userModule !== 'userfeed') {
+                // var profile = document.getElementById('myFeed');
+                // var event = document.createEvent("MouseEvents");
+                // event.initEvent("click", false, true);
+                // profile.dispatchEvent(event);
+                $('#myFeed').trigger('click');
+            }
         } else {
             gotoUserPageInit(contactUserId);
         }

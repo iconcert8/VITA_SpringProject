@@ -25,7 +25,6 @@ $(document).ready(function () {
             } else {
                 messengerService.addMessenger(contactUser)
             }
-            contactUser = '';
         }
     });
 

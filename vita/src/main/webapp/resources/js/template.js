@@ -3,7 +3,7 @@ console.log('template.........');
 var categoryFilter = [];
 var searchFilter = [];
 var viewMainPage;
-
+var viewUserPage;
 
 var template = {
     feedSimple: function (feed, authUser) {
@@ -23,8 +23,8 @@ var template = {
         for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
             var feedImage = feed.feedImages[i];
             if (i == 0) {
-                feedImages += `<div class="carousel-item active">`;
-                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="height: 300px;">`;
+                feedImages += `<div class="carousel-item active" style="height: 300px;">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}" style="width:100%; height: 100%;">`;
                 feedImages += `</div>`;
                 feedImagesIndicator += `<li data-target="#feedNo${feed.feedNo}" data-slide-to="${i}" class="active"></li>`;
             } else {
@@ -130,8 +130,8 @@ var template = {
                 filterName = '#' + filterName;
                 flag = true;
                 console.log(searchFilter);
-
             }
+            if(btn) flag = true;
         }
         if (flag) {
             var bigCategory = '';
@@ -152,13 +152,13 @@ var template = {
                                     <h3 id="userImg">
                                         <img src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" style="width:120px;">
                                     <h3></div>`;
-        if(authUserFlag){
-        	 template += `<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;">
+        if (authUserFlag) {
+            template += `<div class="custom-file rounded" style="position relative; left:4px; top:10px; font-size:15px; margin-bottom : 20px;">
                             <input type="file" class="d-none custom-file-input" id="prof-img" aria-describedby="inputGroupFileAddon01">
                             <label class="btn btn-outline-primary" for="prof-img" style="width:150px;">ProImg 바꾸기</label>
-                        </div>`;		
+                        </div>`;
         }
-        template +=    `<div class="d-inline-block ml-3">
+        template += `<div class="d-inline-block ml-3">
                                     <h3>${user.userNick}(${user.userId})</h3>
                                 </div>`;
         if (!authUserFlag) {
@@ -660,13 +660,13 @@ var template = {
     },
     messengerList: function (last, count) {
         var msg = '';
-        if(last.msg) msg = last.msg;
-        if (msg > 10)  msg = msg.substring(0, 10) + '...';
+        if (last.msg) msg = last.msg;
+        if (msg > 10) msg = msg.substring(0, 10) + '...';
 
         var readlessHide;
         var readless = 0;
         if (count) readless = count;
-        else if(last.readless) readless = last.readless;
+        else if (last.readless) readless = last.readless;
 
         if (readless === 0) {
             readlessHide = 'd-none';
@@ -693,7 +693,7 @@ var template = {
         }
         var readless = 0;
         if (count) readless = count;
-        else if(last.readless) readless = last.readless;
+        else if (last.readless) readless = last.readless;
 
         if (readless === 0) {
             readlessHide = 'd-none';
@@ -723,21 +723,35 @@ var template = {
 
         var template;
         if (msg.reqId === contactUser) {
+            var tempDate = $(`div[data-usertime="${dateTime}"]`).data('usertime');
+
+            console.log(tempDate == dateTime);
+
+            var showProfile = '';
+            var leftMargin = '';
+            if (tempDate === dateTime) {
+                showProfile = 'd-none';
+                leftMargin = 'ml-5'
+            } else {
+                showProfile = 'd-inline';
+            }
             $(`label[data-usertime="${dateTime}"]`).hide();
             template = `<!-- 상대방 채팅 -->
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
-                <div class="d-inline-block rounded float-left">
+                <div class="rounded float-left ${showProfile}" data-usertime="${dateTime}">
                     <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
                 </div>
-                <div class="d-inline-block float-left mx-2">
-                    <label class="text-dark" style="font-size: 12px;">${msg.userNick}(${msg.userId})</label>
+                <div class="d-inline-block float-left my-2">
+                    <div class="text-dark px-1 ${showProfile}" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</div>
                     <div>
-                    ${msg.msg}
-                        <label class="msgTime pl-2 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
+                    <span class="msg ${leftMargin}">${msg.msg}</span>
+                        <label class="msgTime pl-2 mb-0 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
                     </div>
                 </div>
             </div>`;
+
+
         } else {
             $(`label[data-mytime="${dateTime}"]`).hide();
             var readless = '';
@@ -747,10 +761,10 @@ var template = {
             template = `
             <div class="mt-1 myMsg">
                 <div class="clearfix"></div>
-                <div class="text-right mx-2">
+                <div class="text-right m-3">
                     ${readless}
-                    <label class="msgTime pr-2 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
-                    ${msg.msg}
+                    <label class="msgTime pr-2 mb-0 text-muted" style="font-size: 10px;" data-mytime="${dateTime}">${dateTime}</label>
+                    <span class="msg">${msg.msg}</span>
                 </div>
             </div>`;
         }
@@ -764,7 +778,7 @@ var template = {
             <label>${user.userNick}(${user.userId})</label>
         </div>`;
     },
-    messengerSearch : function(user) {
+    messengerSearch: function (user) {
         return `<a href="#" class="list-group-item list-group-item-action" data-contact="${user.userId}">
                     <div class="d-inline-block rounded bg-secondary">
                     <img class="img-1" src="/display?fileName=${user.userImgUploadPath}/${user.userImgUuid}_${user.userImgFileName}" class="d-block" alt="preview_${user.userImgFileName}"></div>

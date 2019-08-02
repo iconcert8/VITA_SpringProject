@@ -162,20 +162,14 @@ var messengerService = {
         userService.get(contactUser, function (result) {
             messengerContactInfoH5.empty().append(template.messengerContactInfo(result));
         });
-
         messengerService.get(contactUser, function (result) {
             messageViewDiv.empty();
             var msgNo;
             $.each(result, function (i, item) {
-                // user info
-                // if (i === 0) {
-                //     messengerContactInfoH5.empty().append(template.messengerContactInfo(item));
-                // } else
                 if (i === result.length - 1) {
                     msgNo = item.msgNo;
                 }
                 messageViewDiv.append(template.message(item, contactUser));
-
             });
             messengerService.scrollBottom();
 
