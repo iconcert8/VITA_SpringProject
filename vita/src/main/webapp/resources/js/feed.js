@@ -81,13 +81,25 @@ $(document).ready(function () {
     viewUserPage = function (module, gotoUserId) {
         if (!endFlag || (module || gotoUserId)) {
             endFlag = false;
+            var v_module;
 
             if (module) {
                 pageNo = 0;   // 페이지 초기화
                 viewFeedListDiv.empty();
+                v_module = module; 
+            } else {
+                v_module = userModule;
+            }
+
+            if (module && !gotoUserId) {
+                if(module==='userfeed') {
+                    userInfoDiv.removeClass('d-none').empty();
+                    userService.get(authUserId, function (result) {
+                        userInfoDiv.append(template.userInfo(result, true));
+                    });
+                }
                 userModule = module;
             }
-            var v_module = userModule;
 
             if (gotoUserId) {
                 viewFeedListDiv.empty();
@@ -169,11 +181,11 @@ $(document).ready(function () {
     $('#myFeed').on('click', function () {
         if (myBtn !== 'myFeed') {
 
-            // 회원정보 표시
-            userInfoDiv.removeClass('d-none').empty();
-            userService.get(authUserId, function (result) {
-                userInfoDiv.append(template.userInfo(result, true));
-            });
+            // // 회원정보 표시
+            // userInfoDiv.removeClass('d-none').empty();
+            // userService.get(authUserId, function (result) {
+            //     userInfoDiv.append(template.userInfo(result, true));
+            // });
 
             leftUserBtnOn(this);    // 버튼 활성화
             viewUserPage('userfeed');   // 피드 불러오기

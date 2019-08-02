@@ -28,7 +28,8 @@ $(function() {
 			dataType: "text",
 			type : 'put',
 			success : function(result) {
-				location.href = "/user/gotoUser/"+$('#authUserId').val();
+				// location.href = "/user/gotoUser/"+$('#authUserId').val();
+				viewUserPage('userfeed');
 			}
 		});
 	});
