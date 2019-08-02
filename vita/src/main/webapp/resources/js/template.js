@@ -3,7 +3,7 @@ console.log('template.........');
 var categoryFilter = [];
 var searchFilter = [];
 var viewMainPage;
-
+var viewUserPage;
 
 var template = {
     feedSimple: function (feed, authUser) {
