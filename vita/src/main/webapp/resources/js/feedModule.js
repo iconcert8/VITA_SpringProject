@@ -80,15 +80,14 @@ var feedService = {
     },
     
     insert: function add(feed){
-    	console.log("js : feed data : ------ " + JSON.stringify(feed));
-    	
+    	// console.log("js : feed data : ------ " + JSON.stringify(feed));
     	$.ajax({
     		type : "post",
     		url : "/feed/new",
     		data : JSON.stringify(feed),
     		contentType: "application/json; charset=UTF-8",
     		success : function(result){
-    			console.log(result);
+    			// console.log(result);
     			copyImg(result);
     		}
     	});
@@ -134,8 +133,6 @@ var viewService = {
         } else {
             $('#searchBar').removeClass('d-none');
         }
-        // 피드 삭제
-        $('#viewFeedList').empty();
     },
     userBarReset: function () {
         $('#userBar > div').find('div').remove();

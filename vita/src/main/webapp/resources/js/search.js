@@ -23,6 +23,8 @@ $(document).ready(function () {
         searchAdd($(this).text());
         var feedNo = $(this).data('feedno'); 
         $(`div[data-feedno=${feedNo}]`).parent().modal('hide');
+        console.log('tagSearch Click!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        
         return false;
     });
 
@@ -31,7 +33,8 @@ $(document).ready(function () {
         searchFilter = [];
         searchBarDiv.find('div[data-name]').remove();
         searchBarDiv.addClass('d-none');
-        viewMainPage();
+        
+        viewMainPage('', 0);
     });
 
     // 검색어 삭제버튼
@@ -41,7 +44,7 @@ $(document).ready(function () {
         search.remove();
         var filter = searchFilter.indexOf(keyword);
         searchFilter.splice(filter, 1);
-        viewMainPage();
+        viewMainPage('', 0);
     });
 
     // 검색 실행
@@ -49,7 +52,6 @@ $(document).ready(function () {
         searchBarDiv.removeClass('d-none');
         $('#searchBar > div').append(template.filterAdd(keyword));
         searchForm.val('');
-        viewMainPage();
+        viewMainPage('', 0);
     }
-
 });

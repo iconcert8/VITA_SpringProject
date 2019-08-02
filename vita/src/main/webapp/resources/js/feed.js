@@ -4,6 +4,7 @@ $(document).ready(function () {
     var myBtn = '';
     var mainType = 'popular';
     var removeBtn = ("#RemoveBtn");
+    var endFlag = false;
 
     // reply variables
     var replyPageNo = 0;
@@ -30,15 +31,26 @@ $(document).ready(function () {
 
 
     var refDataReset = function () {
-        pageNo = 0;
         userModule = '';
         myBtn = '';
     }
 
-    viewMainPage = function (type) {
+    viewMainPage = function (type, page) {
+        // console.log('enfFlag :' + endFlag + ', type : ' + type + ', page : ' + page);
+        
+        if(!endFlag || (type || page==0)) {
+        endFlag = false;
+        if (type) {
+            viewFeedListDiv.empty();
+            leftUserBtnOff();
+            mainType = type;
+        } else if (page == 0) {
+            viewFeedListDiv.empty();
+            leftUserBtnOff();
+            pageNo = page;
+        }
         viewService.mainPageInit();
         refDataReset();
-        if (type) mainType = type;
 
         var sendData = {
             type: mainType,
@@ -47,57 +59,69 @@ $(document).ready(function () {
             search: searchFilter
         }
         feedService.getList('', sendData, function (result) {
+            if (result.length === 0) {
+                endFlag = true;
+                return;
+            }
             $.each(result, function (i, item) {
                 viewFeedListDiv.append(template.feedSimple(item, authUserId));
+
                 if (result.length - 1 === i) {
                     pageNo = item.feedNo;
                 }
             });
         });
-
         // 스크롤 상단 이동
-        document.documentElement.scrollTop = 0;
+        // if(type || page) document.documentElement.scrollTop = 0;
+        }
     }
 
     viewUserPage = function (module, gotoUserId) {
-        if (module) {
-            userModule = module;
-        } else {
-            pageNo = 0;   // 페이지 초기화
-            viewFeedListDiv.empty();
-        }
-        var v_module = userModule;
+        if (!endFlag || (module || gotoUserId)) {
+            endFlag = false;
 
-        if (gotoUserId) {
-            v_module += '/' + gotoUserId;
-            pageNo = 0;
-        }
-        var sendData = {
-            "page": pageNo,
-            "goToUserId": gotoUserId
-        }
+            if (module) {
+                pageNo = 0;   // 페이지 초기화
+                viewFeedListDiv.empty();
+                userModule = module;
+            }
+            var v_module = userModule;
 
-        feedService.getList(v_module, sendData, function (result) {
-            $.each(result, function (i, item) {
-                viewFeedListDiv.append(template.feedSimple(item, authUserId));
-                if (result.length - 1 === i) {
-                    pageNo = item.feedNo;
+            if (gotoUserId) {
+                viewFeedListDiv.empty();
+                v_module += '/' + gotoUserId;
+                pageNo = 0;
+            }
+            var sendData = {
+                "page": pageNo,
+                "goToUserId": gotoUserId
+            }
+
+            feedService.getList(v_module, sendData, function (result) {
+                if (result.length === 0) {
+                    endFlag = true;
+                    return;
                 }
-            }, function () {
-                alert('get list error');
+                $.each(result, function (i, item) {
+                    viewFeedListDiv.append(template.feedSimple(item, authUserId));
+                    if (result.length - 1 === i) {
+                        pageNo = item.feedNo;
+                    }
+                }, function () {
+                    alert('get list error');
+                });
             });
-        });
 
-        // 스크롤 상단 이동
-        document.documentElement.scrollTop = 0;
+            // 스크롤 상단 이동
+            if (module || gotoUserId) document.documentElement.scrollTop = 0;
+        }
     }
 
     var gotoUserPageInit = function (gotoUserId) {
         // 회원정보 표시
         userService.get(gotoUserId, function (result) {
             if (userModule) {
-                viewService.myBtnUnActive();
-                viewService.userBarReset();
+                leftUserBtnOff();
                 userBarDiv.addClass('d-none');
             }
             categoryTypeDiv.addClass('d-none');
@@ -117,7 +141,6 @@ $(document).ready(function () {
     var leftUserBtnOff = function () {
         viewService.myBtnUnActive();
         viewService.userBarReset();
-        viewMainPage();
     }
 
     var leftUserBtnOn = function (btn) {
@@ -158,6 +181,7 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
+            viewMainPage('', 0);
         }
     });
 
@@ -177,6 +201,7 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
+            viewMainPage('', 0);
         }
     });
 
@@ -196,12 +221,14 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
+            viewMainPage('', 0);
         }
     });
 
     // 유저바 home 버튼, x버튼
     $('#userBar').on('click', '#goToMainBtn, .close', function () {
         leftUserBtnOff();
+        viewMainPage('', 0);
     });
 
     // 인기 최신버튼 이벤트
@@ -210,7 +237,7 @@ $(document).ready(function () {
             popularBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
             recentBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-            viewMainPage('popular');
+            viewMainPage('popular', 0);
         }
     });
     recentBtn.on('click', function () {
@@ -218,7 +245,7 @@ $(document).ready(function () {
             recentBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
             popularBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-            viewMainPage('recent');
+            viewMainPage('recent', 0);
         }
     });
 
@@ -299,7 +326,7 @@ $(document).ready(function () {
 
     //유저 페이지의 home버튼 이벤트
     $('#userInfo').on('click', '#userFeedHomeBtn', function () {
-        viewMainPage();
+        viewMainPage('', 0);
     });
 
     // 댓글 쓰기
@@ -435,7 +462,7 @@ $(document).ready(function () {
                 feedImages: imgData
             });
         setTimeout(() => {
-            if (myBtn === 'myFeed') viewUserPage();
+            if (myBtn === 'myFeed') viewUserPage('userfeed');
             else $('#myFeed').trigger('click');
         }, 500);
     });
@@ -444,8 +471,10 @@ $(document).ready(function () {
 
     // 첫 메인 페이지 동작
     mainType = 'popular';
+    pageNo = 0;
     categoryFilter = [];
     serachFilter = [];
+    viewFeedListDiv.empty();
     if (gotoUser) {
         if (gotoUser === authUserId) {
             $('#myFeed').trigger('click');
@@ -457,4 +486,14 @@ $(document).ready(function () {
         viewMainPage();
     }
 
+    //무한 스크롤
+    $(window).scroll(function () {
+        var windowTop = $(window).scrollTop();
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            setTimeout(() => {
+                if (userModule) viewUserPage();
+                else viewMainPage();
+            }, 100);
+        }
+    });
 });
