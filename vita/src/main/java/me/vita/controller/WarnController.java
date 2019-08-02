@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import lombok.extern.log4j.Log4j;
 import me.vita.domain.DeletedFeedVO;
 import me.vita.domain.UserVO;
 import me.vita.domain.WarnVO;
@@ -26,7 +25,6 @@ import me.vita.security.Auth.Role;
 import me.vita.service.WarnService;
 
 @Controller
-@Log4j
 @RequestMapping("/warn")
 public class WarnController {
 	

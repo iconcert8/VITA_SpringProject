@@ -12,7 +12,6 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Autowired
 	FavoriteMapper mapper;
 
-	
 	@Override
 	public boolean register(FavoriteVO favoriteVO) {
 		return mapper.insert(favoriteVO) > 0;

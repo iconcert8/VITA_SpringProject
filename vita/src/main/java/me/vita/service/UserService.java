@@ -1,7 +1,5 @@
 package me.vita.service;
 
-import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import me.vita.domain.UserVO;
@@ -22,7 +20,7 @@ public interface UserService {
 	public void modifyAuthstatus(String userId);
 
 	public UserDTO get(String myId, String userId);
-	
+
 	public UserVO getUserInfo(String userId);
 
 	public boolean updateUserImg(String userId, MultipartFile userImgFileName);

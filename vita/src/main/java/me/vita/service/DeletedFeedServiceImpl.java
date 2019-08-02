@@ -3,7 +3,6 @@ package me.vita.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +13,8 @@ import me.vita.mapper.FeedMapper;
 import me.vita.mapper.WarnMapper;
 
 @Service
-public class DeletedFeedServiceImpl implements DeletedFeedService{
-	
+public class DeletedFeedServiceImpl implements DeletedFeedService {
+
 	@Autowired
 	private DeletedFeedMapper mapper;
 	@Autowired

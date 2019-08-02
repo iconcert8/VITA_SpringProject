@@ -1,17 +1,14 @@
 package me.vita.service;
 
 import java.io.File;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
-import me.vita.domain.FeedImageVO;
 import me.vita.domain.MailUtils;
 import me.vita.domain.TempKey;
 import me.vita.domain.UserVO;
@@ -96,8 +93,6 @@ public class UserServiceImpl implements UserService {
 		userInfo.setUserImgUuid(userImgUuid.toString());
 		userInfo.setUserImgFileName(newImg);
 
-		System.out.println(userInfo);
-
 		// 기존 이미지 삭제를 위한 데이터
 		UserVO origin = mapper.originalImgFile(userInfo);
 
@@ -113,6 +108,6 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 
-		return mapper.updateUserImg(userInfo)==1;
+		return mapper.updateUserImg(userInfo) == 1;
 	}
 }

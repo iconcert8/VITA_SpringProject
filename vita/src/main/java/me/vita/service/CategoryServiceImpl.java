@@ -9,11 +9,11 @@ import me.vita.domain.CategoryVO;
 import me.vita.mapper.CategoryMapper;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	CategoryMapper mapper;
-	
+
 	@Override
 	public List<String> getListBig() {
 		return mapper.selectListBig();

@@ -1,6 +1,5 @@
 package me.vita.controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import me.vita.domain.ReplyVO;
 import me.vita.domain.UserVO;
 import me.vita.dto.ReplyDTO;
@@ -27,53 +25,54 @@ import me.vita.security.Auth;
 import me.vita.service.ReplyService;
 
 @Controller
-@Log4j
 @RequestMapping("/reply")
 @AllArgsConstructor
 /*
  * 댓글 입력, 댓글 리스트(기준번호 필요), 댓글 사게, 댓글 개수
  */
 public class ReplyController {
-	
+
 	@Autowired
 	ReplyService service;
 
 	@PostMapping("/new")
 	@Auth
-	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody ReplyVO replyVO){
+	public ResponseEntity<String> register(@SessionAttribute("authUser") UserVO user, @RequestBody ReplyVO replyVO) {
 		replyVO.setUserId(user.getUserId());
-		if(service.register(replyVO)) {
+		if (service.register(replyVO)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@GetMapping("/list/{feedNo}/{page}")
 	@ResponseBody
-	public List<ReplyDTO> getList(HttpServletRequest request,@PathVariable("feedNo") Integer feedNo, @PathVariable("page") Integer page){
-		UserVO user = (UserVO)request.getSession().getAttribute("authUser");
+	public List<ReplyDTO> getList(HttpServletRequest request, @PathVariable("feedNo") Integer feedNo,
+			@PathVariable("page") Integer page) {
+		UserVO user = (UserVO) request.getSession().getAttribute("authUser");
 		String userId = "none";
-		if(user != null) userId = user.getUserId();
-		
+		if (user != null)
+			userId = user.getUserId();
+
 		return service.getList(userId, feedNo, page);
 	}
-	
+
 	@DeleteMapping("/{feedNo}/{replyNo}")
 	@Auth
-	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo, @PathVariable("replyNo") Integer replyNo){
-		if(service.remove(feedNo, replyNo)) {
+	public ResponseEntity<String> remove(@PathVariable("feedNo") Integer feedNo,
+			@PathVariable("replyNo") Integer replyNo) {
+		if (service.remove(feedNo, replyNo)) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	 
+
 	@GetMapping("/{feedNo}/")
 	public ResponseEntity<Integer> getCount(@PathVariable("replyNo") Integer feedNo) {
-		Integer goodCount  = service.getCount(feedNo);
+		Integer goodCount = service.getCount(feedNo);
 		return new ResponseEntity<Integer>(goodCount, HttpStatus.OK);
 	}
-	
-	
+
 }

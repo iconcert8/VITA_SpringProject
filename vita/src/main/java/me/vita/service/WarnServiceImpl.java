@@ -18,23 +18,23 @@ public class WarnServiceImpl implements WarnService {
 
 	@Autowired
 	private WarnMapper mapper;
-	
-	@Autowired FeedMapper feedMapper;
-	
+
+	@Autowired
+	FeedMapper feedMapper;
+
 	@Autowired
 	private DeletedFeedMapper deletedFeedMapper;
-	
+
 	@Override
 	public List<WarnSimpleDTO> getList(Integer page) {
 		return mapper.selectList(page);
 	}
-	
+
 	@Override
 	public List<WarnVO> getListRequest(Integer feedNo) {
 		return mapper.selectListRequest(feedNo);
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public boolean remove(Integer feedNo, DeletedFeedVO deletedFeedVO) {
@@ -42,17 +42,16 @@ public class WarnServiceImpl implements WarnService {
 		feedMapper.updateFeedDel(feedNo, "T");
 		return deletedFeedMapper.insert(deletedFeedVO) > 0;
 	}
-	
-	//신고 취소시 삭제
+
+	// 신고 취소시 삭제
 	@Override
 	public boolean modify(Integer feedNo) {
 		return mapper.delete(feedNo) > 0;
 	}
-	
+
 	@Override
 	public boolean register(WarnVO warnVO) {
 		return mapper.insert(warnVO) == 1;
 	}
-	
-	
+
 }

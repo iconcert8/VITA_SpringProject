@@ -18,7 +18,7 @@ public interface MessengerMapper {
 	void selectList(Map<String, Object> map);
 
 	List<MessengerDTO> selectListContactUser(@Param("user") String userId, @Param("contact") String contactUser);
-	
+
 	int insert(MessengerVO msg);
 
 	MessengerDTO select(Integer msgNo);

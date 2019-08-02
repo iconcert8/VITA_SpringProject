@@ -52,7 +52,6 @@ public class UserController {
 	@PostMapping("/idcheck")
 	@ResponseBody
 	public Map<Object, Object> idcheck(@RequestBody String userId) {
-		System.out.println(userId);
 		int count = service.getUserIdcnt(userId);
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("cnt", count);
@@ -86,7 +85,7 @@ public class UserController {
 					UserVO authUser = service.getUserInfo(userId);
 					request.getSession().removeAttribute("guest");
 					request.getSession().setAttribute("authUser", authUser);
-					if(userId.equals("root")){
+					if (userId.equals("root")) {
 						return "redirect:/admin";
 					}
 					return "redirect:/";
@@ -130,10 +129,9 @@ public class UserController {
 	@ResponseBody
 	public UserDTO get(@AuthUser UserVO user, @PathVariable("userId") String userId) {
 		UserDTO userDTO = service.get(user.getUserId(), userId);
-		System.out.println(userDTO);
-//		if(user.getUserId().equals(userId)) {
-//			userDTO.setIsFollow("me");
-//		}
+		// if(user.getUserId().equals(userId)) {
+		// userDTO.setIsFollow("me");
+		// }
 		return userDTO;
 	}
 
@@ -148,9 +146,9 @@ public class UserController {
 	@Auth
 	@ResponseBody
 	public String updateUserProImg(@PathVariable("authUserId") String userId, MultipartFile userImgFileName) {
-		if(service.updateUserImg(userId, userImgFileName)){
+		if (service.updateUserImg(userId, userImgFileName)) {
 			return "success";
-		}else{
+		} else {
 			return "fail";
 		}
 	}

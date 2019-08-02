@@ -1,6 +1,5 @@
 package me.vita.mapper;
 
-
 import org.apache.ibatis.annotations.Param;
 
 import me.vita.domain.UserVO;
@@ -11,7 +10,7 @@ public interface UserMapper {
 	int insert(UserVO userVO);
 
 	UserVO selectUserInfo(@Param("userId") String userId);
-	
+
 	UserDTO select(@Param("myId") String myId, @Param("userId") String userId);
 
 	String selectPw(@Param("userId") String userId);
@@ -27,5 +26,5 @@ public interface UserMapper {
 	UserVO originalImgFile(UserVO userInfo);
 
 	int updateUserImg(UserVO userInfo);
-	
+
 }

@@ -4,8 +4,6 @@ var messengerWebSocket = function () {
 
     var authUserId = $('#authUserId').val();
     messengerws.onopen = function () {
-        console.log("[!]info: messenger connection opened");
-
         if (authUserId) {
             $('#messengerNotiList').empty();
             $('#messengerNotiList').append(`<button class="dropdown-item" onclick="location.href='/messenger'" id='goToMessengerBtn'>메신저창으로 이동</button>`);

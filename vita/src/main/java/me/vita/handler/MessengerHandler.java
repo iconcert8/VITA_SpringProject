@@ -6,11 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.google.gson.Gson;
@@ -33,7 +31,6 @@ public class MessengerHandler extends TextWebSocketHandler {
 	// 연결완료시
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("MessengerHandler connect");
 		if (getUser(session) == null) {
 			session.close();
 			return;
@@ -48,15 +45,10 @@ public class MessengerHandler extends TextWebSocketHandler {
 	// 메세지 받고 보낼때
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
-//		System.out.println("websocket msg : " + message);
-
 		// json으로 보낸 메세지 받기
 		String requestText = message.getPayload();
 		JsonParser jsonParse = new JsonParser();
 		JsonObject jobj = (JsonObject) jsonParse.parse(requestText);
-		
-//		System.out.println(requestText);
 
 		// json객체에서 인스턴스 추출
 		String type = jobj.get("type").getAsString();
@@ -74,12 +66,11 @@ public class MessengerHandler extends TextWebSocketHandler {
 		String reqId = jobj.get("contactUser").getAsString();
 		String resId = getUser(session).getUserId();
 		Integer msgNo = jobj.get("msgNo").getAsInt();
-		
+
 		WebSocketSession responseSession = (WebSocketSession) userSessions.get(reqId);
 		int re = service.modify(reqId, resId, msgNo);
-		if(re > 0) {
+		if (re > 0) {
 			jobj.addProperty("count", re);
-			System.out.println(jobj);
 			session.sendMessage(new TextMessage(new Gson().toJson(jobj)));
 			if (responseSession != null) {
 				responseSession.sendMessage(new TextMessage(new Gson().toJson(jobj)));
@@ -91,8 +82,8 @@ public class MessengerHandler extends TextWebSocketHandler {
 		String msg = jobj.get("msg").getAsString();
 		String reqId = getUser(session).getUserId();
 		String resId = jobj.get("resId").getAsString();
-		
-		if(resId == null) {	//사용자 선택 안할시의 예외처리
+
+		if (resId == null) { // 사용자 선택 안할시의 예외처리
 			return;
 		}
 
@@ -104,14 +95,14 @@ public class MessengerHandler extends TextWebSocketHandler {
 
 		WebSocketSession responseSession = (WebSocketSession) userSessions.get(resId);
 		if (service.register(sendMsg)) { // 메시지 입력 성공
-			if (responseSession != null) {	// 상대방 존재시
+			if (responseSession != null) { // 상대방 존재시
 				MessengerDTO responseDTO = service.get(sendMsg.getMsgNo());
 				JsonObject responseJobj = (JsonObject) new Gson().toJsonTree(responseDTO);
-				
+
 				responseJobj.addProperty("type", "message");
 				responseSession.sendMessage(new TextMessage(new Gson().toJson(responseJobj)));
 			}
-//			나에게 메시지 성공 전송
+			// 나에게 메시지 성공 전송
 			jobj.addProperty("msgNo", sendMsg.getMsgNo());
 			jobj.addProperty("msgDate", sendMsg.getMsgDate().getTime());
 			jobj.addProperty("msgChk", sendMsg.getMsgChk());
@@ -129,7 +120,6 @@ public class MessengerHandler extends TextWebSocketHandler {
 	// 연결 종료시
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("MessengerHandler close");
 		if (getUser(session) == null) {
 			session.close();
 			return;
