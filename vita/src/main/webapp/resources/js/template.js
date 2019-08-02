@@ -1,4 +1,3 @@
-console.log('template.........');
 
 var categoryFilter = [];
 var searchFilter = [];
@@ -724,8 +723,6 @@ var template = {
         var template;
         if (msg.reqId === contactUser) {
             var tempDate = $(`div[data-usertime="${dateTime}"]`).data('usertime');
-
-            console.log(tempDate == dateTime);
 
             var showProfile = '';
             var leftMargin = '';

@@ -142,7 +142,6 @@ $(document).ready(function () {
 
     // 내글버튼
     $('#myFeed').on('click', function () {
-        console.log('myFeedBtn........');
         if (myBtn !== 'myFeed') {
 
             // 회원정보 표시
@@ -165,7 +164,6 @@ $(document).ready(function () {
 
     // 즐겨찾기
     $('#myFavorite').on('click', function () {
-        console.log('myFavoriteBtn........');
         if (myBtn !== 'myFavorite') {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
@@ -184,7 +182,6 @@ $(document).ready(function () {
 
     // 팔로우글
     $('#newsFeed').on('click', function () {
-        console.log('newsFeedBtn........');
         if (myBtn !== 'newsFeed') {
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();

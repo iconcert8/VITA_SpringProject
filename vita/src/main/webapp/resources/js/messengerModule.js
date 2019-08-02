@@ -239,7 +239,6 @@ var messengerService = {
 
 var messengerAnalyzer = function (data) {
     var authUserId = $('#authUserId').val();
-    console.log(data);
 
     switch (data.type) {
         case 'message':

@@ -1,11 +1,8 @@
-console.log('Feed Module.........');
 
 var feedService = {
     getList: function (module, sendData, success, error, complete) {
-        console.log('getList feed.......');
 
         var url = 'feed/list' + (!module ? '' : '/') + module;
-        console.log(url);
         $.ajax({
             type: "post",
             url: url,
@@ -24,7 +21,6 @@ var feedService = {
         });
     },
     get: function (feedNo, success, error, complete) {
-        console.log('get feed detail.........' + feedNo);
 
         var url = `feed/${feedNo}`;
         $.ajax({
@@ -80,7 +76,6 @@ var feedService = {
     },
     
     insert: function add(feed){
-    	console.log("js : feed data : ------ " + JSON.stringify(feed));
     	
     	$.ajax({
     		type : "post",
@@ -88,8 +83,6 @@ var feedService = {
     		data : JSON.stringify(feed),
     		contentType: "application/json; charset=UTF-8",
     		success : function(result){
-    			// feedNo = result
-    			console.log(result);
     			copyImg(result);
     		}
     	});
@@ -98,7 +91,6 @@ var feedService = {
 
 var userService = {
     get: function (userId, success, error, complete) {
-        console.log('get user........');
         $.ajax({
             type: "get",
             url: '/user/' + userId,
