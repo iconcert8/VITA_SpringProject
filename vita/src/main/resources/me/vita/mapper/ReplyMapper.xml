@@ -4,10 +4,6 @@
 <mapper namespace="me.vita.mapper.ReplyMapper">
 	
 	<insert id="insert">	
-		<!-- 테스트  
-		insert into REPLY	 (REPLYNO, FEEDNO, REPLYCONTENT, REPLYDATE, USERID)
-		values (seq_replyno.nextval, 1, '댓글내용', SYSDATE, '이승현')
-		-->
 		insert into reply (replyNo, feedNo, replyContent, replyDate, userId)
 		values (seq_replyno.nextval, #{feedNo}, #{replyContent}, SYSDATE, #{userId})
 	</insert> 
@@ -17,19 +13,16 @@
 	</delete>
  
 	<select id="selectList" resultType="me.vita.dto.ReplyDTO">
-		<![CDATA[
-		SELECT usr.* , usr.userid isMyReply
-	    FROM (SELECT r.replyno, r.feedno, r.replyContent, r.replyDate,
-	             u.userid, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName
-	            FROM reply r, userInfo u
-	            WHERE r.userid = u.userid(+) and r.feedno = #{feedNo}) usr
-	    order by usr.replyno desc
-		]]>    
-		
-		<!-- AND rownum <= 10 -->
-		<!-- <if test="page != 0">
-			<![CDATA[and r.replyNo < #{page}]]>
-		</if> -->
+		<![CDATA[ 
+		select * 
+		from( 
+			SELECT usr.* , usr.userid isMyReply 
+			FROM (SELECT r.replyno, r.feedno, r.replyContent, r.replyDate, u.userid, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName 
+				  FROM reply r, userInfo u 
+				  WHERE r.userid = u.userid(+) and r.feedno = #{feedNo}) usr 
+				  order by usr.replyno desc ) 
+		where rownum <= (#{page}*10)+10 
+		]]>
 	</select> 
  
 	<select id="selectCount" resultType="Integer">

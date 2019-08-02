@@ -304,7 +304,7 @@ var template = {
                                        
                                     </div> 
                                     
-                                    <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal">
+                                    <ul class="list-group overflow-auto" style="height: 300px;" id="replyModal" data-feedno="${feed.feedNo}">
         									
                                     </ul>
                                 </div>
