@@ -725,26 +725,24 @@ var template = {
             var tempDate = $(`div[data-usertime="${dateTime}"]`).data('usertime');
 
             var showProfile = '';
-            var leftMargin = '';
+            // var leftMargin = '';
             if (tempDate === dateTime) {
                 showProfile = 'd-none';
-                leftMargin = 'ml-5'
+                // leftMargin = 'ml-5'
             } else {
-                showProfile = 'd-inline';
+                showProfile = 'd-block';
             }
             $(`label[data-usertime="${dateTime}"]`).hide();
             template = `<!-- 상대방 채팅 -->
             <div class="mt-1 userMsg">
                 <div class="clearfix"></div>
-                <div class="rounded float-left ${showProfile}" data-usertime="${dateTime}">
-                    <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="height: 30px;">
+                <div class="rounded ${showProfile}" data-usertime="${dateTime}">
+                    <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="width: 45px; height : 100%">
+                    <div class="text-dark font-weight-bolder px-1 d-inline" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</div>
                 </div>
                 <div class="d-inline-block float-left my-2">
-                    <div class="text-dark px-1 ${showProfile}" style="font-size: 12px;" data-usertime="${dateTime}">${msg.userNick}(${msg.userId})</div>
-                    <div>
-                    <span class="msg ${leftMargin}">${msg.msg}</span>
-                        <label class="msgTime pl-2 mb-0 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
-                    </div>
+                    <span class="msg ml-5">${msg.msg}</span>
+                    <label class="msgTime pl-2 mb-0 text-muted" style="font-size: 10px;" data-usertime="${dateTime}">${dateTime}</label>
                 </div>
             </div>`;
 
