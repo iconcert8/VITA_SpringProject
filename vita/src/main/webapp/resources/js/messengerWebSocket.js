@@ -1,6 +1,6 @@
 
 var messengerWebSocket = function () {
-    messengerws = new WebSocket("ws://localhost:8081/messenger/websocket/connect");
+    messengerws = new WebSocket("ws://192.168.0.13:8081/messenger/websocket/connect");
 
     var authUserId = $('#authUserId').val();
     messengerws.onopen = function () {
