@@ -21,14 +21,14 @@ public class GoodMapeprTests {
 	//@Test
 	public void insertTest(){
 		GoodVO goodVO = new GoodVO();
-		goodVO.setUserId("userId1");
+		goodVO.setUserId("iconcert8");
 		goodVO.setFeedNo(1);
 		mapper.insert(goodVO);
 	}
 	@Test
 	public void deleteTest(){
 		GoodVO goodVO = new GoodVO();
-		goodVO.setUserId("userId1");
+		goodVO.setUserId("iconcert8");
 		goodVO.setFeedNo(1);
 		mapper.delete(goodVO);
 	}
