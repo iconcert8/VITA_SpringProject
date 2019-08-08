@@ -6,7 +6,7 @@ var notificationService = (function(){
 	var notifyPage = 0;
 	
 	function webSocketLoad(){
-		var ws = new WebSocket("ws://localhost:8081/notification/websocket");
+		var ws = new WebSocket("ws://192.168.0.17:8081/notification/websocket");
 		
 		ws.onopen = function(){
 			var msg = {"type":"list", "page":notifyPage};
