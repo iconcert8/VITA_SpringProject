@@ -22,7 +22,7 @@
 				<!-- 팔로워 글, 즐겨찾기, 내글 버튼 -->
 				<div class="card">
 					<div class="card-header" id="userLeftBtn">
-						<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로워 글</button>
+						<button class="btn btn-outline-secondary rounded" id="newsFeed">팔로우 글</button>
 						<button class="btn btn-outline-secondary rounded" id="myFavorite">즐겨찾기</button>
 						<button class="btn btn-outline-secondary rounded" id="myFeed">내글</button>
 					</div>

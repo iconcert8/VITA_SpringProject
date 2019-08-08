@@ -2,6 +2,7 @@
 var messengerWebSocket = function () {
     messengerws = new WebSocket("ws://192.168.0.17:8081/messenger/websocket/connect");
 
+
     var authUserId = $('#authUserId').val();
     messengerws.onopen = function () {
         if (authUserId) {

@@ -105,10 +105,14 @@ var messengerService = {
             messengerService.displayMessengerNotiCount(tempCount);
         } else {
             if (authUserId === data.resId) {
-                // console.log(data.userId +', ' + )
-                var tempCount = parseInt(messengerNotiListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
-                if(!tempCount) tempCount = 1;
-                console.log('noti tempcount: ' + tempCount);
+                var tempCount;
+                if(contactUser === data.userId) {
+                    tempCount = 0;
+                } else {
+                    tempCount = parseInt(messengerNotiListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
+                    if(!tempCount) tempCount = 1;
+                }
+                console.log('list tempcount: ' + tempCount);
                 
 
                 messengerNotiListDiv.find(`a[data-contact='${data.userId}']`).remove();
@@ -137,8 +141,13 @@ var messengerService = {
             });
         } else {
             if (authUserId === data.resId) {
-                var tempCount = parseInt(messengerListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
-                if(!tempCount) tempCount = 1;
+                var tempCount;
+                if(contactUser === data.userId) {
+                    tempCount = 0;
+                } else {
+                    tempCount = parseInt(messengerListDiv.find(`span[data-contact="${data.userId}"]`).text()) + 1;
+                    if(!tempCount) tempCount = 1;
+                }
                 console.log('noti tempcount: ' + tempCount);
 
                 messengerListDiv.find(`a[data-contact='${data.userId}']`).remove();

@@ -12,7 +12,7 @@
 }
 
 .msg {
-	border : 2px solid #8188b4;
+	border : 2px solid #69c0eb;
 	border-radius: 10px;
 	padding : 2px 5px
 }

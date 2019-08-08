@@ -25,9 +25,10 @@ public class MessengerServiceTests {
 		log.info(service.getList(user));
 	}
 	
+	
 	@Test
 	public void getTest() {
 		log.info(service.get(33));
 	}
-
+	
 }

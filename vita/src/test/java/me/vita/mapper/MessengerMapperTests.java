@@ -50,7 +50,7 @@ public class MessengerMapperTests {
 //		log.info(cal.get(Calendar.MILLISECOND));
 	}
 	
-//	@Test
+	@Test
 	public void procudureTest() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", "userId1");
@@ -64,7 +64,7 @@ public class MessengerMapperTests {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void insertDateTest() {
 		MessengerVO msg = new MessengerVO();
 		msg.setMsg("insert메세지");
