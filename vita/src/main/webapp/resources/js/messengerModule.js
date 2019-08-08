@@ -161,6 +161,10 @@ var messengerService = {
         var messengerContactInfoH5 = $('#messengerContactInfo');
         // 초기화
         msgDays = [];
+        
+        //쓰기 form작성가능하게 변경
+        $('#sendMsgForm').prop('readonly', false);
+        $('#sendMsgBtn').prop('disabled', false);
 
         // active이동
         messengerListDiv.find('a[data-contact]').removeClass('active');

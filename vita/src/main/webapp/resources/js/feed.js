@@ -55,10 +55,10 @@ $(document).ready(function () {
         refDataReset();
 
         var sendData = {
-            type: mainType,
-            page: pageNo,
-            filter: categoryFilter,
-            search: searchFilter
+            "type" : mainType,
+            "page" : pageNo,
+            "filter" : categoryFilter,
+            "search" : searchFilter
         }
         feedService.getList('', sendData, function (result) {
             if (result.length === 0) {
