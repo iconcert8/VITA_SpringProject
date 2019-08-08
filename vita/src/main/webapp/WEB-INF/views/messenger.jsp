@@ -45,7 +45,7 @@
 				</div>
 
 				<!-- 대화목록및 팔로우 검색 출력구간 -->
-				<div class="card-body p-0">
+				<div class="card-body p-0 messengerSide">
 					<div class="list-group" id="messengerList">
 						<a href="#" class="list-group-item list-group-item-action dropdown-item bg-primary" data-contact="">
 							<div class="d-inline-block rounded bg-secondary">프로필</div>
@@ -140,12 +140,12 @@
 <script>
 	$(document).ready(function(){
 		$("#msgSearchDownBtn").click(function(){
-			$(".list-group").removeClass("d-none");
+			$(".messengerSide").removeClass("d-none");
 			$("#msgSearchDownBtn").addClass("d-none");
 			$("#msgSearchUpBtn").removeClass("d-none");
 		});
 		$("#msgSearchUpBtn").click(function(){
-			$(".list-group").addClass("d-none");
+			$(".messengerSide").addClass("d-none");
 			$("#msgSearchDownBtn").removeClass("d-none");
 			$("#msgSearchUpBtn").addClass("d-none");
 		});
