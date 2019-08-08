@@ -130,7 +130,7 @@ var template = {
                 flag = true;
                 console.log(searchFilter);
             }
-            if(btn) flag = true;
+            if (btn) flag = true;
         }
         if (flag) {
             var bigCategory = '';
@@ -405,17 +405,17 @@ var template = {
         }
 
         var feedImages = "";
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
-        		feedImages += `</div>`;
-        	}
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+                feedImages += `</div>`;
+            }
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -573,17 +573,17 @@ var template = {
 
         var feedImages = "";
 
-        for (var i = 0; i< Object.keys(feed.feedImages).length; i++) {
-        	var feedImage = feed.feedImages[i];
-        	if(i == 0){
-        		feedImages += `<div class="carousel-item active">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
-        		feedImages += `</div>`;
-        	}else{
-        		feedImages += `<div class="carousel-item">`;
-        		feedImages += 	`<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
-        		feedImages += `</div>`;
-        	}
+        for (var i = 0; i < Object.keys(feed.feedImages).length; i++) {
+            var feedImage = feed.feedImages[i];
+            if (i == 0) {
+                feedImages += `<div class="carousel-item active">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+                feedImages += `</div>`;
+            } else {
+                feedImages += `<div class="carousel-item">`;
+                feedImages += `<img src="/display?fileName=${feedImage.feedImgUploadPath}/${feedImage.feedImgUuid}_${feedImage.feedImgFileName}" class="d-block w-100" alt="preview_${feedImage.feedImgFileName}">`;
+                feedImages += `</div>`;
+            }
         }
 
         var goodBtn = feed.isGood == null ? 'btn-outline-primary' : 'btn-primary';
@@ -708,7 +708,9 @@ var template = {
                     </div>
 				</a>`;
     },
-    message: function (msg, contactUser) {
+    message: function (msg, contactUserId) {
+        var authUserId = $('#authUserId').val();
+
         var date = new Date(msg.msgDate);
         var dateDay = date.getFullYear() + '년 ' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1) + '월 ' + (date.getDate() < 9 ? '0' : '') + date.getDate() + '일';
 
@@ -720,21 +722,26 @@ var template = {
         var dateTime = (date.getHours() < 12 ? '오전 ' : '오후 ') + (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
             + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
-        var template;
-        if (msg.reqId === contactUser) {
-            var tempDate = $(`div[data-usertime="${dateTime}"]`).data('usertime');
+        var whoIsLastSender = $('#messageView').children('div:last').data('user');
 
+        var template;
+        if (msg.reqId === contactUserId) {    // 상대방 일때
             var showProfile = '';
-            // var leftMargin = '';
-            if (tempDate === dateTime) {
-                showProfile = 'd-none';
-                // leftMargin = 'ml-5'
+
+            if(whoIsLastSender === contactUserId) {
+                var tempTime = $(`div[data-usertime="${dateTime}"]`).data('usertime');
+                if (tempTime === dateTime) {
+                    $('#messageView').children('div:last').find('.msgTime').hide();
+                    showProfile = 'd-none';
+                } else {
+                    showProfile = 'd-block';
+                }
             } else {
                 showProfile = 'd-block';
             }
-            $(`label[data-usertime="${dateTime}"]`).hide();
+           
             template = `<!-- 상대방 채팅 -->
-            <div class="mt-1 userMsg">
+            <div class="mt-1 userMsg" data-user="${contactUserId}">
                 <div class="clearfix"></div>
                 <div class="rounded ${showProfile}" data-usertime="${dateTime}">
                     <img class="img-1" src="/display?fileName=${msg.userImgUploadPath}/${msg.userImgUuid}_${msg.userImgFileName}" class="d-block" alt="preview_${msg.userImgFileName}" style="width: 45px; height : 100%">
@@ -747,14 +754,21 @@ var template = {
             </div>`;
 
 
-        } else {
-            $(`label[data-mytime="${dateTime}"]`).hide();
+        } else if(msg.reqId === authUserId) {    // 내가 보낸 메세지
+            if(whoIsLastSender === authUserId) {
+                var tempTime = $(`label[data-mytime="${dateTime}"]`).data('mytime');
+                
+                if (tempTime === dateTime) {
+                    $('#messageView').children('div:last').find('.msgTime').hide();
+                }
+            }
+            // $(`label[data-mytime="${dateTime}"]`).hide();
             var readless = '';
             if (msg.msgChk === 'F') {
                 readless = `<label class="readless pr-1 text-muted" style="font-size: 8px;" data-read="${msg.msgNo}">1</label>`;
             }
             template = `
-            <div class="mt-1 myMsg">
+            <div class="mt-1 myMsg" data-user="${authUserId}">
                 <div class="clearfix"></div>
                 <div class="text-right m-3">
                     ${readless}
