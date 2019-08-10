@@ -35,29 +35,28 @@ $(document).ready(function () {
         myBtn = '';
     }
 
-    viewMainPage = function (type, page) {
-        // console.log('enfFlag :' + endFlag + ', type : ' + type + ', page : ' + page);
+    viewMainPage = function (type) {
         
-        if(!endFlag || (type || page==0)) {
+        if(!endFlag || type !== 'scroll') {
         endFlag = false;
 
-        if(type || page==0) {
+        if(type !== 'scroll') {
             viewFeedListDiv.empty();
             leftUserBtnOff();
+            pageNo = 0;
         }
-        if (type) {
+
+        if (!type && type != 'scroll') {
             mainType = type;
         }
-        if (page == 0) {
-            pageNo = page;
-        }
+ 
         viewService.mainPageInit();
         refDataReset();
 
         var sendData = {
             "type" : mainType,
             "page" : pageNo,
-            "filter" : categoryFilter,
+            "category" : categoryFilter,
             "search" : searchFilter
         }
         feedService.getList('', sendData, function (result) {
@@ -180,15 +179,8 @@ $(document).ready(function () {
     // 내글버튼
     $('#myFeed').on('click', function () {
         if (myBtn !== 'myFeed') {
-
-            // // 회원정보 표시
-            // userInfoDiv.removeClass('d-none').empty();
-            // userService.get(authUserId, function (result) {
-            //     userInfoDiv.append(template.userInfo(result, true));
-            // });
-
-            leftUserBtnOn(this);    // 버튼 활성화
-            viewUserPage('userfeed');   // 피드 불러오기
+            leftUserBtnOn(this);
+            viewUserPage('userfeed');
 
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('내 피드', '', '', true));
@@ -196,18 +188,18 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
-            viewMainPage('', 0);
+            viewMainPage();
         }
     });
 
     // 즐겨찾기
     $('#myFavorite').on('click', function () {
         if (myBtn !== 'myFavorite') {
-            // 회원정보 없애기
-            userInfoDiv.removeClass('d-none').empty();
+            leftUserBtnOn(this);
+            viewUserPage('favorite');
 
-            leftUserBtnOn(this);        // 버튼 활성화
-            viewUserPage('favorite');  // 피드 불러오기
+             // 회원정보 없애기
+            userInfoDiv.removeClass('d-none').empty();
 
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('즐겨찾기', '', '', true));
@@ -215,18 +207,18 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
-            viewMainPage('', 0);
+            viewMainPage();
         }
     });
 
     // 팔로우글
     $('#newsFeed').on('click', function () {
         if (myBtn !== 'newsFeed') {
+            leftUserBtnOn(this);
+            viewUserPage('newsfeed');
+
             // 회원정보 없애기
             userInfoDiv.removeClass('d-none').empty();
-
-            leftUserBtnOn(this);        // 버튼 활성화
-            viewUserPage('newsfeed');  // 피드 불러오기
 
             // 유저바 내용 수정
             $('#userBar > div').append(template.filterAdd('팔로우글', '', '', true));
@@ -234,14 +226,14 @@ $(document).ready(function () {
         } else {
             // 버튼 비활성화
             leftUserBtnOff();
-            viewMainPage('', 0);
+            viewMainPage();
         }
     });
 
     // 유저바 home 버튼, x버튼
     $('#userBar').on('click', '#goToMainBtn, .close', function () {
         leftUserBtnOff();
-        viewMainPage('', 0);
+        viewMainPage();
     });
 
     // 인기 최신버튼 이벤트
@@ -250,7 +242,7 @@ $(document).ready(function () {
             popularBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
             recentBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-            viewMainPage('popular', 0);
+            viewMainPage('popular');
         }
     });
     recentBtn.on('click', function () {
@@ -258,7 +250,7 @@ $(document).ready(function () {
             recentBtn.removeClass('btn-outline-secondary').addClass('btn-secondary');
             popularBtn.removeClass('btn-secondary').addClass('btn-outline-secondary');
 
-            viewMainPage('recent', 0);
+            viewMainPage('recent');
         }
     });
 
@@ -339,7 +331,7 @@ $(document).ready(function () {
 
     //유저 페이지의 home버튼 이벤트
     $('#userInfo').on('click', '#userFeedHomeBtn', function () {
-        viewMainPage('', 0);
+        viewMainPage();
     });
 
     // 댓글 쓰기
@@ -510,7 +502,6 @@ $(document).ready(function () {
     //----------------------------------------------------------------------------
 
     // 첫 메인 페이지 동작
-    mainType = 'recent';
     pageNo = 0;
     categoryFilter = [];
     serachFilter = [];
@@ -523,7 +514,7 @@ $(document).ready(function () {
             gotoUser = '';
         }
     } else {
-        viewMainPage();
+        viewMainPage('recent');
     }
 
     //무한 스크롤
@@ -532,7 +523,7 @@ $(document).ready(function () {
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {
             setTimeout(() => {
                 if (userModule) viewUserPage();
-                else viewMainPage();
+                else viewMainPage('scroll');
             }, 100);
         }
     });

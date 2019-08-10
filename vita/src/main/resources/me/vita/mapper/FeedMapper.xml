@@ -130,7 +130,7 @@
 						AND f.feedNo < #{filter.page}
 					]]>
 				</if>
-				<if test="filter.filter != null">
+				<if test="filter.category != null">
 					<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
 						#{category}
 					</foreach>
@@ -171,7 +171,7 @@
 						AND f.feedNo < #{filter.page}
 					]]>
 				</if>
-				<if test="filter.filter != null">
+				<if test="filter.category != null">
 					<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
 						#{category}
 					</foreach>

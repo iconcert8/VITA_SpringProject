@@ -128,7 +128,7 @@ var template = {
                 searchFilter.push(filterName);
                 filterName = '#' + filterName;
                 flag = true;
-                console.log(searchFilter);
+                // console.log(searchFilter);
             }
             if (btn) flag = true;
         }
