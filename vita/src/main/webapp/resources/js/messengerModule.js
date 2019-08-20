@@ -179,10 +179,10 @@ var messengerService = {
             messageViewDiv.empty();
             var msgNo;
             $.each(result, function (i, item) {
+                messageViewDiv.append(template.message(item, contactUser));
                 if (i === result.length - 1) {
                     msgNo = item.msgNo;
                 }
-                messageViewDiv.append(template.message(item, contactUser));
             });
             messengerService.scrollBottom();
 

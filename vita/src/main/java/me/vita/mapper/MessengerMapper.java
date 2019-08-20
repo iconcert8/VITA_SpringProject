@@ -12,9 +12,6 @@ import me.vita.dto.MessengerDTO;
 
 public interface MessengerMapper {
 
-	@Select("select systimestamp from dual")
-	Date test();
-
 	void selectList(Map<String, Object> map);
 
 	List<MessengerDTO> selectListContactUser(@Param("user") String userId, @Param("contact") String contactUser);

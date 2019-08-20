@@ -27,10 +27,10 @@
 			WHERE m.MSGNO = #{msgNo} AND u.userId = m.reqid
 	</select>
 	
-	<select id="selectTotalChkCount" resultType="Integer">
+<!-- 	<select id="selectTotalChkCount" resultType="Integer">
 		SELECT count(*) readless FROM MESSENGER
 			where MSGCHK = 'F' AND resid = #{userId}
-	</select>
+	</select> -->
 	
 	<insert id="insert">
 		<selectKey keyProperty="msgNo" order="BEFORE" resultType="int">
