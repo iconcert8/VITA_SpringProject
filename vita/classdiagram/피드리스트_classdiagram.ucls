@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="me.vita.controller.FeedController" project="vita" 
     file="/vita/src/main/java/me/vita/controller/FeedController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="225" width="286" x="28" y="43"/>    
+    <position height="245" width="291" x="28" y="27"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <interface id="3" language="java" name="me.vita.service.FeedService" project="vita" 
     file="/vita/src/main/java/me/vita/service/FeedService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="250" x="401" y="61"/>    
+    <position height="222" width="250" x="401" y="28"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </interface>  
   <class id="4" language="java" name="me.vita.service.FeedServiceImpl" project="vita" 
     file="/vita/src/main/java/me/vita/service/FeedServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="232" width="267" x="396" y="316"/>    
+    <position height="336" width="277" x="391" y="291"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <interface id="5" language="java" name="me.vita.mapper.FeedMapper" project="vita" 
     file="/vita/src/main/java/me/vita/mapper/FeedMapper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="232" width="211" x="748" y="316"/>    
+    <position height="301" width="216" x="745" y="323"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -64,35 +64,69 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="8">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="service">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="10" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <interface id="8" language="java" name="me.vita.mapper.FeedImageMapper" project="vita" 
+    file="/vita/src/main/java/me/vita/mapper/FeedImageMapper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="855" y="235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" name="me.vita.mapper.TagMapper" project="vita" 
+    file="/vita/src/main/java/me/vita/mapper/TagMapper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="830" y="78"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <realization id="10">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
   <association id="11">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="12" name="mapper">        
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="12" name="service">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="13" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="14">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="15" name="mapper">        
+        <position height="0" width="0" x="-3" y="7"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-3" y="7"/>      
+      </multiplicity>    
+    </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="14">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+  <association id="17">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="18" name="tagMapper"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="21" name="feedImageMapper"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
     <operations public="true" package="true" protected="true" private="true" static="true"/>  

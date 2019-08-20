@@ -34,7 +34,7 @@ $(document).ready(function () {
         searchBarDiv.find('div[data-name]').remove();
         searchBarDiv.addClass('d-none');
         
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 검색어 삭제버튼
@@ -44,7 +44,7 @@ $(document).ready(function () {
         search.remove();
         var filter = searchFilter.indexOf(keyword);
         searchFilter.splice(filter, 1);
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 검색 실행
@@ -52,6 +52,6 @@ $(document).ready(function () {
         searchBarDiv.removeClass('d-none');
         $('#searchBar > div').append(template.filterAdd(keyword));
         searchForm.val('');
-        viewMainPage('', 0);
+        viewMainPage('', true);
     }
 });

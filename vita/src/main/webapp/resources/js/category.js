@@ -74,7 +74,7 @@ $(document).ready(function () {
         categorys.each(function (i, category) {
             categoryService.selectCategory(category);
         });
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 전체해제
@@ -86,7 +86,7 @@ $(document).ready(function () {
         categorys.each(function (i, category) {
             categoryService.unselectCategory(category);
         });
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 개별 선택 div
@@ -100,7 +100,7 @@ $(document).ready(function () {
             select.prop('checked',false);
             categoryService.unselectCategory(select);
         }
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 개별 선택 checkbox - 이벤트 버블링 이용
@@ -116,7 +116,7 @@ $(document).ready(function () {
     // 카테고리 바 카테고리 삭제 이벤트
     categoryBarDiv.on('click', '.close', function() {
         categoryService.deleteCategory($(this).parent());
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
     // 카테고리 바 초기화 버튼
@@ -126,7 +126,7 @@ $(document).ready(function () {
         categorys.each(function (i, category) {
             categoryService.deleteCategory(category);
         });
-        viewMainPage('', 0);
+        viewMainPage('', true);
     });
 
 });
