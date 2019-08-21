@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.vita.mapper.FeedMapper">
+
+	<select id="selectListUserFeed" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT * 
+		FROM (SELECT  feed.*, rownum rn 
+				FROM (SELECT DISTINCT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+						c.categoryNo, c.bigGroup, c.smallGroup,
+						u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+						g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+						FROM feed f, category c, userInfo u, good g, favorite fv, reply r
+							WHERE f.categoryNo = c.categoryNo
+							AND f.userId = u.userId
+							AND (g.userId(+) = f.userId AND g.feedNo(+) = f.FEEDNO)
+							AND (fv.userId(+) = f.userId  AND fv.feedNo(+) = f.FEEDNO)
+							AND (r.userId(+) = f.userId AND r.feedNo(+) = f.FEEDNO)
+							AND f.userId = #{filter.goToUserId}
+							AND f.feedDel = 'F'
+							]]>
+				<if test="filter.page != 0">
+					<![CDATA[
+						AND f.feedNo < #{filter.page}
+					]]>
+				</if>
+		<![CDATA[
+							ORDER BY feeddate DESC
+					) feed
+			) 
+		WHERE rn <= 10
+		]]>
+	</select>
+	
+	<select id="selectListFavorite" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT * 
+		FROM (SELECT  feed.*, rownum rn 
+				FROM (SELECT DISTINCT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+						c.categoryNo, c.bigGroup, c.smallGroup,
+						u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+						g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+						FROM feed f, category c, userInfo u, good g, favorite fv, reply r
+							WHERE f.categoryNo = c.categoryNo
+							AND f.userId = u.userId
+							AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+							AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+							AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+							AND fv.userId = #{user.userId}
+							AND fv.FEEDNO = f.FEEDNO
+							AND f.feedDel = 'F'
+							]]>
+				<if test="filter.page != 0">
+					<![CDATA[
+						AND f.feedNo < #{filter.page}
+					]]>
+				</if>
+		<![CDATA[
+							ORDER BY feeddate DESC
+					) feed
+			) 
+		WHERE rn <= 10
+		]]>
+	</select>
+	
+	<select id="selectListNewsFeed" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT * 
+		FROM (SELECT  feed.*, rownum rn 
+				FROM (SELECT DISTINCT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+						c.categoryNo, c.bigGroup, c.smallGroup,
+						u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+						g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+						FROM feed f, category c, userInfo u, good g, favorite fv, reply r, follow fl
+							WHERE f.categoryNo = c.categoryNo
+							AND f.userId = u.userId
+							AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+							AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+							AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+							AND fl.REQID =#{user.userId}
+							AND fl.resid = f.userid
+							AND f.feedDel = 'F'
+							]]>
+				<if test="filter.page != 0">
+					<![CDATA[
+						AND f.feedNo < #{filter.page}
+					]]>
+				</if>
+		<![CDATA[
+							ORDER BY feeddate DESC
+					) feed
+			) 
+		WHERE rn <= 10
+		]]>
+	</select>
+	
+	<select id="selectDetail" resultType="me.vita.dto.FeedDTO">
+		select f.feedNo, f.feedContent, f.feedLimitContent ,f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+			c.categoryNo, c.bigGroup, c.smallGroup,
+			u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+			g.userId AS isGood, fv.userId AS isFavorite
+		from feed f, category c, userInfo u, good g, favorite fv
+		where f.categoryNo = c.categoryNo and
+			  f.userId = u.userId and
+			  (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO) and
+			  (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO) and
+			  f.feedno = #{feedNo}
+	</select>
+	
+	<select id="selectListPopular" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT * 
+		FROM (SELECT  feed.*, rownum rn 
+				FROM (SELECT DISTINCT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+						c.categoryNo, c.bigGroup, c.smallGroup,
+						u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+						g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+						FROM feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
+							WHERE f.categoryNo = c.categoryNo
+							AND f.userId = u.userId
+							AND f.feedno = t.feedno
+							AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+							AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+							AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+							AND f.feedDel = 'F'
+							AND (f.feedGoodCnt >= 3 OR f.FEEDREPLYCNT >= 5)
+							]]>
+				<if test="filter.page != 0">
+					<![CDATA[
+						AND f.feedNo < #{filter.page}
+					]]>
+				</if>
+				<if test="filter.category != null">
+					<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
+						#{category}
+					</foreach>
+				</if>
+				<if test="filter.search != null">
+					<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
+						#{search}
+					</foreach>
+				</if>
+		<![CDATA[
+							ORDER BY feeddate DESC
+					) feed
+			) 
+		WHERE rn <= 10
+		]]>
+		
+	</select>
+	
+	<select id="selectListRecent" resultType="me.vita.dto.FeedDTO">
+		<![CDATA[
+		SELECT * 
+		FROM (SELECT  feed.*, rownum rn 
+				FROM (SELECT DISTINCT f.feedNo, f.feedLimitContent, f.feedGoodCnt, f.feedReplyCnt, f.feedDate, f.feedUpdate, f.feedLock, f.categoryTemp,
+						c.categoryNo, c.bigGroup, c.smallGroup,
+						u.userId, u.userNick, u.userImgUuid, u.userImgUploadPath, u.userImgFileName,
+						g.userId AS isGood, fv.userId AS isFavorite, r.userId AS isReply
+						FROM feed f, category c, userInfo u, good g, favorite fv, reply r, tag t
+							WHERE f.categoryNo = c.categoryNo
+							AND f.userId = u.userId
+							AND f.feedno = t.feedno
+							AND (g.userId(+) = #{user.userId} AND g.feedNo(+) = f.FEEDNO)
+							AND (fv.userId(+) = #{user.userId} AND fv.feedNo(+) = f.FEEDNO)
+							AND (r.userId(+) = #{user.userId} AND r.feedNo(+) = f.FEEDNO)
+							AND f.feedDel = 'F'
+							]]>
+				<if test="filter.page != 0">
+					<![CDATA[
+						AND f.feedNo < #{filter.page}
+					]]>
+				</if>
+				<if test="filter.category != null">
+					<foreach collection="filter.filter" item="category" open="AND c.CATEGORYNO IN(" separator="," close=")">
+						#{category}
+					</foreach>
+				</if>
+				<if test="filter.search != null">
+					<foreach collection="filter.search" item="search" open="AND t.TAGNAME IN(" separator="," close=")">
+						#{search}
+					</foreach>
+				</if>
+		<![CDATA[
+							ORDER BY feeddate DESC
+					) feed
+			) 
+		WHERE rn <= 10
+		]]>
+	</select>
+	
+	<update id="updateFeedDel">
+		update feed set feedDel = #{feedDel} where feedNo = #{feedNo}
+	</update>
+	
+	<select id="select" resultType="me.vita.domain.FeedVO">
+		select * from feed where feedNo=#{feedNo}
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="feedNo" order="BEFORE" resultType="int">
+			SELECT seq_feedNo.nextval FROM DUAL		
+		</selectKey>
+		
+		INSERT INTO feed(feedNo, categoryNo, userId, feedContent, feedLimitContent, feedGoodCnt, feedReplyCnt, feedDate, feedUpdate, feedLock, categoryTemp, feedDel)
+		VALUES(#{feedNo}, #{categoryNo}, #{userId}, #{feedContent}, #{feedLimitContent}, 0, 0, systimestamp, systimestamp, 'F', #{categoryTemp, jdbcType=VARCHAR}, 'F') 
+	</insert>
+	
+	<update id="updateCategory">
+		update feed 
+		set categoryNo = #{categoryNo}, categoryTemp = null
+		where feedNo = #{feedNo}
+	</update>
+	
+	<update id="updateGoodCnt">
+		update feed set feedGoodCnt = feedGoodCnt + #{num} where feedNo = #{feedNo}
+	</update>
+	
+	<update id="updateReplyCnt">
+		update feed set feedReplyCnt = feedReplyCnt + #{num} where feedNo = #{feedNo}
+	</update>
+	
+	<delete id="delete">	 
+		delete from feed where feedNo = #{feedNo}
+	</delete>
+	
+</mapper>

@@ -63,7 +63,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedDTO> getListPopular(UserVO user, CategoryFilterDTO filter) {
 		insertSearchKeyword(user, filter);
-		List<FeedDTO> feedDTOs = mapper.selectListPopular(user, filter);
+		List<FeedDTO> feedDTOs = mapper.selectList(user, filter, "popular");
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
@@ -75,7 +75,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedDTO> getListRecent(UserVO user, CategoryFilterDTO filter) {
 		insertSearchKeyword(user, filter);
-		List<FeedDTO> feedDTOs = mapper.selectListRecent(user, filter);
+		List<FeedDTO> feedDTOs = mapper.selectList(user, filter, "recent");
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
@@ -87,7 +87,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedDTO> getListNewsFeed(UserVO user, CategoryFilterDTO filter) {
 		insertSearchKeyword(user, filter);
-		List<FeedDTO> feedDTOs = mapper.selectListNewsFeed(user, filter);
+		List<FeedDTO> feedDTOs = mapper.selectList(user, filter, "newsFeed");
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
@@ -99,7 +99,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedDTO> getListFavorite(UserVO user, CategoryFilterDTO filter) {
 		insertSearchKeyword(user, filter);
-		List<FeedDTO> feedDTOs = mapper.selectListFavorite(user, filter);
+		List<FeedDTO> feedDTOs = mapper.selectList(user, filter, "favorite");
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));
@@ -111,7 +111,7 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedDTO> getListUserFeed(UserVO user, CategoryFilterDTO filter) {
 		insertSearchKeyword(user, filter);
-		List<FeedDTO> feedDTOs = mapper.selectListUserFeed(user, filter);
+		List<FeedDTO> feedDTOs = mapper.selectList(user, filter, "userFeed");
 		// 썸네일 이미지 리스트 각각 가져오기
 		for (FeedDTO dto : feedDTOs) {
 			dto.setFeedImages(feedImageMapper.selectList(dto.getFeedNo()));

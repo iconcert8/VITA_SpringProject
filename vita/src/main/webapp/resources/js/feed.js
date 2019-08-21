@@ -46,7 +46,8 @@ $(document).ready(function () {
 	            pageNo = 0;
 	        }
 	
-	        if (!type && type != 'scroll') {
+	        if (type != null && type != 'scroll') {
+	        	console.log('type : ' + type);
 	            mainType = type;
 	        }
 	 
