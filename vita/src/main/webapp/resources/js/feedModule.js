@@ -22,7 +22,7 @@ var feedService = {
     },
     get: function (feedNo, success, error, complete) {
 
-        var url = `feed/${feedNo}`;
+        var url = 'feed/' + feedNo;
         $.ajax({
             type: "get",
             url: url,

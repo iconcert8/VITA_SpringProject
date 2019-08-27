@@ -34,9 +34,3 @@ var messengerWebSocket = function () {
     }
 }
 messengerWebSocket();
-
-$(document).ready(function () {
-    $('#messengerNotiList').on('click', 'a', function(e) {
-
-    })
-});

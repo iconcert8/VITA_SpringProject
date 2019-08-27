@@ -14,6 +14,8 @@ public interface FeedMapper {
 	FeedVO select(@Param("feedNo") Integer feedNo);
 
 	FeedDTO selectDetail(@Param("user") UserVO user, @Param("feedNo") Integer feedNo);
+	
+	List<FeedDTO> selectList(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter, @Param("module") String module);
 
 	List<FeedDTO> selectListPopular(@Param("user") UserVO user, @Param("filter") CategoryFilterDTO filter);
 

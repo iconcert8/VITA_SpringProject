@@ -128,7 +128,7 @@ var template = {
                 searchFilter.push(filterName);
                 filterName = '#' + filterName;
                 flag = true;
-                console.log(searchFilter);
+                // console.log(searchFilter);
             }
             if (btn) flag = true;
         }
@@ -675,7 +675,7 @@ var template = {
                     <div class="d-inline-block rounded float-left">
                     <img class="img-1" src="/display?fileName=${last.userImgUploadPath}/${last.userImgUuid}_${last.userImgFileName}" class="d-block w-100" alt="preview_${last.userImgFileName}" style="width:50px; height:50px;">
                     </div>
-                    <div class="d-inline-block float-left mx-2">
+                    <div class="d-inline-block float-left ml-2">
                         <label class="font-weight-bolder">${last.userNick}(${last.userId})</label><br>
                         <label class="text-secondary lastMsg">${msg}</label>
                     </div>

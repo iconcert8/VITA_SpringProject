@@ -32,7 +32,7 @@
 
 	<annotation-driven>
 		<argument-resolvers>
-			<beans:bean class="me.vita.security.AuthUserHandlerMethodArgumentResolver" />
+			<beans:bean class="me.vita.security.AuthUserMethodParameterResolver" />
 		</argument-resolvers>
 	</annotation-driven>
 
@@ -42,11 +42,11 @@
 			<exclude-mapping path="/user/login" />
 			<beans:bean class="me.vita.security.AuthInterceptor" />
 		</interceptor>
+	</interceptors>
 		<!-- <interceptor>
 			<mapping path="/user/login" />
 			<beans:bean class="me.vita.security.AuthLoginInterceptor" />
 		</interceptor> -->
-	</interceptors>
 
 
 	<!-- websocket handler -->

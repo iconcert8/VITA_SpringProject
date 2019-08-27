@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import me.vita.domain.UserVO;
 
-public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class AuthUserMethodParameterResolver implements HandlerMethodArgumentResolver {
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
